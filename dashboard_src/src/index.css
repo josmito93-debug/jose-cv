@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0e131f;
+  --color-accent: #6366f1;
+  --color-accent-glow: rgba(99, 102, 241, 0.5);
+  --color-panel-bg: rgba(255, 255, 255, 0.03);
+  --color-panel-border: rgba(255, 255, 255, 0.08);
+  --color-text-primary: #f0f2f8;
+  --color-text-secondary: #9ba1b3;
+  --font-outfit: "Outfit", sans-serif;
+  --font-inter: "Inter", sans-serif;
+}
+
+:root {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-inter);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+@layer base {
+  * {
+    @apply border-panel-border;
+  }
+  body {
+    @apply bg-bg text-text-primary;
+  }
+}
+
+.glass-panel {
+  @apply bg-panel-bg backdrop-blur-md border border-panel-border shadow-2xl rounded-2xl;
+}
+
+.gradient-text {
+  @apply bg-linear-to-br from-accent to-[#a855f7] bg-clip-text text-transparent;
+}
+
+@keyframes scroll-ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-ticker {
+  animation: scroll-ticker 20s linear infinite;
+  display: flex;
+  width: max-content;
+}

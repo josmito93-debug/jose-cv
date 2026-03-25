@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JF.OS | Admin Authentication</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: var(--bg-color);
+        overflow: hidden;
+      }
+      .login-container {
+        width: 100%;
+        max-width: 420px;
+        padding: 50px 40px;
+        text-align: center;
+        z-index: 10;
+        position: relative;
+      }
+      .login-logo {
+        font-family: 'Outfit', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+        letter-spacing: -1.5px;
+      }
+      .login-subtitle {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        font-weight: 400;
+        margin-bottom: 40px;
+        letter-spacing: 0.5px;
+      }
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .input-group {
+        position: relative;
+        text-align: left;
+      }
+      .input-group i {
+        position: absolute;
+        top: 50%;
+        left: 18px;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+      }
+      .login-input {
+        width: 100%;
+        padding: 16px 16px 16px 50px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        color: var(--text-primary);
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+      .login-input:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 0 20px var(--accent-glow);
+      }
+      .login-input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+      .login-btn-submit {
+        width: 100%;
+        margin-top: 15px;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        padding: 18px;
+        font-size: 1.05rem;
+      }
+      .security-badge {
+        margin-top: 35px;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        opacity: 0.7;
+      }
+      .back-link {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.3s;
+        z-index: 20;
+      }
+      .back-link:hover {
+        color: var(--text-primary);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Elements reused from style.css -->
+    <div class="bg-shape shape-1" style="width: 600px; height: 600px; opacity: 0.5;"></div>
+    <div class="bg-shape shape-2" style="width: 700px; height: 700px; opacity: 0.4;"></div>
+    
+    <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Volver al CV</a>
+
+    <div class="login-container glass-panel animate-on-scroll" style="opacity: 1; transform: none; animation: slide-up-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;">
+      <div class="login-logo gradient-text">JF.OS</div>
+      <div class="login-subtitle">Quantitative Operations System</div>
+      
+      <form class="login-form" id="admin-login-form">
+        <div class="input-group">
+          <i class="fa-solid fa-microchip"></i>
+          <input type="text" class="login-input" placeholder="Admin ID / API Key" required autocomplete="username">
+        </div>
+        <div class="input-group">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" class="login-input" placeholder="Secure Passkey" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="glass-btn login-btn-submit">
+          <i class="fa-solid fa-satellite-dish"></i> Inicializar Enlace
+        </button>
+      </form>
+
+      <div class="security-badge">
+        <i class="fa-solid fa-shield-halved"></i> Conexión Cifrada Extremo a Extremo
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.querySelector('.login-btn-submit');
+        const originalText = btn.innerHTML;
+        
+        // UI Loading effect
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Autenticando...';
+        btn.style.opacity = '0.8';
+        
+        // Simular validación backend y redirección
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fa-solid fa-check"></i> Enlace Establecido';
+          btn.style.background = '#10b981';
+          setTimeout(() => {
+            alert('¡Acceso Concedido! Iniciando JF.OS Quantitative Dashboard...\n\n(Nota: En producción, esto te llevaría a la aplicación de React integrada)');
+            // En un entorno real, redirigiríamos a la app de React
+            // window.location.href = '/dashboard/dist/index.html'; 
+            btn.innerHTML = originalText;
+            btn.style.background = '';
+            btn.style.opacity = '1';
+          }, 1000);
+        }, 1500);
+      });
+    </script>
+  </body>
+</html>

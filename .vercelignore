@@ -1,0 +1,8 @@
+node_modules
+.git
+.vercel
+dashboard_src
+api/node_modules
+api/.venv
+*.log
+camera_flys_back_*.jpg
