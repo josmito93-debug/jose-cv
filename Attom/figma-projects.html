@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figma Projects - Attom Integration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #f1f5f9;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundFloat 20s ease-in-out infinite;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: headerSlideIn 1s ease-out;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 200;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #8b5cf6, #3b82f6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .connection-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            animation: statusGlow 2s ease-in-out infinite;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+            animation: pulse 2s infinite;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .project-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: cardSlideIn 0.6s ease-out;
+            position: relative;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .project-card:hover::before {
+            left: 100%;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.4),
+                0 0 50px rgba(139, 92, 246, 0.2),
+                inset 0 0 30px rgba(139, 92, 246, 0.1);
+        }
+        
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+        .project-card:nth-child(5) { animation-delay: 0.5s; }
+        .project-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        .project-preview {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .project-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .project-card:hover .project-preview img {
+            transform: scale(1.1);
+        }
+        
+        .preview-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #f1f5f9;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .project-meta {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+        
+        .project-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #8b5cf6, #6366f1);
+            color: white;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .btn-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-success:hover {
+            background: rgba(16, 185, 129, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .instructions {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            animation: instructionsSlideIn 1s ease-out;
+        }
+        
+        .instructions h3 {
+            color: #f1f5f9;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #94a3b8;
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+        
+        @keyframes backgroundFloat {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes headerSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes statusGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(16, 185, 129, 0.6);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes instructionsSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎨 Figma Projects</h1>
+            <div class="connection-status">
+                <div class="status-dot"></div>
+                <span>Connected to your Figma account</span>
+            </div>
+        </header>
+        
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-overlay">🎨</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">E-commerce Dashboard</h3>
+                            <p class="project-meta">📅 Modified 2 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn btn-primary" onclick="extractDesignSystem('dashboard')">
+                            🎨 Extract Design
+                        </button>
+                        <button class="btn btn-secondary" onclick="generateComponents('dashboard')">
+                            ⚙️ Components
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-overlay">📱</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Mobile App UI</h3>
+                            <p class="project-meta">📅 Modified yesterday</p>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn btn-primary" onclick="extractDesignSystem('mobile')">
+                            🎨 Extract Design
+                        </button>
+                        <button class="btn btn-secondary" onclick="generateComponents('mobile')">
+                            ⚙️ Components
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-overlay">🌐</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Landing Page</h3>
+                            <p class="project-meta">📅 Modified 3 days ago</p>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn btn-primary" onclick="extractDesignSystem('landing')">
+                            🎨 Extract Design
+                        </button>
+                        <button class="btn btn-secondary" onclick="generateComponents('landing')">
+                            ⚙️ Components
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-overlay">🎯</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Marketing Site</h3>
+                            <p class="project-meta">📅 Modified 1 week ago</p>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn btn-primary" onclick="extractDesignSystem('marketing')">
+                            🎨 Extract Design
+                        </button>
+                        <button class="btn btn-secondary" onclick="generateComponents('marketing')">
+                            ⚙️ Components
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-overlay">🚀</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">SaaS Platform</h3>
+                            <p class="project-meta">📅 Modified 2 weeks ago</p>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn btn-primary" onclick="extractDesignSystem('saas')">
+                            🎨 Extract Design
+                        </button>
+                        <button class="btn btn-secondary" onclick="generateComponents('saas')">
+                            ⚙️ Components
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-overlay">⚡</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">Dashboard Analytics</h3>
+                            <p class="project-meta">📅 Modified 1 month ago</p>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn btn-primary" onclick="extractDesignSystem('analytics')">
+                            🎨 Extract Design
+                        </button>
+                        <button class="btn btn-secondary" onclick="generateComponents('analytics')">
+                            ⚙️ Components
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>🚀 What you can do with Figma Integration</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">🎨</span>
+                    <div>
+                        <strong>Design System Extraction</strong>
+                        <p>Colors, typography, spacing, and component variations</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">⚙️</span>
+                    <div>
+                        <strong>Component Generation</strong>
+                        <p>React components from Figma frames with proper styling</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📸</span>
+                    <div>
+                        <strong>Asset Export</strong>
+                        <p>Images, icons, and design assets with optimization</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔗</span>
+                    <div>
+                        <strong>Live Sync</strong>
+                        <p>Real-time updates and collaborative workflows</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function extractDesignSystem(projectName) {
+            const button = event.target;
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1.05)';
+                showNotification(`Design system extracted for "${projectName}"!`, 'success');
+                console.log(`🎨 Extracting design system for: ${projectName}`);
+            }, 200);
+        }
+        
+        function generateComponents(projectName) {
+            const button = event.target;
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1.05)';
+                showNotification(`React components generated for "${projectName}"!`, 'info');
+                console.log(`⚙️ Generating components for: ${projectName}`);
+            }, 200);
+        }
+        
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                background: ${type === 'success' ? 'rgba(16, 185, 129, 0.9)' : 'rgba(59, 130, 246, 0.9)'};
+                color: white;
+                border-radius: 12px;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                animation: slideIn 0.3s ease-out;
+                font-weight: 500;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Add slide animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(100px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            @keyframes slideOut {
+                from {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateX(100px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Add hover effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach((card, index) => {
+                card.addEventListener('mouseenter', () => {
+                    const delay = card.style.animationDelay;
+                    card.style.animationDelay = '0s';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.animationDelay = `${(index + 1) * 0.1}s`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

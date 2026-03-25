@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attom - Automated Website Creation System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #7c3aed 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+        h1 {
+            font-size: 5rem;
+            font-weight: 200;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #e9d5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        p {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+        .button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            margin: 0.5rem;
+        }
+        .button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .feature {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        .feature:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Attom</h1>
+        <p>Automated Website Creation System</p>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🎨</div>
+                <h3>Modern UI Design</h3>
+                <p>Beautiful gradients and animations</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚙️</div>
+                <h3>GitHub Integration</h3>
+                <p>Repository management & CI/CD</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <h3>Figma Connection</h3>
+                <p>Design system extraction</p>
+            </div>
+        </div>
+        
+        <div>
+            <a href="https://github.com/josmito93-debug/attom" class="button" target="_blank">
+                View Source Code →
+            </a>
+            <a href="https://attom.vercel.app" class="button" target="_blank">
+                Live Demo →
+            </a>
+        </div>
+    </div>
+</body>
+</html>

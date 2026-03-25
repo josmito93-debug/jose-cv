@@ -1,0 +1,45 @@
+{
+  "name": "attom",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "attom:create-client": "node scripts/create-client.js",
+    "attom:process-all": "node scripts/process-all-clients.js",
+    "start-whatsapp-bot": "node scripts/start-whatsapp-bot.js"
+  },
+  "dependencies": {
+    "next": "16.1.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "axios": "^1.6.5",
+    "@google-cloud/storage": "^7.7.0",
+    "googleapis": "^131.0.0",
+    "airtable": "^0.12.2",
+    "openai": "^4.24.1",
+    "stripe": "^14.10.0",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.1",
+    "date-fns": "^3.0.6",
+    "octokit": "^3.1.2",
+    "zod": "^3.22.4",
+    "whatsapp-web.js": "^1.23.0",
+    "qrcode-terminal": "^0.12.0",
+    "sharp": "^0.33.1",
+    "canvas": "^2.11.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/uuid": "^9.0.7",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
