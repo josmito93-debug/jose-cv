@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cd dashboard_src && npm install && npm run build && cd .. && mkdir -p dist/dashboard && cp -r dashboard_src/dist/* dist/dashboard/",
     "preview": "vite preview"
   },
   "devDependencies": {
