@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "dashboard_src"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cd dashboard_src && npm install && npm run build && cd .. && mkdir -p dist/dashboard && cp -r dashboard_src/dist/* dist/dashboard/",
+    "build": "vite build && npm run build -w dashboard && mkdir -p dist/dashboard && cp -r dashboard_src/dist/* dist/dashboard/",
     "preview": "vite preview"
   },
   "devDependencies": {
