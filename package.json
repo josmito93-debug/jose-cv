@@ -1,0 +1,46 @@
+{
+  "name": "jose-cv",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "attom:create-client": "node scripts/create-client.js",
+    "attom:process-all": "node scripts/process-all-clients.js",
+    "start-whatsapp-bot": "node scripts/start-whatsapp-bot.js"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^7.7.0",
+    "@google/generative-ai": "^0.24.1",
+    "@octokit/rest": "^22.0.1",
+    "airtable": "^0.12.2",
+    "axios": "^1.6.5",
+    "date-fns": "^3.0.6",
+    "dotenv": "^16.3.1",
+    "googleapis": "^131.0.0",
+    "next": "16.2.1",
+    "octokit": "^3.1.2",
+    "openai": "^4.24.1",
+    "qrcode-terminal": "^0.12.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "sharp": "^0.33.1",
+    "stripe": "^14.10.0",
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/qrcode-terminal": "^0.12.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/uuid": "^9.0.7",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

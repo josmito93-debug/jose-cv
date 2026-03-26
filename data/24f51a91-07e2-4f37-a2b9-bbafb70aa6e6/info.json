@@ -1,0 +1,277 @@
+{
+  "info": {
+    "clientId": "24f51a91-07e2-4f37-a2b9-bbafb70aa6e6",
+    "businessName": "TechFlow",
+    "contactName": "Pendiente",
+    "phone": "+1 555 123 4567",
+    "email": "contact@techflow.io",
+    "businessType": "other",
+    "createdAt": "2026-03-25T21:46:29.401Z",
+    "updatedAt": "2026-03-25T21:46:29.401Z"
+  },
+  "branding": {
+    "colors": {
+      "primary": "#3b82f6",
+      "secondary": "#1d4ed8",
+      "accent": "#ec4899",
+      "background": "#ffffff",
+      "text": "#1f2937"
+    },
+    "fonts": {
+      "primary": "Inter"
+    }
+  },
+  "payment": {
+    "method": "pago_movil",
+    "status": "processing",
+    "amount": 30,
+    "currency": "USD",
+    "subscription": {
+      "status": "active",
+      "plan": "Monthly Premium",
+      "price": 30,
+      "nextBillingDate": "2026-04-25T00:00:00.000Z",
+      "lastPaymentDate": "2026-03-25T00:00:00.000Z"
+    },
+    "reference": "998877",
+    "pagoMovil": {
+      "reference": "998877",
+      "bank": "Banesco",
+      "phone": "+58 412 XXX XXXX",
+      "id": "V-XXX.XXX.XXX"
+    }
+  },
+  "collectorInfo": {
+    "businessInfo": [
+      {
+        "id": "businessName-1774475083225",
+        "field": "businessName",
+        "label": "Nombre del Negocio",
+        "value": "TechFlow",
+        "icon": "🏢",
+        "confirmed": true,
+        "timestamp": "2026-03-25T21:44:43.225Z"
+      },
+      {
+        "id": "city-1774475092896",
+        "field": "city",
+        "label": "Ciudad/Zona",
+        "value": "San Francisco",
+        "icon": "📍",
+        "confirmed": true,
+        "timestamp": "2026-03-25T21:44:52.896Z"
+      },
+      {
+        "id": "email-1774475101920",
+        "field": "email",
+        "label": "Email de Contacto",
+        "value": "contact@techflow.io",
+        "icon": "📧",
+        "confirmed": true,
+        "timestamp": "2026-03-25T21:45:01.920Z"
+      },
+      {
+        "id": "phone-1774475119860",
+        "field": "phone",
+        "label": "Teléfono",
+        "value": "+1 555 123 4567",
+        "icon": "📞",
+        "confirmed": true,
+        "timestamp": "2026-03-25T21:45:19.860Z"
+      },
+      {
+        "id": "socialMedia-1774475123642",
+        "field": "socialMedia",
+        "label": "Redes Sociales",
+        "value": "www.techflow.io",
+        "icon": "📱",
+        "confirmed": true,
+        "timestamp": "2026-03-25T21:45:23.642Z"
+      }
+    ],
+    "webStructure": {
+      "businessName": "TechFlow",
+      "tagline": "Tu mejor opción en servicios generales en San Francisco",
+      "niche": "Servicios Generales",
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "title": "Bienvenido a TechFlow",
+          "subtitle": "Tu mejor opción en San Francisco",
+          "content": "Ofrecemos calidad y profesionalismo en cada servicio.",
+          "order": 0,
+          "enabled": true
+        },
+        {
+          "id": "about",
+          "type": "about",
+          "title": "Sobre Nosotros",
+          "subtitle": "Nuestra Historia",
+          "content": "Somos una empresa comprometida con la excelencia.",
+          "order": 1,
+          "enabled": true
+        },
+        {
+          "id": "services",
+          "type": "services",
+          "title": "Nuestros Servicios",
+          "subtitle": "Lo que ofrecemos",
+          "content": "Descubre todo lo que podemos hacer por ti.",
+          "order": 2,
+          "enabled": true
+        },
+        {
+          "id": "features",
+          "type": "features",
+          "title": "¿Por qué elegirnos?",
+          "subtitle": "Nuestras ventajas",
+          "content": "Calidad, confianza y resultados garantizados.",
+          "order": 3,
+          "enabled": true
+        },
+        {
+          "id": "gallery",
+          "type": "gallery",
+          "title": "Galería",
+          "subtitle": "Nuestro trabajo",
+          "content": "Mira algunos de nuestros mejores trabajos.",
+          "order": 4,
+          "enabled": true
+        },
+        {
+          "id": "testimonials",
+          "type": "testimonials",
+          "title": "Testimonios",
+          "subtitle": "Lo que dicen nuestros clientes",
+          "content": "Historias de éxito de quienes confían en nosotros.",
+          "order": 5,
+          "enabled": true
+        },
+        {
+          "id": "team",
+          "type": "team",
+          "title": "Nuestro Equipo",
+          "subtitle": "Profesionales dedicados",
+          "content": "Un equipo comprometido con tu satisfacción.",
+          "order": 6,
+          "enabled": false
+        },
+        {
+          "id": "contact",
+          "type": "contact",
+          "title": "Contáctanos",
+          "subtitle": "Estamos para ayudarte",
+          "content": "📧 contact@techflow.io\n📞 +1 555 123 4567\n📍 San Francisco",
+          "order": 7,
+          "enabled": true
+        },
+        {
+          "id": "faq",
+          "type": "faq",
+          "title": "Preguntas Frecuentes",
+          "subtitle": "Resolvemos tus dudas",
+          "content": "Las respuestas que necesitas.",
+          "order": 8,
+          "enabled": true
+        },
+        {
+          "id": "cta",
+          "type": "cta",
+          "title": "¿Listo para empezar?",
+          "subtitle": "Contáctanos hoy",
+          "content": "¡No esperes más! Comunícate con nosotros.",
+          "order": 9,
+          "enabled": true
+        }
+      ],
+      "categories": [
+        {
+          "id": "cat-0",
+          "name": "Servicios profesionales",
+          "description": "Todo sobre servicios profesionales",
+          "icon": "🌟",
+          "order": 0
+        }
+      ],
+      "products": [
+        {
+          "id": "prod-0-0",
+          "categoryId": "cat-0",
+          "name": "Servicios profesionales Básico",
+          "description": "Nuestro paquete básico de servicios profesionales incluye todo lo esencial para comenzar. Ideal para quienes buscan calidad a un precio accesible.",
+          "shortDescription": "Paquete esencial de servicios profesionales",
+          "benefits": [
+            "Atención personalizada",
+            "Garantía de satisfacción",
+            "Soporte incluido"
+          ],
+          "features": [
+            "Servicio completo",
+            "Materiales de calidad",
+            "Entrega rápida"
+          ],
+          "highlighted": false,
+          "order": 0
+        },
+        {
+          "id": "prod-0-1",
+          "categoryId": "cat-0",
+          "name": "Servicios profesionales Premium",
+          "description": "Nuestra opción premium de servicios profesionales con beneficios exclusivos y atención VIP. La mejor inversión para resultados excepcionales.",
+          "shortDescription": "Experiencia premium en servicios profesionales",
+          "benefits": [
+            "Atención VIP prioritaria",
+            "Garantía extendida",
+            "Soporte 24/7",
+            "Beneficios exclusivos"
+          ],
+          "features": [
+            "Servicio completo premium",
+            "Materiales de primera",
+            "Entrega express",
+            "Seguimiento personalizado"
+          ],
+          "highlighted": true,
+          "order": 1
+        }
+      ],
+      "colorScheme": {
+        "primary": "#3b82f6",
+        "secondary": "#1d4ed8",
+        "accent": "#ec4899",
+        "background": "#ffffff",
+        "text": "#1f2937"
+      },
+      "seoMeta": {
+        "title": "TechFlow | Servicios Generales en San Francisco",
+        "description": "TechFlow ofrece servicios profesionales en San Francisco. Calidad, profesionalismo y los mejores precios. ¡Contáctanos!",
+        "keywords": [
+          "techflow",
+          "servicios generales",
+          "san francisco",
+          "servicios profesionales"
+        ]
+      }
+    }
+  },
+  "deployment": {
+    "status": "LIVE",
+    "vercel": {
+      "url": "https://techflow-io.vercel.app",
+      "deploymentId": "dpl_techflow123",
+      "status": "READY"
+    },
+    "github": {
+      "repoUrl": "https://github.com/josefigueroa/techflow-site",
+      "branch": "main"
+    },
+    "hosting": {
+      "provider": "vercel",
+      "url": "https://techflow-io.vercel.app",
+      "sslEnabled": true
+    },
+    "deployedAt": "2026-03-25T21:46:29.401Z"
+  },
+  "updatedAt": "2026-03-25T23:01:25.455Z"
+}

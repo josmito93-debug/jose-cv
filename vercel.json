@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/main.py"
+    },
+    {
+      "source": "/showcase/(.*)",
+      "destination": "https://showcase-mmfnfnorh-joses-projects-e8edc11c.vercel.app/showcase/$1"
+    },
+    {
+      "source": "/showcase",
+      "destination": "https://showcase-mmfnfnorh-joses-projects-e8edc11c.vercel.app/showcase"
+    }
+  ]
+}
