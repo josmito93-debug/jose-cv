@@ -18,6 +18,7 @@ import {
   Globe,
   BarChart3
 } from 'lucide-react';
+import PriceTicker from '@/app/components/dashboard/PriceTicker';
 
 export default function ProfessionalFinanceDashboard() {
   const [prices, setPrices] = useState<any>({
@@ -25,17 +26,6 @@ export default function ProfessionalFinanceDashboard() {
     ETH: { price: 3450.12, change: -1.2, status: 'CONSOLIDATION' },
     SOL: { price: 185.05, change: 8.4, status: 'BULLISH' }
   });
-
-  const tickerData = [
-    { label: 'GOLD', value: '2,175.40', change: '+1.2%', up: true },
-    { label: 'WTI OIL', value: '81.45', change: '-0.5%', up: false },
-    { label: 'S&P 500', value: '5,241.53', change: '+0.8%', up: true },
-    { label: 'NASDAQ', value: '16,384.47', change: '+1.1%', up: true },
-    { label: 'SILVER', value: '24.85', change: '+0.3%', up: true },
-    { label: 'BRENT', value: '85.90', change: '-0.2%', up: false },
-    { label: 'EUR/USD', value: '1.0842', change: '+0.1%', up: true },
-    { label: 'TSLA', value: '175.22', change: '-2.4%', up: false },
-  ];
 
   const [botLogs, setBotLogs] = useState([
     { id: 1, type: 'BUY', asset: 'BTC', amount: '0.045', price: '67,200', time: '2m ago' },
@@ -46,27 +36,12 @@ export default function ProfessionalFinanceDashboard() {
   return (
     <div className="space-y-10 max-w-[1600px] mx-auto px-4 lg:px-8 pb-32">
       
-      {/* Professional Infinite Ticker */}
-      <div className="relative -mx-10 h-14 bg-black border-y border-white/5 overflow-hidden flex items-center">
-         <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black to-transparent z-10" />
-         <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black to-transparent z-10" />
-         
-         <motion.div 
-            animate={{ x: [0, -1000] }}
-            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            className="flex items-center gap-12 whitespace-nowrap px-10"
-         >
-            {[...tickerData, ...tickerData].map((item, i) => (
-              <div key={i} className="flex items-center gap-3">
-                 <span className="text-[10px] font-black tracking-widest text-zinc-600 italic">{item.label}</span>
-                 <span className="text-xs font-black tracking-tighter">${item.value}</span>
-                 <span className={`text-[9px] font-black ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {item.change}
-                 </span>
-                 <div className="w-1 h-1 rounded-full bg-zinc-800 ml-4" />
-              </div>
-            ))}
-         </motion.div>
+      {/* Sectorized Marketina - The animated ticker the user requested */}
+      <div className="space-y-1 -mx-10">
+        <PriceTicker sector="Crypto" />
+        <PriceTicker sector="Metals" />
+        <PriceTicker sector="Stocks" />
+        <PriceTicker sector="Forex" />
       </div>
 
       {/* Finance Header - Stakent Style */}
