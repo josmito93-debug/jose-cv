@@ -55,8 +55,13 @@ export default function GlobalOverview() {
               <div className="px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-md text-[9px] font-black uppercase text-indigo-400 italic">Global Surveillance</div>
               <div className="px-2 py-1 bg-white/5 border border-white/5 rounded-md text-[9px] font-black uppercase text-zinc-500">JF.OS Neural Link V3</div>
            </div>
-           <h2 className="text-3xl font-black tracking-tight italic">Global <span className="text-zinc-500">Overview</span></h2>
-           <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Multi-Market Autonomous Surveillance Hub</p>
+            <div className="flex items-center gap-4">
+               <img src="/universalogo.png" alt="JF.OS Logo" className="h-12 w-auto object-contain" />
+               <div>
+                  <h2 className="text-3xl font-black tracking-tight italic">Global <span className="text-zinc-500">Overview</span></h2>
+                  <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Multi-Market Autonomous Surveillance Hub</p>
+               </div>
+            </div>
         </div>
         
         <div className="flex items-center gap-10">

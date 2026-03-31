@@ -68,10 +68,10 @@ export default function Shell({ children }: ShellProps) {
       {/* Sidebar - Stakent Style */}
       <aside className="hidden lg:flex w-72 flex-col bg-[#0C0C0E] border-r border-white/5 relative z-50">
         <div className="p-8">
-          <div className="flex items-center gap-3 px-2">
-            <div className={`w-8 h-8 rounded-xl bg-${accentColor}-600 flex items-center justify-center font-black text-xs text-white`}>H</div>
+          <Link href="/hq" className="flex items-center gap-3 px-2">
+            <img src="/universalogo.png" alt="JF.OS Logo" className="h-10 w-auto object-contain" />
             <span className="text-sm font-black tracking-tighter uppercase">{currentTitle}</span>
-          </div>
+          </Link>
         </div>
 
         <nav className="flex-1 px-4 space-y-1">
@@ -160,7 +160,7 @@ export default function Shell({ children }: ShellProps) {
             className="fixed inset-0 z-[100] bg-[#0C0C0E] p-8 lg:hidden"
           >
             <div className="flex justify-between items-center mb-12">
-               <div className="text-xl font-black italic uppercase">JF.OS</div>
+               <img src="/universalogo.png" alt="JF.OS Logo" className="h-10 w-auto object-contain" />
                <button onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
             </div>
             <nav className="space-y-4">

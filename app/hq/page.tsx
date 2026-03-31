@@ -48,11 +48,9 @@ export default function HoffmannHQFunctionalV4() {
       {/* Cinematic HUD Header */}
       <div className="h-24 border-b border-white/5 backdrop-blur-2xl px-12 flex items-center justify-between shrink-0 z-50">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20 group-hover:scale-110 transition-transform">
-               <Cpu className="w-5 h-5 text-white" />
-            </div>
-            <h1 className="text-2xl font-black tracking-tighter uppercase italic">Hoffmann <span className="text-indigo-500">HQ</span></h1>
+          <Link href="/" className="flex items-center gap-4 group">
+            <img src="/universalogo.png" alt="JF.OS Logo" className="h-10 w-auto object-contain group-hover:scale-110 transition-transform" />
+            <h1 className="text-2xl font-black tracking-tighter uppercase italic">HQ <span className="text-indigo-500">Command</span></h1>
           </Link>
           <div className="h-8 w-[1px] bg-white/10" />
           <div>

@@ -102,9 +102,12 @@ export default function MarketView({ category, title, description, symbols }: Ma
               <div className="px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-md text-[9px] font-black uppercase text-indigo-400 italic">{category} Specialist</div>
               <div className="px-2 py-1 bg-white/5 border border-white/5 rounded-md text-[9px] font-black uppercase text-zinc-500">JF.OS Neural Link V3</div>
            </div>
-           <h2 className="text-3xl font-black tracking-tight italic">
-             {category === 'Overview' ? 'Global' : title} <span className="text-zinc-500">{category === 'Overview' ? 'Surveillance' : description}</span>
-           </h2>
+            <div className="flex items-center gap-4">
+               <img src="/universalogo.png" alt="JF.OS Logo" className="h-12 w-auto object-contain" />
+               <h2 className="text-3xl font-black tracking-tight italic">
+                 {category === 'Overview' ? 'Global' : title} <span className="text-zinc-500">{category === 'Overview' ? 'Surveillance' : description}</span>
+               </h2>
+            </div>
         </div>
         
         <div className="flex items-center gap-4">

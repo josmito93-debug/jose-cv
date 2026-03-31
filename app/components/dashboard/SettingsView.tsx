@@ -58,7 +58,10 @@ export default function SettingsView() {
             <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-[10px] font-black uppercase text-emerald-400 tracking-[0.2em]">System Diagnostics</div>
             <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-black uppercase text-zinc-500 tracking-[0.2em]">v3.4.0-Neural</div>
           </div>
-          <h2 className="text-4xl font-black tracking-tight italic">Global <span className="text-zinc-500">Settings</span></h2>
+          <div className="flex items-center gap-4">
+            <img src="/universalogo.png" alt="JF.OS Logo" className="h-12 w-auto object-contain" />
+            <h2 className="text-4xl font-black tracking-tight italic">Global <span className="text-zinc-500">Settings</span></h2>
+          </div>
           <p className="text-sm font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
              <Activity className="w-3 h-3" /> Last Scan: {lastCheck.toLocaleTimeString()}
           </p>
