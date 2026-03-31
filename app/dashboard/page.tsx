@@ -39,6 +39,7 @@ export default function ProfessionalFinanceDashboard() {
 
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deploying, setDeploying] = useState(false);
 
   const fetchLogs = async () => {
     try {
@@ -51,6 +52,22 @@ export default function ProfessionalFinanceDashboard() {
       console.error('Failed to fetch logs:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeployCapital = async () => {
+    try {
+      setDeploying(true);
+      const res = await fetch('/api/trading-logs', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        alert('🌐 Señal enviada a JF.OS: El bot ejecutará una operación de prueba AHORA.');
+        setTimeout(fetchLogs, 5000);
+      }
+    } catch (error) {
+      console.error('Trigger failed:', error);
+    } finally {
+      setDeploying(false);
     }
   };
 
@@ -105,8 +122,11 @@ export default function ProfessionalFinanceDashboard() {
               <p className="text-[9px] font-black uppercase tracking-widest text-zinc-600 mb-1">Portfolio Value (Live)</p>
               <p className="text-xl font-black tracking-tighter text-white">${currentCapital.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
            </div>
-           <button className="px-8 py-3 bg-white text-black font-black rounded-xl shadow-2xl flex items-center gap-3 hover:bg-zinc-200 transition-all text-xs">
-              <Zap className="w-4 h-4" /> Deploy Capital
+           <button 
+             onClick={handleDeployCapital}
+             disabled={deploying}
+             className={`px-8 py-3 bg-white text-black font-black rounded-xl shadow-2xl flex items-center gap-3 hover:bg-zinc-200 transition-all text-xs ${deploying ? 'opacity-50' : ''}`}>
+              <Zap className={`w-4 h-4 ${deploying ? 'animate-spin' : ''}`} /> {deploying ? 'Deploying...' : 'Deploy Capital'}
            </button>
         </div>
       </div>

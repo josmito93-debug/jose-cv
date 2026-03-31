@@ -30,16 +30,46 @@ api = tradeapi.REST(ALPACA_KEY, ALPACA_SECRET, ALPACA_URL, api_version='v2')
 genai.configure(api_key=GEMINI_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
-# Inicialización de Memoria ChromaDB Local
-# Esto generará una carpeta `chroma_db` para guardar los registros
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="memoria_trading_jfos")
-
 # Parámetros del Bot
 SIMBOLO_ACTIVO = "BTC/USD"
 SIMBOLO_ALPACA = "BTCUSD"
-CANTIDAD_INVERSION = 0.0005 # Ajustable, equivalente a pocos dólares de prueba
-TIEMPO_REVISION_SEGUNDOS = 300 # 5 Minutos
+CANTIDAD_INVERSION = 0.0005 
+TIEMPO_REVISION_SEGUNDOS = 300 
+TIEMPO_REVISION_RAPIDA = 30 # Para revisar disparadores manuales
+
+# Inicialización de Memoria ChromaDB Local
+collection = None
+try:
+    print("🧠 Inicializando memoria neuronal (ChromaDB)...")
+    chroma_client = chromadb.PersistentClient(path="./chroma_db")
+    collection = chroma_client.get_or_create_collection(name="memoria_trading_jfos")
+except Exception as e:
+    print(f"⚠️ Aviso: No se pudo cargar ChromaDB (Usando modo sin memoria): {e}")
+
+# ==============================================================================
+# 0.5. MÓDULO DE DISPARADORES MANUALES (Airtable)
+# ==============================================================================
+
+def revisar_disparador_manual():
+    """Busca en Airtable si hay una señal de 'TRIGGER' manual"""
+    try:
+        # Buscamos el registro más reciente con Accion: TRIGGER
+        url = f"https://api.airtable.com/v0/{os.getenv('AIRTABLE_BASE_ID')}/{os.getenv('AIRTABLE_TABLE_NAME_LOGS')}"
+        headers = {"Authorization": f"Bearer {os.getenv('AIRTABLE_API_KEY')}"}
+        params = {
+            "filterByFormula": "{Accion} = 'TRIGGER'",
+            "maxRecords": 1,
+            "sort": [{"field": "Timestamp", "direction": "desc"}]
+        }
+        resp = requests.get(url, headers=headers, params=params).json()
+        if resp.get("records"):
+            record = resp["records"][0]
+            # Borramos el disparador para no repetirlo
+            requests.delete(f"{url}/{record['id']}", headers=headers)
+            return True
+    except Exception as e:
+        print(f"Error revisando disparador manual: {e}")
+    return False
 
 # ==============================================================================
 # 1. MÓDULOS DE EXTRACCIÓN Y MEMORIA
@@ -122,89 +152,92 @@ def enviar_dashboard(accion, precio, razon, balance, news_analysis):
 # 2. EL BUCLE PRINCIPAL (JF.OS CORE)
 # ==============================================================================
 
-def jfos_core_loop():
-    print(f"🤖 [JF.OS ACTIVO] Iniciando supervisión del mercado para {SIMBOLO_ACTIVO}...")
-    
-    while True:
-        print("-" * 50)
-        try:
-            # 1. Recolectar Información
-            precio_actual = extraer_precio(SIMBOLO_ACTIVO)
-            if not precio_actual:
-                time.sleep(60)
-                continue
+def ejecutar_analisis_y_accion():
+    """Ejecuta un ciclo completo de análisis y trading"""
+    print("-" * 50)
+    try:
+        # 1. Recolectar Información
+        precio_actual = extraer_precio(SIMBOLO_ACTIVO)
+        if not precio_actual:
+            return
 
-            noticias = extraer_noticias(SIMBOLO_ACTIVO)
-            
-            # 2. Obtener Balance actual de Alpaca
-            cuenta = api.get_account()
-            balance = cuenta.portfolio_value
-            
+        noticias = extraer_noticias(SIMBOLO_ACTIVO)
+        
+        # 2. Obtener Balance actual de Alpaca
+        cuenta = api.get_account()
+        balance = cuenta.portfolio_value
+        
+        recuerdos = ["No hay recuerdos similares."]
+        if collection:
             contexto_busqueda = f"Valor {precio_actual} y noticias {noticias}"
             recuerdos = consultar_memoria(contexto_busqueda)
 
-            # 3. Construir el Prompt para el Cerebro Generativo (Gemini)
-            prompt = f"""
-            Eres JF.OS, un bot de trading algorítmico diseñado para escalar una cuenta de $300 a $30,000 mediante interés compuesto y fondeo.
-            SITUACIÓN ACTUAL:
-            - Activo: {SIMBOLO_ACTIVO}
-            - Precio Actual: ${precio_actual}
-            - Capital de la Cuenta: ${balance}
-            - Contexto (Noticias): {noticias}
-            - Memoria a largo plazo (Tus trades similares): {recuerdos}
+        # 3. Construir el Prompt para el Cerebro Generativo (Gemini)
+        prompt = f"""
+        Eres JF.OS, un bot de trading algorítmico diseñado para escalar una cuenta de $300 a $30,000.
+        SITUACIÓN ACTUAL:
+        - Activo: {SIMBOLO_ACTIVO}
+        - Precio Actual: ${precio_actual}
+        - Capital de la Cuenta: ${balance}
+        - Contexto (Noticias): {noticias}
+        - Memoria (Trades previos): {recuerdos}
 
-            REGLA DE RIESGO: Nunca arriesgues más del 1%. Sé conservador si las noticias son negativas.
-
-            TAREA: ¿Debemos operar (COMPRAR o VENDER {CANTIDAD_INVERSION} unidades) o ESPERAR?
-            Debes responder ESTRICTAMENTE en este formato de 3 líneas (no uses JSON, no uses viñetas, nada antes de la LINEA 1):
-            LINEA 1: (Únicamente la palabra COMPRAR, VENDER o ESPERAR)
-            LINEA 2: (Tu justificación técnica de la decisión)
-            LINEA 3: (Análisis de cómo impactarán las Noticias en el mercado a corto plazo según tu criterio)
-            """
-            
-            respuesta_cruda = model.generate_content(prompt).text.strip().split('\n')
-            # Limpiar lineas vacias
-            respuesta_cruda = [line for line in respuesta_cruda if line.strip()]
-            
-            decision = respuesta_cruda[0].strip().upper()
-            razonamiento = respuesta_cruda[1].strip() if len(respuesta_cruda) > 1 else "Razonamiento no proporcionado."
-            news_analysis = respuesta_cruda[2].strip() if len(respuesta_cruda) > 2 else "Análisis de noticias no proporcionado."
-
-            print(f"🧠 Gemini Decidió: {decision} | Razón: {razonamiento}")
-            print(f"📰 Análisis Noticias: {news_analysis}")
-
-            # 4. Tomar Acción
-            if "COMPRAR" in decision:
-                try:
-                    api.submit_order(symbol=SIMBOLO_ALPACA, qty=CANTIDAD_INVERSION, side='buy', type='market', time_in_force='gtc')
-                    print(f"🚀 [EJECUTADO] Se ha emitido una orden de COMPRA.")
-                    guardar_memoria("COMPRA", precio_actual, razonamiento, noticias)
-                    enviar_dashboard("COMPRA", precio_actual, razonamiento, balance, news_analysis)
-                except Exception as b_err:
-                    print(f"Error operando en Alpaca (Compra): {b_err}")
-            
-            elif "VENDER" in decision:
-                try:
-                    # En Alpaca Paper Trading podemos abrir posiciones cortas o vender, pero para este bot conservador
-                    # asumiremos que solo vendemos si tenemos la posición abierta. 
-                    # El siguiente submit simplifica la operación.
-                    api.submit_order(symbol=SIMBOLO_ALPACA, qty=CANTIDAD_INVERSION, side='sell', type='market', time_in_force='gtc')
-                    print(f"📉 [EJECUTADO] Se ha emitido una orden de VENTA.")
-                    guardar_memoria("VENTA", precio_actual, razonamiento, noticias)
-                    enviar_dashboard("VENTA", precio_actual, razonamiento, balance, news_analysis)
-                except Exception as s_err:
-                    print(f"Error operando en Alpaca (Venta): {s_err}")
-            
-            else:
-                print(f"💤 [ESPERANDO] No se ejecuta ninguna operación.")
-                enviar_dashboard("ESPERA", precio_actual, razonamiento, balance, news_analysis)
-
-        except Exception as e:
-            print(f"🚨 Excepción severa en el ciclo JF.OS: {e}")
+        TAREA: ¿Debemos operar (COMPRAR o VENDER {CANTIDAD_INVERSION} unidades) o ESPERAR?
+        Responde ESTRICTAMENTE en 3 líneas:
+        L1: ACCION (COMPRAR/VENDER/ESPERAR)
+        L2: RAZONAMIENTO
+        L3: ANALISIS NOTICIAS
+        """
         
-        # 5. Dormir hasta la próxima evaluación
-        print(f"🕒 Durmiendo {TIEMPO_REVISION_SEGUNDOS} segundos...")
-        time.sleep(TIEMPO_REVISION_SEGUNDOS)
+        res = model.generate_content(prompt).text.strip().split('\n')
+        res = [l for l in res if l.strip()]
+        
+        decision = res[0].strip().upper() if res else "ESPERAR"
+        razonamiento = res[1].strip() if len(res) > 1 else "Auto-evaluación."
+        news_analysis = res[2].strip() if len(res) > 2 else "Análisis técnico estándar."
+
+        print(f"🧠 Decision: {decision} | {razonamiento}")
+
+        # 4. Tomar Acción
+        if "COMPRAR" in decision:
+            api.submit_order(symbol=SIMBOLO_ALPACA, qty=CANTIDAD_INVERSION, side='buy', type='market', time_in_force='gtc')
+            print(f"🚀 [ORDEN COMPRA ENVIADA]")
+            if collection: guardar_memoria("COMPRA", precio_actual, razonamiento, noticias)
+            enviar_dashboard("COMPRA", precio_actual, razonamiento, balance, news_analysis)
+        
+        elif "VENDER" in decision:
+            api.submit_order(symbol=SIMBOLO_ALPACA, qty=CANTIDAD_INVERSION, side='sell', type='market', time_in_force='gtc')
+            print(f"📉 [ORDEN VENTA ENVIADA]")
+            if collection: guardar_memoria("VENTA", precio_actual, razonamiento, noticias)
+            enviar_dashboard("VENTA", precio_actual, razonamiento, balance, news_analysis)
+        
+        else:
+            print(f"💤 [ESPERANDO]")
+            enviar_dashboard("ESPERA", precio_actual, razonamiento, balance, news_analysis)
+
+    except Exception as e:
+        print(f"🚨 Error en ciclo: {e}")
+
+def jfos_core_loop():
+    print(f"🤖 [JF.OS ACTIVO] Supervisando {SIMBOLO_ACTIVO}...")
+    
+    ultimo_analisis_completo = 0
+    
+    while True:
+        ahora = time.time()
+        
+        # Revisar si hay un disparador manual (Botón 'Deploy Capital' en Dash)
+        if revisar_disparador_manual():
+            print("⚡ [DISPARADOR MANUAL] Ejecutando ahora por solicitud del Dashboard...")
+            ejecutar_analisis_y_accion()
+            ultimo_analisis_completo = ahora
+        
+        # O si ya pasaron los 5 minutos de rigor
+        elif (ahora - ultimo_analisis_completo) > TIEMPO_REVISION_SEGUNDOS:
+            ejecutar_analisis_y_accion()
+            ultimo_analisis_completo = ahora
+            
+        time.sleep(TIEMPO_REVISION_RAPIDA)
 
 if __name__ == "__main__":
     jfos_core_loop()
