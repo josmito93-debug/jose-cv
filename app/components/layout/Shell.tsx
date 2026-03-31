@@ -110,9 +110,9 @@ export default function Shell({ children }: ShellProps) {
                     <p className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest">Admin Access</p>
                  </div>
               </div>
-              <button className="w-full flex items-center justify-center gap-2 py-2 border border-white/5 rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-all">
+              <Link href="/dashboard/settings" className="w-full flex items-center justify-center gap-2 py-2 border border-white/5 rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-all">
                  Settings
-              </button>
+              </Link>
            </div>
         </div>
       </aside>
