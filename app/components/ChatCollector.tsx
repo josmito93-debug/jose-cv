@@ -39,9 +39,10 @@ export default function ChatCollector({ onComplete, welcomeMessage }: ChatCollec
   useEffect(() => {
     const defaultWelcome = `¡Hola! Soy el asistente de **ATTOM**.
 
-Voy a ayudarte a recopilar toda la información de tu negocio para crear tu página web profesional.
+Voy a ayudarte a recopilar la información de tu negocio para crear tu página web profesional.
+Si ya tienes una web actual o redes sociales, puedes pegarme el **enlace (URL)** y extraeré la información automáticamente.
 
-¿Cuál es el **nombre de tu negocio**?`;
+Si no, dime: ¿Cuál es el **nombre de tu negocio**?`;
 
     const welcome: Message = {
       id: 'welcome',

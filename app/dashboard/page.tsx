@@ -5,6 +5,34 @@ import Link from 'next/link';
 
 export default function FullDashboard() {
   const [darkMode, setDarkMode] = useState(true);
+  const [clients, setClients] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchClients = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/clients');
+      const data = await response.json();
+      if (data.success) {
+        setClients(data.clients);
+      }
+    } catch (error) {
+      console.error('Failed to fetch clients:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
+  const stats = {
+    total: clients.length,
+    pending: clients.filter(c => c.payment?.status === 'pending').length,
+    inProgress: clients.filter(c => c.deployment?.status === 'in_progress').length,
+    completed: clients.filter(c => c.deployment?.status === 'completed').length,
+  };
 
   return (
     <div className={`${darkMode ? 'bg-gray-900' : 'bg-gray-50'} min-h-screen transition-colors duration-300`}>
@@ -34,6 +62,7 @@ export default function FullDashboard() {
                 {darkMode ? '🌙' : '☀️'}
               </button>
               <button
+                onClick={fetchClients}
                 className={`px-6 py-2.5 transition-all duration-500 hover:scale-105 hover:shadow-lg rounded-lg ${
                   darkMode 
                     ? 'bg-gray-700 hover:bg-gray-600 text-gray-300 hover:border-blue-500 border border-gray-600'
@@ -52,7 +81,7 @@ export default function FullDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           <StatCard
             label="Total Clients"
-            value={12}
+            value={stats.total}
             sublabel="All time"
             accentColor="border-l-blue-500"
             darkMode={darkMode}
@@ -60,7 +89,7 @@ export default function FullDashboard() {
           />
           <StatCard
             label="Pending Payment"
-            value={3}
+            value={stats.pending}
             sublabel="Awaiting confirmation"
             accentColor="border-l-violet-500"
             darkMode={darkMode}
@@ -68,7 +97,7 @@ export default function FullDashboard() {
           />
           <StatCard
             label="In Progress"
-            value={5}
+            value={stats.inProgress}
             sublabel="Currently processing"
             accentColor="border-l-amber-500"
             darkMode={darkMode}
@@ -76,7 +105,7 @@ export default function FullDashboard() {
           />
           <StatCard
             label="Completed"
-            value={4}
+            value={stats.completed}
             sublabel="Successfully deployed"
             accentColor="border-l-emerald-500"
             darkMode={darkMode}
@@ -123,40 +152,29 @@ export default function FullDashboard() {
             Recent Projects
           </h2>
           <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} font-light tracking-wide mb-8`}>
-            4 projects deployed this week
+            {clients.length} projects registered
           </p>
 
           <div className="space-y-4">
-            {[1, 2, 3, 4].map((item, index) => (
-              <ClientCard
-                key={item}
-                darkMode={darkMode}
-                index={index}
-                client={{
-                  info: {
-                    businessName: `Client ${item}`,
-                    contactName: `John Doe ${item}`,
-                    email: `client${item}@example.com`,
-                    businessType: 'E-commerce',
-                    phone: '+1 234 567 890'
-                  },
-                  payment: {
-                    status: index === 0 ? 'pending' : 'completed',
-                    amount: 999 + (item * 100),
-                    currency: 'USD'
-                  },
-                  deployment: {
-                    status: index < 2 ? 'completed' : 'in_progress',
-                    github: {
-                      repoUrl: 'https://github.com/client'
-                    },
-                    hosting: {
-                      url: `https://client${item}.github.io`
-                    }
-                  }
-                }}
-              />
-            ))}
+            {loading ? (
+              <div className="text-center py-20 text-gray-500 font-light">
+                <div className="h-8 w-8 animate-spin border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+                Loading projects...
+              </div>
+            ) : clients.length === 0 ? (
+              <div className="text-center py-20 bg-gray-800/20 border border-dashed border-gray-700 rounded-xl text-gray-500 font-light">
+                No projects found. Use the Attom Collector to start.
+              </div>
+            ) : (
+              clients.map((client, index) => (
+                <ClientCard
+                  key={client.info.clientId}
+                  darkMode={darkMode}
+                  index={index}
+                  client={client}
+                />
+              ))
+            )}
           </div>
         </div>
       </main>
@@ -333,7 +351,7 @@ function ClientCard({
 
         <div className={`flex items-center gap-3 pt-6 ${darkMode ? 'border-gray-700' : 'border-gray-200'} border-t`}>
           <Link
-            href={`/dashboard/${index}`}
+            href={`/dashboard/${client.info.clientId}`}
             className={`px-6 py-2.5 text-sm font-light tracking-wide transition-all duration-500 hover:scale-105 hover:shadow-lg rounded-lg ${
               darkMode 
                 ? 'bg-gray-700 hover:bg-gray-600 text-gray-300 hover:border-blue-500 border border-gray-600' 

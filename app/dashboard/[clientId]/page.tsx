@@ -66,6 +66,8 @@ export default function ClientDashboard() {
   const clientId = params.clientId as string;
   const [clientData, setClientData] = useState<ClientData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchClientData();
@@ -80,6 +82,31 @@ export default function ClientDashboard() {
       console.error('Failed to fetch client data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleProcess = async () => {
+    try {
+      setProcessing(true);
+      setError(null);
+      const response = await fetch(`/api/clients/${clientId}/process`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ skipPayment: true })
+      });
+      const data = await response.json();
+      if (data.success) {
+        // Refresh data to show new assets/status
+        await fetchClientData();
+        alert('Workflow started successfully!');
+      } else {
+        setError(data.error || 'Failed to start workflow');
+      }
+    } catch (err) {
+      console.error('Error starting workflow:', err);
+      setError('An unexpected error occurred');
+    } finally {
+      setProcessing(false);
     }
   };
 
@@ -126,17 +153,38 @@ export default function ClientDashboard() {
               <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600">{clientData.info.businessName}</h1>
               <p className="text-sm text-gray-600 mt-1">Project Dashboard - Attom</p>
             </div>
-            <div className={`px-6 py-3 rounded-full text-sm font-semibold border transition-all duration-300 hover:scale-105`}
-                 style={{
-                   backgroundColor: primaryColor + '15',
-                   color: primaryColor,
-                   borderColor: primaryColor + '30'
-                 }}>
-              {clientData.deployment.status === 'completed' ? '✅ Completed' :
-               clientData.deployment.status === 'in_progress' ? '⏳ In Progress' :
-               '📋 New'}
+            <div className="flex items-center gap-4">
+              {clientData.deployment.status !== 'completed' && (
+                <button
+                  onClick={handleProcess}
+                  disabled={processing}
+                  className={`px-6 py-3 rounded-full text-sm font-semibold border transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed`}
+                  style={{
+                    backgroundColor: processing ? '#ccc' : primaryColor,
+                    color: '#white',
+                    borderColor: primaryColor
+                  }}
+                >
+                  {processing ? '⏳ Processing...' : '🚀 Start Attom Workflow'}
+                </button>
+              )}
+              <div className={`px-6 py-3 rounded-full text-sm font-semibold border transition-all duration-300 hover:scale-105`}
+                   style={{
+                     backgroundColor: primaryColor + '15',
+                     color: primaryColor,
+                     borderColor: primaryColor + '30'
+                   }}>
+                {clientData.deployment.status === 'completed' ? '✅ Completed' :
+                 clientData.deployment.status === 'in_progress' ? '⏳ In Progress' :
+                 '📋 New'}
+              </div>
             </div>
           </div>
+          {error && (
+            <div className="mt-4 p-4 bg-red-100 border border-red-200 text-red-700 rounded-lg text-sm animate-shake">
+              ⚠️ Error: {error}
+            </div>
+          )}
         </div>
       </header>
 

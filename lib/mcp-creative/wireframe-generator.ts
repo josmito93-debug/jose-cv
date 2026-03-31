@@ -10,7 +10,7 @@ export class WireframeGenerator {
 
   constructor() {
     this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: process.env.OPENAI_API_KEY || 'dummy_key_for_build',
     });
   }
 
