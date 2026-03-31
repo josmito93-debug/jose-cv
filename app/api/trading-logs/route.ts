@@ -15,12 +15,13 @@ export async function GET() {
 
 export async function POST() {
   try {
-    // We send a special 'TRIGGER' action that the Python bot polls for
+    // Correcting trigger to match Airtable Single Select constraints
+    // The Python bot now looks for AND({Accion}='ESPERA', {Razon}='TRIGGER')
     await airtableTrading.saveLog({
       timestamp: new Date().toISOString(),
-      accion: 'TRIGGER' as any,
+      accion: 'ESPERA' as any,
       precio: 0,
-      razon: 'Manual trigger from Dashboard',
+      razon: 'TRIGGER',
       capital_actual: 0
     });
     return NextResponse.json({ success: true, message: 'Bot trigger signal sent to Airtable' });

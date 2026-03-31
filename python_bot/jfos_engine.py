@@ -53,11 +53,11 @@ except Exception as e:
 def revisar_disparador_manual():
     """Busca en Airtable si hay una señal de 'TRIGGER' manual"""
     try:
-        # Buscamos el registro más reciente con Accion: TRIGGER
+        # Buscamos el registro más reciente con Accion: ESPERA y Razon: TRIGGER
         url = f"https://api.airtable.com/v0/{os.getenv('AIRTABLE_BASE_ID')}/{os.getenv('AIRTABLE_TABLE_NAME_LOGS')}"
         headers = {"Authorization": f"Bearer {os.getenv('AIRTABLE_API_KEY')}"}
         params = {
-            "filterByFormula": "{Accion} = 'TRIGGER'",
+            "filterByFormula": "AND({Accion} = 'ESPERA', {Razon} = 'TRIGGER')",
             "maxRecords": 1,
             "sort": [{"field": "Timestamp", "direction": "desc"}]
         }
