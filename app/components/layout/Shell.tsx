@@ -43,10 +43,11 @@ export default function Shell({ children }: ShellProps) {
     { name: 'Onboarding', href: '/atom', icon: <Globe className="w-4 h-4" /> },
     { name: 'Data API', href: '/admin/logs', icon: <Zap className="w-4 h-4" /> },
   ] : isDashboard ? [
-    { name: 'Finance Home', href: '/dashboard', icon: <TrendingUp className="w-4 h-4" /> },
-    { name: 'Market Intel', href: '/dashboard/intel', icon: <Activity className="w-4 h-4" /> },
-    { name: 'Security Hub', href: '/dashboard/security', icon: <ShieldCheck className="w-4 h-4" /> },
-    { name: 'Active Nodes', href: '/dashboard/nodes', icon: <Cpu className="w-4 h-4" /> },
+    { name: 'Overview', href: '/dashboard', icon: <TrendingUp className="w-4 h-4" /> },
+    { name: 'Cryptocurrencies', href: '/dashboard/crypto', icon: <Globe className="w-4 h-4" /> },
+    { name: 'Metals & Energy', href: '/dashboard/metals', icon: <Zap className="w-4 h-4" /> },
+    { name: 'Forex Assets', href: '/dashboard/forex', icon: <Activity className="w-4 h-4" /> },
+    { name: 'Stock Options', href: '/dashboard/stocks', icon: <Database className="w-4 h-4" /> },
   ] : [
     { name: 'HQ Command', href: '/hq', icon: <Cpu className="w-4 h-4" /> },
     { name: 'Finance Agent', href: '/dashboard', icon: <TrendingUp className="w-4 h-4" /> },
@@ -105,7 +106,7 @@ export default function Shell({ children }: ShellProps) {
               <div className="flex items-center gap-3">
                  <div className="w-8 h-8 rounded-full bg-zinc-800" />
                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">Luis H.</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">Jose Figueroa</p>
                     <p className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest">Admin Access</p>
                  </div>
               </div>

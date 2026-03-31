@@ -13,6 +13,11 @@ import google.generativeai as genai
 # ==============================================================================
 load_dotenv()
 
+# Webhook y Configuración de Red
+DASHBOARD_WEBHOOK_URL = os.getenv("DASHBOARD_WEBHOOK_URL")
+WEBHOOK_SECRET = os.getenv("DASHBOARD_WEBHOOK_SECRET")
+
+
 ALPACA_KEY = os.getenv("ALPACA_API_KEY")
 ALPACA_SECRET = os.getenv("ALPACA_SECRET_KEY")
 ALPACA_URL = os.getenv("ALPACA_BASE_URL")
@@ -28,14 +33,58 @@ WEBHOOK_SECRET = os.getenv("DASHBOARD_WEBHOOK_SECRET")
 # Configuración Inicial de APIs
 api = tradeapi.REST(ALPACA_KEY, ALPACA_SECRET, ALPACA_URL, api_version='v2')
 genai.configure(api_key=GEMINI_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
 
-# Parámetros del Bot
-SIMBOLO_ACTIVO = "BTC/USD"
-SIMBOLO_ALPACA = "BTCUSD"
-CANTIDAD_INVERSION = 0.0005 
-TIEMPO_REVISION_SEGUNDOS = 300 
-TIEMPO_REVISION_RAPIDA = 30 # Para revisar disparadores manuales
+def obtener_modelo_generativo():
+    """Prueba varios nombres de modelos para evitar errores 404"""
+    modelos_a_probar = [
+        'models/gemini-2.0-flash',
+        'models/gemini-1.5-flash',
+        'gemini-1.5-flash',
+        'models/gemini-pro',
+        'models/gemini-flash-latest'
+    ]
+    for nombre in modelos_a_probar:
+        try:
+            m = genai.GenerativeModel(nombre)
+            print(f"✅ Modelo vinculado con éxito: {nombre}")
+            return m
+        except Exception as e:
+            print(f"⚠️ Fallo con {nombre}: {e}")
+            continue
+    raise Exception("No se pudo vincular ningún modelo de Gemini compatible.")
+
+model = obtener_modelo_generativo()
+
+# Configuración de Activos por Categoría
+CATEGORIAS = {
+    "Crypto": {
+        "activo": "BTC/USD",
+        "alpaca": "BTCUSD",
+        "monto": 0.0005,
+        "descripcion": "Mercado Digital de Alta Volatilidad"
+    },
+    "Metals": {
+        "activo": "GLD",
+        "alpaca": "GLD",
+        "monto": 1,
+        "descripcion": "Refugio Seguro (ETF de Oro)"
+    },
+    "Forex": {
+        "activo": "EUR/USD",
+        "alpaca": "EURUSD",
+        "monto": 1000,
+        "descripcion": "Divisas Globales"
+    },
+    "Stocks": {
+        "activo": "NVDA",
+        "alpaca": "NVDA",
+        "monto": 1,
+        "descripcion": "Capital de Tecnología (Nvidia)"
+    }
+}
+
+TIEMPO_REVISION_SEGUNDOS = 900 # 15 minutos entre barridos completos
+TIEMPO_REVISION_RAPIDA = 30    # Revisión de señales del dashboard
 
 # Inicialización de Memoria ChromaDB Local
 collection = None
@@ -47,29 +96,70 @@ except Exception as e:
     print(f"⚠️ Aviso: No se pudo cargar ChromaDB (Usando modo sin memoria): {e}")
 
 # ==============================================================================
-# 0.5. MÓDULO DE DISPARADORES MANUALES (Airtable)
+# 0.7. MÓDULO DE SEGUIMIENTO DE RENDIMIENTO (Performance tracking)
+# ==============================================================================
+
+def registrar_historial_rendimiento():
+    """Registra el balance total de la cuenta en una tabla de historial diaria"""
+    try:
+        cuenta = api.get_account()
+        balance = float(cuenta.portfolio_value)
+        
+        # Tabla de Historial (Performance History)
+        # Nota: Asegúrate de tener esta tabla en Airtable con campos: Timestamp, Portfolio Value
+        url = f"https://api.airtable.com/v0/{os.getenv('AIRTABLE_BASE_ID')}/Performance%20History"
+        headers = {
+            "Authorization": f"Bearer {os.getenv('AIRTABLE_API_KEY')}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "records": [{
+                "fields": {
+                    "Timestamp": datetime.now().isoformat(),
+                    "Portfolio Value": balance
+                }
+            }]
+        }
+        res = requests.post(url, headers=headers, json=payload)
+        if res.status_code == 200:
+            print(f"📊 [PROGRESO] Historial de rendimiento actualizado: ${balance}")
+        else:
+            # Si la tabla no existe, fallará silenciosamente o podemos reportarlo
+            print(f"⚠️ Aviso: No se pudo actualizar historial (¿Existe la tabla 'Performance History'?): {res.text}")
+    except Exception as e:
+        print(f"Error registrando historial: {e}")
+
+# ==============================================================================
+# 0.8. MÓDULO DE DISPARADORES MANUALES (Airtable)
 # ==============================================================================
 
 def revisar_disparador_manual():
-    """Busca en Airtable si hay una señal de 'TRIGGER' manual"""
+    """Busca en Airtable señales manuales y retorna (tipo, categoria)"""
     try:
-        # Buscamos el registro más reciente con Accion: ESPERA y Razon: TRIGGER
         url = f"https://api.airtable.com/v0/{os.getenv('AIRTABLE_BASE_ID')}/{os.getenv('AIRTABLE_TABLE_NAME_LOGS')}"
         headers = {"Authorization": f"Bearer {os.getenv('AIRTABLE_API_KEY')}"}
-        params = {
-            "filterByFormula": "AND({Accion} = 'ESPERA', {Razon} = 'TRIGGER')",
-            "maxRecords": 1,
-            "sort": [{"field": "Timestamp", "direction": "desc"}]
-        }
-        resp = requests.get(url, headers=headers, params=params).json()
+        
+        # Filtramos por señales pendientes (TRIGGER o INTEL)
+        resp = requests.get(url, headers=headers, params={
+            "filterByFormula": "OR({Razon} = 'TRIGGER', {Razon} = 'INTEL')",
+            "maxRecords": 1, "sort": [{"field": "Timestamp", "direction": "desc"}]
+        }).json()
+        
         if resp.get("records"):
             record = resp["records"][0]
-            # Borramos el disparador para no repetirlo
+            fields = record["fields"]
+            tipo = "TRADE" if fields.get("Razon") == "TRIGGER" else "INTEL"
+            cat = fields.get("Categoria", "Crypto")
+            
+            print(f"⚡ [DISPARADOR] {tipo} manual para {cat} detectado.")
             requests.delete(f"{url}/{record['id']}", headers=headers)
-            return True
+            # Retornamos el tipo y la categoría si existe en nuestro mapa, sino Crypto por defecto
+            return tipo, cat if cat in CATEGORIAS else "Crypto"
+
     except Exception as e:
         print(f"Error revisando disparador manual: {e}")
-    return False
+    return None, None
+
 
 # ==============================================================================
 # 1. MÓDULOS DE EXTRACCIÓN Y MEMORIA
@@ -112,17 +202,22 @@ def extraer_noticias(simbolo_buscar):
         return "No se pudieron obtener noticias."
 
 def guardar_memoria(accion, precio, razon, noticias):
-    fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
-    documento = f"[{fecha}] Acción: {accion}. Precio: {precio}. Razón: {razon}. Noticias: {noticias}"
-    
-    collection.add(
-        documents=[documento],
-        metadatas=[{"tipo": accion, "precio": precio}],
-        ids=[f"trade_{datetime.now().timestamp()}"]
-    )
-    print(f"✅ Memoria actualizada en ChromaDB: {accion} @ {precio}")
+    if not collection: return
+    try:
+        fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
+        documento = f"[{fecha}] Acción: {accion}. Precio: {precio}. Razón: {razon}. Noticias: {noticias}"
+        
+        collection.add(
+            documents=[documento],
+            metadatas=[{"tipo": accion, "precio": precio}],
+            ids=[f"trade_{datetime.now().timestamp()}"]
+        )
+        print(f"✅ Memoria actualizada en ChromaDB: {accion} @ {precio}")
+    except Exception as e:
+        print(f"⚠️ Error guardando memoria: {e}")
 
 def consultar_memoria(contexto):
+    if not collection: return ["No hay memoria disponible."]
     try:
         results = collection.query(
             query_texts=[contexto],
@@ -133,111 +228,157 @@ def consultar_memoria(contexto):
     except Exception:
         return ["La memoria está vacía."]
 
-def enviar_dashboard(accion, precio, razon, balance, news_analysis):
+def enviar_dashboard(accion, precio, razon, balance, news_analysis, categoria="Crypto", raw_intel=""):
     payload = {
         "webhook_secret": WEBHOOK_SECRET,
         "accion": accion,
         "precio": precio,
         "razon": razon,
         "capital_actual": float(balance),
-        "news_analysis": news_analysis
+        "news_analysis": news_analysis,
+        "categoria": categoria,
+        "raw_intel": raw_intel
     }
     try:
         requests.post(WEBHOOK_URL, json=payload, timeout=5)
-        print("🌐 Información sincronizada con Vercel Dashboard.")
+        print(f"🌐 [{categoria}] Información sincronizada con Vercel Dashboard.")
     except Exception as e:
-        print(f"⚠️ Error enviando Webhook al Dashboard: {e}")
+        print(f"⚠️ Error Webhook Dashboard: {e}")
 
 # ==============================================================================
 # 2. EL BUCLE PRINCIPAL (JF.OS CORE)
 # ==============================================================================
 
-def ejecutar_analisis_y_accion():
-    """Ejecuta un ciclo completo de análisis y trading"""
-    print("-" * 50)
+def ejecutar_analisis_y_accion(cat_nombre, config):
+    """Ejecuta un ciclo completo de análisis y trading para una categoría específica"""
+    simbolo = config["activo"]
+    simbolo_alpaca = config["alpaca"]
+    monto = config["monto"]
+    desc = config["descripcion"]
+
+    print(f"\n--- 🔎 ANALIZANDO: {cat_nombre} ({simbolo}) ---")
+    print(f"📍 {desc}")
+
     try:
         # 1. Recolectar Información
-        precio_actual = extraer_precio(SIMBOLO_ACTIVO)
-        if not precio_actual:
-            return
+        precio_actual = extraer_precio(simbolo)
+        if not precio_actual: return
 
-        noticias = extraer_noticias(SIMBOLO_ACTIVO)
-        
-        # 2. Obtener Balance actual de Alpaca
+        noticias = extraer_noticias(simbolo)
         cuenta = api.get_account()
         balance = cuenta.portfolio_value
         
-        recuerdos = ["No hay recuerdos similares."]
-        if collection:
-            contexto_busqueda = f"Valor {precio_actual} y noticias {noticias}"
-            recuerdos = consultar_memoria(contexto_busqueda)
+        recuerdos = consultar_memoria(f"Valor {precio_actual} en {cat_nombre} con noticias {noticias}")
 
-        # 3. Construir el Prompt para el Cerebro Generativo (Gemini)
+        # 3. Definir Guías Específicas por Sector
+        guias_sector = {
+            "Crypto": "Enfócate en la volatilidad, adopción institucional y sentimiento social.",
+            "Metals": "Prioriza la inflación, tasas de interés y tensiones geopolíticas (Refugio Seguro).",
+            "Forex": "Analiza diferenciales de tasas, balanza comercial y datos macro de bancos centrales.",
+            "Stocks": "Considera reportes de ganancias, innovación tecnológica y tendencias del sector Equity."
+        }
+        guia = guias_sector.get(cat_nombre, "Análisis de mercado estándar.")
+
+        # 4. Construir el Prompt para el Cerebro Generativo (Gemini)
         prompt = f"""
-        Eres JF.OS, un bot de trading algorítmico diseñado para escalar una cuenta de $300 a $30,000.
-        SITUACIÓN ACTUAL:
-        - Activo: {SIMBOLO_ACTIVO}
-        - Precio Actual: ${precio_actual}
-        - Capital de la Cuenta: ${balance}
-        - Contexto (Noticias): {noticias}
-        - Memoria (Trades previos): {recuerdos}
+        Eres JF.OS, el cerebro financiero de Jose Figueroa. 
+        ESTÁS ANALIZANDO EL MERCADO DE: {cat_nombre} ({desc}).
+        GUÍA SECTORIAL: {guia}
+        
+        DATA FEED:
+        - Activo: {simbolo} | Precio Actual: ${precio_actual}
+        - Capital en Portfolio: ${balance}
+        - Análisis de Sentimiento (News): {noticias}
+        - Memoria: {recuerdos}
 
-        TAREA: ¿Debemos operar (COMPRAR o VENDER {CANTIDAD_INVERSION} unidades) o ESPERAR?
-        Responde ESTRICTAMENTE en 3 líneas:
+        TAREA: Ejecuta una decisión de mercado (COMPRAR, VENDER o ESPERAR).
+        IMPORTANTE: Responde ESTRICTAMENTE en 3 líneas:
         L1: ACCION (COMPRAR/VENDER/ESPERAR)
-        L2: RAZONAMIENTO
-        L3: ANALISIS NOTICIAS
+        L2: RAZONAMIENTO FINANCIERO (Máximo 20 palabras)
+        L3: IMPACTO EN MERCADO (Análisis de noticias condensado)
         """
         
-        res = model.generate_content(prompt).text.strip().split('\n')
-        res = [l for l in res if l.strip()]
+        res_text = ""
+        for i in range(3):
+            try:
+                response = model.generate_content(prompt)
+                res_text = response.text
+                break
+            except Exception:
+                time.sleep(5)
         
+        if not res_text: return
+
+        res = [l for l in res_text.strip().split('\n') if l.strip()]
         decision = res[0].strip().upper() if res else "ESPERAR"
-        razonamiento = res[1].strip() if len(res) > 1 else "Auto-evaluación."
-        news_analysis = res[2].strip() if len(res) > 2 else "Análisis técnico estándar."
+        razonamiento = res[1].strip() if len(res) > 1 else "Optimización en curso."
+        news_analysis = res[2].strip() if len(res) > 2 else "Neutral."
 
-        print(f"🧠 Decision: {decision} | {razonamiento}")
+        print(f"🧠 {cat_nombre} Decision: {decision} | {razonamiento}")
 
-        # 4. Tomar Acción
+        # 4. Tomar Acción (Ejecución Real)
         if "COMPRAR" in decision:
-            api.submit_order(symbol=SIMBOLO_ALPACA, qty=CANTIDAD_INVERSION, side='buy', type='market', time_in_force='gtc')
-            print(f"🚀 [ORDEN COMPRA ENVIADA]")
-            if collection: guardar_memoria("COMPRA", precio_actual, razonamiento, noticias)
-            enviar_dashboard("COMPRA", precio_actual, razonamiento, balance, news_analysis)
+            api.submit_order(symbol=simbolo_alpaca, qty=monto, side='buy', type='market', time_in_force='gtc')
+            guardar_memoria("COMPRA", precio_actual, razonamiento, noticias)
+            enviar_dashboard("COMPRA", precio_actual, razonamiento, balance, news_analysis, categoria=cat_nombre)
         
         elif "VENDER" in decision:
-            api.submit_order(symbol=SIMBOLO_ALPACA, qty=CANTIDAD_INVERSION, side='sell', type='market', time_in_force='gtc')
-            print(f"📉 [ORDEN VENTA ENVIADA]")
-            if collection: guardar_memoria("VENTA", precio_actual, razonamiento, noticias)
-            enviar_dashboard("VENTA", precio_actual, razonamiento, balance, news_analysis)
+            api.submit_order(symbol=simbolo_alpaca, qty=monto, side='sell', type='market', time_in_force='gtc')
+            guardar_memoria("VENTA", precio_actual, razonamiento, noticias)
+            enviar_dashboard("VENTA", precio_actual, razonamiento, balance, news_analysis, categoria=cat_nombre)
         
         else:
-            print(f"💤 [ESPERANDO]")
-            enviar_dashboard("ESPERA", precio_actual, razonamiento, balance, news_analysis)
+            enviar_dashboard("ESPERA", precio_actual, razonamiento, balance, news_analysis, categoria=cat_nombre)
+
+        registrar_historial_rendimiento()
 
     except Exception as e:
-        print(f"🚨 Error en ciclo: {e}")
+        print(f"🚨 Error en ciclo {cat_nombre}: {e}")
+
+def ejecutar_solo_intel(cat_nombre, config):
+    """Ejecuta únicamente el análisis de noticias e inteligencia"""
+    simbolo = config["activo"]
+    print(f"🔍 [MODO INTEL] Escaneando {cat_nombre}...")
+    try:
+        precio_actual = extraer_precio(simbolo)
+        noticias = extraer_noticias(simbolo)
+        cuenta = api.get_account()
+        balance = cuenta.portfolio_value
+        
+        prompt = f"Analiza estas noticias para {cat_nombre} ({simbolo} @ ${precio_actual}) y devuelve un resumen de impacto de 1 párrafo: {noticias}"
+        response = model.generate_content(prompt)
+        news_analysis = response.text.strip()
+        
+        enviar_dashboard("INTEL", precio_actual, f"Actualización Intel: {cat_nombre}", balance, news_analysis, categoria=cat_nombre, raw_intel=str(noticias))
+        print(f"✅ Inteligencia {cat_nombre} actualizada.")
+    except Exception as e:
+        print(f"🚨 Error en Modo Intel {cat_nombre}: {e}")
 
 def jfos_core_loop():
-    print(f"🤖 [JF.OS ACTIVO] Supervisando {SIMBOLO_ACTIVO}...")
+    print(f"🤖 [JF.OS ACTIVO] Supervisando {len(CATEGORIAS)} sectores...")
     
     ultimo_analisis_completo = 0
-    
     while True:
         ahora = time.time()
         
-        # Revisar si hay un disparador manual (Botón 'Deploy Capital' en Dash)
-        if revisar_disparador_manual():
-            print("⚡ [DISPARADOR MANUAL] Ejecutando ahora por solicitud del Dashboard...")
-            ejecutar_analisis_y_accion()
-            ultimo_analisis_completo = ahora
+        # 1. Revisar disparadores manuales del Dashboard (Alta Prioridad)
+        tipo_disparo, cat_disparo = revisar_disparador_manual()
+        if tipo_disparo:
+            config = CATEGORIAS[cat_disparo]
+            if tipo_disparo == "TRADE":
+                ejecutar_analisis_y_accion(cat_disparo, config)
+            else:
+                ejecutar_solo_intel(cat_disparo, config)
         
-        # O si ya pasaron los 5 minutos de rigor
+        # 2. Análisis cíclico automático (Barrido de todos los mercados)
         elif (ahora - ultimo_analisis_completo) > TIEMPO_REVISION_SEGUNDOS:
-            ejecutar_analisis_y_accion()
+            for nombre, config in CATEGORIAS.items():
+                ejecutar_analisis_y_accion(nombre, config)
+                time.sleep(10) # Pausa estratégica entre mercados
             ultimo_analisis_completo = ahora
             
         time.sleep(TIEMPO_REVISION_RAPIDA)
 
 if __name__ == "__main__":
+    registrar_historial_rendimiento()
     jfos_core_loop()

@@ -10,6 +10,9 @@ export interface TradingLog {
   precio: number;
   razon: string;
   capital_actual: number;
+  news_analysis?: string;
+  raw_intel?: string;
+  categoria: 'Crypto' | 'Metals' | 'Forex' | 'Stocks';
 }
 
 export class AirtableTrading {
@@ -46,6 +49,9 @@ export class AirtableTrading {
         'Precio': log.precio,
         'Razon': log.razon,
         'Capital Actual': log.capital_actual,
+        'News Analysis': log.news_analysis,
+        'Raw Intel': log.raw_intel,
+        'Categoria': log.categoria,
       };
 
       const record = await this.base(this.tableName).create(fields);
@@ -58,16 +64,18 @@ export class AirtableTrading {
       throw error;
     }
   }
-
   /**
-   * Get recent trading logs from Airtable
+   * Get recent trading logs from Airtable, optionally filtered by category
    */
-  async getLogs(limit: number = 50): Promise<TradingLog[]> {
+  async getLogs(limit: number = 50, categoria?: string): Promise<TradingLog[]> {
     try {
+      const filterByFormula = categoria ? `{Categoria} = '${categoria}'` : '';
+      
       const records = await this.base(this.tableName)
         .select({
           maxRecords: limit,
           sort: [{ field: 'Timestamp', direction: 'desc' }],
+          filterByFormula
         })
         .firstPage();
 
@@ -78,9 +86,34 @@ export class AirtableTrading {
         precio: record.get('Precio'),
         razon: record.get('Razon'),
         capital_actual: record.get('Capital Actual'),
+        news_analysis: record.get('News Analysis'),
+        raw_intel: record.get('Raw Intel'),
+        categoria: record.get('Categoria') || 'Crypto',
       }));
     } catch (error) {
       logger.error('Failed to fetch trading logs from Airtable', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get performance history from Airtable
+   */
+  async getPerformanceHistory(limit: number = 30): Promise<any[]> {
+    try {
+      const records = await this.base('Performance History')
+        .select({
+          maxRecords: limit,
+          sort: [{ field: 'Timestamp', direction: 'asc' }],
+        })
+        .firstPage();
+
+      return records.map((record: any) => ({
+        timestamp: record.get('Timestamp'),
+        value: record.get('Portfolio Value'),
+      }));
+    } catch (error) {
+      logger.error('Failed to fetch performance history', error);
       return [];
     }
   }
