@@ -193,6 +193,55 @@ Si no, dime: ¿Cuál es el **nombre de tu negocio**?`;
     );
   };
 
+  const processToHQ = async () => {
+    if (collectedInfo.length < 3 || isLoading) return;
+    setIsLoading(true);
+
+    try {
+      // Map collected info to ClientData structure
+      const data: any = {};
+      collectedInfo.forEach(info => {
+        data[info.field] = info.value;
+      });
+
+      const response = await fetch('/api/clients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessName: data.businessName,
+          businessType: data.businessType || data.industry,
+          contactName: 'Pendiente (Attom Link)',
+          contact: data.contact || '',
+          valueProp: data.valueProp,
+          brandStyle: data.brandStyle,
+          reference: data.reference,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to save to HQ');
+      
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: `📈 **¡Sincronización Exitosa!**\nHe cargado tu proyecto en el **Attom Command HQ**. Ya puedes verlo como un "Proyecto Pendiente" en tu panel de administración.\n\n¿Deseas iniciar con el despliegue ahora?`,
+        timestamp: new Date()
+      }]);
+
+      if (onComplete) onComplete(collectedInfo);
+
+    } catch (error: any) {
+      console.error('HQ Ingestion Error:', error);
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: `⚠️ Hubo un error al sincronizar con el HQ: ${error.message}. Por favor, regístrate manualmente en el dashboard.`,
+        timestamp: new Date()
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleDeleteInfo = (id: string) => {
     setCollectedInfo(prev => prev.filter(info => info.id !== id));
   };
@@ -278,12 +327,13 @@ Si no, dime: ¿Cuál es el **nombre de tu negocio**?`;
           </div>
           <div className="flex justify-between mt-3 px-1">
             <span className="text-[10px] text-zinc-600 font-bold uppercase tracking-tighter">{collectedInfo.length} / 12 Atributos</span>
-            {collectedInfo.length >= 5 && (
+            {collectedInfo.length >= 3 && (
               <button
-                onClick={() => onComplete?.(collectedInfo)}
-                className="text-[10px] font-black text-purple-400 hover:text-white uppercase tracking-widest transition-all hover:translate-x-1"
+                onClick={processToHQ}
+                disabled={isLoading}
+                className="text-[10px] font-black text-indigo-400 hover:text-white uppercase tracking-widest transition-all hover:translate-x-1 flex items-center gap-2 group"
               >
-                Finalizar y Desplegar →
+                {isLoading ? 'Sincronizando...' : 'Procesar a HQ Admin →'}
               </button>
             )}
           </div>

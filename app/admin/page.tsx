@@ -186,9 +186,14 @@ export default function UnifiedAdminVercel() {
                                 {client.business.charAt(0)}
                              </div>
                              <div className="min-w-0">
-                                <p className="text-sm font-black tracking-tight truncate">{client.business}</p>
+                                <p className="text-sm font-black tracking-tight truncate flex items-center gap-2">
+                                  {client.business}
+                                  {client.name === 'Pendiente (Attom Link)' && (
+                                    <span className="px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 text-[7px] font-black uppercase rounded border border-indigo-500/30">Attom Ingest</span>
+                                  )}
+                                </p>
                                 <p className="text-[9px] md:text-[10px] font-bold text-zinc-600 uppercase tracking-widest truncate">
-                                  {client.isVercelMaster ? 'Vercel' : 'Airtable'} / {client.name}
+                                  {client.name === 'Pendiente (Attom Link)' ? 'BOT COLLECTION' : (client.isVercelMaster ? 'Vercel' : 'Airtable')} / {client.name}
                                 </p>
                              </div>
                           </div>
