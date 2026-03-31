@@ -24,6 +24,8 @@ import {
   Area
 } from 'recharts';
 import PriceTicker from './PriceTicker';
+import TrendingAssets from './TrendingAssets';
+import SectorNews from './SectorNews';
 
 interface MarketViewProps {
   category: 'Crypto' | 'Metals' | 'Forex' | 'Stocks';
@@ -106,6 +108,8 @@ export default function MarketView({ category, title, description, symbols }: Ma
            </button>
         </div>
       </div>
+
+      <TrendingAssets />
 
       {/* Analytics Chart */}
       <div className="bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] p-10">
@@ -196,10 +200,12 @@ export default function MarketView({ category, title, description, symbols }: Ma
                    </div>
                  )}
               </div>
-           </div>
-        </div>
-        </div>
+            </div>
+         </div>
       </div>
+      
+      <SectorNews category={category} />
     </div>
+  </div>
   );
 }

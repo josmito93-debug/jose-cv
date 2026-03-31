@@ -10,12 +10,35 @@ const SYMBOLS_BY_CATEGORY: Record<string, string[]> = {
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get('category') || 'Crypto';
+  const type = searchParams.get('type') || 'ticker'; // 'ticker', 'trending', 'news'
   
-  const symbols = SYMBOLS_BY_CATEGORY[category] || SYMBOLS_BY_CATEGORY.Crypto;
   const apiKey = process.env.TWELVE_DATA_API_KEY;
+  const alphaKey = process.env.ALPHA_VANTAGE_API_KEY;
+  const newsKey = process.env.NEWS_API_KEY;
 
   try {
-    // Twelve Data multi-symbol price and change
+    if (type === 'trending') {
+      // Alpha Vantage Top Gainers/Losers
+      const url = `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${alphaKey}`;
+      const resp = await fetch(url);
+      const data = await resp.json();
+      return NextResponse.json({ success: true, data: data.top_gainers?.slice(0, 5) || [] });
+    }
+
+    if (type === 'news') {
+      // NewsAPI for detailed headlines
+      const query = category === 'Crypto' ? 'crypto bitcoin' : 
+                    category === 'Metals' ? 'gold silver metals' :
+                    category === 'Forex' ? 'forex currency' : 'stocks market nvidia';
+      
+      const url = `https://newsapi.org/v2/everything?q=${query}&sortBy=publishedAt&pageSize=10&apiKey=${newsKey}`;
+      const resp = await fetch(url);
+      const data = await resp.json();
+      return NextResponse.json({ success: true, data: data.articles || [] });
+    }
+
+    // Default: Ticker data
+    const symbols = SYMBOLS_BY_CATEGORY[category] || SYMBOLS_BY_CATEGORY.Crypto;
     const url = `https://api.twelvedata.com/quote?symbol=${symbols.join(',')}&apikey=${apiKey}`;
     const resp = await fetch(url);
     const data = await resp.json();
