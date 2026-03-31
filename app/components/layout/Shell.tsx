@@ -63,7 +63,7 @@ export default function Shell({ children }: ShellProps) {
   const isDashboard = pathname.startsWith('/dashboard');
   
   const currentTitle = isAdmin ? "Attom Engine" : "JF.OS Terminal";
-  const accentColor = isDashboard ? 'emerald' : 'indigo';
+  const accentColorClass = isDashboard ? 'bg-emerald-600' : 'bg-indigo-600';
 
   return (
     <div className="min-h-screen bg-[#08080A] text-zinc-100 font-inter antialiased flex overflow-hidden">
@@ -71,7 +71,7 @@ export default function Shell({ children }: ShellProps) {
       <aside className="hidden lg:flex w-72 flex-col bg-[#0C0C0E] border-r border-white/5 relative z-50">
         <div className="p-8">
           <div className="flex items-center gap-3 px-2">
-            <div className={`w-8 h-8 rounded-xl bg-${accentColor}-600 flex items-center justify-center font-black text-xs text-white uppercase italic`}>JF</div>
+            <div className={`w-8 h-8 rounded-xl ${accentColorClass} flex items-center justify-center font-black text-xs text-white uppercase italic`}>JF</div>
             <span className="text-sm font-black tracking-tighter uppercase italic">{currentTitle}</span>
           </div>
         </div>

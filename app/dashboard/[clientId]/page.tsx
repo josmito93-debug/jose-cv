@@ -130,18 +130,29 @@ export default function ClientDashboard() {
     );
   }
 
-  if (!clientData) {
+  if (!clientData || !clientData.branding || !clientData.branding.colors) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Cliente no encontrado</h1>
-          <p className="mt-2 text-gray-600">No se pudo cargar la información del cliente.</p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+        <div className="text-center p-12 bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] shadow-2xl">
+          <div className="w-16 h-16 bg-rose-500/10 rounded-2xl flex items-center justify-center text-rose-500 mx-auto mb-6">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-black italic uppercase tracking-tighter mb-4">Node Link Failed</h1>
+          <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest max-w-xs leading-relaxed">The requested client intelligence profile could not be synchronized or is malformed.</p>
+          <button 
+            onClick={() => window.location.href = '/dashboard'}
+            className="mt-10 px-8 py-3 bg-white text-black font-black rounded-xl text-[10px] uppercase tracking-widest"
+          >
+            Return to HQ
+          </button>
         </div>
       </div>
     );
   }
 
-  const primaryColor = clientData.branding.colors.primary;
+  const primaryColor = clientData?.branding?.colors?.primary || '#6366f1';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
