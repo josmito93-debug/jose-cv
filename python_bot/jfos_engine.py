@@ -176,30 +176,62 @@ def extraer_precio(simbolo):
 
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
-def extraer_noticias(simbolo_buscar):
-    simbolo_limpio = simbolo_buscar.split('/')[0]
-    
-    # Intento con NewsAPI primero (Mejores titulares en tiempo real)
-    if NEWS_API_KEY:
-        try:
-            url = f"https://newsapi.org/v2/everything?q={simbolo_limpio}&sortBy=publishedAt&language=en&pageSize=3&apiKey={NEWS_API_KEY}"
-            resp = requests.get(url).json()
-            if resp.get("status") == "ok" and resp.get("articles"):
-                titulares = [art["title"] for art in resp["articles"]]
-                return f"Últimas Noticias (NewsAPI): {titulares}"
-        except Exception as e:
-            print(f"⚠️ Error NewsAPI: {e}")
+# --- INTELIGENCIA DE NOTICIAS (NEURAL FEED) ---
 
-    # Fallback a Alpha Vantage
+def extraer_noticias_finnhub(simbolo):
+    key = os.getenv("FINNHUB_API_KEY")
+    if not key: return None
     try:
-        url = f"https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={simbolo_limpio}&apikey={ALPHA_VANTAGE_KEY}"
-        news_data = requests.get(url).json()
-        if "feed" in news_data:
-            top_news = [item['title'] for item in news_data['feed'][:2]]
-            return f"Últimas Noticias (AlphaVantage): {top_news}"
-        return "Sin noticias recientes."
-    except Exception:
-        return "No se pudieron obtener noticias."
+        # Finnhub usa símbolos limpios (ej: BTC/USD -> BTC)
+        sym = simbolo.split('/')[0].replace('USD', '')
+        url = f"https://finnhub.io/api/v1/news?category=general&token={key}"
+        resp = requests.get(url, timeout=5)
+        data = resp.json()
+        if isinstance(data, list):
+            titulares = [str(n.get("headline", "")) for n in data[:3]]
+            return f"Finnhub: {titulares}"
+    except: pass
+    return None
+
+def extraer_noticias_alphavantage(simbolo):
+    key = os.getenv("ALPHA_VANTAGE_API_KEY")
+    if not key: return "Sin AlphaVantge Key"
+    try:
+        url = f"https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={simbolo}&apikey={key}"
+        r = requests.get(url, timeout=10)
+        data = r.json()
+        feed = data.get("feed", [])
+        if feed:
+            titulares = [item.get("title", "") for item in feed[:3]]
+            return f"AlphaV: {titulares}"
+        return "AlphaV: No hay noticias recientes."
+    except Exception as e:
+        return f"AlphaV Error: {e}"
+
+def extraer_noticias(simbolo):
+    """Agregador de noticias con múltiples fuentes."""
+    # Fuente 1: Finnhub (Nueva)
+    news = extraer_noticias_finnhub(simbolo)
+    if news: return news
+    
+    # Fuente 2: Alpha Vantage (Sentimiento Financiero)
+    news = extraer_noticias_alphavantage(simbolo)
+    if "Error" not in news and "No hay" not in news:
+        return news
+    
+    # Fuente 3: NewsAPI (Titulares Generales - Fallback)
+    key = os.getenv("NEWS_API_KEY")
+    if not key: return "Sin NewsAPI Key"
+    try:
+        url = f"https://newsapi.org/v2/everything?q={simbolo}&sortBy=publishedAt&pageSize=3&apiKey={key}"
+        r = requests.get(url, timeout=5)
+        data = r.json()
+        articles = data.get("articles", [])
+        if articles:
+            return f"NewsAPI: {[a['title'] for a in articles]}"
+    except: pass
+
+    return "No se pudieron obtener noticias de ninguna fuente."
 
 def guardar_memoria(accion, precio, razon, noticias):
     if not collection: return
@@ -209,7 +241,7 @@ def guardar_memoria(accion, precio, razon, noticias):
         
         collection.add(
             documents=[documento],
-            metadatas=[{"tipo": accion, "precio": precio}],
+            metadatas=[{"tipo": accion, "precio": float(precio)}],
             ids=[f"trade_{datetime.now().timestamp()}"]
         )
         print(f"✅ Memoria actualizada en ChromaDB: {accion} @ {precio}")

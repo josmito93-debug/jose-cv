@@ -23,6 +23,7 @@ import {
   AreaChart,
   Area
 } from 'recharts';
+import PriceTicker from './PriceTicker';
 
 interface MarketViewProps {
   category: 'Crypto' | 'Metals' | 'Forex' | 'Stocks';
@@ -82,7 +83,10 @@ export default function MarketView({ category, title, description, symbols }: Ma
   const currentCapital = latestLog?.capital_actual || 100000.00;
 
   return (
-    <div className="space-y-10 max-w-[1600px] mx-auto px-4 lg:px-8 pb-32">
+    <div className="space-y-0 max-w-[1600px] mx-auto pb-32">
+      <PriceTicker category={category} />
+      
+      <div className="space-y-10 px-4 lg:px-8 mt-10">
       {/* Sector Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-b border-white/5">
         <div className="space-y-2">
@@ -193,6 +197,7 @@ export default function MarketView({ category, title, description, symbols }: Ma
                  )}
               </div>
            </div>
+        </div>
         </div>
       </div>
     </div>
