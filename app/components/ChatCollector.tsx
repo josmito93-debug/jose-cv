@@ -60,6 +60,17 @@ Si no, dime: ¿Cuál es el **nombre de tu negocio**?`;
     }
   }, [newBlockIds]);
 
+  const [fallbackStep, setFallbackStep] = useState(0);
+  const [isFallbackMode, setIsFallbackMode] = useState(false);
+
+  const SLOW_QUESTIONS = [
+    { field: 'businessName', label: 'Nombre del Negocio', icon: '🏢', question: 'No te preocupes, sigamos por aquí. ¿Cuál es el **nombre de tu negocio**?' },
+    { field: 'businessType', label: 'Tipo de Negocio', icon: '🛍️', question: '¡Excelente! ¿A qué se dedica principalmente? (Ejm: Restaurante, Consultoría, Tienda Online)' },
+    { field: 'industry', label: 'Industria/Sector', icon: '🏗️', question: 'Perfecto. ¿En qué sector o industria específica te encuentras?' },
+    { field: 'valueProp', label: 'Propuesta de Valor', icon: '✨', question: 'Entendido. ¿Cuál es la **visión** o el beneficio principal que te hace diferente a la competencia?' },
+    { field: 'contact', label: 'Contacto', icon: '📞', question: 'Perfecto. Por último, ¿cuál es tu **email o WhatsApp** para que los clientes te contacten?' }
+  ];
+
   const sendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
@@ -72,6 +83,47 @@ Si no, dime: ¿Cuál es el **nombre de tu negocio**?`;
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
+
+    // --- FALLBACK MODE LOGIC ---
+    if (isFallbackMode) {
+      const currentQ = SLOW_QUESTIONS[fallbackStep];
+      const newBlock: InfoBlockData = {
+        id: `${currentQ.field}-${Date.now()}`,
+        field: currentQ.field,
+        label: currentQ.label,
+        value: userMessage.content,
+        icon: currentQ.icon,
+        confirmed: true,
+        timestamp: new Date().toISOString()
+      };
+
+      setCollectedInfo(prev => [...prev, newBlock]);
+      setNewBlockIds(new Set([newBlock.id]));
+
+      if (fallbackStep < SLOW_QUESTIONS.length - 1) {
+        setIsLoading(true);
+        setTimeout(() => {
+          const nextQ = SLOW_QUESTIONS[fallbackStep + 1];
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: nextQ.question,
+            timestamp: new Date()
+          }]);
+          setFallbackStep(prev => prev + 1);
+          setIsLoading(false);
+        }, 800);
+      } else {
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: '¡Magnífico! Ya tengo los pilares de tu ecosistema. Haz clic en **Finalizar y Desplegar** para ver tu arquitectura.',
+          timestamp: new Date()
+        }]);
+      }
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -88,6 +140,8 @@ Si no, dime: ¿Cuál es el **nombre de tu negocio**?`;
       });
 
       const data = await response.json();
+
+      if (!response.ok) throw new Error(data.response || 'API Error');
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -109,12 +163,13 @@ Si no, dime: ¿Cuál es el **nombre de tu negocio**?`;
           return [...prev, ...newInfo];
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
+      setIsFallbackMode(true);
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: 'Hubo un error. Por favor intenta de nuevo.',
+        content: `Neural Link Error: ${error.message || 'Interferencia detectada'}. Pasando a **Modo Resiliente** para no detener tu flujo.\n\n${SLOW_QUESTIONS[0].question}`,
         timestamp: new Date(),
       }]);
     } finally {
@@ -145,9 +200,34 @@ Si no, dime: ¿Cuál es el **nombre de tu negocio**?`;
   const progress = Math.round((collectedInfo.length / 12) * 100);
 
   const renderMessageContent = (content: string) => {
-    return content.split('**').map((part, i) =>
-      i % 2 === 1 ? <strong key={i} className="text-purple-300 font-semibold">{part}</strong> : part
-    );
+    // Handle suggestions in brackets [Suggestion Text]
+    const parts = content.split(/(\[.*?\])/);
+    
+    return parts.map((part, i) => {
+      if (part.startsWith('[') && part.endsWith(']')) {
+        const suggestion = part.slice(1, -1);
+        return (
+          <button
+            key={i}
+            onClick={() => {
+              setInputValue(suggestion);
+              // We'll leave it in the input so the user can see it before sending, 
+              // or we could auto-send if we had access to the sendMessage function.
+              // For now, setting the value is a good first step.
+            }}
+            className="inline-flex items-center px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold hover:bg-purple-500 hover:text-white transition-all my-1 mx-1 shadow-lg shadow-purple-500/5 group"
+          >
+            {suggestion}
+            <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+          </button>
+        );
+      }
+      
+      // Handle bold text
+      return part.split('**').map((text, j) => 
+        j % 2 === 1 ? <strong key={`${i}-${j}`} className="text-purple-300 font-semibold">{text}</strong> : text
+      );
+    });
   };
 
   const renderFieldIcon = (field: string) => {
@@ -156,241 +236,206 @@ Si no, dime: ¿Cuál es el **nombre de tu negocio**?`;
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] relative overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:72px_72px]" />
+    <div className="min-h-screen bg-[#060608] relative overflow-hidden selection:bg-purple-500/30">
+      {/* Dynamic Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-purple-600/5 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-600/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff03_1px,transparent_1px)] [background-size:40px_40px]" />
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 py-8">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 py-12">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4">
-            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-            <span className="text-xs text-emerald-400 font-medium">Sistema Online</span>
+        <div className="text-center mb-12 animate-[fadeInUp_1s_ease-out]">
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/5 border border-emerald-500/10 mb-6 backdrop-blur-md">
+            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_#10b981]" />
+            <span className="text-[10px] text-emerald-400 font-black uppercase tracking-[0.2em]">Neural Link Active</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-2 tracking-tight">
-            <span className="bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
-              ATTOM
-            </span>
-            <span className="text-white/40 font-extralight ml-2">Collector</span>
+          <h1 className="text-[clamp(2.5rem,6vw,4rem)] font-black mb-4 tracking-tighter leading-none">
+            <span className="text-white">ATTOM</span>
+            <span className="text-zinc-600 font-extralight ml-3">Collector</span>
           </h1>
-          <p className="text-zinc-500 text-sm max-w-md mx-auto">
-            Recopilación inteligente de información empresarial
+          <p className="text-zinc-500 text-base max-w-lg mx-auto font-light leading-relaxed">
+            Nuestra IA está lista para estructurar el ecosistema digital de tu negocio.
           </p>
         </div>
 
-        {/* Progress */}
-        <div className="max-w-xl mx-auto mb-8">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-xs text-zinc-500">Progreso</span>
-            <span className="text-xs font-mono text-purple-400">{progress}%</span>
+        {/* Progress Bar */}
+        <div className="max-w-2xl mx-auto mb-12 animate-[fadeInUp_1s_ease-out_0.2s_both]">
+          <div className="flex items-center justify-between mb-3 px-1">
+            <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Estructuración</span>
+            <span className="text-sm font-black font-mono text-purple-400">{progress}%</span>
           </div>
-          <div className="h-1 bg-zinc-800 rounded-full overflow-hidden">
+          <div className="h-2 bg-white/5 rounded-full overflow-hidden border border-white/5 p-0.5">
             <div
-              className="h-full rounded-full transition-all duration-500"
+              className="h-full rounded-full transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)"
               style={{
                 width: `${progress}%`,
-                background: 'linear-gradient(90deg, #a855f7, #6366f1)',
+                background: 'linear-gradient(90deg, #6366f1, #a855f7, #6366f1)',
+                backgroundSize: '200% 100%',
               }}
             />
           </div>
-          <div className="flex justify-between mt-1.5">
-            <span className="text-[10px] text-zinc-600">{collectedInfo.length}/12 campos</span>
+          <div className="flex justify-between mt-3 px-1">
+            <span className="text-[10px] text-zinc-600 font-bold uppercase tracking-tighter">{collectedInfo.length} / 12 Atributos</span>
             {collectedInfo.length >= 5 && (
               <button
                 onClick={() => onComplete?.(collectedInfo)}
-                className="text-[10px] text-purple-400 hover:text-purple-300 transition-colors"
+                className="text-[10px] font-black text-purple-400 hover:text-white uppercase tracking-widest transition-all hover:translate-x-1"
               >
-                Continuar →
+                Finalizar y Desplegar →
               </button>
             )}
           </div>
         </div>
 
-        {/* Chat */}
-        <div className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl border border-zinc-800/50 overflow-hidden mb-6">
-          {/* Chat Header */}
-          <div className="px-5 py-3 border-b border-zinc-800/50 flex items-center gap-3">
-            <div className="relative">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
-                <BotIcon className="w-5 h-5 text-white" />
-              </div>
-              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-400 rounded-full border-2 border-zinc-900" />
-            </div>
-            <div className="flex-1">
-              <h2 className="text-white text-sm font-medium">ATTOM Assistant</h2>
-              <p className="text-[11px] text-zinc-500">
-                {isLoading ? 'Procesando...' : 'Listo'}
-              </p>
-            </div>
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-800/50">
-              <SparklesIcon className="w-3 h-3 text-purple-400" />
-              <span className="text-[10px] text-zinc-400 font-medium">AI</span>
-            </div>
-          </div>
-
-          {/* Messages */}
-          <div className="h-[380px] overflow-y-auto p-5 space-y-3">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] ${
-                    message.role === 'user'
-                      ? 'bg-purple-600 text-white rounded-2xl rounded-br-sm'
-                      : 'bg-zinc-800/50 text-zinc-200 rounded-2xl rounded-bl-sm'
-                  } px-4 py-3`}
-                >
-                  <p className="text-[13px] leading-relaxed whitespace-pre-wrap">
-                    {message.role === 'assistant'
-                      ? renderMessageContent(message.content)
-                      : message.content
-                    }
-                  </p>
-                  <span className={`text-[9px] mt-1.5 block ${
-                    message.role === 'user' ? 'text-purple-200/50' : 'text-zinc-500'
-                  }`}>
-                    {message.timestamp.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })}
-                  </span>
-                </div>
-              </div>
-            ))}
-
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-zinc-800/50 px-4 py-3 rounded-2xl rounded-bl-sm">
-                  <div className="flex gap-1">
-                    <span className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" />
-                    <span className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          {/* RIGHT: Chat Interface (Moved up on mobile) */}
+          <div className="lg:col-span-8 lg:order-2">
+            <div className="bg-white/[0.02] backdrop-blur-2xl rounded-[2rem] md:rounded-[3rem] border border-white/5 shadow-2xl overflow-hidden mb-6 md:mb-10 animate-[fadeInUp_1s_ease-out_0.4s_both]">
+              {/* Chat Header */}
+              <div className="px-6 md:px-8 py-4 md:py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+                <div className="flex items-center gap-3 md:gap-4">
+                  <div className="relative">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                      <BotIcon className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                    </div>
+                    <span className="absolute -bottom-1 -right-1 w-3 h-3 md:w-4 md:h-4 bg-emerald-500 rounded-full border-2 md:border-4 border-[#09090b]" />
+                  </div>
+                  <div>
+                    <h2 className="text-white text-sm md:text-base font-bold tracking-tight italic">Attom Intelligence</h2>
+                    <p className="text-[8px] md:text-[10px] text-zinc-500 uppercase tracking-widest font-black">
+                      {isLoading ? 'Analizando...' : 'Sincronizado'}
+                    </p>
                   </div>
                 </div>
+                <div className="hidden sm:block px-4 py-1.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-[10px] font-black text-purple-400 uppercase tracking-widest">
+                  Gemini 2.0 Engine
+                </div>
               </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
 
-          {/* Input */}
-          <div className="p-4 border-t border-zinc-800/50">
-            <div className="flex gap-2">
-              <textarea
-                ref={inputRef}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Escribe tu respuesta..."
-                className="flex-1 px-4 py-3 bg-zinc-800/30 border border-zinc-700/50 rounded-xl text-white text-sm placeholder-zinc-500 focus:outline-none focus:border-purple-500/50 resize-none"
-                disabled={isLoading}
-                rows={1}
-              />
-              <button
-                onClick={sendMessage}
-                disabled={isLoading || !inputValue.trim()}
-                className="w-12 h-12 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:bg-zinc-800 disabled:text-zinc-600 text-white transition-all flex items-center justify-center"
-              >
-                <SendIcon className="w-5 h-5" />
-              </button>
+              {/* Messages Container */}
+              <div className="h-[400px] md:h-[500px] overflow-y-auto p-4 md:p-8 space-y-4 md:space-y-6 custom-scrollbar-premium">
+                {messages.map((message) => (
+                  <div
+                    key={message.id}
+                    className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} animate-[popIn_0.4s_cubic-bezier(0.16,1,0.3,1)]`}
+                  >
+                    <div
+                      className={`max-w-[80%] px-6 py-4 shadow-xl ${
+                        message.role === 'user'
+                          ? 'bg-indigo-600 text-white rounded-[2rem] rounded-br-[0.5rem] shadow-indigo-600/10'
+                          : 'bg-white/[0.03] text-zinc-200 border border-white/5 rounded-[2.5rem] rounded-bl-[0.5rem] backdrop-blur-md'
+                      }`}
+                    >
+                      <div className="text-[14px] leading-relaxed whitespace-pre-wrap font-medium tracking-wide">
+                        {message.role === 'assistant'
+                          ? renderMessageContent(message.content)
+                          : message.content
+                        }
+                      </div>
+                      <div className={`text-[8px] mt-3 font-black uppercase tracking-widest opacity-30 ${
+                        message.role === 'user' ? 'text-white' : 'text-zinc-500'
+                      }`}>
+                        {message.timestamp.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {isLoading && (
+                  <div className="flex justify-start">
+                    <div className="bg-white/5 px-6 py-4 rounded-[2rem] rounded-bl-[0.5rem] border border-white/5 backdrop-blur-md flex gap-2">
+                      <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce [animation-duration:1s]" />
+                      <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce [animation-duration:1s] [animation-delay:0.2s]" />
+                      <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce [animation-duration:1s] [animation-delay:0.4s]" />
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Input Area */}
+              <div className="p-6 bg-white/[0.01] border-t border-white/5">
+                <div className="flex gap-4 items-end bg-white/[0.03] border border-white/5 rounded-[2rem] p-2 pr-3 focus-within:border-indigo-500/30 transition-all shadow-inner">
+                  <textarea
+                    ref={inputRef}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Dime más sobre tu negocio..."
+                    className="flex-1 px-5 py-4 bg-transparent text-white text-[14px] placeholder-zinc-700 focus:outline-none resize-none max-h-32 min-h-[56px]"
+                    disabled={isLoading}
+                    rows={1}
+                  />
+                  <button
+                    onClick={sendMessage}
+                    disabled={isLoading || !inputValue.trim()}
+                    className="w-12 h-12 rounded-2xl bg-indigo-600 hover:bg-indigo-500 disabled:bg-white/5 disabled:text-zinc-800 text-white transition-all flex items-center justify-center group shadow-xl shadow-indigo-600/20"
+                  >
+                    <SendIcon className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Collected Data */}
-        {collectedInfo.length > 0 && (
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                  <DocumentIcon className="w-4 h-4 text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-white">Información Recopilada</h3>
-                  <p className="text-[10px] text-zinc-500">Hover para editar</p>
-                </div>
+          {/* LEFT: Collected Data (Restored and moved below on mobile) */}
+          <div className="lg:col-span-4 lg:order-1 order-2 space-y-6 md:space-y-8 animate-[fadeInUp_1s_ease-out_0.2s_both]">
+            <div className="flex items-center gap-4 mb-2">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+                <DocumentIcon className="w-5 h-5 text-purple-400" />
               </div>
+              <div>
+                <h3 className="text-xl font-bold text-white tracking-tight italic">Estructura</h3>
+                <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em]">Contexto Recopilado</p>
+              </div>
+            </div>
 
-              {collectedInfo.length >= 5 && (
-                <button
-                  onClick={() => onComplete?.(collectedInfo)}
-                  className="h-9 px-4 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-all flex items-center gap-1.5"
-                >
-                  <CheckIcon className="w-3.5 h-3.5" />
-                  Generar Web
-                </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 max-h-[500px] lg:max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar-premium">
+              {collectedInfo.length === 0 ? (
+                <div className="col-span-full p-8 border border-dashed border-white/5 rounded-3xl text-center">
+                   <p className="text-[10px] font-black uppercase tracking-widest text-zinc-700">Esperando datos...</p>
+                </div>
+              ) : (
+                collectedInfo.map((info) => (
+                  <div
+                    key={info.id}
+                    className={`group relative bg-white/[0.02] hover:bg-white/[0.04] rounded-2xl border border-white/5 p-4 md:p-5 hover:border-purple-500/30 transition-all ${
+                      newBlockIds.has(info.id) ? 'ring-2 ring-purple-500/20 border-purple-500/40' : ''
+                    }`}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-3">
+                        <div className="w-6 h-6 md:w-7 md:h-7 rounded-lg bg-zinc-900 border border-white/5 flex items-center justify-center text-purple-400">
+                          {renderFieldIcon(info.field)}
+                        </div>
+                        <span className="text-[8px] md:text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em]">
+                          {info.label}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-zinc-400 text-[11px] md:text-xs leading-relaxed font-medium pl-9 md:pl-10">{info.value}</p>
+                  </div>
+                ))
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-              {collectedInfo.map((info) => (
-                <div
-                  key={info.id}
-                  className={`group bg-zinc-900/50 rounded-xl border border-zinc-800/50 p-3.5 hover:border-purple-500/30 transition-all ${
-                    newBlockIds.has(info.id) ? 'ring-1 ring-purple-500/40' : ''
-                  }`}
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center text-purple-400">
-                        {renderFieldIcon(info.field)}
-                      </div>
-                      <span className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">
-                        {info.label}
-                      </span>
-                    </div>
-                    <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={() => {
-                          const newValue = prompt('Editar:', info.value);
-                          if (newValue !== null) handleEditInfo(info.id, newValue);
-                        }}
-                        className="p-1.5 hover:bg-zinc-800 rounded text-zinc-500 hover:text-purple-400 transition-colors"
-                      >
-                        <PencilIcon className="w-3 h-3" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteInfo(info.id)}
-                        className="p-1.5 hover:bg-zinc-800 rounded text-zinc-500 hover:text-red-400 transition-colors"
-                      >
-                        <TrashIcon className="w-3 h-3" />
-                      </button>
-                    </div>
-                  </div>
-                  <p className="text-zinc-300 text-xs leading-relaxed pl-9">{info.value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Tips */}
-        {collectedInfo.length === 0 && (
-          <div className="bg-zinc-900/30 rounded-xl border border-zinc-800/50 p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-lg bg-amber-500/10 flex items-center justify-center">
-                <LightbulbIcon className="w-4 h-4 text-amber-400" />
+            {/* Progress Visualization (Simplified for side) */}
+            <div className="p-5 md:p-6 bg-white/[0.02] border border-white/5 rounded-3xl hidden lg:block">
+              <div className="flex items-center justify-between mb-3 px-1">
+                <span className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Progreso</span>
+                <span className="text-sm font-black font-mono text-purple-400">{progress}%</span>
               </div>
-              <h4 className="text-white text-sm font-medium">Tips</h4>
+              <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-purple-500 transition-all duration-1000"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </div>
-            <ul className="space-y-2 text-xs text-zinc-500">
-              <li className="flex items-center gap-2">
-                <span className="text-purple-400">→</span>
-                Responde con detalle para mejores resultados
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-purple-400">→</span>
-                Toda la información es editable después
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-purple-400">→</span>
-                Mínimo 5 campos para continuar
-              </li>
-            </ul>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

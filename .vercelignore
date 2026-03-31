@@ -7,3 +7,4 @@ node_modules
 /api/.venv
 *.log
 camera_flys_back_*.jpg
+.venv

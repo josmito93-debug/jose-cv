@@ -5,16 +5,24 @@ import { createLogger } from '../utils/logger';
 const logger = createLogger('AirtableCRM');
 
 export class AirtableCRM {
-  private base: any;
+  private _base: any;
   private tableName: string;
 
   constructor() {
-    Airtable.configure({
-      apiKey: process.env.AIRTABLE_API_KEY,
-    });
-
-    this.base = Airtable.base(process.env.AIRTABLE_BASE_ID || '');
     this.tableName = process.env.AIRTABLE_TABLE_NAME || 'Clients';
+  }
+
+  private get base() {
+    if (!this._base) {
+      if (!process.env.AIRTABLE_API_KEY || !process.env.AIRTABLE_BASE_ID) {
+        throw new Error('Airtable credentials missing (AIRTABLE_API_KEY, AIRTABLE_BASE_ID)');
+      }
+      Airtable.configure({
+        apiKey: process.env.AIRTABLE_API_KEY,
+      });
+      this._base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    }
+    return this._base;
   }
 
   /**
@@ -61,6 +69,7 @@ export class AirtableCRM {
       'Business Type': info.businessType,
       'Created At': info.createdAt,
       'Updated At': info.updatedAt,
+      'Notes': (info as any).notes || '',
 
       // Branding
       'Primary Color': branding.colors.primary,

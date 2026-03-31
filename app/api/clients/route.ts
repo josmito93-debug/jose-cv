@@ -1,34 +1,94 @@
 import { NextResponse } from 'next/server';
-import { fileManager } from '@/lib/utils/file-manager';
-import { ClientData } from '@/lib/types/client';
+import { airtableCRM } from '@/lib/integrations/airtable-crm';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const clientIds = await fileManager.getAllClientIds();
+    const clientsRaw = await airtableCRM.getAllClients();
     
-    const clients: ClientData[] = await Promise.all(
-      clientIds.map(async (id) => {
-        try {
-          return await fileManager.loadClientInfo(id);
-        } catch (error) {
-          console.error(`Error loading client ${id}:`, error);
-          return null;
-        }
-      })
-    ).then(results => results.filter((c): c is ClientData => c !== null));
-
-    // Sort by creation date (newest first)
-    clients.sort((a, b) => {
-      const dateA = new Date(a.info.createdAt).getTime();
-      const dateB = new Date(b.info.createdAt).getTime();
-      return dateB - dateA;
-    });
+    // Map Airtable records to the expected ClientData structure
+    // This is a simplification, ideally airtableCRM would return the correct type
+    const clients = clientsRaw.map(record => ({
+      id: record.id,
+      name: record.fields['Contact Name'] || 'Sin Nombre',
+      business: record.fields['Business Name'] || 'Sin Negocio',
+      paymentStatus: record.fields['Payment Status'] || 'UNPAID',
+      status: record.fields['Deployment Status'] === 'Active' ? 'DEPLOYED' : 'PENDING',
+      info: {
+        clientId: record.fields['Client ID'],
+        businessName: record.fields['Business Name'],
+        contactName: record.fields['Contact Name'],
+        email: record.fields['Email'],
+        phone: record.fields['Phone'],
+        businessType: record.fields['Business Type'],
+        notes: record.fields['Notes'],
+      },
+      branding: {
+        colors: { primary: record.fields['Primary Color'] || '#39FF14' }
+      },
+      deployment: {
+        status: record.fields['Deployment Status'],
+        github: { repoUrl: record.fields['GitHub Repo'] },
+        hosting: { url: record.fields['Hosting URL'] }
+      }
+    }));
 
     return NextResponse.json({ success: true, clients });
   } catch (error) {
     console.error('Error listing clients:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to list clients' },
+      { status: 500 }
+    );
+  }
+}
+export async function POST(request: any) {
+  try {
+    const data = await request.json();
+    
+    const contact = data.contact || '';
+    const isEmail = contact.includes('@');
+    const isPhone = !isEmail && /[\d+\-()]{7,}/.test(contact);
+
+    // Create a robust ClientData structure for Airtable
+    const clientData: any = {
+      info: {
+        clientId: `CLNT-${Date.now()}`,
+        businessName: data.businessName || 'Nuevo Negocio',
+        contactName: data.contactName || data.name || 'Sin Nombre',
+        email: data.email || (isEmail ? contact : ''),
+        phone: data.phone || (isPhone ? contact : ''),
+        businessType: data.businessType || data.industry || 'No especificado',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        notes: `Propuesta de Valor: ${data.valueProp || 'N/A'}\nEstilo: ${data.brandStyle || 'N/A'}\nReferencia: ${data.reference || 'N/A'}`
+      },
+      branding: {
+        colors: { primary: '#39FF14' }
+      },
+      payment: {
+        status: 'UNPAID',
+        method: 'PENDING',
+        amount: 0,
+        currency: 'USD'
+      },
+      deployment: {
+        status: 'PENDING'
+      }
+    };
+
+    const recordId = await airtableCRM.syncClient(clientData);
+    
+    return NextResponse.json({ 
+      success: true, 
+      recordId,
+      message: 'Client registered successfully' 
+    });
+  } catch (error: any) {
+    console.error('Error creating client:', error);
+    return NextResponse.json(
+      { success: false, error: error.message },
       { status: 500 }
     );
   }

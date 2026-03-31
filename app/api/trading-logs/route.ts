@@ -1,20 +1,11 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const LOG_FILE = path.join(process.cwd(), 'trading_logs.json');
+import { airtableTrading } from '@/lib/integrations/airtable-trading';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    let logs = [];
-    if (fs.existsSync(LOG_FILE)) {
-      const fileData = fs.readFileSync(LOG_FILE, 'utf-8');
-      if (fileData) {
-        logs = JSON.parse(fileData);
-      }
-    }
+    const logs = await airtableTrading.getLogs(50);
     return NextResponse.json({ success: true, logs });
   } catch (error) {
     console.error('Error fetching logs:', error);

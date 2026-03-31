@@ -8,17 +8,15 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 // Import existing BUSINESS_FIELDS from original file conceptually, or redefine them here for reference
 const BUSINESS_FIELDS: Record<string, { label: string; icon: string }> = {
   businessName: { label: 'Nombre del Negocio', icon: '🏢' },
-  city: { label: 'Ciudad/Zona', icon: '📍' },
-  email: { label: 'Email de Contacto', icon: '📧' },
-  phone: { label: 'Teléfono', icon: '📞' },
-  socialMedia: { label: 'Redes Sociales', icon: '📱' },
-  services: { label: 'Servicios/Productos', icon: '🛍️' },
-  brandColors: { label: 'Colores de Marca', icon: '🎨' },
-  logo: { label: 'Logo', icon: '🖼️' },
-  schedule: { label: 'Horarios de Atención', icon: '🕐' },
-  exactLocation: { label: 'Ubicación Exacta', icon: '🗺️' },
-  companyHistory: { label: 'Historia de la Empresa', icon: '📖' },
-  team: { label: 'Equipo', icon: '👥' },
+  businessType: { label: 'Tipo de Negocio', icon: '🛍️' },
+  industry: { label: 'Industria/Sector', icon: '🏗️' },
+  valueProp: { label: 'Propuesta de Valor', icon: '✨' },
+  contact: { label: 'Contacto Directo', icon: '📞' },
+  email: { label: 'Email Corporativo', icon: '📧' },
+  brandStyle: { label: 'Estética de Marca', icon: '🎨' },
+  reference: { label: 'URL de Referencia', icon: '🔗' },
+  logo: { label: 'Logotipo', icon: '🖼️' },
+  targetAudience: { label: 'Audiencia Objetivo', icon: '👥' },
 };
 
 export interface BusinessInfo {
@@ -32,75 +30,62 @@ export interface BusinessInfo {
 }
 
 interface Message {
-  role: 'user' | 'assistant' | 'model'; // Gemini uses 'model' instead of 'assistant' sometimes, or we map it.
+  role: 'user' | 'assistant' | 'model';
   content: string;
 }
 
 const SYSTEM_PROMPT = `
-Eres Attom, un asistente virtual avanzado e inteligente de Universa Agency. 
-Tu misión es conversar con el cliente para recopilar información clave de su negocio para poder construirle una página web profesional.
+Eres Attom, la Inteligencia Artificial de Universa Agency encargada de la arquitectura de ecosistemas digitales. 
+Tu misión no es recolectar datos, sino DESCUBRIR la esencia del negocio para proyectarla en una web de alta gama.
 
-Debes extraer la siguiente información durante la conversación (cuando sea natural):
-- businessName: Nombre del Negocio
-- city: Ciudad o zona de operación
-- email: Email de contacto
-- phone: Teléfono o WhatsApp
-- socialMedia: Redes sociales
-- services: Servicios o productos que ofrece
-- brandColors: Colores de marca
-- logo: Si tiene logo o requiere uno
-- schedule: Horarios de atención
-- exactLocation: Ubicación exacta (o si es solo virtual)
-- companyHistory: Breve historia de la empresa
-- team: Si tiene un equipo de trabajo
+DATOS QUE DEBES EXTRAER (Identifiers):
+- businessName: Nombre comercial.
+- businessType: Tipo de negocio (Restaurante, SaaS, etc).
+- valueProp: El "por qué" el cliente debería elegirlos.
+- contact: WhatsApp o Email.
+- brandStyle: Vibración (Minimalista, Lujoso, Tecnológico).
+- industry: Sector específico.
+- reference: Instagram o web actual.
 
-Reglas críticas:
-1. Haz las preguntas UNA POR UNA, de forma conversacional y amigable. No abrumes al usuario haciendo muchas preguntas a la vez.
-2. Si el usuario te proporciona la URL de su página web actual o red social, indícale que vas a extraer información automáticamente para agilizar el proceso basado en esa web y agradécele.
-3. SIEMPRE debes retornar un objeto JSON estricto usando este esquema:
+CRITERIOS:
+1. Habla como un consultor de tecnología de Silicon Valley: sofisticado, minimalista y visionario.
+2. NUNCA preguntes como un formulario. Si te dan un dato, elógialo analíticamente y haz la siguiente pregunta estratégica.
+3. Si el usuario envía una URL, el contenido scrapeado se te proporcionará. Úsalo para validar y autocompletar campos sin preguntar lo que ya sabes.
+
+FORMATO DE RESPUESTA (JSON):
 {
-  "response": "El mensaje que le dirás al usuario. (Mantenlo conversacional, amigable y usando emojis modestamente)",
+  "response": "Tu feedback estratégico y siguiente pregunta.",
   "extractedInfo": [
-    {
-      "field": "identificador_del_campo", 
-      "value": "el valor extraído o resumido de lo que dijo el usuario"
-    }
+    { "field": "identifier", "value": "Texto extraído o inferido" }
   ]
 }
 
-- Asegúrate de que los identificadores de campo coincidan exactamente con la lista provista.
-- Si en este último turno no lograste extraer ninguna información nueva o ya tenías la información extraída, 'extractedInfo' puede ser un arreglo vacío [].
-- NUNCA devuelvas Markdown fuera del JSON, SOLO retorna el objeto JSON.
+NUNCA respondas con texto plano fuera del JSON.
 `;
 
 // Helper: Scrape URL content
 async function scrapeUrl(url: string): Promise<string> {
   try {
-    const { data } = await axios.get(url, { timeout: 8000 });
-    // Very basic extraction using regex to avoid external DOM parsing dependencies
+    const { data } = await axios.get(url, { 
+      timeout: 8000,
+      headers: { 'User-Agent': 'Mozilla/5.0 (JF.OS Attom Bot)' }
+    });
     const titleMatch = data.match(/<title[^>]*>([^<]+)<\/title>/i);
     const title = titleMatch ? titleMatch[1] : '';
-
     const metaDescMatch = data.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["'][^>]*>/i);
     const metaDesc = metaDescMatch ? metaDescMatch[1] : '';
-
     const bodyMatch = data.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
     let textContent = '';
     if (bodyMatch) {
-      // Strip script and style tags
       let cleanBody = bodyMatch[1].replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
       cleanBody = cleanBody.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
-      // Strip HTML tags
       cleanBody = cleanBody.replace(/<[^>]+>/g, ' ');
-      // Compress whitespace
       cleanBody = cleanBody.replace(/\s+/g, ' ').trim();
-      textContent = cleanBody.substring(0, 3000); // Only first 3000 chars to save tokens
+      textContent = cleanBody.substring(0, 3000);
     }
-
-    return `Título Web: ${title}\nMeta Descripción: ${metaDesc}\nContenido Principal (truncado): ${textContent}`;
+    return `Título Web: ${title}\nMeta Descripción: ${metaDesc}\nContenido: ${textContent}`;
   } catch (error) {
-    console.error('Scraping error:', error);
-    return 'No se pudo acceder al contenido de la URL.';
+    return 'No se pudo acceder al contenido.';
   }
 }
 
@@ -109,10 +94,11 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { messages, currentInfo } = body;
 
-    // Check if Gemini API key is configured
-    if (!process.env.GEMINI_API_KEY) {
+    const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error('CRITICAL: GEMINI_API_KEY is missing in environment.');
       return NextResponse.json({
-        response: 'La API Key de Gemini no está configurada.',
+        response: 'ERR_CONFIG: La API Key de Gemini no está configurada en los Secretos de Vercel.',
         extractedInfo: [],
         success: false
       }, { status: 500 });
@@ -120,101 +106,110 @@ export async function POST(request: NextRequest) {
 
     if (!messages || messages.length === 0) {
       return NextResponse.json({
-        response: '¡Hola! 👋 Soy Attom, el asistente de creación web. ¿De qué trata tu negocio o cuál es su nombre?',
+        response: '¡Protocolo Attom Iniciado! Soy tu arquitecto digital. ¿Cuál es el nombre de tu proyecto?',
         extractedInfo: [],
         success: true
       });
     }
 
     const lastUserMessage = messages[messages.length - 1]?.content || '';
-    
-    // Check for URLs in the user message
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     const urls = lastUserMessage.match(urlRegex);
     let scrapedContext = '';
 
     if (urls && urls.length > 0) {
       for (const url of urls) {
-        scrapedContext += `\n\nContenido scrapeado de ${url}:\n`;
+        scrapedContext += `\n\nCONTENIDO EXTRAÍDO DE ${url}:\n`;
         scrapedContext += await scrapeUrl(url);
       }
     }
 
-    // Build the instruction for this turn
-    let turnInstruction = 'Por favor responde al último mensaje del usuario, extrae cualquier información pertinente y si falta información, haz la siguiente pregunta lógica.\\n';
+    // Build History
+    const historyText = messages.slice(-6).map((m: any) => `${m.role === 'user' ? 'USER' : 'ATTOM'}: ${m.content}`).join('\n');
     
-    if (scrapedContext) {
-      turnInstruction += `El usuario compartió uno o más enlaces. Usa esta información extraída para autocompletar la información restante que falta del negocio: ${scrapedContext}\n`;
-    }
+    const prompt = `
+${SYSTEM_PROMPT}
 
-    turnInstruction += 'Información ya recopilada hasta ahora (No la repitas ni la extraigas de nuevo si ya tiene valor):\\n' + JSON.stringify(currentInfo || []) + '\\n';
-    turnInstruction += 'Mensaje del usuario actual: ' + lastUserMessage;
+CONTEXTO ACTUAL RECOPILADO:
+${JSON.stringify(currentInfo || [])}
+
+${scrapedContext ? `CONTEXTO EXTERNO (Web Scraping):\n${scrapedContext}\n` : ''}
+
+ULTIMOS MENSAJES:
+${historyText}
+
+NUEVO MENSAJE DEL USUARIO:
+${lastUserMessage}
+
+Responde extrictamente en JSON. Asegúrate de incluir por lo menos el campo "response".
+`;
 
     // Setup Gemini
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }, { apiVersion: 'v1beta' });
-    
-    // We can map earlier history if needed, but for simplicity we'll just send the system prompt + history as one prompt or use chat
-    const chat = model.startChat({
-      history: [
-        {
-          role: "user",
-          parts: [{ text: SYSTEM_PROMPT }]
-        },
-        {
-          role: "model",
-          parts: [{ text: "Entendido, soy Attom y extraeré información devolviendo únicamente un objeto JSON." }]
-        },
-        // We could inject previous context here, but keeping it simple for the turn format
-      ],
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+    // Use a slightly more robust generation
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
       generationConfig: {
-        responseMimeType: "application/json",
+        temperature: 0.7,
+        topP: 0.8,
+        topK: 40,
+        maxOutputTokens: 1024,
+        // We'll trust the prompt for JSON if responseMimeType is causing issues in some environments
       }
     });
 
-    const result = await chat.sendMessage(turnInstruction);
     const responseText = result.response.text();
     
     let parsedData;
     try {
-      parsedData = JSON.parse(responseText);
+      // Robust JSON cleaning
+      const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+      parsedData = JSON.parse(cleanedJson);
     } catch (e) {
-      console.error("Failed to parse Gemini response as JSON:", responseText);
-      return NextResponse.json({
-        response: 'Lo siento, hubo una confusión al procesar la información. ¿Puedes repetir eso?',
-        extractedInfo: [],
-        success: false
-      });
+      console.error("RAW AI RESPONSE:", responseText);
+      const match = responseText.match(/\{[\s\S]*\}/);
+      if (match) {
+        parsedData = JSON.parse(match[0]);
+      } else {
+        return NextResponse.json({
+          response: 'He tenido una interferencia en la señal. ¿Puedes repetirme eso de forma más sencilla?',
+          extractedInfo: [],
+          success: false
+        });
+      }
     }
 
-    // Format new information blocks
+    // Process extracted info
     const extractedInfo: BusinessInfo[] = [];
     if (parsedData.extractedInfo && Array.isArray(parsedData.extractedInfo)) {
-      for (const item of parsedData.extractedInfo) {
+      parsedData.extractedInfo.forEach((item: any) => {
+        if (!item.field || !item.value) return;
         const fieldMeta = BUSINESS_FIELDS[item.field];
         if (fieldMeta) {
           extractedInfo.push({
-            id: `${item.field}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            id: `${item.field}-${Date.now()}`,
             field: item.field,
             label: fieldMeta.label,
             value: item.value,
             icon: fieldMeta.icon,
             confirmed: true,
-            timestamp: new Date().toISOString(),
+            timestamp: new Date().toISOString()
           });
         }
-      }
+      });
     }
 
     return NextResponse.json({
-      response: parsedData.response || "Comprendido.",
+      response: parsedData.response || "Excelente punto. ¿Qué más debería saber?",
       extractedInfo,
       success: true
     });
 
-  } catch (error) {
-    console.error('Error in chat-collector:', error);
+  } catch (error: any) {
+    console.error('CRITICAL ERROR in chat-collector:', error);
     return NextResponse.json({
-      response: 'Hubo un error del servidor. Por favor intenta de nuevo.',
+      response: `FALLO_NEURONAL: ${error.message || 'Error desconocido'}. ¿Podemos intentarlo de nuevo?`,
       extractedInfo: [],
       success: false
     }, { status: 500 });

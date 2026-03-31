@@ -1,472 +1,226 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  TrendingUp, 
+  TrendingDown, 
+  Activity, 
+  Cpu, 
+  Zap, 
+  ShieldCheck, 
+  ArrowUpRight, 
+  ArrowDownRight,
+  RefreshCcw,
+  Plus,
+  MoreVertical,
+  Activity as ChartIcon,
+  Globe,
+  BarChart3
+} from 'lucide-react';
 
-export default function FullDashboard() {
-  const [darkMode, setDarkMode] = useState(true);
-  const [clients, setClients] = useState<any[]>([]);
-  const [tradingLogs, setTradingLogs] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function ProfessionalFinanceDashboard() {
+  const [prices, setPrices] = useState<any>({
+    BTC: { price: 68420.50, change: 2.5, status: 'BULLISH' },
+    ETH: { price: 3450.12, change: -1.2, status: 'CONSOLIDATION' },
+    SOL: { price: 185.05, change: 8.4, status: 'BULLISH' }
+  });
 
-  const fetchClients = async () => {
-    try {
-      setLoading(true);
-      const [response, logsResponse] = await Promise.all([
-        fetch('/api/clients'),
-        fetch('/api/trading-logs')
-      ]);
-      const data = await response.json();
-      if (data.success) {
-        setClients(data.clients);
-      }
-      const logsData = await logsResponse.json();
-      if (logsData.success) {
-        setTradingLogs(logsData.logs || []);
-      }
-    } catch (error) {
-      console.error('Failed to fetch data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const tickerData = [
+    { label: 'GOLD', value: '2,175.40', change: '+1.2%', up: true },
+    { label: 'WTI OIL', value: '81.45', change: '-0.5%', up: false },
+    { label: 'S&P 500', value: '5,241.53', change: '+0.8%', up: true },
+    { label: 'NASDAQ', value: '16,384.47', change: '+1.1%', up: true },
+    { label: 'SILVER', value: '24.85', change: '+0.3%', up: true },
+    { label: 'BRENT', value: '85.90', change: '-0.2%', up: false },
+    { label: 'EUR/USD', value: '1.0842', change: '+0.1%', up: true },
+    { label: 'TSLA', value: '175.22', change: '-2.4%', up: false },
+  ];
 
-  useEffect(() => {
-    fetchClients();
-    
-    // Auto-refresh trading logs every 15 seconds
-    const interval = setInterval(fetchClients, 15000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const stats = {
-    total: clients.length,
-    pending: clients.filter(c => c.payment?.status === 'pending').length,
-    inProgress: clients.filter(c => c.deployment?.status === 'in_progress').length,
-    completed: clients.filter(c => c.deployment?.status === 'completed').length,
-  };
+  const [botLogs, setBotLogs] = useState([
+    { id: 1, type: 'BUY', asset: 'BTC', amount: '0.045', price: '67,200', time: '2m ago' },
+    { id: 2, type: 'SELL', asset: 'SOL', amount: '12.500', price: '184', time: '15m ago' },
+    { id: 3, type: 'SURVEILLANCE', asset: 'MARKET', amount: '--', price: 'SCANNING', time: 'Active' }
+  ]);
 
   return (
-    <div className={`${darkMode ? 'bg-gray-900' : 'bg-gray-50'} min-h-screen transition-colors duration-300`}>
-      {/* Header with dark mode toggle */}
-      <header className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-b backdrop-blur-sm sticky top-0 z-50 transition-colors duration-300`}>
-        <div className="max-w-[1800px] mx-auto px-8 py-6">
-          <div className="flex items-end justify-between">
-            <div className="animate-slide-in-left">
-              <h1 className={`text-5xl font-light tracking-tight ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
-                <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                  Attom
-                </span> <span className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} font-extralight`}>/ Dashboard</span>
-              </h1>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} font-light tracking-wide`}>
-                Automated Website Creation System
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setDarkMode(!darkMode)}
-                className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                  darkMode 
-                    ? 'bg-gray-700 text-yellow-400 hover:bg-gray-600' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {darkMode ? '🌙' : '☀️'}
-              </button>
-              <button
-                onClick={fetchClients}
-                className={`px-6 py-2.5 transition-all duration-500 hover:scale-105 hover:shadow-lg rounded-lg ${
-                  darkMode 
-                    ? 'bg-gray-700 hover:bg-gray-600 text-gray-300 hover:border-blue-500 border border-gray-600'
-                    : 'bg-white hover:bg-gray-50 text-gray-700 hover:border-blue-500 border border-gray-300 shadow-sm'
-                }`}
-              >
-                Refresh
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="space-y-10 max-w-[1600px] mx-auto px-4 lg:px-8 pb-32">
+      
+      {/* Professional Infinite Ticker */}
+      <div className="relative -mx-10 h-14 bg-black border-y border-white/5 overflow-hidden flex items-center">
+         <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black to-transparent z-10" />
+         <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black to-transparent z-10" />
+         
+         <motion.div 
+            animate={{ x: [0, -1000] }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="flex items-center gap-12 whitespace-nowrap px-10"
+         >
+            {[...tickerData, ...tickerData].map((item, i) => (
+              <div key={i} className="flex items-center gap-3">
+                 <span className="text-[10px] font-black tracking-widest text-zinc-600 italic">{item.label}</span>
+                 <span className="text-xs font-black tracking-tighter">${item.value}</span>
+                 <span className={`text-[9px] font-black ${item.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {item.change}
+                 </span>
+                 <div className="w-1 h-1 rounded-full bg-zinc-800 ml-4" />
+              </div>
+            ))}
+         </motion.div>
+      </div>
 
-      <main className="max-w-[1800px] mx-auto px-8 py-12">
-        {/* Stats Grid with blue/purple theme */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          <StatCard
-            label="Total Clients"
-            value={stats.total}
-            sublabel="All time"
-            accentColor="border-l-blue-500"
-            darkMode={darkMode}
-            delay="0.1s"
-          />
-          <StatCard
-            label="Pending Payment"
-            value={stats.pending}
-            sublabel="Awaiting confirmation"
-            accentColor="border-l-violet-500"
-            darkMode={darkMode}
-            delay="0.2s"
-          />
-          <StatCard
-            label="In Progress"
-            value={stats.inProgress}
-            sublabel="Currently processing"
-            accentColor="border-l-amber-500"
-            darkMode={darkMode}
-            delay="0.3s"
-          />
-          <StatCard
-            label="Completed"
-            value={stats.completed}
-            sublabel="Successfully deployed"
-            accentColor="border-l-emerald-500"
-            darkMode={darkMode}
-            delay="0.4s"
-          />
+      {/* Finance Header - Stakent Style */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-b border-white/5">
+        <div className="space-y-2">
+           <div className="flex items-center gap-3">
+              <div className="px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-md text-[9px] font-black uppercase text-emerald-400 italic">Terminal Active</div>
+              <div className="px-2 py-1 bg-white/5 border border-white/5 rounded-md text-[9px] font-black uppercase text-zinc-500">API: Multi-Source AlphaV x EODHD</div>
+           </div>
+           <h2 className="text-3xl font-black tracking-tight italic">Global <span className="text-zinc-500">Surveillance</span></h2>
         </div>
+        
+        <div className="flex items-center gap-4">
+           <div className="hidden sm:flex flex-col items-end px-6 border-r border-white/5">
+              <p className="text-[9px] font-black uppercase tracking-widest text-zinc-600 mb-1">Portfolio Value (Live)</p>
+              <p className="text-xl font-black tracking-tighter text-white">$1,240,500.80</p>
+           </div>
+           <button className="px-8 py-3 bg-white text-black font-black rounded-xl shadow-2xl flex items-center gap-3 hover:bg-zinc-200 transition-all text-xs">
+              <Zap className="w-4 h-4" /> Deploy Capital
+           </button>
+        </div>
+      </div>
 
-        {/* JF.OS Autonomous Trading Bot Section */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className={`text-3xl font-light tracking-tight ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              🤖 JF.OS Trading Agent
-            </h2>
-            {tradingLogs.length > 0 && (
-              <span className={`px-4 py-1.5 rounded-full text-sm ${darkMode ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-green-100 text-green-700 border border-green-200'} animate-pulse`}>
-                ● System Active
-              </span>
-            )}
+      {/* Asset Grid - Top Staking Assets Style */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {Object.entries(prices).map(([symbol, data]: [string, any]) => (
+          <AssetCard 
+            key={symbol} 
+            symbol={symbol} 
+            price={data.price} 
+            change={data.change} 
+            status={data.status} 
+          />
+        ))}
+      </div>
+
+      {/* Main Trading HUD - Split View */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+        
+        {/* Left Column: Bot Execution (Stakent List) */}
+        <div className="xl:col-span-8 bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] overflow-hidden">
+          <div className="p-8 border-b border-white/5 flex items-center justify-between bg-[#111113]/50">
+             <div className="flex items-center gap-4">
+                <div className="p-3 bg-emerald-500/10 rounded-xl text-emerald-400"><BarChart3 className="w-4 h-4" /></div>
+                <h3 className="text-sm font-black uppercase tracking-widest italic">Autonomous Strategy Execution</h3>
+             </div>
+             <RefreshCcw className="w-4 h-4 text-zinc-700 hover:text-emerald-400 cursor-pointer transition-colors" />
           </div>
 
-          <div className={`rounded-xl border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} p-6 shadow-sm overflow-hidden`}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className={`p-6 rounded-lg border ${darkMode ? 'bg-gray-900/50 border-gray-700/50' : 'bg-gray-50 border-gray-200'}`}>
-                <p className={`text-xs uppercase tracking-widest font-light mb-2 ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>Current Capital</p>
-                <p className={`text-4xl font-extralight ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  ${tradingLogs.length > 0 ? tradingLogs[0].capital_actual : '300.00'}
-                </p>
-              </div>
-              <div className={`p-6 rounded-lg border ${darkMode ? 'bg-gray-900/50 border-gray-700/50' : 'bg-gray-50 border-gray-200'}`}>
-                <p className={`text-xs uppercase tracking-widest font-light mb-2 ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>Last Decision</p>
-                <p className={`text-2xl font-light ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-                  {tradingLogs.length > 0 ? tradingLogs[0].accion : 'Waiting...'}
-                </p>
-              </div>
-              <div className={`p-6 rounded-lg border ${darkMode ? 'bg-gray-900/50 border-gray-700/50' : 'bg-gray-50 border-gray-200'}`}>
-                <p className={`text-xs uppercase tracking-widest font-light mb-2 ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>Knowledge Memories</p>
-                <p className={`text-4xl font-extralight ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {tradingLogs.length}
-                </p>
-              </div>
-            </div>
+          <div className="p-8 space-y-6">
+             {botLogs.map(log => (
+               <div key={log.id} className="flex items-center justify-between p-6 bg-white/[0.02] border border-white/5 rounded-2xl group hover:border-white/10 transition-all">
+                  <div className="flex items-center gap-6">
+                     <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-[10px] ${
+                       log.type === 'BUY' ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' : 
+                       log.type === 'SELL' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                       'bg-zinc-800 text-zinc-500 border border-white/5'
+                     }`}>
+                        {log.type}
+                     </div>
+                     <div>
+                        <p className="text-sm font-black tracking-tight">{log.asset} <span className="text-zinc-600 font-bold ml-2">x {log.amount}</span></p>
+                        <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">{log.time}</p>
+                     </div>
+                  </div>
+                  <div className="flex items-center gap-10">
+                     <div className="text-right">
+                        <p className="text-sm font-black tracking-tight italic">${log.price}</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-zinc-700">Execution Hash</p>
+                     </div>
+                     <MoreVertical className="w-4 h-4 text-zinc-700" />
+                  </div>
+               </div>
+             ))}
+          </div>
 
-            <div>
-              <h3 className={`text-sm font-semibold uppercase tracking-wider mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Gemini AI Reasoning Log</h3>
-              <div className={`space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar`}>
-                {tradingLogs.length === 0 ? (
-                  <p className={`text-sm italic ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>No trades logged yet. Run python_bot/jfos_engine.py to activate.</p>
-                ) : (
-                  tradingLogs.map((log) => (
-                    <div key={log.id} className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-100'} text-sm`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className={`font-mono text-xs ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>{new Date(log.timestamp).toLocaleString()}</span>
-                        <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
-                          log.accion === 'COMPRA' ? 'bg-green-500/20 text-green-500' : 
-                          log.accion === 'VENTA' ? 'bg-red-500/20 text-red-500' : 
-                          'bg-yellow-500/20 text-yellow-500'
-                        }`}>
-                          {log.accion} @ ${log.precio}
-                        </span>
-                      </div>
-                      <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-                        {log.razon}
-                      </p>
+          <div className="p-8 border-t border-white/5 bg-white/[0.01]">
+             <div className="flex items-center gap-3">
+                <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600 italic font-medium">Neural verification complete: Bot instance Universa-Alpha operational.</span>
+             </div>
+          </div>
+        </div>
+
+        {/* Right Column: Information Data Density */}
+        <div className="xl:col-span-4 space-y-8">
+           <div className="bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] p-10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-3xl -mr-16 -mt-16" />
+              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-700 mb-8">Asset Surveillance</h3>
+              
+              <div className="space-y-10">
+                 <div className="flex items-center justify-between">
+                    <div>
+                       <p className="text-xs font-black text-zinc-700 uppercase tracking-widest mb-1">Grid Balance</p>
+                       <p className="text-3xl font-black tracking-tighter">$124,500 <span className="text-sm text-zinc-600 italic">USD</span></p>
                     </div>
-                  ))
-                )}
+                    <Globe className="w-8 h-8 text-emerald-500/20" />
+                 </div>
+
+                 <div className="space-y-4">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-700 mb-2">Cluster Allocation</p>
+                    <div className="flex h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                       <div className="h-full bg-indigo-500 w-[60%]" />
+                       <div className="h-full bg-emerald-500 w-[25%]" />
+                       <div className="h-full bg-purple-500 w-[15%]" />
+                    </div>
+                    <div className="flex justify-between text-[8px] font-black uppercase tracking-widest text-zinc-600 italic">
+                       <span>Stocks</span>
+                       <span>Crypto</span>
+                       <span>Commodities</span>
+                    </div>
+                 </div>
               </div>
-            </div>
-          </div>
+           </div>
+
+           <div className="bg-indigo-600 border border-indigo-500 rounded-[2.5rem] p-10 text-white relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[80px] -mr-32 -mt-32 group-hover:scale-110 transition-transform duration-700"></div>
+              <TrendingUp className="w-8 h-8 mb-6" />
+              <h4 className="text-xl font-black tracking-tighter mb-4 italic leading-tight">Bot Intelligence <br /> Protocol.</h4>
+              <p className="text-indigo-200 text-xs font-bold leading-relaxed mb-10 opacity-80">El bot está usando n8n para sincronizar señales de Alpha Vantage con tu terminal de ejecución MtApi.</p>
+              <button className="w-full py-4 bg-white text-black font-black rounded-2xl text-[10px] uppercase tracking-widest flex items-center justify-center gap-3">
+                 Manage Logic <ArrowUpRight className="w-4 h-4" />
+              </button>
+           </div>
         </div>
 
-        {/* Integrations Section */}
-        <div className="mb-12">
-          <h2 className={`text-3xl font-light tracking-tight ${darkMode ? 'text-white' : 'text-gray-900'} mb-6`}>
-            🔗 Integrations
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <IntegrationCard
-              darkMode={darkMode}
-              title="GitHub"
-              icon="⚙️"
-              description="Repository management and CI/CD deployment"
-              status="Connected"
-              color="blue"
-            />
-            <IntegrationCard
-              darkMode={darkMode}
-              title="Figma"
-              icon="🎨"
-              description="Design system extraction and components"
-              status="Connected"
-              color="purple"
-            />
-            <IntegrationCard
-              darkMode={darkMode}
-              title="OpenAI"
-              icon="🤖"
-              description="AI-powered content generation"
-              status="Connected"
-              color="green"
-            />
-          </div>
-        </div>
-
-        {/* Recent Projects */}
-        <div>
-          <h2 className={`text-3xl font-light tracking-tight ${darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
-            Recent Projects
-          </h2>
-          <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} font-light tracking-wide mb-8`}>
-            {clients.length} projects registered
-          </p>
-
-          <div className="space-y-4">
-            {loading ? (
-              <div className="text-center py-20 text-gray-500 font-light">
-                <div className="h-8 w-8 animate-spin border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-                Loading projects...
-              </div>
-            ) : clients.length === 0 ? (
-              <div className="text-center py-20 bg-gray-800/20 border border-dashed border-gray-700 rounded-xl text-gray-500 font-light">
-                No projects found. Use the Attom Collector to start.
-              </div>
-            ) : (
-              clients.map((client, index) => (
-                <ClientCard
-                  key={client.info.clientId}
-                  darkMode={darkMode}
-                  index={index}
-                  client={client}
-                />
-              ))
-            )}
-          </div>
-        </div>
-      </main>
-    </div>
-  );
-}
-
-function StatCard({
-  label,
-  value,
-  sublabel,
-  accentColor,
-  darkMode = true,
-  delay = "0s"
-}: {
-  label: string;
-  value: number;
-  sublabel: string;
-  accentColor: string;
-  darkMode?: boolean;
-  delay?: string;
-}) {
-  return (
-    <div
-      className={`${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200 hover:bg-gray-50'} 
-                  border ${accentColor} border-l-2 p-8 rounded-xl
-                  transition-all duration-500 group hover:scale-105 hover:shadow-xl animate-fade-in-up`}
-      style={{ animationDelay: delay }}
-    >
-      <div className="flex flex-col">
-        <span className={`${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-500 group-hover:text-blue-500'} text-xs uppercase tracking-[0.2em] font-light mb-3 transition-colors`}>
-          {label}
-        </span>
-        <span className={`text-5xl font-extralight transition-all duration-500 group-hover:scale-110 ${
-          darkMode 
-            ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 group-hover:from-blue-300 group-hover:to-purple-300' 
-            : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 group-hover:from-blue-500 group-hover:to-purple-500'
-        }`}>
-          {value}
-        </span>
-        <span className={`${darkMode ? 'text-gray-500 group-hover:text-gray-400' : 'text-gray-600 group-hover:text-gray-500'} text-sm font-light tracking-wide transition-colors`}>
-          {sublabel}
-        </span>
       </div>
     </div>
   );
 }
 
-function IntegrationCard({
-  darkMode,
-  title,
-  icon,
-  description,
-  status,
-  color
-}: {
-  darkMode?: boolean;
-  title: string;
-  icon: string;
-  description: string;
-  status: string;
-  color: string;
-}) {
-  const colorClasses = {
-    blue: darkMode 
-      ? 'bg-blue-900/20 border-blue-500/30 text-blue-300 hover:bg-blue-900/30'
-      : 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100',
-    purple: darkMode 
-      ? 'bg-purple-900/20 border-purple-500/30 text-purple-300 hover:bg-purple-900/30'
-      : 'bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100',
-    green: darkMode 
-      ? 'bg-green-900/20 border-green-500/30 text-green-300 hover:bg-green-900/30'
-      : 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
-  };
-
+function AssetCard({ symbol, price, change, status }: { symbol: string; price: number; change: number; status: string }) {
+  const isUp = change > 0;
   return (
-    <div className={`${colorClasses[color as keyof typeof colorClasses]} 
-                border rounded-xl p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in-up`}
-         style={{ animationDelay: `${0.2 + Math.random() * 0.3}s` }}>
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-3xl">{icon}</span>
-        <div className={`w-3 h-3 rounded-full ${
-          status === 'Connected' ? 'bg-green-500' : 'bg-yellow-500'
-        } animate-pulse`}></div>
+    <div className="bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] p-10 relative overflow-hidden group hover:border-white/10 transition-all">
+      <div className="flex items-center justify-between mb-10">
+        <div className="flex items-center gap-4">
+           <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center font-black text-xs italic">
+              {symbol}
+           </div>
+           <div>
+              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-700">{status}</p>
+              <h4 className="text-xl font-black tracking-tighter">{symbol}/USD</h4>
+           </div>
+        </div>
+        <div className={`p-3 rounded-xl ${isUp ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'} border border-white/5`}>
+           {isUp ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+        </div>
       </div>
-      <h3 className={`text-lg font-semibold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-        {title}
-      </h3>
-      <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-        {description}
-      </p>
-      <div className={`mt-4 text-xs ${darkMode ? 'text-gray-500' : 'text-gray-500'} font-medium`}>
-        Status: {status}
-      </div>
-    </div>
-  );
-}
-
-function ClientCard({
-  darkMode,
-  index,
-  client,
-}: {
-  darkMode?: boolean;
-  index: number;
-  client: any;
-}) {
-  return (
-    <div
-      className={`${darkMode ? 'bg-gray-800 border-gray-700 hover:border-blue-500/30' : 'bg-white border-gray-200 hover:border-blue-500/50'}
-                 transition-all duration-500 group hover:scale-[1.02] hover:shadow-xl rounded-xl animate-fade-in-up`}
-      style={{ animationDelay: `${index * 0.05}s` }}
-    >
-      <div className="p-8">
-        <div className="flex items-start justify-between mb-6">
-          <div className="flex-1">
-            <h3 className={`text-2xl font-extralight tracking-tight mb-2 transition-all duration-500 ${
-              darkMode 
-                ? 'text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-200 group-hover:from-blue-200 group-hover:to-white' 
-                : 'text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-600 group-hover:from-blue-600 group-hover:to-gray-900'
-            }`}>
-              {client.info.businessName}
-            </h3>
-            <p className={`${darkMode ? 'text-gray-400 group-hover:text-gray-300' : 'text-gray-600 group-hover:text-gray-500'} font-light tracking-wide mb-1 transition-colors`}>
-              {client.info.contactName}
-            </p>
-            <p className={`${darkMode ? 'text-gray-500 group-hover:text-gray-400' : 'text-gray-500 group-hover:text-gray-600'} text-sm font-light transition-colors`}>
-              {client.info.email || client.info.phone}
-            </p>
-          </div>
-          <div className="text-right">
-            <span className={`inline-block px-3 py-1 text-xs uppercase tracking-[0.2em] font-light rounded-full ${
-              darkMode 
-                ? 'bg-blue-500/20 border border-blue-500/30 text-blue-300' 
-                : 'bg-blue-100 border border-blue-200 text-blue-700'
-            }`}>
-              {client.info.businessType}
-            </span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div>
-            <span className={`${darkMode ? 'text-gray-500' : 'text-gray-500'} text-xs uppercase tracking-[0.2em] font-light block mb-2`}>
-              Payment
-            </span>
-            <div className="flex items-center gap-3">
-              <span className={`px-3 py-1 text-xs uppercase tracking-wider border ${
-                client.payment.status === 'completed' 
-                  ? darkMode ? 'bg-green-500/10 text-green-300 border-green-500/20' : 'bg-green-100 text-green-700 border-green-200'
-                  : darkMode ? 'bg-yellow-500/10 text-yellow-300 border-yellow-500/20' : 'bg-yellow-100 text-yellow-700 border-yellow-200'
-              }`}>
-                {client.payment.status}
-              </span>
-              <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} font-light`}>
-                ${client.payment.amount} {client.payment.currency}
-              </span>
-            </div>
-          </div>
-
-          <div>
-            <span className={`${darkMode ? 'text-gray-500' : 'text-gray-500'} text-xs uppercase tracking-[0.2em] font-light block mb-2`}>
-              Deployment
-            </span>
-            <span className={`px-3 py-1 text-xs uppercase tracking-wider border ${
-              client.deployment.status === 'completed' 
-                ? darkMode ? 'bg-green-500/10 text-green-300 border-green-500/20' : 'bg-green-100 text-green-700 border-green-200'
-                : darkMode ? 'bg-amber-500/10 text-amber-300 border-amber-500/20' : 'bg-amber-100 text-amber-700 border-amber-200'
-            }`}>
-              {client.deployment.status.replace('_', ' ')}
-            </span>
-          </div>
-        </div>
-
-        <div className={`flex items-center gap-3 pt-6 ${darkMode ? 'border-gray-700' : 'border-gray-200'} border-t`}>
-          <Link
-            href={`/dashboard/${client.info.clientId}`}
-            className={`px-6 py-2.5 text-sm font-light tracking-wide transition-all duration-500 hover:scale-105 hover:shadow-lg rounded-lg ${
-              darkMode 
-                ? 'bg-gray-700 hover:bg-gray-600 text-gray-300 hover:border-blue-500 border border-gray-600' 
-                : 'bg-gray-100 hover:bg-gray-200 text-gray-700 hover:border-blue-500 border border-gray-300'
-            }`}
-          >
-            View Dashboard
-          </Link>
-
-          {client.deployment.github?.repoUrl && (
-            <a
-              href={client.deployment.github.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`px-6 py-2.5 text-sm font-light tracking-wide transition-all duration-500 hover:scale-105 hover:shadow-lg rounded-lg ${
-                darkMode 
-                  ? 'bg-gray-700/30 hover:bg-blue-900/30 text-gray-400 hover:text-blue-300 border border-gray-700/30 hover:border-blue-500/30' 
-                  : 'bg-gray-50 hover:bg-blue-50 text-gray-600 hover:text-blue-600 border border-gray-200 hover:border-blue-200'
-              }`}
-            >
-              GitHub →
-            </a>
-          )}
-
-          {client.deployment.hosting?.url && (
-            <a
-              href={client.deployment.hosting.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`px-6 py-2.5 text-sm font-light tracking-wide transition-all duration-500 hover:scale-105 hover:shadow-lg rounded-lg ${
-                darkMode 
-                  ? 'bg-gray-700/30 hover:bg-blue-900/30 text-gray-400 hover:text-blue-300 border border-gray-700/30 hover:border-blue-500/30' 
-                  : 'bg-gray-50 hover:bg-blue-50 text-gray-600 hover:text-blue-600 border border-gray-200 hover:border-blue-200'
-              }`}
-            >
-              Visit Site →
-            </a>
-          )}
-        </div>
+      <div>
+         <p className="text-3xl font-black tracking-tighter leading-none mb-2 italic">${price.toLocaleString()}</p>
+         <p className={`text-[10px] font-black flex items-center gap-1 ${isUp ? 'text-emerald-400' : 'text-red-400'}`}>
+            {isUp ? '+' : ''}{change}% <span className="text-zinc-700 font-bold ml-1">Today</span>
+         </p>
       </div>
     </div>
   );
