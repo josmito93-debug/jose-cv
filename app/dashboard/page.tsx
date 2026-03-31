@@ -6,18 +6,26 @@ import Link from 'next/link';
 export default function FullDashboard() {
   const [darkMode, setDarkMode] = useState(true);
   const [clients, setClients] = useState<any[]>([]);
+  const [tradingLogs, setTradingLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchClients = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/clients');
+      const [response, logsResponse] = await Promise.all([
+        fetch('/api/clients'),
+        fetch('/api/trading-logs')
+      ]);
       const data = await response.json();
       if (data.success) {
         setClients(data.clients);
       }
+      const logsData = await logsResponse.json();
+      if (logsData.success) {
+        setTradingLogs(logsData.logs || []);
+      }
     } catch (error) {
-      console.error('Failed to fetch clients:', error);
+      console.error('Failed to fetch data:', error);
     } finally {
       setLoading(false);
     }
@@ -25,6 +33,10 @@ export default function FullDashboard() {
 
   useEffect(() => {
     fetchClients();
+    
+    // Auto-refresh trading logs every 15 seconds
+    const interval = setInterval(fetchClients, 15000);
+    return () => clearInterval(interval);
   }, []);
 
   const stats = {
@@ -111,6 +123,70 @@ export default function FullDashboard() {
             darkMode={darkMode}
             delay="0.4s"
           />
+        </div>
+
+        {/* JF.OS Autonomous Trading Bot Section */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className={`text-3xl font-light tracking-tight ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              🤖 JF.OS Trading Agent
+            </h2>
+            {tradingLogs.length > 0 && (
+              <span className={`px-4 py-1.5 rounded-full text-sm ${darkMode ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-green-100 text-green-700 border border-green-200'} animate-pulse`}>
+                ● System Active
+              </span>
+            )}
+          </div>
+
+          <div className={`rounded-xl border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} p-6 shadow-sm overflow-hidden`}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className={`p-6 rounded-lg border ${darkMode ? 'bg-gray-900/50 border-gray-700/50' : 'bg-gray-50 border-gray-200'}`}>
+                <p className={`text-xs uppercase tracking-widest font-light mb-2 ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>Current Capital</p>
+                <p className={`text-4xl font-extralight ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  ${tradingLogs.length > 0 ? tradingLogs[0].capital_actual : '300.00'}
+                </p>
+              </div>
+              <div className={`p-6 rounded-lg border ${darkMode ? 'bg-gray-900/50 border-gray-700/50' : 'bg-gray-50 border-gray-200'}`}>
+                <p className={`text-xs uppercase tracking-widest font-light mb-2 ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>Last Decision</p>
+                <p className={`text-2xl font-light ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                  {tradingLogs.length > 0 ? tradingLogs[0].accion : 'Waiting...'}
+                </p>
+              </div>
+              <div className={`p-6 rounded-lg border ${darkMode ? 'bg-gray-900/50 border-gray-700/50' : 'bg-gray-50 border-gray-200'}`}>
+                <p className={`text-xs uppercase tracking-widest font-light mb-2 ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>Knowledge Memories</p>
+                <p className={`text-4xl font-extralight ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  {tradingLogs.length}
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h3 className={`text-sm font-semibold uppercase tracking-wider mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Gemini AI Reasoning Log</h3>
+              <div className={`space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar`}>
+                {tradingLogs.length === 0 ? (
+                  <p className={`text-sm italic ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>No trades logged yet. Run python_bot/jfos_engine.py to activate.</p>
+                ) : (
+                  tradingLogs.map((log) => (
+                    <div key={log.id} className={`p-4 rounded-lg border ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-100'} text-sm`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={`font-mono text-xs ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>{new Date(log.timestamp).toLocaleString()}</span>
+                        <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
+                          log.accion === 'COMPRA' ? 'bg-green-500/20 text-green-500' : 
+                          log.accion === 'VENTA' ? 'bg-red-500/20 text-red-500' : 
+                          'bg-yellow-500/20 text-yellow-500'
+                        }`}>
+                          {log.accion} @ ${log.precio}
+                        </span>
+                      </div>
+                      <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                        {log.razon}
+                      </p>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Integrations Section */}
