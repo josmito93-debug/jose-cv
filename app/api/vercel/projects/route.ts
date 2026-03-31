@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const VERCEL_TOKEN = 'vcp_624jYh1coZXgNeBbyMYUP9A4Ze0ZonVMbYA1nJliIKgihYCJxB21Dcby';
+const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
 
 export async function GET() {
   try {
