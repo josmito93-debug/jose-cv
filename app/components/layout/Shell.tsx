@@ -59,7 +59,7 @@ export default function Shell({ children }: ShellProps) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const currentTitle = "JF.OS Terminal";
+  const currentTitle = "Universa Trading Hub";
   const accentColorClass = 'bg-emerald-600';
 
   return (
@@ -94,10 +94,10 @@ export default function Shell({ children }: ShellProps) {
            <div className="p-4 bg-white/5 rounded-2xl border border-white/5 space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-8 h-8 rounded-full bg-zinc-800" />
-                 <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">Luis H.</p>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">José Figueroa</p>
                     <p className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest">Master Operator</p>
-                 </div>
+                  </div>
               </div>
               <Link href="/dashboard/settings" className="w-full">
                 <button className="w-full flex items-center justify-center gap-2 py-2 border border-white/5 rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-all">
@@ -154,7 +154,7 @@ export default function Shell({ children }: ShellProps) {
             className="fixed inset-0 z-[100] bg-[#0C0C0E] p-8 lg:hidden"
           >
             <div className="flex justify-between items-center mb-12">
-               <div className="text-xl font-black italic uppercase">JF.OS</div>
+               <div className="text-xl font-black italic uppercase">UNIVERSA</div>
                <button onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
             </div>
             <nav className="space-y-1">

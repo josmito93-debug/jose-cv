@@ -1,39 +1,37 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import Link from 'next/link';
-import Script from 'next/script';
+import { useParams, useRouter } from 'next/navigation';
+import { 
+  ShieldCheck, 
+  CreditCard, 
+  CheckCircle2, 
+  ArrowLeft,
+  Lock,
+  Globe,
+  Zap,
+  LayoutDashboard
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-interface ClientData {
-  info: {
-    businessName: string;
-    clientId: string;
-  };
-  payment: {
-    amount: number;
-    currency: string;
-  };
-}
+// Note: Ensure NEXT_PUBLIC_PAYPAL_CLIENT_ID is set in .env
+const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || 'sb'; // 'sb' for sandbox
 
 export default function PaymentPage() {
   const { clientId } = useParams();
-  const [client, setClient] = useState<ClientData | null>(null);
+  const [client, setClient] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [method, setMethod] = useState<'pago_movil' | 'stripe' | 'paypal' | null>(null);
-  const [reference, setReference] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState<'IDLE' | 'PROCESSING' | 'SUCCESS' | 'ERROR'>('IDLE');
 
   useEffect(() => {
     const fetchClient = async () => {
       try {
-        const response = await fetch(`/api/admin/clients`);
-        const data = await response.json();
-        const found = data.clients.find((c: any) => c.info.clientId === clientId);
-        if (found) setClient(found);
-      } catch (error) {
-        console.error('Failed to load client:', error);
+        const res = await fetch(`/api/clients/${clientId}`);
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        setClient(data);
+      } catch (err) {
+        console.error('Failed to load client:', err);
       } finally {
         setLoading(false);
       }
@@ -41,228 +39,164 @@ export default function PaymentPage() {
     fetchClient();
   }, [clientId]);
 
-  const handleSubmitReference = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    try {
-      const response = await fetch('/api/payment/confirm', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ clientId, reference, method: 'pago_movil' }),
-      });
-      if (response.ok) setSuccess(true);
-    } catch (error) {
-      console.error('Payment confirmation failed:', error);
-    } finally {
-      setSubmitting(false);
+  // Load PayPal SDK Script
+  useEffect(() => {
+    if (!loading && client) {
+      const script = document.createElement('script');
+      script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&vault=true&intent=subscription`;
+      script.async = true;
+      script.onload = () => {
+        // @ts-ignore
+        if (window.paypal) {
+          // @ts-ignore
+          window.paypal.Buttons({
+            createSubscription: (data: any, actions: any) => {
+              return actions.subscription.create({
+                // Replace with actual Plan ID from PayPal Dashboard
+                'plan_id': process.env.NEXT_PUBLIC_PAYPAL_PLAN_ID || 'P-FIXME' 
+              });
+            },
+            onApprove: async (data: any) => {
+              setPaymentStatus('SUCCESS');
+              // Notify backend of successful subscription
+              await fetch(`/api/clients/${clientId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  'Payment Status': 'PAID',
+                  'Deployment Status': 'Active',
+                  'Notes': `Subscription ID: ${data.subscriptionID}`
+                })
+              });
+            },
+            onError: (err: any) => {
+              console.error('PayPal Error:', err);
+              setPaymentStatus('ERROR');
+            }
+          }).render('#paypal-button-container');
+        }
+      };
+      document.body.appendChild(script);
     }
-  };
+  }, [loading, client]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#080810] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin"></div>
-      </div>
-    );
-  }
-
-  if (!client) {
-    return (
-      <div className="min-h-screen bg-[#080810] flex items-center justify-center text-slate-400">
-        Factura no encontrada o expirada.
-      </div>
-    );
-  }
-
-  if (success) {
-    return (
-      <div className="min-h-screen bg-[#080810] flex items-center justify-center p-6 text-center">
-        <div className="max-w-md w-full bg-white/[0.02] border border-white/10 p-12 rounded-[3rem] backdrop-blur-3xl animate-fade-in-up">
-          <div className="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-8 shadow-[0_0_30px_rgba(16,185,129,0.2)]">✓</div>
-          <h2 className="text-3xl font-bold text-white mb-4">Pago Recibido</h2>
-          <p className="text-slate-400 font-light leading-relaxed">
-            Hemos registrado tu referencia **{reference}**. Un administrador validará el pago en las próximas horas para activar tu servicio.
-          </p>
-          <div className="mt-10 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-            <div className="h-full bg-emerald-500 animate-pulse w-full"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return (
+    <div className="min-h-screen bg-[#08080A] flex items-center justify-center">
+      <div className="w-12 h-12 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-[#080810] text-slate-100 font-sans selection:bg-purple-500/30 py-20 px-6">
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-600/10 blur-[120px] rounded-full"></div>
+    <div className="min-h-screen bg-[#08080A] text-zinc-100 font-inter antialiased overflow-hidden relative selection:bg-indigo-500/30">
+      {/* Background Glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/5 rounded-full blur-[120px]" />
       </div>
 
-      <div className="max-w-xl mx-auto relative z-10">
-        {/* Header Invoice Card */}
-        <div className="bg-white/[0.03] border border-white/10 rounded-[3rem] p-10 backdrop-blur-3xl mb-8 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-8 opacity-10 text-8xl transition-transform group-hover:scale-110 duration-700">💳</div>
-          <div className="flex justify-between items-start mb-8">
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.4em] text-purple-500 font-black mb-2">Invoice Details</p>
-              <h1 className="text-4xl font-bold tracking-tighter text-white">{client.info.businessName}</h1>
-            </div>
-            <div className="text-right">
-              <span className="text-xs text-slate-500 uppercase tracking-widest block mb-1">Total a Pagar</span>
-              <span className="text-3xl font-bold text-white tracking-tighter">$30.00</span>
-            </div>
-          </div>
-          <p className="text-xs text-slate-500 font-light max-w-xs leading-relaxed">
-            Activación de servicios Attom AI Assistant (Mantenimiento mensual recurrente).
-          </p>
-        </div>
-
-        {/* Method Selection */}
-        <div className="space-y-4">
-          <button 
-            onClick={() => setMethod('pago_movil')}
-            className={`w-full p-6 rounded-3xl border transition-all flex items-center justify-between group ${
-              method === 'pago_movil' ? 'bg-purple-600/15 border-purple-500/40 text-white shadow-[0_0_20px_rgba(168,85,247,0.1)]' : 'bg-white/5 border-white/5 text-slate-400 hover:bg-white/10'
-            }`}
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-2xl">🇻🇪</span>
-              <div className="text-left">
-                <p className="text-sm font-bold tracking-wide uppercase">Pago Móvil</p>
-                <p className="text-[10px] opacity-60">Venezuela / Transferencia Inmediata</p>
-              </div>
-            </div>
-            <div className={`w-6 h-6 rounded-full border-2 transition-all ${method === 'pago_movil' ? 'border-purple-500 bg-purple-500' : 'border-white/10 group-hover:border-white/20'}`}></div>
-          </button>
-
-          <button 
-            onClick={() => setMethod('stripe')}
-            className={`w-full p-6 rounded-3xl border transition-all flex items-center justify-between group ${
-              method === 'stripe' ? 'bg-indigo-600/15 border-indigo-500/40 text-white shadow-[0_0_20px_rgba(99,102,241,0.1)]' : 'bg-white/5 border-white/5 text-slate-400 hover:bg-white/10'
-            }`}
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-2xl">💳</span>
-              <div className="text-left">
-                <p className="text-sm font-bold tracking-wide uppercase">Stripe / Card</p>
-                <p className="text-[10px] opacity-60">International Credit/Debit Cards</p>
-              </div>
-            </div>
-            <div className={`w-6 h-6 rounded-full border-2 transition-all ${method === 'stripe' ? 'border-indigo-500 bg-indigo-500' : 'border-white/10 group-hover:border-white/20'}`}></div>
-          </button>
-
-          <button 
-            onClick={() => setMethod('paypal')}
-            className={`w-full p-6 rounded-3xl border transition-all flex items-center justify-between group ${
-              method === 'paypal' ? 'bg-blue-600/15 border-blue-500/40 text-white shadow-[0_0_20px_rgba(59,130,246,0.1)]' : 'bg-white/5 border-white/5 text-slate-400 hover:bg-white/10'
-            }`}
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-2xl">🅿️</span>
-              <div className="text-left">
-                <p className="text-sm font-bold tracking-wide uppercase">PayPal</p>
-                <p className="text-[10px] opacity-60">One-click checkout with PayPal</p>
-              </div>
-            </div>
-            <div className={`w-6 h-6 rounded-full border-2 transition-all ${method === 'paypal' ? 'border-blue-500 bg-blue-500' : 'border-white/10 group-hover:border-white/20'}`}></div>
-          </button>
-        </div>
-
-        {/* Action Forms */}
-        <div className="mt-8 transition-all duration-500">
-          {method === 'pago_movil' && (
-            <div className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-10 animate-fade-in-up">
-              <h3 className="text-lg font-bold mb-6 text-white">Detalles para Transferencia</h3>
-              <div className="space-y-4 mb-8">
-                <DetailRow label="Banco" value="Banesco" />
-                <DetailRow label="Teléfono" value="+58 412 XXX XXXX" />
-                <DetailRow label="ID / RIF" value="V-XXX.XXX.XXX" />
-              </div>
-              
-              <form onSubmit={handleSubmitReference} className="space-y-4">
-                <div>
-                  <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold block mb-2">Número de Referencia (Últimos 6 dígitos)</label>
-                  <input 
-                    required
-                    type="text" 
-                    value={reference}
-                    onChange={(e) => setReference(e.target.value)}
-                    placeholder="Ej: 123456"
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:border-purple-500/50 transition-all font-mono"
-                  />
-                </div>
-                <button 
-                  disabled={submitting || !reference}
-                  className="w-full py-4 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl text-sm font-bold tracking-widest uppercase hover:opacity-90 transition-all shadow-[0_10px_30px_rgba(168,85,247,0.3)] disabled:opacity-30"
-                >
-                  {submitting ? 'Registrando...' : 'Confirmar Pago'}
-                </button>
-              </form>
-            </div>
-          )}
-
-          {method === 'stripe' && (
-            <div className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-10 text-center animate-fade-in-up">
-              <p className="text-slate-400 mb-6 font-light">Serás redirigido a la plataforma segura de Stripe.</p>
-              <button className="w-full py-4 bg-indigo-500 rounded-2xl text-sm font-bold tracking-widest uppercase hover:bg-indigo-600 transition-all">Pagar con Tarjeta →</button>
-            </div>
-          )}
-
-          {method === 'paypal' && (
-            <div className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-10 text-center animate-fade-in-up">
-              <p className="text-slate-400 mb-8 font-light italic text-sm">
-                Seguro. Rápido. Global.
+      <div className="max-w-4xl mx-auto px-6 py-20 relative z-10">
+        
+        {/* Header / Logo */}
+        <div className="flex flex-col items-center mb-16 space-y-6">
+           <div className="w-20 h-20 rounded-2xl overflow-hidden shadow-2xl shadow-indigo-600/20 border border-white/5 animate-pulse">
+              <img src="/images/universa_logo.png" alt="Universa" className="w-full h-full object-cover" />
+           </div>
+           <div className="text-center">
+              <h1 className="text-4xl font-black tracking-tightest uppercase italic mb-2">Universa Billing</h1>
+              <p className="text-zinc-500 text-xs font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-2">
+                 <ShieldCheck className="w-3 h-3 text-emerald-400" /> Secure Payment Gateway
               </p>
-              <div id="paypal-button-container" className="w-full"></div>
-              <Script 
-                src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD" 
-                onLoad={() => {
-                  // @ts-ignore
-                  if (window.paypal) {
-                    // @ts-ignore
-                    window.paypal.Buttons({
-                      createOrder: (data: any, actions: any) => {
-                        return actions.order.create({
-                          purchase_units: [{
-                            amount: {
-                              value: "30.00"
-                            },
-                            description: `Attom AI Service - ${client.info.businessName}`
-                          }]
-                        });
-                      },
-                      onApprove: async (data: any, actions: any) => {
-                        const order = await actions.order.capture();
-                        console.log('PayPal Order Captured:', order);
-                        setSuccess(true);
-                        // Call API to confirm
-                        await fetch('/api/payment/confirm', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ 
-                            clientId, 
-                            method: 'paypal',
-                            paypalOrderId: order.id
-                          }),
-                        });
-                      }
-                    }).render('#paypal-button-container');
-                  }
-                }}
-              />
-            </div>
-          )}
+           </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+           
+           {/* Left: Summary */}
+           <div className="space-y-8 animate-[fadeInLeft_0.8s_ease-out]">
+              <div className="bg-white/5 border border-white/5 rounded-3xl p-8 backdrop-blur-xl">
+                 <h2 className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-6 flex items-center gap-2">
+                    <CreditCard className="w-3 h-3" /> Subscription Summary
+                 </h2>
+                 
+                 <div className="space-y-6 pb-6 border-b border-white/5">
+                    <div className="flex justify-between items-start">
+                       <div>
+                          <p className="text-xl font-bold tracking-tight">{client?.info?.businessName}</p>
+                          <p className="text-[10px] text-zinc-500 font-bold uppercase mt-1">Institutional Plan</p>
+                       </div>
+                       <div className="text-right">
+                          <p className="text-2xl font-black text-indigo-400">$30.00</p>
+                          <p className="text-[10px] text-zinc-500 font-bold uppercase">per month</p>
+                       </div>
+                    </div>
+                 </div>
+
+                 <div className="pt-6 space-y-4">
+                    <BenefitItem text="24/7 Bot Surveillance & Deployment" icon={<Zap className="w-3 h-3" />} />
+                    <BenefitItem text="Real-time Analytics Dashboard" icon={<LayoutDashboard className="w-3 h-3" />} />
+                    <BenefitItem text="Universa Infrastructure Managed" icon={<Globe className="w-3 h-3" />} />
+                 </div>
+              </div>
+
+              <div className="flex items-center gap-3 text-zinc-600 px-2">
+                 <Lock className="w-3 h-3" />
+                 <p className="text-[9px] font-black uppercase tracking-widest">End-to-end Encrypted Transaction (AES-256)</p>
+              </div>
+           </div>
+
+           {/* Right: Payment Method */}
+           <div className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-10 animate-[fadeInRight_0.8s_ease-out]">
+              <AnimatePresence mode="wait">
+                {paymentStatus === 'SUCCESS' ? (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-12"
+                  >
+                    <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                       <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+                    </div>
+                    <h3 className="text-2xl font-black mb-2">Subscription Active</h3>
+                    <p className="text-zinc-500 text-sm mb-8">Your automated infrastructure is now synchronized.</p>
+                    <button 
+                      onClick={() => window.location.href = '/admin'}
+                      className="px-8 py-3 bg-white text-black font-black rounded-xl text-xs uppercase tracking-widest"
+                    >
+                       Return to HQ
+                    </button>
+                  </motion.div>
+                ) : (
+                  <div className="space-y-8">
+                    <div>
+                       <h3 className="text-lg font-black italic mb-2">Select Payment Method</h3>
+                       <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Choose how you want to pay</p>
+                    </div>
+
+                    <div id="paypal-button-container" className="min-h-[150px]" />
+                    
+                    <div className="text-center pt-4">
+                       <p className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest leading-relaxed">
+                          By subscribing, you authorize Autom Agency to charge $30.00 monthly. <br/>
+                          You can cancel anytime from your PayPal dashboard.
+                       </p>
+                    </div>
+                  </div>
+                )}
+              </AnimatePresence>
+           </div>
         </div>
       </div>
     </div>
   );
 }
 
-function DetailRow({ label, value }: { label: string, value: string }) {
+function BenefitItem({ text, icon }: { text: string; icon: React.ReactNode }) {
   return (
-    <div className="flex justify-between items-center py-3 border-b border-white/5">
-      <span className="text-xs text-slate-500 uppercase tracking-widest font-bold">{label}</span>
-      <span className="text-sm font-bold text-white">{value}</span>
+    <div className="flex items-center gap-3">
+       <div className="w-6 h-6 rounded-lg bg-emerald-500/5 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+          {icon}
+       </div>
+       <span className="text-[11px] font-medium text-zinc-400">{text}</span>
     </div>
   );
 }

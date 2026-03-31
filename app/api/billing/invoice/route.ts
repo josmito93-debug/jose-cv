@@ -2,16 +2,16 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const { clientId, amount, email } = await response.json();
+    const { clientId, businessName } = await request.json();
     
-    // Simulate invoice generation logic
-    console.log(`Generating invoice for ${clientId}: $${amount} sent to ${email}`);
+    // The payment link for the client to subscribe to Universa Agency
+    const paymentUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://jose-cv.vercel.app'}/pay/${clientId}`;
     
     return NextResponse.json({ 
       success: true, 
-      message: 'Invoice generated and sent to client.',
-      invoiceUrl: `https://billing.universa-agency.com/inv/${Math.random().toString(36).substring(7)}`,
-      status: 'SENT'
+      message: 'Recurring subscription link generated.',
+      paymentUrl: paymentUrl,
+      status: 'PENDING'
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

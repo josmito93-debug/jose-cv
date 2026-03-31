@@ -55,7 +55,7 @@ export default function AdminShell({ children }: ShellProps) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const currentTitle = "Attom Command";
+  const currentTitle = "Universa Agency HQ";
   const accentColorClass = 'bg-indigo-600';
 
   return (
@@ -64,8 +64,17 @@ export default function AdminShell({ children }: ShellProps) {
       <aside className="hidden lg:flex w-72 flex-col bg-[#0C0C0E] border-r border-white/5 relative z-50">
         <div className="p-8">
           <div className="flex items-center gap-3 px-2">
-            <div className={`w-8 h-8 rounded-xl ${accentColorClass} flex items-center justify-center font-black text-xs text-white uppercase italic`}>A</div>
-            <span className="text-sm font-black tracking-tighter uppercase italic">{currentTitle}</span>
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20 group hover:scale-105 transition-all">
+              <img 
+                src="/images/universa_logo.png" 
+                alt="Universa" 
+                className="w-full h-full object-cover"
+                onError={(e) => (e.currentTarget.style.display = 'none')} 
+              />
+            </div>
+            <span className="text-sm font-black tracking-tighter uppercase italic text-white flex flex-col">
+              Universa Agency <span className="text-[8px] text-indigo-400 -mt-1 font-bold">Headquarter</span>
+            </span>
           </div>
         </div>
 
@@ -95,7 +104,7 @@ export default function AdminShell({ children }: ShellProps) {
                     <ShieldCheck className="w-4 h-4 text-indigo-400" />
                  </div>
                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">System Root</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">José Figueroa</p>
                     <p className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest">Active Session</p>
                  </div>
               </div>

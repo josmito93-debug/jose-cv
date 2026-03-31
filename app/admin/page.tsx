@@ -101,8 +101,21 @@ export default function UnifiedAdminVercel() {
   }, []);
 
   const generateInvoice = async (client: any) => {
-     // Simulation of the billing API call
-     alert(`Generating invoice for ${client.name} ($30.00). Sending to ${client.email || 'client@email.com'}...`);
+     try {
+       const res = await fetch('/api/billing/invoice', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ clientId: client.id, businessName: client.business })
+       });
+       const data = await res.json();
+       if (data.success) {
+         // Copy to clipboard
+         navigator.clipboard.writeText(data.paymentUrl);
+         alert(`LINK GENERATED & COPIED: ${client.business} ($30/mo)\nHandle: ${data.paymentUrl}`);
+       }
+     } catch (err) {
+       console.error('Failed to generate link:', err);
+     }
   };
 
   const getVercelStatus = (client: any) => {
@@ -116,11 +129,11 @@ export default function UnifiedAdminVercel() {
       {/* Header Area - Stakent Style */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-b border-white/5">
         <div className="space-y-2">
-           <div className="flex items-center gap-3">
-              <div className="px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-md text-[9px] font-black uppercase text-indigo-400">Attom v4.5</div>
-              <div className="px-2 py-1 bg-white/5 border border-white/5 rounded-md text-[9px] font-black uppercase text-zinc-500">Vercel Connected</div>
-           </div>
-           <h2 className="text-3xl font-black tracking-tight">Ecosystem <span className="text-zinc-500">Control</span></h2>
+            <div className="flex items-center gap-3">
+              <div className="px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-md text-[9px] font-black uppercase text-indigo-400 font-inter">Universa v2.6</div>
+              <div className="px-2 py-1 bg-white/5 border border-white/5 rounded-md text-[9px] font-black uppercase text-zinc-500">Cloud Sync Active</div>
+            </div>
+            <h2 className="text-3xl font-black tracking-tight uppercase italic">Agency <span className="text-zinc-500">Headquarter</span></h2>
         </div>
         
         <div className="flex items-center gap-4">
@@ -186,10 +199,10 @@ export default function UnifiedAdminVercel() {
                                 {client.business.charAt(0)}
                              </div>
                              <div className="min-w-0">
-                                <p className="text-sm font-black tracking-tight truncate flex items-center gap-2">
+                                 <p className="text-sm font-black tracking-tight truncate flex items-center gap-2">
                                   {client.business}
                                   {client.name === 'Pendiente (Attom Link)' && (
-                                    <span className="px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 text-[7px] font-black uppercase rounded border border-indigo-500/30">Attom Ingest</span>
+                                    <span className="px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 text-[7px] font-black uppercase rounded border border-indigo-500/30">Lead Ingest</span>
                                   )}
                                 </p>
                                 <p className="text-[9px] md:text-[10px] font-bold text-zinc-600 uppercase tracking-widest truncate">
