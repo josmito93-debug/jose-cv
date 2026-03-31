@@ -39,10 +39,17 @@ export default function PriceTicker({ category }: PriceTickerProps) {
     return () => clearInterval(interval);
   }, [category]);
 
-  if (loading || data.length === 0) return null;
+  const fallbackData: TickerItem[] = [
+    { symbol: 'BTC', price: 95420.50, change: 1.25, isUp: true },
+    { symbol: 'ETH', price: 2740.15, change: -0.45, isUp: false },
+    { symbol: 'SOL', price: 185.30, change: 4.12, isUp: true },
+    { symbol: 'GOLD', price: 2150.80, change: 0.15, isUp: true },
+    { symbol: 'NVDA', price: 145.20, change: 2.85, isUp: true },
+    { symbol: 'TSLA', price: 250.10, change: -1.20, isUp: false },
+  ];
 
-  // Duplicate data for infinite scroll effect
-  const displayData = [...data, ...data, ...data];
+  const displayItems = data.length > 0 ? data : fallbackData;
+  const displayData = [...displayItems, ...displayItems, ...displayItems];
 
   return (
     <div className="w-full bg-black/60 border-y border-white/5 py-4 overflow-hidden relative backdrop-blur-sm">
@@ -52,9 +59,9 @@ export default function PriceTicker({ category }: PriceTickerProps) {
       
       <motion.div 
         className="flex items-center gap-16 whitespace-nowrap px-10"
-        animate={{ x: [0, -1200] }}
+        animate={{ x: [0, -2500] }}
         transition={{ 
-          duration: 35, 
+          duration: 60, 
           repeat: Infinity, 
           ease: "linear" 
         }}
