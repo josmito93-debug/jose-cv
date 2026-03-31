@@ -28,7 +28,7 @@ import TrendingAssets from './TrendingAssets';
 import SectorNews from './SectorNews';
 
 interface MarketViewProps {
-  category: 'Crypto' | 'Metals' | 'Forex' | 'Stocks';
+  category: 'Crypto' | 'Metals' | 'Forex' | 'Stocks' | 'Overview';
   title: string;
   description: string;
   symbols: { symbol: string; name: string; status: string }[];
@@ -91,12 +91,20 @@ export default function MarketView({ category, title, description, symbols }: Ma
       <div className="space-y-10 px-4 lg:px-8 mt-10">
       {/* Sector Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-b border-white/5">
-        <div className="space-y-2">
+        <div className="space-y-4">
+           {/* Terminal Badges from Screenshot */}
+           <div className="flex items-center gap-2">
+              <div className="px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-md text-[8px] font-black uppercase text-emerald-400 tracking-wider">Terminal Active</div>
+              <div className="px-2 py-1 bg-white/5 border border-white/10 rounded-md text-[8px] font-black uppercase text-zinc-500 tracking-wider">API: Multi-Source AlphaV x CodexID</div>
+           </div>
+           
            <div className="flex items-center gap-3">
               <div className="px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-md text-[9px] font-black uppercase text-indigo-400 italic">{category} Specialist</div>
-              <div className="px-2 py-1 bg-white/5 border border-white/5 rounded-md text-[9px] font-black uppercase text-zinc-500">JF.OS Neural Link V2</div>
+              <div className="px-2 py-1 bg-white/5 border border-white/5 rounded-md text-[9px] font-black uppercase text-zinc-500">JF.OS Neural Link V3</div>
            </div>
-           <h2 className="text-3xl font-black tracking-tight italic">{title} <span className="text-zinc-500">{description}</span></h2>
+           <h2 className="text-3xl font-black tracking-tight italic">
+             {category === 'Overview' ? 'Global' : title} <span className="text-zinc-500">{category === 'Overview' ? 'Surveillance' : description}</span>
+           </h2>
         </div>
         
         <div className="flex items-center gap-4">

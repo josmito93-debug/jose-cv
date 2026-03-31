@@ -2,26 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  TrendingUp, 
-  Activity, 
-  Cpu, 
-  Zap, 
-  ShieldCheck, 
-  ArrowUpRight, 
-  Globe,
-  BarChart3,
-  Search
-} from 'lucide-react';
-import { 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  AreaChart,
-  Area
-} from 'recharts';
+import { TrendingUp, Activity, Cpu, Zap, ShieldCheck, ArrowUpRight, Globe, BarChart3, Search } from 'lucide-react';
+import PriceTicker from '../components/dashboard/PriceTicker';
+import TrendingAssets from '../components/dashboard/TrendingAssets';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function GlobalOverview() {
   const [logs, setLogs] = useState<any[]>([]);
@@ -53,14 +37,37 @@ export default function GlobalOverview() {
   const currentCapital = latestLog?.capital_actual || 100000.00;
 
   return (
-    <div className="space-y-10 max-w-[1600px] mx-auto px-4 lg:px-8 pb-32">
+    <div className="space-y-0 max-w-[1600px] mx-auto pb-32">
       
+      <PriceTicker category="Overview" />
+      
+      <div className="px-4 lg:px-8 space-y-10 mt-10">
       {/* Overview Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-b border-white/5">
-        <div className="space-y-2">
+        <div className="space-y-4">
+           {/* Terminal Badges from Screenshot */}
+           <div className="flex items-center gap-2">
+              <div className="px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-md text-[8px] font-black uppercase text-emerald-400 tracking-wider">Terminal Active</div>
+              <div className="px-2 py-1 bg-white/5 border border-white/10 rounded-md text-[8px] font-black uppercase text-zinc-500 tracking-wider">API: Multi-Source AlphaV x CodexID</div>
+           </div>
+           
+           <div className="flex items-center gap-3">
+              <div className="px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-md text-[9px] font-black uppercase text-indigo-400 italic">Global Surveillance</div>
+              <div className="px-2 py-1 bg-white/5 border border-white/5 rounded-md text-[9px] font-black uppercase text-zinc-500">JF.OS Neural Link V3</div>
+           </div>
            <h2 className="text-3xl font-black tracking-tight italic">Global <span className="text-zinc-500">Overview</span></h2>
            <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Multi-Market Autonomous Surveillance Hub</p>
         </div>
+        
+        <div className="flex items-center gap-10">
+           <div className="text-right">
+              <p className="text-[9px] font-black uppercase tracking-widest text-zinc-600 mb-1">Total Portfolio Value</p>
+              <p className="text-2xl font-black tracking-tighter text-white">${currentCapital.toLocaleString()}</p>
+           </div>
+        </div>
+      </div>
+
+      <TrendingAssets category="Overview" />
         
         <div className="flex items-center gap-10">
            <div className="text-right">
