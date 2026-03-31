@@ -24,13 +24,18 @@ export async function POST(request: NextRequest) {
     };
 
     // Almacenamiento en Airtable (Persistencia en Vercel)
+    console.log('Attempting Airtable save...');
     const recordId = await airtableTrading.saveLog(logData);
 
-    console.log(`🤖 [WEBHOOK ${sector || 'GLOBAL'}] - ${accion} ${simbolo || ''} @ ${precio} | Airtable ID: ${recordId}`);
+    console.log(`✅ [WEBHOOK SUCCESS] - ${accion} ${simbolo || ''} | Airtable ID: ${recordId}`);
 
     return NextResponse.json({ success: true, id: recordId });
-  } catch (error) {
-    console.error('Webhook error:', error);
-    return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });
+  } catch (error: any) {
+    console.error('❌ [WEBHOOK ERROR]:', error.message || error);
+    return NextResponse.json({ 
+      success: false, 
+      message: 'Server error', 
+      error: error.message 
+    }, { status: 500 });
   }
 }
