@@ -109,7 +109,7 @@ export default function MarketView({ category, title, description, symbols }: Ma
         </div>
       </div>
 
-      <TrendingAssets />
+      <TrendingAssets category={category} />
 
       {/* Analytics Chart */}
       <div className="bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] p-10">

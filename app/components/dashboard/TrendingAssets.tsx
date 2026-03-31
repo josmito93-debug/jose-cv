@@ -11,14 +11,18 @@ interface TrendingItem {
   change_percentage: string;
 }
 
-export default function TrendingAssets() {
+interface TrendingAssetsProps {
+  category: string;
+}
+
+export default function TrendingAssets({ category }: TrendingAssetsProps) {
   const [data, setData] = useState<TrendingItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const res = await fetch('/api/market-data?type=trending');
+        const res = await fetch(`/api/market-data?type=trending&category=${category}`);
         const json = await res.json();
         if (json.success) {
           setData(json.data);
@@ -42,7 +46,7 @@ export default function TrendingAssets() {
         <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
           <Activity size={16} />
         </div>
-        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 italic">Market Trending (Stocks)</h3>
+        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 italic">Market Trending ({category})</h3>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
