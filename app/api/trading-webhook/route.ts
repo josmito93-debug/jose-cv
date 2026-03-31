@@ -6,16 +6,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { 
-      webhook_secret, 
-      accion, 
-      precio, 
-      razon, 
-      capital_actual, 
-      news_analysis, 
-      raw_intel, 
-      categoria 
-    } = body;
+    const { webhook_secret, accion, precio, razon, capital_actual } = body;
 
     // Use environment secret or the fallback for testing
     if (webhook_secret !== process.env.DASHBOARD_WEBHOOK_SECRET && webhook_secret !== "JFOS_SECURE_2026") {
@@ -27,10 +18,7 @@ export async function POST(request: NextRequest) {
       accion,
       precio,
       razon,
-      capital_actual,
-      news_analysis,
-      raw_intel,
-      categoria: categoria || 'Crypto'
+      capital_actual
     };
 
     // Almacenamiento en Airtable (Persistencia en Vercel)

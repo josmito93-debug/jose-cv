@@ -107,9 +107,7 @@ export default function CVPage() {
       {/* HUD Navbar */}
       <nav className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 w-[95%] md:w-[90%] max-w-7xl z-[100] px-6 md:px-10 py-4 md:py-5 bg-black/40 border border-white/5 backdrop-blur-2xl rounded-[1.5rem] md:rounded-[2.5rem] flex justify-between items-center shadow-2xl">
         <div className="flex items-center gap-6 md:gap-10">
-          <Link href="/" className="flex items-center gap-2">
-            <img src="/universalogo.png" alt="JF.OS Logo" className="h-8 w-auto object-contain" />
-          </Link>
+          <div className="text-xl md:text-2xl font-black tracking-tighter uppercase">JF<span className="text-indigo-500">.</span></div>
           <div className="hidden lg:flex items-center gap-8">
             <a href="#skills" className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-white transition-all">{data.titles.nav_skills}</a>
             <a href="#experience" className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-white transition-all">{data.titles.nav_experience}</a>

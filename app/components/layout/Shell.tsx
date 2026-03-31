@@ -43,11 +43,10 @@ export default function Shell({ children }: ShellProps) {
     { name: 'Onboarding', href: '/atom', icon: <Globe className="w-4 h-4" /> },
     { name: 'Data API', href: '/admin/logs', icon: <Zap className="w-4 h-4" /> },
   ] : isDashboard ? [
-    { name: 'Overview', href: '/dashboard', icon: <TrendingUp className="w-4 h-4" /> },
-    { name: 'Cryptocurrencies', href: '/dashboard/crypto', icon: <Globe className="w-4 h-4" /> },
-    { name: 'Metals & Energy', href: '/dashboard/metals', icon: <Zap className="w-4 h-4" /> },
-    { name: 'Forex Assets', href: '/dashboard/forex', icon: <Activity className="w-4 h-4" /> },
-    { name: 'Stock Options', href: '/dashboard/stocks', icon: <Database className="w-4 h-4" /> },
+    { name: 'Finance Home', href: '/dashboard', icon: <TrendingUp className="w-4 h-4" /> },
+    { name: 'Market Intel', href: '/dashboard/intel', icon: <Activity className="w-4 h-4" /> },
+    { name: 'Security Hub', href: '/dashboard/security', icon: <ShieldCheck className="w-4 h-4" /> },
+    { name: 'Active Nodes', href: '/dashboard/nodes', icon: <Cpu className="w-4 h-4" /> },
   ] : [
     { name: 'HQ Command', href: '/hq', icon: <Cpu className="w-4 h-4" /> },
     { name: 'Finance Agent', href: '/dashboard', icon: <TrendingUp className="w-4 h-4" /> },
@@ -68,10 +67,10 @@ export default function Shell({ children }: ShellProps) {
       {/* Sidebar - Stakent Style */}
       <aside className="hidden lg:flex w-72 flex-col bg-[#0C0C0E] border-r border-white/5 relative z-50">
         <div className="p-8">
-          <Link href="/hq" className="flex items-center gap-3 px-2">
-            <img src="/universalogo.png" alt="JF.OS Logo" className="h-10 w-auto object-contain" />
+          <div className="flex items-center gap-3 px-2">
+            <div className={`w-8 h-8 rounded-xl bg-${accentColor}-600 flex items-center justify-center font-black text-xs text-white`}>H</div>
             <span className="text-sm font-black tracking-tighter uppercase">{currentTitle}</span>
-          </Link>
+          </div>
         </div>
 
         <nav className="flex-1 px-4 space-y-1">
@@ -106,13 +105,13 @@ export default function Shell({ children }: ShellProps) {
               <div className="flex items-center gap-3">
                  <div className="w-8 h-8 rounded-full bg-zinc-800" />
                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">Jose Figueroa</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">Luis H.</p>
                     <p className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest">Admin Access</p>
                  </div>
               </div>
-              <Link href="/dashboard/settings" className="w-full flex items-center justify-center gap-2 py-2 border border-white/5 rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-all">
+              <button className="w-full flex items-center justify-center gap-2 py-2 border border-white/5 rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-all">
                  Settings
-              </Link>
+              </button>
            </div>
         </div>
       </aside>
@@ -160,7 +159,7 @@ export default function Shell({ children }: ShellProps) {
             className="fixed inset-0 z-[100] bg-[#0C0C0E] p-8 lg:hidden"
           >
             <div className="flex justify-between items-center mb-12">
-               <img src="/universalogo.png" alt="JF.OS Logo" className="h-10 w-auto object-contain" />
+               <div className="text-xl font-black italic uppercase">JF.OS</div>
                <button onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
             </div>
             <nav className="space-y-4">

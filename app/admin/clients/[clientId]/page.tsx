@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { 
   ArrowLeft, 
   ExternalLink, 
-  GitBranch, 
+  Github, 
   CreditCard, 
   Globe, 
   CheckCircle2, 
@@ -137,7 +137,7 @@ export default function ClientDetail() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                  <div className="bg-black/20 p-6 rounded-2xl border border-white/5 flex flex-col justify-between group">
                     <div className="flex items-center justify-between mb-8">
-                       <GitBranch className="w-6 h-6 text-zinc-400 group-hover:text-white transition-colors" />
+                       <Github className="w-6 h-6 text-zinc-400 group-hover:text-white transition-colors" />
                        <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500">Repository Active</span>
                     </div>
                     <div>
