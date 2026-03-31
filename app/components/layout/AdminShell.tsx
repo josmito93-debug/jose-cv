@@ -75,7 +75,7 @@ export default function AdminShell({ children }: ShellProps) {
            </div>
            
            <NavItem href="/admin" icon={LayoutDashboard} label="HQ Overview" active={pathname === '/admin'} />
-           <NavItem href="/admin/clients" icon={Users} label="Client Registry" active={pathname === '/admin/clients' || pathname.startsWith('/admin/clients/')} />
+           <NavItem href="/admin" icon={Users} label="Client Registry" active={pathname === '/admin'} />
            
            <div className="px-5 mt-8 mb-4">
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-700">Automation</p>
