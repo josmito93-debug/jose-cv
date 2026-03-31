@@ -11,7 +11,8 @@ import {
   RefreshCcw,
   ArrowUpRight,
   ShieldCheck,
-  BarChart3
+  BarChart3,
+  ExternalLink
 } from 'lucide-react';
 import PriceTicker from '@/app/components/dashboard/PriceTicker';
 import Link from 'next/link';
@@ -139,9 +140,18 @@ export default function TerminalHQ() {
            <Activity className="w-8 h-8 mb-6" />
            <h4 className="text-2xl font-black tracking-tighter mb-4 italic leading-tight uppercase underline decoration-white/20">Neural Terminal <br /> Active.</h4>
            <p className="text-indigo-100 text-xs font-bold leading-relaxed mb-10 opacity-80 uppercase tracking-widest">JF.OS is processing millions of data points across global markets to ensure your command execution is flawless.</p>
-           <button className="w-full py-5 bg-white text-black font-black rounded-2xl text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 shadow-2xl">
-              Sync Intelligence <RefreshCcw className="w-4 h-4" />
-           </button>
+            <button 
+               onClick={() => alert('🧠 Neural Intelligence Synchronized Successfully. All market nodes are reporting optimal health.')}
+               className="w-full py-5 bg-white text-black font-black rounded-2xl text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 shadow-2xl"
+            >
+               Sync Intelligence <RefreshCcw className="w-4 h-4" />
+            </button>
+            <button 
+               onClick={() => window.open('https://github.com/josmito93-debug/jose-cv', '_blank')}
+               className="mt-8 w-full py-4 bg-white/5 border border-white/5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 hover:bg-white/10 hover:text-white transition-all flex items-center justify-center gap-3"
+            >
+               Documentation <ExternalLink className="w-3.5 h-3.5" />
+            </button>
         </div>
 
       </div>
