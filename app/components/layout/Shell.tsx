@@ -59,11 +59,8 @@ export default function Shell({ children }: ShellProps) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const isAdmin = pathname.startsWith('/admin');
-  const isDashboard = pathname.startsWith('/dashboard');
-  
-  const currentTitle = isAdmin ? "Attom Engine" : "JF.OS Terminal";
-  const accentColorClass = isDashboard ? 'bg-emerald-600' : 'bg-indigo-600';
+  const currentTitle = "JF.OS Terminal";
+  const accentColorClass = 'bg-emerald-600';
 
   return (
     <div className="min-h-screen bg-[#08080A] text-zinc-100 font-inter antialiased flex overflow-hidden">
@@ -88,9 +85,9 @@ export default function Shell({ children }: ShellProps) {
            <NavItem href="/dashboard/stocks" icon={TrendingUp} label="Stocks & Equities" active={pathname === '/dashboard/stocks'} />
            
            <div className="px-5 mt-8 mb-4">
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-700">Management</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-700">Infrastructure</p>
            </div>
-           <NavItem href="/admin" icon={ShieldCheck} label="System Admin" active={pathname === '/admin'} />
+           <NavItem href="/dashboard/settings" icon={ShieldCheck} label="Terminal Status" active={pathname === '/dashboard/settings'} />
         </nav>
 
         <div className="p-8 border-t border-white/5">
@@ -167,7 +164,7 @@ export default function Shell({ children }: ShellProps) {
                <NavItem href="/dashboard/metals" icon={Zap} label="Metals Command" active={pathname === '/dashboard/metals'} />
                <NavItem href="/dashboard/stocks" icon={TrendingUp} label="Stocks & Equities" active={pathname === '/dashboard/stocks'} />
                <div className="pt-8 border-t border-white/5 mt-8">
-                  <NavItem href="/admin" icon={ShieldCheck} label="System Admin" active={pathname === '/admin'} />
+                <NavItem href="/dashboard/settings" icon={ShieldCheck} label="Terminal Status" active={pathname === '/dashboard/settings'} />
                </div>
             </nav>
           </motion.div>
