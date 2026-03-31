@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { webhook_secret, accion, precio, razon, capital_actual } = body;
+    const { webhook_secret, accion, precio, razon, capital_actual, news_analysis } = body;
 
     // Use environment secret or the fallback for testing
     if (webhook_secret !== process.env.DASHBOARD_WEBHOOK_SECRET && webhook_secret !== "JFOS_SECURE_2026") {
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString(),
       accion,
       precio,
-      razon,
+      razon: news_analysis ? `${razon}\n\n[NEWS_ANALYSIS]\n${news_analysis}` : razon,
       capital_actual
     };
 

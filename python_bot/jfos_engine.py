@@ -54,17 +54,30 @@ def extraer_precio(simbolo):
         print(f"Error al extraer precio de Twelve Data: {e}")
         return None
 
+NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+
 def extraer_noticias(simbolo_buscar):
-    # Alpha vantage usa el ticker sin diagonal (ej. BTC)
     simbolo_limpio = simbolo_buscar.split('/')[0]
+    
+    # Intento con NewsAPI primero (Mejores titulares en tiempo real)
+    if NEWS_API_KEY:
+        try:
+            url = f"https://newsapi.org/v2/everything?q={simbolo_limpio}&sortBy=publishedAt&language=en&pageSize=3&apiKey={NEWS_API_KEY}"
+            resp = requests.get(url).json()
+            if resp.get("status") == "ok" and resp.get("articles"):
+                titulares = [art["title"] for art in resp["articles"]]
+                return f"Últimas Noticias (NewsAPI): {titulares}"
+        except Exception as e:
+            print(f"⚠️ Error NewsAPI: {e}")
+
+    # Fallback a Alpha Vantage
     try:
         url = f"https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={simbolo_limpio}&apikey={ALPHA_VANTAGE_KEY}"
         news_data = requests.get(url).json()
         if "feed" in news_data:
             top_news = [item['title'] for item in news_data['feed'][:2]]
-            sentiment = [item['overall_sentiment_label'] for item in news_data['feed'][:2]]
-            return f"Últimas 2 Noticias: {top_news}. Sentimiento: {sentiment}"
-        return "Sin noticias de alto impacto recientes."
+            return f"Últimas Noticias (AlphaVantage): {top_news}"
+        return "Sin noticias recientes."
     except Exception:
         return "No se pudieron obtener noticias."
 
@@ -90,13 +103,14 @@ def consultar_memoria(contexto):
     except Exception:
         return ["La memoria está vacía."]
 
-def enviar_dashboard(accion, precio, razon, balance):
+def enviar_dashboard(accion, precio, razon, balance, news_analysis):
     payload = {
         "webhook_secret": WEBHOOK_SECRET,
         "accion": accion,
         "precio": precio,
         "razon": razon,
-        "capital_actual": float(balance)
+        "capital_actual": float(balance),
+        "news_analysis": news_analysis
     }
     try:
         requests.post(WEBHOOK_URL, json=payload, timeout=5)
@@ -142,15 +156,22 @@ def jfos_core_loop():
             REGLA DE RIESGO: Nunca arriesgues más del 1%. Sé conservador si las noticias son negativas.
 
             TAREA: ¿Debemos operar (COMPRAR o VENDER {CANTIDAD_INVERSION} unidades) o ESPERAR?
-            Debes responder en formato ESTRICTO. La primera línea de tu respuesta debe ser ÚNICAMENTE la palabra COMPRAR, VENDER o ESPERAR.
-            La segunda línea en adelante será la justificación.
+            Debes responder ESTRICTAMENTE en este formato de 3 líneas (no uses JSON, no uses viñetas, nada antes de la LINEA 1):
+            LINEA 1: (Únicamente la palabra COMPRAR, VENDER o ESPERAR)
+            LINEA 2: (Tu justificación técnica de la decisión)
+            LINEA 3: (Análisis de cómo impactarán las Noticias en el mercado a corto plazo según tu criterio)
             """
             
             respuesta_cruda = model.generate_content(prompt).text.strip().split('\n')
+            # Limpiar lineas vacias
+            respuesta_cruda = [line for line in respuesta_cruda if line.strip()]
+            
             decision = respuesta_cruda[0].strip().upper()
-            razonamiento = ' '.join(respuesta_cruda[1:]).strip()
+            razonamiento = respuesta_cruda[1].strip() if len(respuesta_cruda) > 1 else "Razonamiento no proporcionado."
+            news_analysis = respuesta_cruda[2].strip() if len(respuesta_cruda) > 2 else "Análisis de noticias no proporcionado."
 
             print(f"🧠 Gemini Decidió: {decision} | Razón: {razonamiento}")
+            print(f"📰 Análisis Noticias: {news_analysis}")
 
             # 4. Tomar Acción
             if "COMPRAR" in decision:
@@ -158,7 +179,7 @@ def jfos_core_loop():
                     api.submit_order(symbol=SIMBOLO_ALPACA, qty=CANTIDAD_INVERSION, side='buy', type='market', time_in_force='gtc')
                     print(f"🚀 [EJECUTADO] Se ha emitido una orden de COMPRA.")
                     guardar_memoria("COMPRA", precio_actual, razonamiento, noticias)
-                    enviar_dashboard("COMPRA", precio_actual, razonamiento, balance)
+                    enviar_dashboard("COMPRA", precio_actual, razonamiento, balance, news_analysis)
                 except Exception as b_err:
                     print(f"Error operando en Alpaca (Compra): {b_err}")
             
@@ -170,13 +191,13 @@ def jfos_core_loop():
                     api.submit_order(symbol=SIMBOLO_ALPACA, qty=CANTIDAD_INVERSION, side='sell', type='market', time_in_force='gtc')
                     print(f"📉 [EJECUTADO] Se ha emitido una orden de VENTA.")
                     guardar_memoria("VENTA", precio_actual, razonamiento, noticias)
-                    enviar_dashboard("VENTA", precio_actual, razonamiento, balance)
+                    enviar_dashboard("VENTA", precio_actual, razonamiento, balance, news_analysis)
                 except Exception as s_err:
                     print(f"Error operando en Alpaca (Venta): {s_err}")
             
             else:
                 print(f"💤 [ESPERANDO] No se ejecuta ninguna operación.")
-                enviar_dashboard("ESPERA", precio_actual, razonamiento, balance)
+                enviar_dashboard("ESPERA", precio_actual, razonamiento, balance, news_analysis)
 
         except Exception as e:
             print(f"🚨 Excepción severa en el ciclo JF.OS: {e}")

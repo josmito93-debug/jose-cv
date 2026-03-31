@@ -37,12 +37,33 @@ export default function ProfessionalFinanceDashboard() {
     { label: 'TSLA', value: '175.22', change: '-2.4%', up: false },
   ];
 
-  const [botLogs, setBotLogs] = useState([
-    { id: 1, type: 'BUY', asset: 'BTC', amount: '0.045', price: '67,200', time: '2m ago' },
-    { id: 2, type: 'SELL', asset: 'SOL', amount: '12.500', price: '184', time: '15m ago' },
-    { id: 3, type: 'SURVEILLANCE', asset: 'MARKET', amount: '--', price: 'SCANNING', time: 'Active' }
-  ]);
+  const [logs, setLogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  const fetchLogs = async () => {
+    try {
+      const res = await fetch('/api/trading-logs');
+      const data = await res.json();
+      if (data.success) {
+        setLogs(data.logs || []);
+      }
+    } catch (error) {
+      console.error('Failed to fetch logs:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLogs();
+    const interval = setInterval(fetchLogs, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const latestLog = logs[0] || null;
+  const initialCapital = 100000.00; // Alpaca Paper Trading Init Capital
+  const currentCapital = latestLog?.capital_actual || initialCapital;
+  
   return (
     <div className="space-y-10 max-w-[1600px] mx-auto px-4 lg:px-8 pb-32">
       
@@ -82,7 +103,7 @@ export default function ProfessionalFinanceDashboard() {
         <div className="flex items-center gap-4">
            <div className="hidden sm:flex flex-col items-end px-6 border-r border-white/5">
               <p className="text-[9px] font-black uppercase tracking-widest text-zinc-600 mb-1">Portfolio Value (Live)</p>
-              <p className="text-xl font-black tracking-tighter text-white">$1,240,500.80</p>
+              <p className="text-xl font-black tracking-tighter text-white">${currentCapital.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
            </div>
            <button className="px-8 py-3 bg-white text-black font-black rounded-xl shadow-2xl flex items-center gap-3 hover:bg-zinc-200 transition-all text-xs">
               <Zap className="w-4 h-4" /> Deploy Capital
@@ -113,40 +134,61 @@ export default function ProfessionalFinanceDashboard() {
                 <div className="p-3 bg-emerald-500/10 rounded-xl text-emerald-400"><BarChart3 className="w-4 h-4" /></div>
                 <h3 className="text-sm font-black uppercase tracking-widest italic">Autonomous Strategy Execution</h3>
              </div>
-             <RefreshCcw className="w-4 h-4 text-zinc-700 hover:text-emerald-400 cursor-pointer transition-colors" />
+             <RefreshCcw className="w-4 h-4 text-zinc-700 hover:text-emerald-400 cursor-pointer transition-colors" onClick={fetchLogs} />
           </div>
 
           <div className="p-8 space-y-6">
-             {botLogs.map(log => (
-               <div key={log.id} className="flex items-center justify-between p-6 bg-white/[0.02] border border-white/5 rounded-2xl group hover:border-white/10 transition-all">
-                  <div className="flex items-center gap-6">
-                     <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-[10px] ${
-                       log.type === 'BUY' ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' : 
-                       log.type === 'SELL' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                       'bg-zinc-800 text-zinc-500 border border-white/5'
-                     }`}>
-                        {log.type}
-                     </div>
-                     <div>
-                        <p className="text-sm font-black tracking-tight">{log.asset} <span className="text-zinc-600 font-bold ml-2">x {log.amount}</span></p>
-                        <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">{log.time}</p>
-                     </div>
+             {logs.slice(0, 5).map((log: any) => {
+               const parts = log.razon?.split('\n\n[NEWS_ANALYSIS]\n') || [log.razon || '', ''];
+               const justRazon = parts[0];
+               const newsAnalysis = parts[1] || 'Scanning market metrics...';
+
+               return (
+               <div key={log.id} className="flex flex-col p-6 bg-white/[0.02] border border-white/5 rounded-2xl group hover:border-white/10 transition-all gap-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-6">
+                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-[10px] ${
+                         log.accion === 'COMPRA' ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' : 
+                         log.accion === 'VENTA' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                         'bg-zinc-800 text-zinc-500 border border-white/5'
+                       }`}>
+                          {log.accion}
+                       </div>
+                       <div>
+                          <p className="text-sm font-black tracking-tight cursor-default group-hover:text-indigo-300 transition-colors" title={justRazon}>BTC/USD <span className="text-zinc-500 font-medium ml-2 text-xs line-clamp-1 mt-1 max-w-[300px]">{justRazon}</span></p>
+                          <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">{new Date(log.timestamp).toLocaleTimeString()}</p>
+                       </div>
+                    </div>
+                    <div className="flex items-center gap-10">
+                       <div className="text-right">
+                          <p className="text-sm font-black tracking-tight italic">${log.precio.toLocaleString()}</p>
+                          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-700">Execution Hash</p>
+                       </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-10">
-                     <div className="text-right">
-                        <p className="text-sm font-black tracking-tight italic">${log.price}</p>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-zinc-700">Execution Hash</p>
+                  {/* News Analysis Panel */}
+                  <div className="mt-2 text-xs leading-relaxed text-zinc-400 bg-[#060608] p-4 rounded-xl border border-white/5 flex gap-3">
+                     <span className="text-lg opacity-50 shrink-0 mt-0.5">📰</span>
+                     <div>
+                       <span className="text-[9px] uppercase tracking-widest font-black text-indigo-400 block mb-1">Impacto de Noticias en Vivo:</span>
+                       {newsAnalysis}
                      </div>
-                     <MoreVertical className="w-4 h-4 text-zinc-700" />
                   </div>
                </div>
-             ))}
+               );
+             })}
+             
+             {logs.length === 0 && (
+               <div className="p-10 text-center animate-pulse">
+                  <p className="text-[10px] uppercase tracking-widest font-black text-zinc-600">📡 Conectando a Neural Link...</p>
+               </div>
+             )}
           </div>
 
           <div className="p-8 border-t border-white/5 bg-white/[0.01]">
              <div className="flex items-center gap-3">
                 <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600 italic font-medium">Neural verification complete: Bot instance Universa-Alpha operational.</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600 italic font-medium">Neural verification complete: Bot instance JF.OS operational.</span>
              </div>
           </div>
         </div>
@@ -160,8 +202,8 @@ export default function ProfessionalFinanceDashboard() {
               <div className="space-y-10">
                  <div className="flex items-center justify-between">
                     <div>
-                       <p className="text-xs font-black text-zinc-700 uppercase tracking-widest mb-1">Grid Balance</p>
-                       <p className="text-3xl font-black tracking-tighter">$124,500 <span className="text-sm text-zinc-600 italic">USD</span></p>
+                       <p className="text-xs font-black text-zinc-700 uppercase tracking-widest mb-1">Grid Balance (Paper)</p>
+                       <p className="text-3xl font-black tracking-tighter">${currentCapital.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} <span className="text-sm text-zinc-600 italic">USD</span></p>
                     </div>
                     <Globe className="w-8 h-8 text-emerald-500/20" />
                  </div>
