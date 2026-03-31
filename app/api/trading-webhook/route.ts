@@ -1,30 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { airtableTrading } from '@/lib/integrations/airtable-trading';
+import { airtableTrading, TradingLog } from '@/lib/integrations/airtable-trading';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { webhook_secret, accion, precio, razon, capital_actual } = body;
+    const { webhook_secret, accion, precio, razon, capital_actual, sector, simbolo } = body;
 
     // Use environment secret or the fallback for testing
     if (webhook_secret !== process.env.DASHBOARD_WEBHOOK_SECRET && webhook_secret !== "JFOS_SECURE_2026") {
       return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
     }
 
-    const logData = {
+    const logData: TradingLog = {
       timestamp: new Date().toISOString(),
       accion,
       precio,
       razon,
-      capital_actual
+      capital_actual,
+      sector,
+      simbolo
     };
 
     // Almacenamiento en Airtable (Persistencia en Vercel)
-    const recordId = await airtableTrading.saveLog(logData as any);
+    const recordId = await airtableTrading.saveLog(logData);
 
-    console.log("🤖 [WEBHOOK RECIBIDO] - Acción:", accion, "Precio:", precio, "Airtable ID:", recordId);
+    console.log(`🤖 [WEBHOOK ${sector || 'GLOBAL'}] - ${accion} ${simbolo || ''} @ ${precio} | Airtable ID: ${recordId}`);
 
     return NextResponse.json({ success: true, id: recordId });
   } catch (error) {

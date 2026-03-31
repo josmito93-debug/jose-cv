@@ -2,6 +2,8 @@ import os
 import time
 import requests
 import chromadb
+import argparse
+import json
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -11,179 +13,166 @@ import google.generativeai as genai
 # ==============================================================================
 # 0. CONFIGURACIÓN DEL SISTEMA
 # ==============================================================================
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
+
+parser = argparse.ArgumentParser(description='JF.OS Professional Trading Engine')
+parser.add_argument('--symbol', type=str, default='BTC/USD', help='Ticker symbol')
+parser.add_argument('--alpaca_symbol', type=str, default='BTCUSD', help='Alpaca ticker')
+parser.add_argument('--category', type=str, default='Crypto', help='Sector category')
+parser.add_argument('--risk', type=float, default=0.01, help='Risk percentage')
+args = parser.parse_args()
 
 ALPACA_KEY = os.getenv("ALPACA_API_KEY")
 ALPACA_SECRET = os.getenv("ALPACA_SECRET_KEY")
-ALPACA_URL = os.getenv("ALPACA_BASE_URL")
-
+ALPACA_BASE_URL = os.getenv("ALPACA_BASE_URL")
 TWELVE_KEY = os.getenv("TWELVE_DATA_API_KEY")
+CODEX_KEY = os.getenv("CODEX_API_KEY")
 ALPHA_VANTAGE_KEY = os.getenv("ALPHA_VANTAGE_API_KEY")
-
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
-
 WEBHOOK_URL = os.getenv("DASHBOARD_WEBHOOK_URL")
 WEBHOOK_SECRET = os.getenv("DASHBOARD_WEBHOOK_SECRET")
 
-# Configuración Inicial de APIs
-api = tradeapi.REST(ALPACA_KEY, ALPACA_SECRET, ALPACA_URL, api_version='v2')
+# Configuración APIs
+api = tradeapi.REST(ALPACA_KEY, ALPACA_SECRET, ALPACA_BASE_URL, api_version='v2')
 genai.configure(api_key=GEMINI_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+# Usando gemini-flash-latest que es estable para este entorno
+model = genai.GenerativeModel('gemini-flash-latest')
 
-# Inicialización de Memoria ChromaDB Local
-# Esto generará una carpeta `chroma_db` para guardar los registros
+# ChromaDB
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_or_create_collection(name="memoria_trading_jfos")
+collection = chroma_client.get_or_create_collection(name=f"memoria_trading_{args.category.lower()}")
 
-# Parámetros del Bot
-SIMBOLO_ACTIVO = "BTC/USD"
-SIMBOLO_ALPACA = "BTCUSD"
-CANTIDAD_INVERSION = 0.0005 # Ajustable, equivalente a pocos dólares de prueba
-TIEMPO_REVISION_SEGUNDOS = 300 # 5 Minutos
+# Mappings for Codex (DEX Crypto)
+CODEX_ASSETS = {
+    "BTC/USD": {"address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599", "networkId": 1},
+    "ETH/USD": {"address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", "networkId": 1}
+}
 
-# ==============================================================================
-# 1. MÓDULOS DE EXTRACCIÓN Y MEMORIA
-# ==============================================================================
+# Mappings for Yahoo Finance (Forex/Metals)
+YAHOO_SYMBOLS = {
+    "BTC/USD": "BTC-USD",
+    "EUR/USD": "EURUSD=X",
+    "GBP/USD": "GBPUSD=X",
+    "XAU/USD": "GC=F",
+    "XAG/USD": "SI=F",
+    "AAPL": "AAPL",
+    "NVDA": "NVDA"
+}
 
 def extraer_precio(simbolo):
+    if args.category == 'Crypto' and CODEX_KEY and simbolo in CODEX_ASSETS:
+        try:
+            asset = CODEX_ASSETS[simbolo]
+            query = f"""query {{ getTokenPrices(inputs: [{{ address: "{asset['address']}", networkId: {asset['networkId']} }}]) {{ priceUsd }} }}"""
+            headers = {"Authorization": CODEX_KEY, "Content-Type": "application/json"}
+            resp = requests.post("https://graph.codex.io/graphql", json={"query": query}, headers=headers).json()
+            prices = resp.get('data', {}).get('getTokenPrices', [])
+            if prices and prices[0].get('priceUsd'):
+                return float(prices[0]['priceUsd'])
+        except Exception:
+            pass
+
+    try:
+        headers = {"APCA-API-KEY-ID": ALPACA_KEY, "APCA-API-SECRET-KEY": ALPACA_SECRET}
+        if args.category == 'Crypto':
+            url = f"https://data.alpaca.markets/v1beta3/crypto/us/latest/trades?symbols={args.alpaca_symbol}"
+            resp = requests.get(url, headers=headers).json()
+            if 'trades' in resp and args.alpaca_symbol in resp['trades']:
+                return float(resp['trades'][args.alpaca_symbol]['p'])
+        elif args.category == 'Stocks':
+            url = f"https://data.alpaca.markets/v2/stocks/{args.alpaca_symbol}/trades/latest"
+            resp = requests.get(url, headers=headers).json()
+            if 'trade' in resp:
+                return float(resp['trade']['p'])
+    except Exception:
+        pass
+
+    try:
+        y_symbol = YAHOO_SYMBOLS.get(simbolo, simbolo.replace("/", "-"))
+        url = f"https://query1.finance.yahoo.com/v8/finance/chart/{y_symbol}?interval=1m&range=1d"
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        resp = requests.get(url, headers=headers).json()
+        meta = resp.get('chart', {}).get('result', [{}])[0].get('meta', {})
+        if 'regularMarketPrice' in meta:
+            return float(meta['regularMarketPrice'])
+    except Exception:
+        pass
+
     try:
         url = f"https://api.twelvedata.com/price?symbol={simbolo}&apikey={TWELVE_KEY}"
-        resp = requests.get(url).json()
-        return float(resp['price'])
-    except Exception as e:
-        print(f"Error al extraer precio de Twelve Data: {e}")
-        return None
+        resp = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}).json()
+        if 'price' in resp:
+            return float(resp['price'])
+    except Exception:
+        pass
 
-def extraer_noticias(simbolo_buscar):
-    # Alpha vantage usa el ticker sin diagonal (ej. BTC)
-    simbolo_limpio = simbolo_buscar.split('/')[0]
+    return None
+
+def extraer_noticias(simbolo):
+    simbolo_limpio = simbolo.split('/')[0]
     try:
         url = f"https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={simbolo_limpio}&apikey={ALPHA_VANTAGE_KEY}"
-        news_data = requests.get(url).json()
-        if "feed" in news_data:
-            top_news = [item['title'] for item in news_data['feed'][:2]]
-            sentiment = [item['overall_sentiment_label'] for item in news_data['feed'][:2]]
-            return f"Últimas 2 Noticias: {top_news}. Sentimiento: {sentiment}"
-        return "Sin noticias de alto impacto recientes."
+        resp = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}).json()
+        if "feed" in resp:
+            feed = resp["feed"][:3]
+            return " | ".join([f"{n['title']} ({n['overall_sentiment_label']})" for n in feed])
     except Exception:
-        return "No se pudieron obtener noticias."
+        pass
+    return "Stable market condition monitored."
 
-def guardar_memoria(accion, precio, razon, noticias):
-    fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
-    documento = f"[{fecha}] Acción: {accion}. Precio: {precio}. Razón: {razon}. Noticias: {noticias}"
-    
-    collection.add(
-        documents=[documento],
-        metadatas=[{"tipo": accion, "precio": precio}],
-        ids=[f"trade_{datetime.now().timestamp()}"]
-    )
-    print(f"✅ Memoria actualizada en ChromaDB: {accion} @ {precio}")
-
-def consultar_memoria(contexto):
+def calcular_qty(precio, risk):
     try:
-        results = collection.query(
-            query_texts=[contexto],
-            n_results=2
-        )
-        documentos = results.get('documents', [[]])[0]
-        return documentos if documentos else ["No hay recuerdos similares aún."]
-    except Exception:
-        return ["La memoria está vacía."]
+        cuenta = api.get_account()
+        equity = float(cuenta.equity)
+        budget = equity * risk
+        qty = budget / precio
+        if args.category == 'Crypto': return round(qty, 6)
+        return round(qty, 2)
+    except Exception: return 0.001
 
-def enviar_dashboard(accion, precio, razon, balance):
-    payload = {
-        "webhook_secret": WEBHOOK_SECRET,
-        "accion": accion,
-        "precio": precio,
-        "razon": razon,
-        "capital_actual": float(balance)
-    }
-    try:
-        requests.post(WEBHOOK_URL, json=payload, timeout=5)
-        print("🌐 Información sincronizada con Vercel Dashboard.")
-    except Exception as e:
-        print(f"⚠️ Error enviando Webhook al Dashboard: {e}")
-
-# ==============================================================================
-# 2. EL BUCLE PRINCIPAL (JF.OS CORE)
-# ==============================================================================
-
-def jfos_core_loop():
-    print(f"🤖 [JF.OS ACTIVO] Iniciando supervisión del mercado para {SIMBOLO_ACTIVO}...")
+def main():
+    print(f"🛰️ [JF.OS NODE {args.category.upper()} STARTING] Asset: {args.symbol}")
     
     while True:
-        print("-" * 50)
         try:
-            # 1. Recolectar Información
-            precio_actual = extraer_precio(SIMBOLO_ACTIVO)
-            if not precio_actual:
-                time.sleep(60)
-                continue
+            precio = extraer_precio(args.symbol)
+            if not precio:
+                print(f"⚠️ Market data starvation for {args.symbol}. Resetting link...")
+                time.sleep(60); continue
 
-            noticias = extraer_noticias(SIMBOLO_ACTIVO)
-            
-            # 2. Obtener Balance actual de Alpaca
-            cuenta = api.get_account()
-            balance = cuenta.portfolio_value
-            
-            contexto_busqueda = f"Valor {precio_actual} y noticias {noticias}"
-            recuerdos = consultar_memoria(contexto_busqueda)
+            noticias = extraer_noticias(args.symbol)
+            balance = float(api.get_account().equity)
+            results = collection.query(query_texts=[f"{args.symbol} {noticias}"], n_results=1)
+            memoria = results.get('documents', [[]])[0]
 
-            # 3. Construir el Prompt para el Cerebro Generativo (Gemini)
-            prompt = f"""
-            Eres JF.OS, un bot de trading algorítmico diseñado para escalar una cuenta de $300 a $30,000 mediante interés compuesto y fondeo.
-            SITUACIÓN ACTUAL:
-            - Activo: {SIMBOLO_ACTIVO}
-            - Precio Actual: ${precio_actual}
-            - Capital de la Cuenta: ${balance}
-            - Contexto (Noticias): {noticias}
-            - Memoria a largo plazo (Tus trades similares): {recuerdos}
+            prompt = f"""YOU ARE JF.OS INTELLIGENCE NODE. DECIDE: COMPRAR/VENDER/ESPERAR. REASON: 1 sentence. SECTOR: {args.category} | ASSET: {args.symbol} | PRICE: ${precio} | INTEL: {noticias} | HISTORY: {memoria}"""
+            res = model.generate_content(prompt).text.strip().split('\n')
+            decision = res[0].strip().upper()
+            razon = ' '.join(res[1:]).strip() if len(res) > 1 else "Strategic position."
 
-            REGLA DE RIESGO: Nunca arriesgues más del 1%. Sé conservador si las noticias son negativas.
+            print(f"🧠 {decision}: {razon}")
 
-            TAREA: ¿Debemos operar (COMPRAR o VENDER {CANTIDAD_INVERSION} unidades) o ESPERAR?
-            Debes responder en formato ESTRICTO. La primera línea de tu respuesta debe ser ÚNICAMENTE la palabra COMPRAR, VENDER o ESPERAR.
-            La segunda línea en adelante será la justificación.
-            """
-            
-            respuesta_cruda = model.generate_content(prompt).text.strip().split('\n')
-            decision = respuesta_cruda[0].strip().upper()
-            razonamiento = ' '.join(respuesta_cruda[1:]).strip()
-
-            print(f"🧠 Gemini Decidió: {decision} | Razón: {razonamiento}")
-
-            # 4. Tomar Acción
             if "COMPRAR" in decision:
-                try:
-                    api.submit_order(symbol=SIMBOLO_ALPACA, qty=CANTIDAD_INVERSION, side='buy', type='market', time_in_force='gtc')
-                    print(f"🚀 [EJECUTADO] Se ha emitido una orden de COMPRA.")
-                    guardar_memoria("COMPRA", precio_actual, razonamiento, noticias)
-                    enviar_dashboard("COMPRA", precio_actual, razonamiento, balance)
-                except Exception as b_err:
-                    print(f"Error operando en Alpaca (Compra): {b_err}")
-            
+                qty = calcular_qty(precio, args.risk)
+                if qty > 0:
+                    try:
+                        api.submit_order(symbol=args.alpaca_symbol, qty=qty, side='buy', type='market', time_in_force='gtc',
+                                         order_class='bracket', take_profit={'limit_price': round(precio * 1.05, 2)},
+                                         stop_loss={'stop_price': round(precio * 0.98, 2)})
+                        print(f"🚀 EXECUTED BUY: {qty} {args.symbol}")
+                    except Exception as e: print(f"Error: {e}")
             elif "VENDER" in decision:
                 try:
-                    # En Alpaca Paper Trading podemos abrir posiciones cortas o vender, pero para este bot conservador
-                    # asumiremos que solo vendemos si tenemos la posición abierta. 
-                    # El siguiente submit simplifica la operación.
-                    api.submit_order(symbol=SIMBOLO_ALPACA, qty=CANTIDAD_INVERSION, side='sell', type='market', time_in_force='gtc')
-                    print(f"📉 [EJECUTADO] Se ha emitido una orden de VENTA.")
-                    guardar_memoria("VENTA", precio_actual, razonamiento, noticias)
-                    enviar_dashboard("VENTA", precio_actual, razonamiento, balance)
-                except Exception as s_err:
-                    print(f"Error operando en Alpaca (Venta): {s_err}")
+                    pos = api.get_position(args.alpaca_symbol)
+                    api.submit_order(symbol=args.alpaca_symbol, qty=float(pos.qty), side='sell', type='market', time_in_force='gtc')
+                    print(f"📉 EXECUTED SELL: {args.symbol}")
+                except Exception: print("Buffer clear.")
             
-            else:
-                print(f"💤 [ESPERANDO] No se ejecuta ninguna operación.")
-                enviar_dashboard("ESPERA", precio_actual, razonamiento, balance)
+            # Sync to Dashboard
+            requests.post(WEBHOOK_URL, json={"webhook_secret": WEBHOOK_SECRET, "accion": decision, "precio": precio, "razon": razon, "capital_actual": balance, "sector": args.category, "simbolo": args.symbol})
 
-        except Exception as e:
-            print(f"🚨 Excepción severa en el ciclo JF.OS: {e}")
-        
-        # 5. Dormir hasta la próxima evaluación
-        print(f"🕒 Durmiendo {TIEMPO_REVISION_SEGUNDOS} segundos...")
-        time.sleep(TIEMPO_REVISION_SEGUNDOS)
+        except Exception as e: print(f"🚨 Panic: {e}")
+        time.sleep(300)
 
 if __name__ == "__main__":
-    jfos_core_loop()
+    main()

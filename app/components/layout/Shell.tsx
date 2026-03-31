@@ -22,11 +22,37 @@ import {
   ChevronRight,
   Search,
   Bell,
-  Plus
+  Plus,
+  RefreshCcw
 } from 'lucide-react';
 
 interface ShellProps {
   children: React.ReactNode;
+}
+
+function NavItem({ href, icon: Icon, label, active }: { href: string; icon: any; label: string; active: boolean }) {
+  return (
+    <Link
+      href={href}
+      className={`flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all group relative ${
+        active 
+          ? 'text-white' 
+          : 'text-zinc-500 hover:text-zinc-300'
+      }`}
+    >
+      {active && (
+        <motion.div 
+          layoutId="pill"
+          className="absolute inset-0 bg-white/5 border border-white/5 rounded-xl -z-10 shadow-xl"
+        />
+      )}
+      <div className={`transition-transform group-hover:scale-110 ${active ? 'text-emerald-400' : ''}`}>
+        <Icon className="w-4 h-4" />
+      </div>
+      <span className="text-xs font-bold tracking-tight">{label}</span>
+      {active && <div className="ml-auto w-1 h-1 rounded-full bg-emerald-400" />}
+    </Link>
+  );
 }
 
 export default function Shell({ children }: ShellProps) {
@@ -35,69 +61,36 @@ export default function Shell({ children }: ShellProps) {
 
   const isAdmin = pathname.startsWith('/admin');
   const isDashboard = pathname.startsWith('/dashboard');
-  const isHQ = pathname === '/hq';
-
-  const navLinks = isAdmin ? [
-    { name: 'Dashboard', href: '/admin', icon: <LayoutDashboard className="w-4 h-4" /> },
-    { name: 'Clients CRM', href: '/admin', icon: <Users className="w-4 h-4" /> },
-    { name: 'Onboarding', href: '/atom', icon: <Globe className="w-4 h-4" /> },
-    { name: 'Data API', href: '/admin/logs', icon: <Zap className="w-4 h-4" /> },
-  ] : isDashboard ? [
-    { name: 'Finance Home', href: '/dashboard', icon: <TrendingUp className="w-4 h-4" /> },
-    { name: 'Market Intel', href: '/dashboard/intel', icon: <Activity className="w-4 h-4" /> },
-    { name: 'Security Hub', href: '/dashboard/security', icon: <ShieldCheck className="w-4 h-4" /> },
-    { name: 'Active Nodes', href: '/dashboard/nodes', icon: <Cpu className="w-4 h-4" /> },
-  ] : [
-    { name: 'HQ Command', href: '/hq', icon: <Cpu className="w-4 h-4" /> },
-    { name: 'Finance Agent', href: '/dashboard', icon: <TrendingUp className="w-4 h-4" /> },
-    { name: 'Attom Command', href: '/admin', icon: <LayoutDashboard className="w-4 h-4" /> },
-  ];
-
-  const accentColor = isAdmin ? 'indigo' : isDashboard ? 'emerald' : 'indigo';
-  const currentTitle = isAdmin ? "Attom Engine" : isDashboard ? "Finance Intel" : "HQ Operations";
-  const currentThemeColor = isAdmin ? "text-indigo-400" : isDashboard ? "text-emerald-400" : "text-indigo-400";
-  const currentBgGlow = isAdmin ? "bg-indigo-500/10" : isDashboard ? "bg-emerald-500/10" : "bg-indigo-500/10";
-  const currentBorder = isAdmin ? "border-white/5" : isDashboard ? "border-white/5" : "border-white/5";
-  const currentShadow = isAdmin ? "shadow-[0_0_20px_rgba(99,102,241,0.15)]" : isDashboard ? "shadow-[0_0_20px_rgba(16,185,129,0.15)]" : "shadow-[0_0_20px_rgba(99,102,241,0.15)]";
-
-  const currentPathLabel = navLinks.find(n => n.href === pathname)?.name || 'Portal';
+  
+  const currentTitle = isAdmin ? "Attom Engine" : "JF.OS Terminal";
+  const accentColor = isDashboard ? 'emerald' : 'indigo';
 
   return (
     <div className="min-h-screen bg-[#08080A] text-zinc-100 font-inter antialiased flex overflow-hidden">
-      {/* Sidebar - Stakent Style */}
+      {/* Sidebar - Professional Trading Terminal Style */}
       <aside className="hidden lg:flex w-72 flex-col bg-[#0C0C0E] border-r border-white/5 relative z-50">
         <div className="p-8">
           <div className="flex items-center gap-3 px-2">
-            <div className={`w-8 h-8 rounded-xl bg-${accentColor}-600 flex items-center justify-center font-black text-xs text-white`}>H</div>
-            <span className="text-sm font-black tracking-tighter uppercase">{currentTitle}</span>
+            <div className={`w-8 h-8 rounded-xl bg-${accentColor}-600 flex items-center justify-center font-black text-xs text-white uppercase italic`}>JF</div>
+            <span className="text-sm font-black tracking-tighter uppercase italic">{currentTitle}</span>
           </div>
         </div>
 
         <nav className="flex-1 px-4 space-y-1">
-          {navLinks.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all group relative ${
-                  isActive 
-                    ? 'text-white' 
-                    : 'text-zinc-500 hover:text-zinc-300'
-                }`}
-              >
-                {isActive && (
-                  <motion.div 
-                    layoutId="pill"
-                    className={`absolute inset-0 bg-white/5 border border-white/5 rounded-xl -z-10 shadow-xl`}
-                  />
-                )}
-                <div className={`transition-transform group-hover:scale-110 ${isActive ? `text-${accentColor}-400` : ''}`}>{item.icon}</div>
-                <span className="text-xs font-bold tracking-tight">{item.name}</span>
-                {isActive && <div className={`ml-auto w-1 h-1 rounded-full bg-${accentColor}-400`} />}
-              </Link>
-            );
-          })}
+           <div className="px-5 mb-4">
+              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-700">Market Sectors</p>
+           </div>
+           
+           <NavItem href="/dashboard" icon={Globe} label="Terminal HQ" active={pathname === '/dashboard'} />
+           <NavItem href="/dashboard/crypto" icon={Cpu} label="Crypto Intelligence" active={pathname === '/dashboard/crypto'} />
+           <NavItem href="/dashboard/forex" icon={RefreshCcw} label="Forex Surveillance" active={pathname === '/dashboard/forex'} />
+           <NavItem href="/dashboard/metals" icon={Zap} label="Metals Command" active={pathname === '/dashboard/metals'} />
+           <NavItem href="/dashboard/stocks" icon={TrendingUp} label="Stocks & Equities" active={pathname === '/dashboard/stocks'} />
+           
+           <div className="px-5 mt-8 mb-4">
+              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-700">Management</p>
+           </div>
+           <NavItem href="/admin" icon={ShieldCheck} label="System Admin" active={pathname === '/admin'} />
         </nav>
 
         <div className="p-8 border-t border-white/5">
@@ -106,12 +99,12 @@ export default function Shell({ children }: ShellProps) {
                  <div className="w-8 h-8 rounded-full bg-zinc-800" />
                  <div>
                     <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">Luis H.</p>
-                    <p className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest">Admin Access</p>
+                    <p className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest">Master Operator</p>
                  </div>
               </div>
               <Link href="/dashboard/settings" className="w-full">
                 <button className="w-full flex items-center justify-center gap-2 py-2 border border-white/5 rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-all">
-                   Settings
+                   System Settings
                 </button>
               </Link>
            </div>
@@ -122,25 +115,28 @@ export default function Shell({ children }: ShellProps) {
       <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
         <header className="h-20 shrink-0 border-b border-white/5 flex items-center justify-between px-10 bg-[#0C0C0E]/50 backdrop-blur-xl z-40">
           <div className="flex items-center gap-4">
-             <div className="lg:hidden p-2 bg-white/5 rounded-lg" onClick={() => setIsMobileMenuOpen(true)}>
+             <div className="lg:hidden p-2 bg-white/5 rounded-lg cursor-pointer" onClick={() => setIsMobileMenuOpen(true)}>
                 <Menu className="w-5 h-5" />
              </div>
-             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-zinc-500">{currentPathLabel}</h3>
+             <div className="flex items-center gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <h3 className="text-xs font-black uppercase tracking-[0.3em] text-zinc-500">Live Infrastructure Operational</h3>
+             </div>
           </div>
           
           <div className="flex items-center gap-6">
             <div className="hidden md:flex relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-600 group-hover:text-indigo-400 transition-colors" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-600" />
               <input 
                 type="text" 
-                placeholder="Search resources..." 
+                placeholder="Search markets..." 
                 className="bg-white/5 border border-white/5 rounded-xl py-2.5 pl-11 pr-5 text-[10px] font-bold focus:outline-none focus:border-white/10 transition-all w-48"
               />
             </div>
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-white/5 rounded-xl border border-white/5 text-zinc-500 relative">
                  <Bell className="w-4 h-4" />
-                 <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-indigo-500 rounded-full border-2 border-[#0C0C0E]" />
+                 <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-emerald-500 rounded-full border-2 border-[#0C0C0E]" />
               </div>
             </div>
           </div>
@@ -164,14 +160,15 @@ export default function Shell({ children }: ShellProps) {
                <div className="text-xl font-black italic uppercase">JF.OS</div>
                <button onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
             </div>
-            <nav className="space-y-4">
-               {navLinks.map((link) => (
-                 <Link key={link.href} href={link.href} onClick={() => setIsMobileMenuOpen(false)}>
-                    <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 font-bold tracking-tight">
-                       {link.icon} {link.name}
-                    </div>
-                 </Link>
-               ))}
+            <nav className="space-y-1">
+               <NavItem href="/dashboard" icon={Globe} label="Terminal HQ" active={pathname === '/dashboard'} />
+               <NavItem href="/dashboard/crypto" icon={Cpu} label="Crypto Intelligence" active={pathname === '/dashboard/crypto'} />
+               <NavItem href="/dashboard/forex" icon={RefreshCcw} label="Forex Surveillance" active={pathname === '/dashboard/forex'} />
+               <NavItem href="/dashboard/metals" icon={Zap} label="Metals Command" active={pathname === '/dashboard/metals'} />
+               <NavItem href="/dashboard/stocks" icon={TrendingUp} label="Stocks & Equities" active={pathname === '/dashboard/stocks'} />
+               <div className="pt-8 border-t border-white/5 mt-8">
+                  <NavItem href="/admin" icon={ShieldCheck} label="System Admin" active={pathname === '/admin'} />
+               </div>
             </nav>
           </motion.div>
         )}

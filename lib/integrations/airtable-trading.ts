@@ -10,6 +10,8 @@ export interface TradingLog {
   precio: number;
   razon: string;
   capital_actual: number;
+  sector?: string;
+  simbolo?: string;
 }
 
 export class AirtableTrading {
@@ -38,15 +40,19 @@ export class AirtableTrading {
    */
   async saveLog(log: TradingLog): Promise<string> {
     try {
-      logger.info('Saving trading log to Airtable', { accion: log.accion, precio: log.precio });
+      logger.info('Saving trading log to Airtable', { accion: log.accion, precio: log.precio, sector: log.sector });
 
-      const fields = {
+      const fields: any = {
         'Timestamp': log.timestamp,
         'Accion': log.accion,
         'Precio': log.precio,
         'Razon': log.razon,
         'Capital Actual': log.capital_actual,
       };
+
+      // Opcionalmente agregar sector y simbolo si existen
+      if (log.sector) fields['Sector'] = log.sector;
+      if (log.simbolo) fields['Simbolo'] = log.simbolo;
 
       const record = await this.base(this.tableName).create(fields);
       const recordId = record.getId();
@@ -78,6 +84,8 @@ export class AirtableTrading {
         precio: record.get('Precio'),
         razon: record.get('Razon'),
         capital_actual: record.get('Capital Actual'),
+        sector: record.get('Sector'),
+        simbolo: record.get('Simbolo'),
       }));
     } catch (error) {
       logger.error('Failed to fetch trading logs from Airtable', error);
