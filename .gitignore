@@ -26,3 +26,11 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# python
+.venv
+__pycache__
+*.pyc
+python_bot/bot.log
+python_bot/bot.pid
+chroma_db/
