@@ -20,7 +20,7 @@ export async function GET(request: Request) {
   try {
     if (type === 'trending') {
       if (category === 'Crypto') {
-        if (!apiKey) return NextResponse.json({ success: false, error: 'Missing TwelveData Key' }, { status: 500 });
+        if (!apiKey) throw new Error('Missing TwelveData Key');
         const cryptoSyms = ['BTC/USD', 'ETH/USD', 'SOL/USD', 'XRP/USD', 'DOGE/USD', 'ADA/USD', 'DOT/USD', 'AVAX/USD', 'LINK/USD', 'SHIB/USD'];
         const url = `https://api.twelvedata.com/quote?symbol=${cryptoSyms.join(',')}&apikey=${apiKey}`;
         const resp = await fetch(url);

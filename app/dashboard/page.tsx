@@ -68,14 +68,7 @@ export default function GlobalOverview() {
       </div>
 
       <TrendingAssets category="Overview" />
-        
-        <div className="flex items-center gap-10">
-           <div className="text-right">
-              <p className="text-[9px] font-black uppercase tracking-widest text-zinc-600 mb-1">Total Portfolio Value</p>
-              <p className="text-2xl font-black tracking-tighter text-white">${currentCapital.toLocaleString()}</p>
-           </div>
-        </div>
-      </div>
+    </div>
 
       {/* Aggregated Performance Chart */}
       <div className="bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] p-10 relative overflow-hidden">

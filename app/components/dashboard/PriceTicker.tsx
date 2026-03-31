@@ -24,7 +24,7 @@ export default function PriceTicker({ category }: PriceTickerProps) {
       const res = await fetch(`/api/market-data?category=${category}`);
       const json = await res.json();
       if (json.success) {
-        setData(json.data);
+        setData(json.tickers || []);
       }
     } catch (error) {
       console.error('Ticker fetch error:', error);
@@ -35,21 +35,44 @@ export default function PriceTicker({ category }: PriceTickerProps) {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 30000); // 30s update
+    const interval = setInterval(fetchData, 30000);
     return () => clearInterval(interval);
   }, [category]);
 
-  const fallbackData: TickerItem[] = [
-    { symbol: 'BTC', price: 95420.50, change: 1.25, isUp: true },
-    { symbol: 'ETH', price: 2740.15, change: -0.45, isUp: false },
-    { symbol: 'SOL', price: 185.30, change: 4.12, isUp: true },
-    { symbol: 'GOLD', price: 2150.80, change: 0.15, isUp: true },
-    { symbol: 'NVDA', price: 145.20, change: 2.85, isUp: true },
-    { symbol: 'TSLA', price: 250.10, change: -1.20, isUp: false },
-  ];
+  const getFallbackData = () => {
+    const fallbacks: Record<string, TickerItem[]> = {
+      Crypto: [
+        { symbol: 'BTC', price: 95420.50, change: 1.25, isUp: true },
+        { symbol: 'ETH', price: 2740.15, change: -0.45, isUp: false },
+        { symbol: 'SOL', price: 185.30, change: 4.12, isUp: true },
+        { symbol: 'BNB', price: 590.20, change: 0.85, isUp: true },
+        { symbol: 'XRP', price: 2.10, change: -1.20, isUp: false },
+      ],
+      Metals: [
+        { symbol: 'GOLD', price: 2150.80, change: 0.15, isUp: true },
+        { symbol: 'SILVER', price: 24.50, change: -0.50, isUp: false },
+        { symbol: 'PLAT', price: 980.00, change: 1.10, isUp: true },
+        { symbol: 'COPPER', price: 3.85, change: 0.25, isUp: true },
+      ],
+      Forex: [
+        { symbol: 'EUR/USD', price: 1.0850, change: 0.12, isUp: true },
+        { symbol: 'GBP/USD', price: 1.2640, change: -0.08, isUp: false },
+        { symbol: 'USD/JPY', price: 148.20, change: 0.45, isUp: true },
+        { symbol: 'AUD/USD', price: 0.6520, change: -0.30, isUp: false },
+      ],
+      Stocks: [
+        { symbol: 'NVDA', price: 145.20, change: 2.85, isUp: true },
+        { symbol: 'TSLA', price: 250.10, change: -1.20, isUp: false },
+        { symbol: 'AAPL', price: 185.50, change: 0.75, isUp: true },
+        { symbol: 'MSFT', price: 410.20, change: 1.15, isUp: true },
+        { symbol: 'AMZN', price: 175.80, change: -0.60, isUp: false },
+      ],
+    };
+    return fallbacks[category as keyof typeof fallbacks] || fallbacks.Crypto;
+  };
 
-  const displayItems = data.length > 0 ? data : fallbackData;
-  const displayData = [...displayItems, ...displayItems, ...displayItems];
+  const displayItems = data.length > 0 ? data : getFallbackData();
+  const displayData = [...displayItems, ...displayItems, ...displayItems, ...displayItems];
 
   return (
     <div className="w-full bg-black/60 border-y border-white/5 py-4 overflow-hidden relative backdrop-blur-sm">
