@@ -90,6 +90,7 @@ export default function AdminShell({ children }: ShellProps) {
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-700">Automation</p>
            </div>
            <NavItem href="/collector" icon={Zap} label="Attom Collector" active={pathname === '/collector'} />
+           <NavItem href="/hq/n8n" icon={Database} label="N8N Architect" active={pathname === '/hq/n8n'} />
            
            <div className="px-5 mt-8 mb-4">
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-700">System</p>
@@ -181,6 +182,7 @@ export default function AdminShell({ children }: ShellProps) {
                <NavItem href="/admin/clients" icon={Users} label="Client Registry" active={pathname === '/admin/clients'} />
                <div className="pt-8 border-t border-white/5 mt-8">
                   <NavItem href="/collector" icon={Zap} label="Attom Collector" active={pathname === '/collector'} />
+                  <NavItem href="/hq/n8n" icon={Database} label="N8N Architect" active={pathname === '/hq/n8n'} />
                </div>
                <div className="pt-4">
                   <NavItem href="/dashboard" icon={Globe} label="Switch to JF.OS" active={false} />
