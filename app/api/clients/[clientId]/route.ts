@@ -1,85 +1,41 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { airtableCRM } from '@/lib/integrations/airtable-crm';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ clientId: string }> }
+  request: Request,
+  { params }: { params: { clientId: string } }
 ) {
   try {
     const { clientId } = await params;
-
-    // Load client data from Airtable
-    const record = await airtableCRM.getClient(clientId);
-
-    if (!record) {
-      return NextResponse.json({ error: 'Client not found' }, { status: 404 });
+    
+    if (!clientId) {
+      return NextResponse.json({ success: false, error: 'Client ID is required' }, { status: 400 });
     }
 
-    // Map Airtable fields back to ClientData structure
-    const clientData = {
-      id: record.getId(),
-      airtableRecordId: record.getId(),
-      info: {
-        clientId: record.get('Client ID'),
-        businessName: record.get('Business Name'),
-        contactName: record.get('Contact Name'),
-        email: record.get('Email'),
-        phone: record.get('Phone'),
-        businessType: record.get('Business Type'),
-        createdAt: record.get('Created At'),
-        updatedAt: record.get('Updated At'),
-      },
+    const record = await airtableCRM.getClient(clientId);
+    
+    if (!record) {
+      return NextResponse.json({ success: false, error: 'Client not found' }, { status: 404 });
+    }
+
+    const client = {
+      id: record.id,
+      name: record.fields['Contact Name'] || 'Sin Nombre',
+      business: record.fields['Business Name'] || 'Sin Negocio',
+      paymentStatus: record.fields['Payment Status'] || 'UNPAID',
+      status: record.fields['Deployment Status'] === 'Active' ? 'DEPLOYED' : 'PENDING',
       branding: {
-        colors: { primary: record.get('Primary Color') },
-        logo: { url: record.get('Logo URL') }
-      },
-      payment: {
-        amount: record.get('Payment Amount'),
-        currency: record.get('Payment Currency'),
-        status: record.get('Payment Status'),
-      },
-      deployment: {
-        status: record.get('Deployment Status'),
-        github: { repoUrl: record.get('GitHub Repo') },
-        hosting: { url: record.get('Hosting URL') }
+        colors: { primary: record.fields['Primary Color'] || '#39FF14' }
       }
     };
 
-    return NextResponse.json(clientData);
-  } catch (error) {
-    console.error('Error fetching client data:', error);
+    return NextResponse.json({ success: true, client });
+  } catch (error: any) {
+    console.error('Error fetching client:', error);
     return NextResponse.json(
-      { error: 'Client not found' },
-      { status: 404 }
-    );
-  }
-}
-
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ clientId: string }> }
-) {
-  try {
-    const { clientId } = await params;
-    const updates = await request.json();
-
-    // In a real scenario, you'd find the record first or use the airtableRecordId
-    const record = await airtableCRM.getClient(clientId);
-    if (!record) {
-      return NextResponse.json({ error: 'Client not found' }, { status: 404 });
-    }
-
-    // Update Airtable record
-    // Note: buildAirtableFields might need adjustment to handle partial updates
-    await airtableCRM.updateFields(record.getId(), updates);
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error updating client data:', error);
-    return NextResponse.json(
-      { error: 'Failed to update client' },
+      { success: false, error: error.message },
       { status: 500 }
     );
   }
