@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { 
   ArrowLeft, 
   ExternalLink, 
-  Github, 
+  Globe as Github, 
   CreditCard, 
   Globe, 
   CheckCircle2, 
@@ -14,7 +14,9 @@ import {
   Mail, 
   Phone, 
   Tag,
-  Rocket
+  Rocket,
+  Link as LinkIcon,
+  Copy
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -23,6 +25,36 @@ export default function ClientDetail() {
   const router = useRouter();
   const [client, setClient] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [copiedLink, setCopiedLink] = useState(false);
+
+  const handleCopyInvoice = () => {
+    const url = `${window.location.origin}/pay/${clientId}`;
+    
+    const copyToClipboard = (text: string) => {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+        } catch (err) {
+          console.error('Fallback copy failed', err);
+        }
+        textArea.remove();
+      }
+    };
+
+    copyToClipboard(url);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
+  };
 
   useEffect(() => {
     const fetchClient = async () => {
@@ -48,7 +80,7 @@ export default function ClientDetail() {
     <div className="h-96 flex flex-col items-center justify-center text-zinc-600">
       <FileText className="w-12 h-12 mb-4 opacity-20" />
       <p className="font-black uppercase tracking-widest text-xs mb-8">Client specification not found</p>
-      <button onClick={() => router.push('/admin/clients')} className="text-indigo-400 font-bold hover:underline">Return to repository</button>
+      <button onClick={() => router.push('/admin')} className="text-indigo-400 font-bold hover:underline">Return to repository</button>
     </div>
   );
 
@@ -84,11 +116,18 @@ export default function ClientDetail() {
              </div>
           </div>
         </div>
-        <div className="flex gap-4">
-          <button className="px-8 py-4 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/10 font-black text-[10px] uppercase tracking-widest transition-all">
+        <div className="flex flex-wrap gap-4 justify-end">
+          <button 
+             onClick={handleCopyInvoice}
+             className="px-6 py-4 bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 border border-emerald-500/20 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center gap-3"
+          >
+            {copiedLink ? <CheckCircle2 className="w-4 h-4" /> : <LinkIcon className="w-4 h-4" />}
+            {copiedLink ? 'Link Copiado' : 'Generar Invoice'}
+          </button>
+          <button className="px-6 py-4 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/10 font-black text-[10px] uppercase tracking-widest transition-all">
             Update Specs
           </button>
-          <button className="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 rounded-2xl shadow-lg shadow-indigo-600/20 font-black text-[10px] uppercase tracking-widest text-white transition-all flex items-center gap-3">
+          <button className="px-6 py-4 bg-indigo-600 hover:bg-indigo-500 rounded-2xl shadow-lg shadow-indigo-600/20 font-black text-[10px] uppercase tracking-widest text-white transition-all flex items-center gap-3">
             <Rocket className="w-4 h-4" /> Trigger Deploy
           </button>
         </div>

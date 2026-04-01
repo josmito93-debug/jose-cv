@@ -52,13 +52,28 @@ async function checkAlphaVantage() {
 
 async function checkAirtable() {
   const start = Date.now();
-  try {
-    const res = await fetch(`https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Trading%20Logs?maxRecords=1`, {
-      headers: { Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}` }
-    });
-    if (res.ok) return { status: 'online', latency: Date.now() - start };
+  const apiKey = process.env.AIRTABLE_API_KEY;
+  const baseId = process.env.AIRTABLE_BASE_ID;
+
+  if (!apiKey || !baseId) {
+    console.error('❌ Airtable Error: Missing API_KEY or BASE_ID in environment');
     return { status: 'offline', latency: Date.now() - start };
-  } catch {
+  }
+
+  try {
+    const res = await fetch(`https://api.airtable.com/v0/${baseId}/Trading%20Logs?maxRecords=1`, {
+      headers: { Authorization: `Bearer ${apiKey}` }
+    });
+    
+    if (res.ok) {
+      return { status: 'online', latency: Date.now() - start };
+    } else {
+      const errorData = await res.json().catch(() => ({}));
+      console.error('❌ Airtable Error:', res.status, errorData);
+      return { status: 'offline', latency: Date.now() - start };
+    }
+  } catch (error) {
+    console.error('❌ Airtable Fetch Error:', error);
     return { status: 'offline', latency: Date.now() - start };
   }
 }

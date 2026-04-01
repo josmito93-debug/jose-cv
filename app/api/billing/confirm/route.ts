@@ -3,7 +3,7 @@ import { airtableCRM } from '@/lib/integrations/airtable-crm';
 
 export async function POST(request: Request) {
   try {
-    const { clientId, subscriptionId } = await request.json();
+    const { clientId, subscriptionId, method } = await request.json();
     
     if (!clientId || !subscriptionId) {
       return NextResponse.json({ success: false, error: 'Missing payment data' }, { status: 400 });
@@ -16,11 +16,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Client record not found' }, { status: 404 });
     }
 
-    // Update the record with PAID status and reference
+    // Calculate next due date (1 month from now)
+    const nextDueDate = new Date();
+    nextDueDate.setMonth(nextDueDate.getMonth() + 1);
+
+    // Update the record
     await airtableCRM.updateFields(record.id, {
-      'Payment Status': 'PAID',
+      'Payment Status': method === 'PAGO_MOVIL' ? 'PENDING_VERIFICATION' : 'PAID',
+      'Payment Method': method === 'PAGO_MOVIL' ? 'PAGO_MOVIL' : 'PAYPAL',
       'Payment Reference': subscriptionId,
-      'Payment Completed': new Date().toISOString()
+      'Next Due Date': nextDueDate.toISOString().split('T')[0]
     });
 
     return NextResponse.json({ 

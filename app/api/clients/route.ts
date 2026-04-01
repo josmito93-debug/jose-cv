@@ -14,23 +14,12 @@ export async function GET() {
       name: record.fields['Contact Name'] || 'Sin Nombre',
       business: record.fields['Business Name'] || 'Sin Negocio',
       paymentStatus: record.fields['Payment Status'] || 'UNPAID',
-      status: record.fields['Deployment Status'] === 'Active' ? 'DEPLOYED' : 'PENDING',
       info: {
         clientId: record.fields['Client ID'],
         businessName: record.fields['Business Name'],
         contactName: record.fields['Contact Name'],
         email: record.fields['Email'],
         phone: record.fields['Phone'],
-        businessType: record.fields['Business Type'],
-        notes: record.fields['Notes'],
-      },
-      branding: {
-        colors: { primary: record.fields['Primary Color'] || '#39FF14' }
-      },
-      deployment: {
-        status: record.fields['Deployment Status'],
-        github: { repoUrl: record.fields['GitHub Repo'] },
-        hosting: { url: record.fields['Hosting URL'] }
       }
     }));
 
@@ -59,22 +48,12 @@ export async function POST(request: any) {
         contactName: data.contactName || data.name || 'Sin Nombre',
         email: data.email || (isEmail ? contact : ''),
         phone: data.phone || (isPhone ? contact : ''),
-        businessType: data.businessType || data.industry || 'No especificado',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        notes: `Propuesta de Valor: ${data.valueProp || 'N/A'}\nEstilo: ${data.brandStyle || 'N/A'}\nReferencia: ${data.reference || 'N/A'}`
-      },
-      branding: {
-        colors: { primary: '#39FF14' }
       },
       payment: {
         status: 'UNPAID',
-        method: 'PENDING',
-        amount: 0,
-        currency: 'USD'
-      },
-      deployment: {
-        status: 'PENDING'
+        method: '',
+        reference: '',
+        nextDueDate: null
       }
     };
 

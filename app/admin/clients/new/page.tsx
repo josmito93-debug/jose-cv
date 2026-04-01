@@ -30,17 +30,40 @@ export default function NewClientPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate API call to Airtable
-    setTimeout(() => {
+    
+    try {
+      const response = await fetch('/api/clients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessName: formData.businessName,
+          businessType: formData.businessType,
+          contactName: formData.contactName,
+          email: formData.contactEmail,
+          plan: formData.plan,
+          deposit: formData.deposit
+        })
+      });
+
+      if (response.ok) {
+        // Success: Redirect back to the main admin dashboard
+        router.push('/admin');
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.message || 'Failed to create client'}`);
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Network error. Please try again.');
+    } finally {
       setLoading(false);
-      router.push('/admin/clients');
-    }, 1500);
+    }
   };
 
   return (
     <div className="max-w-3xl mx-auto space-y-12">
       <div className="flex items-center gap-6">
-        <Link href="/admin/clients">
+        <Link href="/admin">
           <motion.button 
             whileHover={{ x: -5 }}
             className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white transition-all"

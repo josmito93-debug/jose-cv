@@ -57,48 +57,23 @@ export class AirtableCRM {
   /**
    * Build Airtable fields from client data
    */
-  private buildAirtableFields(clientData: ClientData): any {
-    const { info, branding, payment, deployment, assets } = clientData;
+  private buildAirtableFields(clientData: ClientData | any): any {
+    const { info, payment } = clientData;
 
-    return {
-      'Client ID': info.clientId,
-      'Business Name': info.businessName,
-      'Contact Name': info.contactName,
-      'Phone': info.phone,
+    const fields: any = {
+      'Client ID': info.clientId || `CLNT-${Date.now()}`,
+      'Business Name': info.businessName || 'Sin Negocio',
+      'Contact Name': info.contactName || 'Sin Nombre',
       'Email': info.email || '',
-      'Business Type': info.businessType,
-      'Created At': info.createdAt,
-      'Updated At': info.updatedAt,
-      'Notes': (info as any).notes || '',
-
-      // Branding
-      'Primary Color': branding.colors.primary,
-      'Logo URL': branding.logo?.driveUrl || branding.logo?.url || '',
-
-      // Payment
-      'Payment Method': payment.method,
-      'Payment Status': payment.status,
-      'Payment Amount': payment.amount,
-      'Payment Currency': payment.currency,
-      'Payment Reference': payment.reference || '',
-      'Payment Completed': payment.completedAt || '',
-
-      // Deployment
-      'Deployment Status': deployment.status,
-      'GitHub Repo': deployment.github?.repoUrl || '',
-      'Hosting URL': deployment.hosting?.url || '',
-      'Domain': deployment.hosting?.domain || '',
-      'SSL Enabled': deployment.hosting?.sslEnabled || false,
-      'Deployed At': deployment.deployedAt || '',
-
-      // Assets
-      'Wireframes Count': assets?.wireframes?.pages.length || 0,
-      'Images Count': assets?.images?.length || 0,
-      'SEO Generated': assets?.seo ? 'Yes' : 'No',
-
-      // Products
-      'Products': clientData.products?.map(p => p.name).join(', ') || '',
+      'Phone': info.phone || '',
+      'Payment Status': payment?.status || 'UNPAID',
     };
+
+    if (payment?.method) fields['Payment Method'] = payment.method;
+    if (payment?.reference) fields['Payment Reference'] = payment.reference;
+    if (payment?.nextDueDate) fields['Next Due Date'] = payment.nextDueDate;
+
+    return fields;
   }
 
   /**

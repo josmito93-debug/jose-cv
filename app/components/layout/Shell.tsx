@@ -68,11 +68,11 @@ export default function Shell({ children }: ShellProps) {
       <aside className="hidden lg:flex w-72 flex-col bg-[#0C0C0E] border-r border-white/5 relative z-50">
         <div className="p-8">
           <div className="flex items-center gap-3 px-2">
-            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-emerald-500/20 group hover:scale-105 transition-all">
+            <div className="w-10 h-10 overflow-hidden group hover:scale-110 transition-all flex items-center justify-center">
               <img 
                 src="/images/universa_logo.png" 
                 alt="Universa" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 onError={(e) => (e.currentTarget.style.display = 'none')} 
               />
             </div>
@@ -164,11 +164,11 @@ export default function Shell({ children }: ShellProps) {
           >
             <div className="flex justify-between items-center mb-12">
                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-emerald-500/20">
+                  <div className="w-10 h-10 overflow-hidden flex items-center justify-center">
                     <img 
                       src="/images/universa_logo.png" 
                       alt="Universa" 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                   <span className="text-xl font-black italic uppercase text-white">UNIVERSA</span>

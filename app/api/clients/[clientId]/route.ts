@@ -25,10 +25,6 @@ export async function GET(
       name: record.fields['Contact Name'] || 'Sin Nombre',
       business: record.fields['Business Name'] || 'Sin Negocio',
       paymentStatus: record.fields['Payment Status'] || 'UNPAID',
-      status: record.fields['Deployment Status'] === 'Active' ? 'DEPLOYED' : 'PENDING',
-      branding: {
-        colors: { primary: record.fields['Primary Color'] || '#39FF14' }
-      }
     };
 
     return NextResponse.json({ success: true, client });

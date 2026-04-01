@@ -108,8 +108,8 @@ export default function CVPage() {
       <nav className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 w-[95%] md:w-[90%] max-w-7xl z-[100] px-6 md:px-10 py-4 md:py-5 bg-black/40 border border-white/5 backdrop-blur-2xl rounded-[1.5rem] md:rounded-[2.5rem] flex justify-between items-center shadow-2xl">
         <div className="flex items-center gap-6 md:gap-10">
           <div className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-indigo-600/20 group-hover:scale-110 transition-transform">
-               <img src="/images/universa_logo.png" alt="Universa" className="w-full h-full object-cover" />
+            <div className="w-10 h-10 overflow-hidden group-hover:scale-110 transition-transform bg-transparent flex items-center justify-center">
+               <img src="/images/universa_logo.png" alt="Universa" className="w-full h-full object-contain" />
             </div>
             <div className="text-xl md:text-2xl font-black tracking-tighter uppercase italic">Universa<span className="text-indigo-500 italic lowercase ml-1 font-bold">Agency</span></div>
           </div>

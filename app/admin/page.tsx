@@ -57,7 +57,7 @@ export default function UnifiedAdminVercel() {
             );
 
             return {
-              id: project.id,
+              id: atClient?.fields['Client ID'] || project.id,
               name: atClient?.name || 'Unknown Owner',
               business: project.name,
               status: 'DEPLOYED',
@@ -108,11 +108,30 @@ export default function UnifiedAdminVercel() {
          body: JSON.stringify({ clientId: client.id, businessName: client.business })
        });
        const data = await res.json();
-       if (data.success) {
-         // Copy to clipboard
-         navigator.clipboard.writeText(data.paymentUrl);
-         alert(`LINK GENERATED & COPIED: ${client.business} ($30/mo)\nHandle: ${data.paymentUrl}`);
-       }
+        if (data.success) {
+          // Robust clipboard copy with fallback
+          const copyToClipboard = (text: string) => {
+            if (navigator.clipboard && window.isSecureContext) {
+              return navigator.clipboard.writeText(text);
+            } else {
+              const textArea = document.createElement("textarea");
+              textArea.value = text;
+              textArea.style.position = "fixed";
+              textArea.style.left = "-999999px";
+              textArea.style.top = "-999999px";
+              document.body.appendChild(textArea);
+              textArea.focus();
+              textArea.select();
+              return new Promise<void>((res, rej) => {
+                document.execCommand('copy') ? res() : rej();
+                textArea.remove();
+              });
+            }
+          };
+
+          await copyToClipboard(data.paymentUrl);
+          alert(`LINK GENERATED & COPIED: ${client.business} ($30/mo)\nHandle: ${data.paymentUrl}`);
+        }
      } catch (err) {
        console.error('Failed to generate link:', err);
      }
