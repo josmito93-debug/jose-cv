@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ATTOM - Creación de Páginas Web Profesionales",
-  description: "Sistema automatizado de Universa Agency para crear páginas web profesionales. Diseño gratis + hosting desde $29.29/mes.",
+  title: "Universa Agency - High Performance Digital Infrastructure",
+  description: "Universa Agency professional workspace. Automated high-performance digital infrastructure and trading intelligence.",
 };
 
 export default function RootLayout({

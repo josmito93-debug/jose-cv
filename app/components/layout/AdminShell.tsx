@@ -164,8 +164,17 @@ export default function AdminShell({ children }: ShellProps) {
             className="fixed inset-0 z-[100] bg-[#0C0C0E] p-8 lg:hidden"
           >
             <div className="flex justify-between items-center mb-12">
-               <div className="text-xl font-black italic uppercase text-indigo-500">ATTOM</div>
-               <button onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6" /></button>
+               <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-indigo-500/20">
+                    <img 
+                      src="/images/universa_logo.png" 
+                      alt="Universa" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <span className="text-xl font-black italic uppercase text-indigo-500">UNIVERSA</span>
+               </div>
+               <button onClick={() => setIsMobileMenuOpen(false)}><X className="w-6 h-6 text-white" /></button>
             </div>
             <nav className="space-y-1">
                <NavItem href="/admin" icon={LayoutDashboard} label="HQ Overview" active={pathname === '/admin'} />
