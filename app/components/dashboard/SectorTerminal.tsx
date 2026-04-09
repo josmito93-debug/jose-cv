@@ -29,21 +29,32 @@ interface SectorTerminalProps {
 export default function SectorTerminal({ sector, title, icon: Icon }: SectorTerminalProps) {
   const [news, setNews] = useState<any[]>([]);
   const [prices, setPrices] = useState<any[]>([]);
+  const [stats, setStats] = useState<any>(null);
+  const [posCount, setPosCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [priceRes, newsRes] = await Promise.all([
+      const [priceRes, newsRes, statsRes, posRes] = await Promise.all([
         fetch(`/api/market-data?category=${sector}&type=ticker`),
-        fetch(`/api/market-data?category=${sector}&type=news`)
+        fetch(`/api/market-data?category=${sector}&type=news`),
+        fetch(`/api/trading/stats`),
+        fetch(`/api/trading/positions`)
       ]);
       
       const priceData = await priceRes.json();
       const newsData = await newsRes.json();
+      const statsData = await statsRes.json();
+      const posData = await posRes.json();
       
       if (priceData.success) setPrices(priceData.data);
       if (newsData.success) setNews(newsData.data);
+      
+      setStats(statsData);
+      if (Array.isArray(posData)) {
+         setPosCount(posData.filter((p: any) => p.market === sector.toLowerCase()).length);
+      }
     } catch (error) {
       console.error('Failed to fetch sector data:', error);
     } finally {
@@ -110,6 +121,28 @@ export default function SectorTerminal({ sector, title, icon: Icon }: SectorTerm
                    <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-emerald-500" />
                       <span className="text-[10px] font-black uppercase text-zinc-500">API Connected</span>
+                   </div>
+                </div>
+
+                {/* Trading Metrics Bar */}
+                <div className="grid grid-cols-2 md:grid-cols-4 border-b border-white/5 bg-white/[0.01]">
+                   <div className="p-6 border-r border-b md:border-b-0 border-white/5">
+                      <p className="text-[9px] uppercase font-black tracking-widest text-zinc-600 mb-1">Allocated Capital</p>
+                      <p className="text-2xl font-black italic tracking-tighter">${(stats?.markets?.[sector.toLowerCase()]?.equity || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
+                   </div>
+                   <div className="p-6 border-b md:border-b-0 md:border-r border-white/5">
+                      <p className="text-[9px] uppercase font-black tracking-widest text-zinc-600 mb-1">Generated PnL</p>
+                      <p className={`text-2xl font-black italic tracking-tighter ${(stats?.markets?.[sector.toLowerCase()]?.pnl || 0) >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                         ${(stats?.markets?.[sector.toLowerCase()]?.pnl || 0).toFixed(2)}
+                      </p>
+                   </div>
+                   <div className="p-6 border-r border-white/5">
+                      <p className="text-[9px] uppercase font-black tracking-widest text-zinc-600 mb-1">Sector Win Rate</p>
+                      <p className="text-2xl font-black italic tracking-tighter">{stats?.markets?.[sector.toLowerCase()]?.win_rate || 0}%</p>
+                   </div>
+                   <div className="p-6">
+                      <p className="text-[9px] uppercase font-black tracking-widest text-zinc-600 mb-1">Active Positions</p>
+                      <p className="text-2xl font-black italic tracking-tighter">{posCount}</p>
                    </div>
                 </div>
 
