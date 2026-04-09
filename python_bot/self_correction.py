@@ -39,8 +39,8 @@ def run_self_correction():
     
     # 2. Get closed trades from Alpaca
     # For simplicity, we check trades in the last 24h
-    now = datetime.now()
-    since = (now - timedelta(days=1)).isoformat()
+    now = datetime.utcnow()
+    since = (now - timedelta(days=1)).strftime('%Y-%m-%dT%H:%M:%SZ')
     
     orders = api.list_orders(status='all', after=since, limit=50)
     
@@ -66,19 +66,31 @@ def run_self_correction():
         if match and match.status == 'filled':
             print(f"🔍 Analyzing {symbol} trade outcome...")
             
-            # 3. Analyze with Gemini
-            # We look at current price vs entry price (ideal would be to look at the close price if it was a round trip)
-            # For now, we analyze if the reasoning was robust
+            # Calculate Profit/Loss
+            entry_price = float(match.filled_avg_price)
+            # Fetch latest price to estimate current performance if still holding or use close price if sold
+            current_price = entry_price # Default
+            try:
+                if accion == "COMPRA":
+                    # For a buy, we want to know if current price > entry
+                    current_price = float(api.get_latest_trade(match.symbol).p)
+                else:
+                    # For a sell, we want to know if we sold higher than we bought (simple estimate)
+                    current_price = float(match.filled_avg_price)
+            except: pass
+
+            pnl = (current_price - entry_price) / entry_price * 100 if accion == "COMPRA" else 0
             
+            # 3. Analyze with Gemini
             prompt = f"""
             SELF-CORRECTION AUDIT (VILLASMIL-OMEGA).
             TRADE: {accion} {symbol}
             ORIGINAL REASONING: {razon_original}
-            ALPACA STATUS: {match.status} | FILLED AT: ${match.filled_avg_price}
+            ALPACA STATUS: {match.status} | FILLED AT: ${entry_price} | CURRENT/CLOSE: ${current_price}
+            PERFORMANCE: {pnl:.2f}%
             
             TASK: Evaluate if this decision was coherent with the outcome. 
-            If the trade was successful (or the reasoning was sound), confirm. 
-            If it was a mistake (e.g., buying into a trap), generate a "Lesson Learned".
+            Prioritize financial excellence and law alignment. 
             
             FORMAT: 
             RESULT: [SUCCESS/FAILURE]
@@ -99,10 +111,10 @@ def run_self_correction():
                 if not existing['ids']:
                     collection.add(
                         documents=[f"Self-Correction: {lesson}"],
-                        metadatas=[{"type": "correction", "original_log": log["id"], "symbol": symbol}],
+                        metadatas=[{"type": "correction", "pnl": pnl, "original_log": log["id"], "symbol": symbol}],
                         ids=[doc_id]
                     )
-                    print(f"✅ Neural memory updated with lesson: {lesson}")
+                    print(f"✅ Neural memory updated with lesson: {lesson} (PnL Impact: {pnl:.2f}%)")
 
 if __name__ == "__main__":
     run_self_correction()

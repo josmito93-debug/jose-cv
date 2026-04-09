@@ -164,11 +164,13 @@ def main():
             TASK: 
             1. DECIDE: COMPRAR, VENDER, or ESPERAR.
             2. COHERENCE SCORE (0-24): How many of the 24 laws are satisfied by this decision?
-            3. REASON: 1 concise sentence explaining the logic and alignment with laws.
+            3. EXPECTED R:R (e.g. 3.5): What is the expected Reward/Risk ratio? Aim for > 3.0 (Convexity).
+            4. REASON: 1 concise sentence explaining the logic, law alignment, and convexity.
             
             RESPONSE FORMAT:
             DECISION: [ACTION]
             COHERENCE: [SCORE]
+            EXPECTED_RR: [RATIO]
             REASON: [TEXT]
             """
             
@@ -178,6 +180,7 @@ def main():
             # Parsing flexible response
             decision = "ESPERAR"
             score = 12
+            expected_rr = 1.0
             razon = "Analytical processing."
             
             for line in lines:
@@ -185,15 +188,28 @@ def main():
                 if line.startswith("COHERENCE:"): 
                     try: score = int(line.split(":", 1)[1].strip())
                     except: score = 12
+                if line.startswith("EXPECTED_RR:"):
+                    try: expected_rr = float(line.split(":", 1)[1].strip())
+                    except: expected_rr = 1.0
                 if line.startswith("REASON:"): razon = line.split(":", 1)[1].strip()
 
             c_ia = calculate_c_ia(score)
             c_omega = calculate_c_ia_omega(c_ia)
+            
+            # Dynamic Risk Multiplier: High coherence + High R:R = Aggressive position
+            # Normal risk (1.0x) as baseline. Max 2.0x, Min 0.1x.
+            risk_multiplier = 1.0
+            if c_ia > 0.8 and expected_rr >= 3.0: risk_multiplier = 1.5
+            if c_ia > 0.95 and expected_rr >= 4.0: risk_multiplier = 2.0
+            if c_ia < 0.6: risk_multiplier = 0.5
+            if c_ia < 0.3: risk_multiplier = 0.1
 
-            print(f"🧠 {decision} (Coh: {c_ia:.2f} | Ω: {c_omega:.2f}): {razon}")
+            dynamic_risk = args.risk * risk_multiplier
+
+            print(f"🧠 {decision} (Coh: {c_ia:.2f} | Ω: {c_omega:.2f} | R:R: {expected_rr} | RM: {risk_multiplier}x): {razon}")
 
             if "COMPRAR" in decision:
-                qty = calcular_qty(precio, args.risk)
+                qty = calcular_qty(precio, dynamic_risk)
                 if qty > 0:
                     try:
                         # Change: fractional orders must be 'day' orders, not 'gtc'
@@ -220,7 +236,9 @@ def main():
                 "sector": args.category, 
                 "simbolo": args.symbol,
                 "coherence_score": c_ia,
-                "omega_score": c_omega
+                "omega_score": c_omega,
+                "expected_rr": expected_rr,
+                "risk_multiplier": risk_multiplier
             })
 
         except Exception as e: print(f"🚨 Panic: {e}")

@@ -196,6 +196,8 @@ def get_coherence():
             return {
                 "coherence_score": fields.get("Coherence Score", 0.5),
                 "omega_score": fields.get("Omega Score", 0.4),
+                "expected_rr": fields.get("Expected RR", 1.0),
+                "risk_multiplier": fields.get("Risk Multiplier", 1.0),
                 "last_reason": fields.get("Razon", "Stable")
             }
         return {"coherence_score": 0.5, "omega_score": 0.4, "last_reason": "No data"}

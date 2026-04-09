@@ -14,6 +14,8 @@ export interface TradingLog {
   simbolo?: string;
   coherence_score?: number;
   omega_score?: number;
+  expected_rr?: number;
+  risk_multiplier?: number;
 }
 
 export class AirtableTrading {
@@ -52,6 +54,8 @@ export class AirtableTrading {
         'Capital Actual': log.capital_actual,
         'Coherence Score': log.coherence_score,
         'Omega Score': log.omega_score,
+        'Expected RR': log.expected_rr,
+        'Risk Multiplier': log.risk_multiplier,
       };
 
       // Opcionalmente agregar sector y simbolo si existen
