@@ -14,7 +14,8 @@ import {
   Bell,
   Menu,
   ChevronDown,
-  Lock
+  Lock,
+  Home
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -76,10 +77,10 @@ const App: React.FC = () => {
       
       {/* Sidebar omitted for brevity, keeping same structure ... */}
       <aside className={`flex flex-col border-r border-white/10 bg-[#0d1117]/80 backdrop-blur-xl transition-all duration-300 ${isSidebarOpen ? 'w-64' : 'w-20'}`}>
-        <div className="flex bg-linear-to-b from-accent/10 to-transparent items-center gap-3 px-6 py-8">
+        <a href="/" className="flex bg-linear-to-b from-accent/10 to-transparent items-center gap-3 px-6 py-8 hover:opacity-80 transition-opacity">
           <Zap className="h-8 w-8 text-accent shrink-0" />
           {isSidebarOpen && <span className="text-2xl font-bold  tracking-tighter">JF.OS</span>}
-        </div>
+        </a>
 
         <nav className="flex-1 space-y-3 px-4 mt-6">
           <NavItem icon={<LayoutDashboard size={20} />} label="Overview" active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} shrunk={!isSidebarOpen} />
