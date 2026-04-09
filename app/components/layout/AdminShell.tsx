@@ -59,7 +59,7 @@ export default function AdminShell({ children }: ShellProps) {
   const accentColorClass = 'bg-indigo-600';
 
   return (
-    <div className="min-h-screen bg-[#08080A] text-zinc-100 font-inter antialiased flex overflow-hidden">
+    <div className="min-h-screen bg-[#08080A] text-zinc-100  antialiased flex overflow-hidden">
       {/* Sidebar - Professional System Admin Style */}
       <aside className="hidden lg:flex w-72 flex-col bg-[#0C0C0E] border-r border-white/5 relative z-50">
         <div className="p-8">

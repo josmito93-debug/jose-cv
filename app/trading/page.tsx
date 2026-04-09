@@ -44,7 +44,7 @@ export default function TradingDashboard() {
   const profit = ((currentCapital - initialCapital) / initialCapital) * 100;
 
   return (
-    <div className="bg-[#050507] text-white min-h-screen selection:bg-indigo-500/30 font-inter">
+    <div className="bg-[#050507] text-white min-h-screen selection:bg-indigo-500/30 ">
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-indigo-600/10 rounded-full blur-[140px] animate-pulse" />

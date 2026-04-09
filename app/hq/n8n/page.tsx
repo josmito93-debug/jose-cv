@@ -54,7 +54,7 @@ export default function N8NAgentDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white font-inter overflow-x-hidden selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-[#050505] text-white  overflow-x-hidden selection:bg-indigo-500/30">
       {/* Background Decor */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-0" style={{ 
         backgroundImage: `radial-gradient(#ffffff 0.5px, transparent 0.5px)`, 

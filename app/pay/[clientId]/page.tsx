@@ -155,7 +155,7 @@ export default function PaymentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#08080A] text-zinc-100 font-inter antialiased flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-[#08080A] text-zinc-100  antialiased flex flex-col items-center justify-center p-6 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] bg-indigo-600/10 blur-[120px] -z-10 rounded-full" />
       
       <motion.div 

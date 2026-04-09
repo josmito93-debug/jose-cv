@@ -166,7 +166,7 @@ export default function UnifiedAdminVercel() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-b border-white/5">
         <div className="space-y-2">
             <div className="flex items-center gap-3">
-              <div className="px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-md text-[9px] font-black uppercase text-indigo-400 font-inter">Universa v2.6</div>
+              <div className="px-2 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-md text-[9px] font-black uppercase text-indigo-400 ">Universa v2.6</div>
               <div className="px-2 py-1 bg-white/5 border border-white/5 rounded-md text-[9px] font-black uppercase text-zinc-500">Cloud Sync Active</div>
             </div>
             <h2 className="text-3xl font-black tracking-tight uppercase italic">Agency <span className="text-zinc-500">Headquarter</span></h2>

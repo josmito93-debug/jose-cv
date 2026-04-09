@@ -58,7 +58,7 @@ export default function AttomConversationalOnboarding() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center p-6 md:p-10 font-inter overflow-hidden relative">
+      <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center p-6 md:p-10  overflow-hidden relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#4338ca_0%,transparent_70%)] opacity-20"></div>
         <motion.div 
            initial={{ opacity: 0, scale: 0.9 }} 
@@ -84,7 +84,7 @@ export default function AttomConversationalOnboarding() {
 
   if (isWireframeStep) {
     return (
-      <div className="min-h-screen bg-[#050505] text-white p-6 md:p-10 font-inter overflow-hidden relative">
+      <div className="min-h-screen bg-[#050505] text-white p-6 md:p-10  overflow-hidden relative">
           <div className="max-w-6xl mx-auto space-y-8 md:space-y-12 relative z-10">
              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="space-y-1 md:space-y-2 text-center md:text-left">

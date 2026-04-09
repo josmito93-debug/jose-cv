@@ -1,5 +1,47 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-ThinOblique.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-LightOblique.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-BoldOblique.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-HeavyOblique.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+}
+
 /** @tailwind base */
 /** @tailwind components */
 /** @tailwind utilities */
@@ -8,7 +50,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: 'VisbyCF', var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
   --color-primary: #6366f1;
@@ -37,7 +79,7 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: 'VisbyCF', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 :root {
@@ -60,15 +102,15 @@ body {
 body {
   background-color: var(--bg-color);
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+  font-family: 'VisbyCF', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
+  font-family: 'VisbyCF', sans-serif;
+  font-weight: 700;
 }
 
 /* Background Animated Shapes */

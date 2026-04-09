@@ -1,5 +1,47 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-ThinOblique.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-LightOblique.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-BoldOblique.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'VisbyCF';
+  src: url('/fonts/VisbyCF-HeavyOblique.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+}
+
 @theme {
   --color-bg: #0e131f;
   --color-accent: #6366f1;
@@ -8,14 +50,14 @@
   --color-panel-border: rgba(255, 255, 255, 0.08);
   --color-text-primary: #f0f2f8;
   --color-text-secondary: #9ba1b3;
-  --font-outfit: "Outfit", sans-serif;
-  --font-inter: "Inter", sans-serif;
+  --: 'VisbyCF', sans-serif;
+  --: 'VisbyCF', sans-serif;
 }
 
 :root {
   background-color: var(--color-bg);
   color: var(--color-text-primary);
-  font-family: var(--font-inter);
+  font-family: 'VisbyCF', sans-serif;
 }
 
 body {
