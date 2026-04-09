@@ -283,7 +283,8 @@ const App: React.FC = () => {
                       </p>
                       <div className="mt-2 flex items-center justify-between text-[8px] font-bold uppercase tracking-widest text-white/20">
                          <span>Omega Score: {(coherence?.omega_score || 0).toFixed(4)}</span>
-                         <span>Alpha Base: 0.9629</span>
+                         <span className="text-accent">R:R: {(coherence?.expected_rr || 0).toFixed(1)}x</span>
+                         <span>Risk Mult: {(coherence?.risk_multiplier || 1).toFixed(1)}x</span>
                       </div>
                    </div>
                 </div>
