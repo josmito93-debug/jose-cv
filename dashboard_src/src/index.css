@@ -50,8 +50,7 @@
   --color-panel-border: rgba(255, 255, 255, 0.08);
   --color-text-primary: #f0f2f8;
   --color-text-secondary: #9ba1b3;
-  --: 'VisbyCF', sans-serif;
-  --: 'VisbyCF', sans-serif;
+  --font-sans: 'VisbyCF', sans-serif;
 }
 
 :root {
