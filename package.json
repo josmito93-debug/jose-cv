@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "npm run build:dashboard && next build",
-    "build:dashboard": "cd dashboard_src && npm install && npm run build && mkdir -p ../public/dashboard && cp -r dist/* ../public/dashboard/",
+    "build:dashboard": "cd dashboard_src && npm install --include=dev && npm run build && mkdir -p ../public/dashboard && cp -r dist/* ../public/dashboard/",
     "start": "next start",
     "lint": "eslint",
     "attom:create-client": "node scripts/create-client.js",
