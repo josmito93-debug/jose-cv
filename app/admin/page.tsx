@@ -129,11 +129,18 @@ export default function UnifiedAdminVercel() {
             }
           };
 
-          await copyToClipboard(data.paymentUrl);
-          alert(`LINK GENERATED & COPIED: ${client.business} ($30/mo)\nHandle: ${data.paymentUrl}`);
+          try {
+            await copyToClipboard(data.paymentUrl);
+            alert(`LINK GENERATED & COPIED: ${client.business} ($30/mo)\nURL: ${data.paymentUrl}`);
+          } catch (e) {
+            alert(`LINK GENERATED (Could not copy to clipboard):\nURL: ${data.paymentUrl}`);
+          }
+        } else {
+          alert(`Failed to generate invoice: ${data.error || 'Unknown error'}`);
         }
-     } catch (err) {
+     } catch (err: any) {
        console.error('Failed to generate link:', err);
+       alert(`Error generating invoice: ${err.message}`);
      }
   };
 
@@ -250,7 +257,7 @@ export default function UnifiedAdminVercel() {
                              {client.paymentStatus !== 'PAID' && (
                                <button 
                                  onClick={() => generateInvoice(client)}
-                                 className="hidden md:flex px-4 py-2 bg-white/5 border border-white/5 rounded-lg text-[9px] font-black uppercase tracking-widest text-indigo-400 hover:bg-indigo-500 hover:text-white transition-all items-center gap-2"
+                                 className="flex px-4 py-2 bg-white/5 border border-white/5 rounded-lg text-[9px] font-black uppercase tracking-widest text-indigo-400 hover:bg-indigo-500 hover:text-white transition-all items-center gap-2"
                                >
                                   <FileText className="w-3 h-3" /> <span className="hidden lg:inline">Invoice</span>
                                </button>
