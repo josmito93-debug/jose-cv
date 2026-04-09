@@ -57,7 +57,7 @@ export default function UnifiedAdminVercel() {
             );
 
             return {
-              id: atClient?.fields['Client ID'] || project.id,
+              id: atClient?.info?.clientId || project.id,
               name: atClient?.name || 'Unknown Owner',
               business: project.name,
               status: 'DEPLOYED',
@@ -91,10 +91,10 @@ export default function UnifiedAdminVercel() {
             pendingPayments: unifiedClients.filter((c: any) => c.paymentStatus !== 'PAID').length
           });
         }
-
-        setLoading(false);
       } catch (error) {
         console.error('Failed to fetch data:', error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
