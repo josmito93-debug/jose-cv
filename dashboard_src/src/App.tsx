@@ -83,15 +83,16 @@ const App: React.FC = () => {
         </a>
 
         <nav className="flex-1 space-y-3 px-4 mt-6">
-          <a href="/" className={`flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200 group bg-accent/20 border border-accent/30 text-accent mb-4`}>
-            <Home size={20} className="shrink-0" />
-            {isSidebarOpen && <span className="font-medium text-sm">Nexus Command</span>}
-          </a>
-          
           <NavItem icon={<LayoutDashboard size={20} />} label="Overview" active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} shrunk={!isSidebarOpen} />
           <NavItem icon={<Activity size={20} />} label="Live Trading" active={activeTab === 'trading'} onClick={() => setActiveTab('trading')} shrunk={!isSidebarOpen} />
           <NavItem icon={<BrainCircuit size={20} />} label="AI Agent" active={activeTab === 'ai'} onClick={() => setActiveTab('ai')} shrunk={!isSidebarOpen} />
           <NavItem icon={<Wallet size={20} />} label="Portfolio" active={activeTab === 'portfolio'} onClick={() => setActiveTab('portfolio')} shrunk={!isSidebarOpen} />
+          
+          <a href="/" className={`flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200 group hover:bg-accent/10 border border-white/5 hover:border-accent/30 text-white/70 hover:text-accent mt-4`}>
+            <Home size={20} className="shrink-0" />
+            {isSidebarOpen && <span className="font-medium text-sm">Nexus Command</span>}
+          </a>
+
           <div className="pt-4 pb-2 border-t border-white/5 mt-4" />
           <NavItem icon={<Settings size={20} />} label="Settings" active={activeTab === 'settings'} onClick={() => setActiveTab('settings')} shrunk={!isSidebarOpen} />
         </nav>
