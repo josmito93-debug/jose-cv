@@ -94,6 +94,12 @@ const siteData = {
     ],
     projects: [
       {
+        title: "JF.OS — Quantitative Trading System",
+        link: "/dashboard/",
+        subtitle: "Multi-sector AI Trading Bot with live performance dashboard.",
+        desc: "A high-frequency quantitative trading system that leverages Gemini AI for decision making across Crypto, Stocks, Forex, and Metals. Features a real-time React dashboard with Alpaca API integration, historical performance tracking, and autonomous execution nodes."
+      },
+      {
         title: "Doral Fashion Week Magazine",
         link: "https://doral-fasgion-week-magazine.webflow.io/",
         subtitle: "Digital editorial platform for Doral Fashion Week.",
@@ -320,6 +326,12 @@ const siteData = {
       }
     ],
     projects: [
+      {
+        title: "JF.OS — Sistema de Trading Cuantitativo",
+        link: "/dashboard/",
+        subtitle: "Bot de trading con IA multi-sector y dashboard de rendimiento en vivo.",
+        desc: "Sistema de trading cuantitativo de alta frecuencia que utiliza Gemini AI para la toma de decisiones en Cripto, Acciones, Forex y Metales. Incluye un dashboard en tiempo real con integración de la API de Alpaca, seguimiento de rendimiento histórico y nodos de ejecución autónomos."
+      },
       {
         title: "Doral Fashion Week Magazine",
         link: "https://doral-fasgion-week-magazine.webflow.io/",

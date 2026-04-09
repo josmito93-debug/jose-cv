@@ -4,11 +4,12 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "dashboard_src"
+    "dashboard_src",
+    "Attom"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npm run build -w dashboard && mkdir -p dist/dashboard && cp -r dashboard_src/dist/* dist/dashboard/",
+    "build": "vite build && (cd dashboard_src && npm run build) && mkdir -p dist/dashboard && cp -r dashboard_src/dist/* dist/dashboard/",
     "preview": "vite preview"
   },
   "devDependencies": {

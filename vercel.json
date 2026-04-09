@@ -8,6 +8,10 @@
     {
       "source": "/dashboard/(.*)",
       "destination": "/dashboard/index.html"
+    },
+    {
+      "source": "/attom/(.*)",
+      "destination": "/attom/index.html"
     }
   ],
   "headers": [
