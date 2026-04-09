@@ -122,45 +122,90 @@ export default function HoffmannHQFunctionalV4() {
            </div>
         </div>
 
-        {/* Column 2: Attom & El Creador */}
-        <div className="col-span-12 lg:col-span-5 grid grid-rows-2 gap-8">
-           {/* Attom Command */}
-           <div 
-              onClick={() => navigateTo('/admin')}
-              className="bg-white/[0.02] border border-white/5 rounded-[4rem] p-10 backdrop-blur-3xl hover:bg-white/[0.04] hover:border-emerald-500/50 transition-all group flex flex-col justify-between relative overflow-hidden shadow-xl cursor-pointer active:scale-[0.98]"
-           >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-600/5 blur-[100px] -mr-32 -mt-32 pointer-events-none" />
-              <div className="flex items-center gap-6 relative z-10 pointer-events-none">
-                 <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
-                    <Globe className="w-7 h-7" />
-                 </div>
-                 <div>
-                    <h3 className="text-2xl font-black tracking-tighter italic">Attom Command</h3>
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-400 mt-1 italic">Gestión Unificada</p>
-                 </div>
+        {/* Module 2: Attom Command */}
+        <div 
+           onClick={() => navigateTo('/admin')}
+           className="col-span-12 lg:col-span-5 bg-white/[0.02] border border-white/5 rounded-[4rem] p-10 backdrop-blur-3xl hover:bg-white/[0.04] hover:border-emerald-500/50 transition-all group flex flex-col justify-between relative overflow-hidden shadow-xl cursor-pointer active:scale-[0.98]"
+        >
+           <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-600/5 blur-[120px] -mr-40 -mt-40 group-hover:bg-emerald-600/10 transition-colors pointer-events-none" />
+           <div className="flex items-center gap-6 relative z-10 pointer-events-none">
+              <div className="w-16 h-16 rounded-[1.5rem] bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+                 <Globe className="w-8 h-8" />
               </div>
-              <div className="mt-8 py-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-[10px] font-black text-center uppercase tracking-widest group-hover:bg-emerald-500 group-hover:text-black transition-all">
-                 Abrir Gestión de Clientes
+              <div>
+                 <h3 className="text-4xl font-black tracking-tighter italic text-emerald-400">Attom</h3>
+                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 mt-2 italic">Client Web Deployer</p>
               </div>
            </div>
-
-           {/* El Creador Content Engine */}
-           <div 
-              onClick={() => navigateTo('/creador')}
-              className="bg-white/[0.02] border border-white/5 rounded-[4rem] p-10 backdrop-blur-3xl hover:bg-white/[0.04] hover:border-[#39FF14]/50 transition-all group flex flex-col justify-between relative overflow-hidden shadow-xl cursor-pointer active:scale-[0.98]"
-           >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#39FF14]/5 blur-[100px] -mr-32 -mt-32 pointer-events-none" />
-              <div className="flex items-center gap-4 relative z-10 pointer-events-none">
-                 <div className="w-14 h-14 rounded-2xl bg-[#39FF14]/10 border border-[#39FF14]/20 flex items-center justify-center text-[#39FF14] group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(57,255,20,0.1)]">
-                    <Sparkles className="w-7 h-7" />
-                 </div>
-                 <div>
-                    <h3 className="text-2xl font-black tracking-tighter italic text-[#39FF14]">El Creador</h3>
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 mt-1 italic">Content Machine Agent</p>
+           
+           <div className="mt-12 bg-black/40 border border-white/5 rounded-[2.5rem] p-8 relative z-10 pointer-events-none">
+              <div className="flex items-center justify-between mb-6">
+                 <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 italic">Vercel API Connected</span>
                  </div>
               </div>
-              <div className="mt-8 py-4 bg-[#39FF14]/10 border border-[#39FF14]/20 rounded-2xl text-[10px] font-black text-center uppercase tracking-widest group-hover:bg-[#39FF14] group-hover:text-black transition-all">
-                 Entrar a La Fábrica
+              <div className="grid grid-cols-2 gap-4">
+                 <div className="p-4 bg-white/5 rounded-2xl border border-white/5 text-center">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-600">Active Live</p>
+                    <p className="text-xl font-black text-white italic">Deployed</p>
+                 </div>
+                 <div className="p-4 bg-white/5 rounded-2xl border border-white/5 text-center">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-600">New Leads</p>
+                    <p className="text-xl font-black text-white italic">Scanned</p>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+        {/* Module 3: El Creador */}
+        <div 
+           onClick={() => navigateTo('/creador')}
+           className="col-span-12 lg:col-span-6 bg-white/[0.02] border border-white/5 rounded-[4rem] p-10 backdrop-blur-3xl hover:bg-white/[0.04] hover:border-[#39FF14]/50 transition-all group flex flex-col justify-between relative overflow-hidden shadow-xl cursor-pointer active:scale-[0.98]"
+        >
+           <div className="absolute top-0 right-0 w-80 h-80 bg-[#39FF14]/5 blur-[120px] -mr-40 -mt-40 pointer-events-none group-hover:bg-[#39FF14]/10 transition-colors" />
+           <div className="flex items-center gap-6 relative z-10 pointer-events-none">
+              <div className="w-16 h-16 rounded-[1.5rem] bg-[#39FF14]/10 border border-[#39FF14]/20 flex items-center justify-center text-[#39FF14] group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(57,255,20,0.15)]">
+                 <Sparkles className="w-8 h-8" />
+              </div>
+              <div>
+                 <h3 className="text-4xl font-black tracking-tighter italic text-[#39FF14]">El Creador</h3>
+                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 mt-2 italic">Content Machine Agent</p>
+              </div>
+           </div>
+           
+           <div className="flex items-center gap-6 mt-10">
+              <div className="flex-1 py-4 bg-[#39FF14]/10 border border-[#39FF14]/20 rounded-2xl text-[10px] font-black text-center uppercase tracking-widest group-hover:bg-[#39FF14] group-hover:text-black transition-all">
+                 Ingresar a la Fábrica
+              </div>
+              <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                 <ArrowUpRight className="w-4 h-4 text-zinc-500 group-hover:text-white transition-colors" />
+              </div>
+           </div>
+        </div>
+
+        {/* Module 4: n8n Architect */}
+        <div 
+           onClick={() => window.open('https://n8n.cloud', '_blank')}
+           className="col-span-12 lg:col-span-6 bg-white/[0.02] border border-white/5 rounded-[4rem] p-10 backdrop-blur-3xl hover:bg-white/[0.04] hover:border-amber-500/50 transition-all group flex flex-col justify-between relative overflow-hidden shadow-xl cursor-pointer active:scale-[0.98]"
+        >
+           <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/5 blur-[120px] -mr-40 -mt-40 pointer-events-none group-hover:bg-amber-500/10 transition-colors" />
+           <div className="flex items-center gap-6 relative z-10 pointer-events-none">
+              <div className="w-16 h-16 rounded-[1.5rem] bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(245,158,11,0.15)]">
+                 <Cpu className="w-8 h-8" />
+              </div>
+              <div>
+                 <h3 className="text-4xl font-black tracking-tighter italic text-amber-500">n8n Architect</h3>
+                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 mt-2 italic">Systems Automator Engine</p>
+              </div>
+           </div>
+           
+           <div className="flex items-center gap-6 mt-10">
+              <div className="flex-1 py-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-[10px] font-black text-center uppercase tracking-widest group-hover:bg-amber-500 group-hover:text-black transition-all">
+                 Launch Studio
+              </div>
+              <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                 <ArrowUpRight className="w-4 h-4 text-zinc-500 group-hover:text-white transition-colors" />
               </div>
            </div>
         </div>
