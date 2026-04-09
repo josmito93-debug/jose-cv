@@ -43,8 +43,8 @@ const App: React.FC = () => {
       const histData = await histRes.json();
       
       setStats(statsData);
-      setPositions(posData);
-      setHistory(histData);
+      setPositions(Array.isArray(posData) ? posData : []);
+      setHistory(Array.isArray(histData) ? histData : []);
     } catch (err) {
       console.error("Dashboard Sync Error:", err);
     } finally {
@@ -62,7 +62,7 @@ const App: React.FC = () => {
   const totalPnL = stats?.total_pnl ? `${stats.total_pnl > 0 ? '+' : ''}$${stats.total_pnl.toFixed(2)}` : "+$0.00";
   const pnlPct = stats?.pnl_pct ? `${stats.pnl_pct > 0 ? '+' : ''}${stats.pnl_pct.toFixed(4)}%` : "+0.00%";
 
-  const getPosCount = (market: string) => positions.filter(p => p.market === market).length;
+  const getPosCount = (market: string) => Array.isArray(positions) ? positions.filter(p => p.market === market).length : 0;
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-[#0e131f] text-white font-inter relative">
@@ -146,6 +146,14 @@ const App: React.FC = () => {
         </header>
 
         <div className="p-12 space-y-10 max-w-(--breakpoint-2xl) mx-auto w-full">
+          {/* Global Stats Bar */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <StatCard label="Current Capital" value={totalBalance} subValue="Live Equity" icon={<Wallet className="text-accent" />} />
+            <StatCard label="Total Profit" value={totalPnL} subValue={pnlPct} icon={<TrendingUp className="text-emerald-400" />} trend={stats?.total_pnl >= 0 ? "up" : "down"} />
+            <StatCard label="AI Win Rate" value={stats?.win_rate ? `${stats.win_rate}%` : '0.0%'} subValue="Daily Profit Frequency" icon={<BrainCircuit className="text-amber-400" />} />
+            <StatCard label="Active Positions" value={Array.isArray(positions) ? positions.length.toString() : "0"} subValue="Units Holding" icon={<Activity className="text-blue-400" />} />
+          </div>
+
           {/* Market Sectors Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             <StatCard label="Crypto Market" value={`$${(stats?.markets?.crypto?.pnl || 0).toFixed(2)}`} subValue={`${stats?.markets?.crypto?.win_rate || 0}% WR | ${getPosCount('crypto')} Pos`} icon={<Zap className="text-accent" />} trend={(stats?.markets?.crypto?.pnl || 0) >= 0 ? "up" : "down"} />
