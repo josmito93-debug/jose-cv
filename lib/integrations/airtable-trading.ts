@@ -12,6 +12,8 @@ export interface TradingLog {
   capital_actual: number;
   sector?: string;
   simbolo?: string;
+  coherence_score?: number;
+  omega_score?: number;
 }
 
 export class AirtableTrading {
@@ -48,6 +50,8 @@ export class AirtableTrading {
         'Precio': log.precio,
         'Razon': log.razon,
         'Capital Actual': log.capital_actual,
+        'Coherence Score': log.coherence_score,
+        'Omega Score': log.omega_score,
       };
 
       // Opcionalmente agregar sector y simbolo si existen
@@ -86,6 +90,8 @@ export class AirtableTrading {
         capital_actual: record.get('Capital Actual'),
         sector: record.get('Sector'),
         simbolo: record.get('Simbolo'),
+        coherence_score: record.get('Coherence Score'),
+        omega_score: record.get('Omega Score'),
       }));
     } catch (error) {
       logger.error('Failed to fetch trading logs from Airtable', error);

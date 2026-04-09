@@ -2,6 +2,7 @@ import os
 import chromadb
 from datetime import datetime
 from dotenv import load_dotenv
+from formulas.constants import LAWS_24
 
 # ==============================================================================
 # 0. CONFIGURACIÓN DEL ENTRENAMIENTO
@@ -15,6 +16,7 @@ chroma_client = chromadb.PersistentClient(path="./chroma_db")
 
 # Historical high-impact events for training
 HISTORICAL_LESSONS = {
+    "coherence": [f"Law {law['id']} ({law['name']}): {law['category']} constraint." for law in LAWS_24],
     "crypto": [
         "FTX Collapse (Nov 2022): Massive panic, BTC dropped -25% in 3 days. Strategy: Wait for bottom signal, do not catch falling knives.",
         "Halving 2024: Accumulation phase before the event. Strategy: Buy local dips and hold for medium term.",

@@ -28,23 +28,27 @@ const App: React.FC = () => {
   const [stats, setStats] = useState<any>(null);
   const [positions, setPositions] = useState<any[]>([]);
   const [history, setHistory] = useState<any[]>([]);
+  const [coherence, setCoherence] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
-      const [statsRes, posRes, histRes] = await Promise.all([
+      const [statsRes, posRes, histRes, cohRes] = await Promise.all([
         fetch(`${API_BASE}/trading/stats`),
         fetch(`${API_BASE}/trading/positions`),
-        fetch(`${API_BASE}/trading/history`)
+        fetch(`${API_BASE}/trading/history`),
+        fetch(`${API_BASE}/trading/coherence`)
       ]);
       
       const statsData = await statsRes.json();
       const posData = await posRes.json();
       const histData = await histRes.json();
+      const cohData = await cohRes.json();
       
       setStats(statsData);
       setPositions(Array.isArray(posData) ? posData : []);
       setHistory(Array.isArray(histData) ? histData : []);
+      setCoherence(cohData);
     } catch (err) {
       console.error("Dashboard Sync Error:", err);
     } finally {
@@ -248,6 +252,40 @@ const App: React.FC = () => {
                     Agent Log
                   </h3>
                   <span className="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full font-bold uppercase">Active Nodes</span>
+                </div>
+
+                {/* Coherence Gauge */}
+                <div className="mb-8 p-6 rounded-2xl bg-white/5 border border-white/10 relative overflow-hidden group">
+                   <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform">
+                      <ShieldCheck size={40} />
+                   </div>
+                   <div className="flex items-center justify-between mb-4">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">AI Coherence Index</p>
+                      <span className="text-xs font-mono text-accent">UCF v3.3</span>
+                   </div>
+                   <div className="flex items-end gap-4">
+                      <div>
+                        <p className="text-4xl font-bold tracking-tighter text-white">
+                           {((coherence?.coherence_score || 0.5) * 100).toFixed(1)}%
+                        </p>
+                        <p className="text-[10px] text-white/40 font-bold uppercase mt-1">Law Alignment (C_IA)</p>
+                      </div>
+                      <div className="flex-1 h-3 mb-1.5 bg-white/5 rounded-full overflow-hidden flex">
+                         <div 
+                            className="h-full bg-accent shadow-[0_0_15px_rgba(99,102,241,0.5)] transition-all duration-1000" 
+                            style={{ width: `${(coherence?.coherence_score || 0.5) * 100}%` }} 
+                         />
+                      </div>
+                   </div>
+                   <div className="mt-4 pt-4 border-t border-white/5">
+                      <p className="text-[10px] text-white/60 leading-relaxed italic">
+                        "{coherence?.last_reason || "Observing structural invariance across market layers."}"
+                      </p>
+                      <div className="mt-2 flex items-center justify-between text-[8px] font-bold uppercase tracking-widest text-white/20">
+                         <span>Omega Score: {(coherence?.omega_score || 0).toFixed(4)}</span>
+                         <span>Alpha Base: 0.9629</span>
+                      </div>
+                   </div>
                 </div>
                 
                 <div className="flex-1 overflow-y-auto space-y-4 custom-scrollbar">
