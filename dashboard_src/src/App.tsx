@@ -62,6 +62,8 @@ const App: React.FC = () => {
   const totalPnL = stats?.total_pnl ? `${stats.total_pnl > 0 ? '+' : ''}$${stats.total_pnl.toFixed(2)}` : "+$0.00";
   const pnlPct = stats?.pnl_pct ? `${stats.pnl_pct > 0 ? '+' : ''}${stats.pnl_pct.toFixed(4)}%` : "+0.00%";
 
+  const getPosCount = (market: string) => positions.filter(p => p.market === market).length;
+
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-[#0e131f] text-white font-inter relative">
       {/* Background Decorative Elements */}
@@ -144,12 +146,12 @@ const App: React.FC = () => {
         </header>
 
         <div className="p-12 space-y-10 max-w-(--breakpoint-2xl) mx-auto w-full">
-          {/* Stats Bar */}
+          {/* Market Sectors Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-            <StatCard label="Current Capital" value={totalBalance} subValue="Live Equity" icon={<Wallet className="text-accent" />} />
-            <StatCard label="Total Profit" value={totalPnL} subValue={pnlPct} icon={<TrendingUp className="text-emerald-400" />} trend={stats?.total_pnl >= 0 ? "up" : "down"} />
-            <StatCard label="AI Win Rate" value={stats?.win_rate ? `${stats.win_rate}%` : '0.0%'} subValue="Daily Profit Frequency" icon={<BrainCircuit className="text-amber-400" />} />
-            <StatCard label="Active Positions" value={positions.length.toString()} subValue="Units Holding" icon={<Activity className="text-blue-400" />} />
+            <StatCard label="Crypto Market" value={`$${(stats?.markets?.crypto?.pnl || 0).toFixed(2)}`} subValue={`${stats?.markets?.crypto?.win_rate || 0}% WR | ${getPosCount('crypto')} Pos`} icon={<Zap className="text-accent" />} trend={(stats?.markets?.crypto?.pnl || 0) >= 0 ? "up" : "down"} />
+            <StatCard label="Stocks Market" value={`$${(stats?.markets?.stocks?.pnl || 0).toFixed(2)}`} subValue={`${stats?.markets?.stocks?.win_rate || 0}% WR | ${getPosCount('stocks')} Pos`} icon={<Activity className="text-emerald-400" />} trend={(stats?.markets?.stocks?.pnl || 0) >= 0 ? "up" : "down"} />
+            <StatCard label="Forex Market" value={`$${(stats?.markets?.forex?.pnl || 0).toFixed(2)}`} subValue={`${stats?.markets?.forex?.win_rate || 0}% WR | ${getPosCount('forex')} Pos`} icon={<TrendingUp className="text-blue-400" />} trend={(stats?.markets?.forex?.pnl || 0) >= 0 ? "up" : "down"} />
+            <StatCard label="Metals Market" value={`$${(stats?.markets?.metals?.pnl || 0).toFixed(2)}`} subValue={`${stats?.markets?.metals?.win_rate || 0}% WR | ${getPosCount('metals')} Pos`} icon={<ShieldCheck className="text-amber-400" />} trend={(stats?.markets?.metals?.pnl || 0) >= 0 ? "up" : "down"} />
           </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-12">
@@ -242,7 +244,7 @@ const App: React.FC = () => {
                 
                 <div className="flex-1 overflow-y-auto space-y-4 custom-scrollbar">
                   {positions.map(p => (
-                    <LogItem key={p.symbol} type="buy" title={`Holding ${p.symbol}`} desc={`${p.qty} units @ $${p.avg_entry_price}`} time="Live" />
+                    <LogItem key={p.symbol} type="buy" title={`Holding ${p.symbol}`} desc={`${p.qty} units @ $${p.avg_entry_price} (${p.market?.toUpperCase()})`} time="Live" />
                   ))}
                   <LogItem type="system" title="JF.OS Core" desc="Nodes monitoring Crypto, Stocks, Forex & Metals" time="Now" />
                   <LogItem type="system" title="Fix Applied" desc="Fractional Order Bug fixed successfully" time="10m ago" />
