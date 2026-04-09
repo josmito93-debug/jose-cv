@@ -33,6 +33,12 @@ export default function UnifiedAdminVercel() {
     monthlyRevenue: 0,
     pendingPayments: 0
   });
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredClients = clients.filter(client => 
+    client.business?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    client.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -144,6 +150,10 @@ export default function UnifiedAdminVercel() {
      }
   };
 
+  const handleCommandAgent = () => {
+    router.push('/creador');
+  };
+
   const getVercelStatus = (client: any) => {
      const project = vercelProjects.find(p => p.name.toLowerCase().includes(client.business.toLowerCase()));
      return project ? { live: true, url: project.targets?.production?.url } : { live: false };
@@ -193,7 +203,13 @@ export default function UnifiedAdminVercel() {
              <div className="flex items-center gap-4">
                 <div className="relative">
                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-700" />
-                   <input type="text" placeholder="Search clients..." className="bg-white/5 border border-white/5 rounded-xl py-2 pl-10 pr-4 text-[10px] font-bold w-48 focus:outline-none focus:border-white/10" />
+                   <input 
+                      type="text" 
+                      placeholder="Search clients..." 
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="bg-white/5 border border-white/5 rounded-xl py-2 pl-10 pr-4 text-[10px] font-bold w-48 focus:outline-none focus:border-white/10" 
+                    />
                 </div>
                 <Filter className="w-4 h-4 text-zinc-700 hover:text-white transition-colors cursor-pointer" />
              </div>
@@ -214,8 +230,8 @@ export default function UnifiedAdminVercel() {
                   [1, 2, 3].map(i => (
                     <tr key={i} className="animate-pulse"><td colSpan={4} className="p-10 bg-white/5" /></tr>
                   ))
-                ) : (
-                  clients.map((client) => {
+                ) : filteredClients.length > 0 ? (
+                  filteredClients.map((client) => {
                     const isDeployed = client.status === 'DEPLOYED';
                     return (
                       <tr key={client.id} className="group hover:bg-white/[0.02] transition-colors">
@@ -275,6 +291,12 @@ export default function UnifiedAdminVercel() {
                       </tr>
                     );
                   })
+                ) : (
+                  <tr>
+                    <td colSpan={4} className="p-20 text-center">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-zinc-700 italic">No matching clients found in local node</p>
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
@@ -335,7 +357,12 @@ export default function UnifiedAdminVercel() {
                       <div className="flex items-center gap-1.5 text-zinc-500 px-2 py-1 bg-white/5 rounded border border-white/5"><Zap className="w-3 h-3 text-amber-400" /> 84 posts</div>
                       <div className="flex items-center gap-1.5 text-zinc-500 px-2 py-1 bg-white/5 rounded border border-white/5"><Activity className="w-3 h-3 text-blue-400" /> Synced</div>
                    </div>
-                   <button className="block w-full py-2.5 bg-white/5 hover:bg-purple-500/10 text-center rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-purple-400 transition-all">Command Agent</button>
+                   <button 
+                      onClick={handleCommandAgent}
+                      className="block w-full py-2.5 bg-white/5 hover:bg-purple-500/10 text-center rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-purple-400 transition-all focus:outline-none"
+                    >
+                      Command Agent
+                    </button>
                 </div>
              </div>
           </div>
