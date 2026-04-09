@@ -102,7 +102,7 @@ export default function CVPage() {
   }, []);
 
   return (
-    <div className="bg-[#050505] text-white font-inter selection:bg-indigo-500/30 overflow-x-hidden w-full">
+    <div className="bg-[#050505] text-white  selection:bg-indigo-500/30 overflow-x-hidden w-full">
       
       {/* HUD Navbar */}
       <nav className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 w-[95%] md:w-[90%] max-w-7xl z-[100] px-6 md:px-10 py-4 md:py-5 bg-black/40 border border-white/5 backdrop-blur-2xl rounded-[1.5rem] md:rounded-[2.5rem] flex justify-between items-center shadow-2xl">

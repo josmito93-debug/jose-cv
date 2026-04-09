@@ -78,7 +78,7 @@ export default function ElCreadorDashboardV2() {
   };
 
   return (
-    <div className="h-screen w-full bg-[#050505] text-white flex flex-col overflow-hidden font-inter selection:bg-[#39FF14]/30">
+    <div className="h-screen w-full bg-[#050505] text-white flex flex-col overflow-hidden  selection:bg-[#39FF14]/30">
       
       {/* Upper Logic Bar: Context & Platform Selector */}
       <div className="h-20 border-b border-[#1f2937] bg-black/40 backdrop-blur-2xl px-10 flex items-center justify-between shrink-0 z-50">

@@ -65,7 +65,7 @@ const App: React.FC = () => {
   const getPosCount = (market: string) => Array.isArray(positions) ? positions.filter(p => p.market === market).length : 0;
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#0e131f] text-white font-inter relative">
+    <div className="flex h-screen w-screen overflow-hidden bg-[#0e131f] text-white  relative">
       {/* Background Decorative Elements */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-accent/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
@@ -74,7 +74,7 @@ const App: React.FC = () => {
       <aside className={`flex flex-col border-r border-white/10 bg-[#0d1117]/80 backdrop-blur-xl transition-all duration-300 ${isSidebarOpen ? 'w-64' : 'w-20'}`}>
         <div className="flex bg-linear-to-b from-accent/10 to-transparent items-center gap-3 px-6 py-8">
           <Zap className="h-8 w-8 text-accent shrink-0" />
-          {isSidebarOpen && <span className="text-2xl font-bold font-outfit tracking-tighter">JF.OS</span>}
+          {isSidebarOpen && <span className="text-2xl font-bold  tracking-tighter">JF.OS</span>}
         </div>
 
         <nav className="flex-1 space-y-3 px-4 mt-6">
@@ -109,7 +109,7 @@ const App: React.FC = () => {
               <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-3.5 hover:bg-white/5 rounded-xl transition-colors">
                 <Menu size={20} />
               </button>
-              <h1 className="text-xl font-bold font-outfit tracking-tight">Financial Intelligence <span className="text-accent">OS</span></h1>
+              <h1 className="text-xl font-bold  tracking-tight">Financial Intelligence <span className="text-accent">OS</span></h1>
             </div>
             
             <div className="flex items-center gap-8">
@@ -124,7 +124,7 @@ const App: React.FC = () => {
               <div className="h-10 w-[1px] bg-white/10" />
               <div className="text-right">
                 <p className="text-[10px] uppercase text-white/30 font-bold tracking-[0.2em] mb-1">Total Balance</p>
-                <p className="text-lg font-bold font-outfit">{totalBalance}</p>
+                <p className="text-lg font-bold ">{totalBalance}</p>
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@ const App: React.FC = () => {
               <div className="glass-panel p-8 min-h-[400px]">
                 <div className="flex items-center justify-between mb-8">
                   <div>
-                    <h3 className="text-lg font-bold font-outfit">Portfolio Performance</h3>
+                    <h3 className="text-lg font-bold ">Portfolio Performance</h3>
                     <p className="text-sm text-white/40">Real-time Alpaca Live Sync</p>
                   </div>
                   <div className="flex gap-2">
@@ -308,7 +308,7 @@ const StatCard: React.FC<{ label: string, value: string, subValue: string, icon:
       {!trend && <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest bg-white/5 px-3 py-1.5 rounded-full">{subValue}</span>}
     </div>
     <p className="text-xs text-white/30 font-bold uppercase tracking-[0.15em] mb-2">{label}</p>
-    <p className="text-3xl font-bold font-outfit group-hover:translate-x-1 transition-transform">{value}</p>
+    <p className="text-3xl font-bold  group-hover:translate-x-1 transition-transform">{value}</p>
   </div>
 );
 
