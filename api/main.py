@@ -139,6 +139,44 @@ def get_history():
     except Exception as e:
         return {"error": str(e)}
 
+@app.get("/api/trading/orders")
+def get_orders(market: str = None):
+    try:
+        url = f"{ALPACA_BASE_URL}/v2/orders?status=all&limit=50"
+        resp = requests.get(url, headers=get_headers())
+        if resp.status_code != 200:
+            return {"error": resp.json()}
+        orders = resp.json()
+        
+        def get_market(sym):
+            sym = sym.upper()
+            if sym in ["BTCUSD", "ETHUSD", "SOLUSD"] or "USD" in sym: return "crypto"
+            if sym in ["GLD", "SLV", "IAU", "PALL", "CPER"]: return "metals"
+            if "/" in sym or sym in ["UUP", "FXE", "FXY"]: return "forex"
+            return "stocks"
+            
+        formatted_orders = []
+        for o in orders:
+            sym = o.get("symbol", "")
+            mkt = get_market(sym)
+            if market and market.lower() != mkt and market.lower() != "all":
+                continue
+                
+            formatted_orders.append({
+                "id": o.get("id"),
+                "symbol": sym,
+                "market": mkt,
+                "action": o.get("side", "").upper(),
+                "qty": float(o.get("filled_qty") or o.get("qty") or 0),
+                "price": float(o.get("filled_avg_price") or o.get("limit_price") or 0),
+                "status": o.get("status", "").upper(),
+                "time": o.get("filled_at") or o.get("submitted_at", "")
+            })
+            
+        return formatted_orders
+    except Exception as e:
+        return {"error": str(e)}
+
 @app.get("/api/health")
 def health_check():
     return {

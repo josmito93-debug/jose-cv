@@ -30,26 +30,34 @@ export default function SectorTerminal({ sector, title, icon: Icon }: SectorTerm
   const [news, setNews] = useState<any[]>([]);
   const [prices, setPrices] = useState<any[]>([]);
   const [stats, setStats] = useState<any>(null);
+  const [history, setHistory] = useState<any[]>([]);
+  const [orders, setOrders] = useState<any[]>([]);
   const [posCount, setPosCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [priceRes, newsRes, statsRes, posRes] = await Promise.all([
+      const [priceRes, newsRes, statsRes, posRes, historyRes, ordersRes] = await Promise.all([
         fetch(`/api/market-data?category=${sector}&type=ticker`),
         fetch(`/api/market-data?category=${sector}&type=news`),
         fetch(`/api/trading/stats`),
-        fetch(`/api/trading/positions`)
+        fetch(`/api/trading/positions`),
+        fetch(`/api/trading/history`),
+        fetch(`/api/trading/orders?market=${sector.toLowerCase()}`)
       ]);
       
       const priceData = await priceRes.json();
       const newsData = await newsRes.json();
       const statsData = await statsRes.json();
       const posData = await posRes.json();
+      const historyData = await historyRes.json();
+      const ordersData = await ordersRes.json();
       
       if (priceData.success) setPrices(priceData.data);
       if (newsData.success) setNews(newsData.data);
+      if (Array.isArray(historyData)) setHistory(historyData);
+      if (Array.isArray(ordersData)) setOrders(ordersData);
       
       setStats(statsData);
       if (Array.isArray(posData)) {
@@ -189,6 +197,128 @@ export default function SectorTerminal({ sector, title, icon: Icon }: SectorTerm
                            </div>
                         </motion.div>
                       ))}
+                   </div>
+                </div>
+
+                <div className="p-8 border-t border-white/5 bg-white/[0.01]">
+                   <div className="flex items-center justify-between mb-8">
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-600 flex items-center gap-3">
+                         <Activity className="w-4 h-4 text-indigo-500" />
+                         Market Performance History
+                      </p>
+                      <div className="flex items-center gap-2">
+                         <div className="w-2 h-2 rounded-full bg-indigo-500" />
+                         <span className="text-[9px] font-black uppercase text-zinc-500">Scaled Portfolio Growth</span>
+                      </div>
+                   </div>
+
+                   {/* Custom SVG Chart */}
+                   <div className="h-64 w-full relative group">
+                      <svg className="w-full h-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
+                         <defs>
+                            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                               <stop offset="0%" stopColor="#6366f1" stopOpacity="0.3" />
+                               <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
+                            </linearGradient>
+                         </defs>
+                         {history.length > 1 && (
+                            <>
+                               {(() => {
+                                  const values = history.map(h => h.value);
+                                  const min = Math.min(...values);
+                                  const max = Math.max(...values);
+                                  const range = max - min || 1;
+                                  const points = history.map((h, i) => {
+                                     const x = (i / (history.length - 1)) * 100;
+                                     const y = 100 - ((h.value - min) / range) * 100;
+                                     return `${x},${y}`;
+                                  });
+                                  
+                                  const pathData = `M ${points.join(' L ')}`;
+                                  const areaData = `${pathData} L 100,100 L 0,100 Z`;
+                                  
+                                  return (
+                                     <>
+                                        <path 
+                                           d={areaData} 
+                                           fill="url(#chartGradient)" 
+                                           className="transition-all duration-1000"
+                                           vectorEffect="non-scaling-stroke"
+                                        />
+                                        <path 
+                                           d={pathData} 
+                                           fill="none" 
+                                           stroke="#6366f1" 
+                                           strokeWidth="2"
+                                           vectorEffect="non-scaling-stroke"
+                                        />
+                                     </>
+                                  );
+                               })()}
+                            </>
+                         )}
+                         {/* Grid Lines */}
+                         <line x1="0" y1="0" x2="100" y2="0" stroke="white" strokeOpacity="0.05" strokeWidth="0.5" vectorEffect="non-scaling-stroke" />
+                         <line x1="0" y1="50" x2="100" y2="50" stroke="white" strokeOpacity="0.05" strokeWidth="0.5" vectorEffect="non-scaling-stroke" />
+                         <line x1="0" y1="100" x2="100" y2="100" stroke="white" strokeOpacity="0.05" strokeWidth="0.5" vectorEffect="non-scaling-stroke" />
+                      </svg>
+                      
+                      {/* Chart HUD Labels */}
+                      <div className="absolute top-0 right-0 flex flex-col items-end gap-1 pointer-events-none">
+                         <span className="text-[9px] font-black text-zinc-700 bg-black/40 px-2 py-1 rounded">MAX_REL</span>
+                         <span className="text-[9px] font-black text-zinc-700 bg-black/40 px-2 py-1 rounded">MIN_REL</span>
+                      </div>
+                   </div>
+                </div>
+
+                <div className="p-8 border-t border-white/5 bg-black/20">
+                   <div className="flex items-center gap-4 mb-6">
+                      <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400"><Database className="w-3 h-3" /></div>
+                      <h4 className="text-[10px] font-black uppercase tracking-widest italic">Trade Execution Ledger</h4>
+                   </div>
+                   
+                   <div className="overflow-x-auto">
+                      <table className="w-full text-left">
+                         <thead>
+                            <tr className="border-b border-white/5">
+                               <th className="pb-4 text-[9px] font-black uppercase tracking-widest text-zinc-600">Symbol</th>
+                               <th className="pb-4 text-[9px] font-black uppercase tracking-widest text-zinc-600">Action</th>
+                               <th className="pb-4 text-[9px] font-black uppercase tracking-widest text-zinc-600">Price</th>
+                               <th className="pb-4 text-[9px] font-black uppercase tracking-widest text-zinc-600">Qty</th>
+                               <th className="pb-4 text-[9px] font-black uppercase tracking-widest text-zinc-600 text-right">Time</th>
+                            </tr>
+                         </thead>
+                         <tbody className="divide-y divide-white/[0.02]">
+                            {orders.length > 0 ? orders.map((order) => (
+                               <tr key={order.id} className="group hover:bg-white/[0.01] transition-colors">
+                                  <td className="py-4">
+                                     <div className="flex items-center gap-2">
+                                        <span className="text-xs font-black text-white italic">{order.symbol}</span>
+                                        <span className="px-1.5 py-0.5 bg-white/5 rounded text-[8px] font-bold text-zinc-500 uppercase">{order.status}</span>
+                                     </div>
+                                  </td>
+                                  <td className="py-4">
+                                     <span className={`text-[10px] font-black px-2 py-1 rounded ${order.action === 'BUY' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}`}>
+                                        {order.action}
+                                     </span>
+                                  </td>
+                                  <td className="py-4">
+                                     <span className="text-xs font-bold text-zinc-300">${order.price.toLocaleString()}</span>
+                                  </td>
+                                  <td className="py-4">
+                                     <span className="text-xs font-bold text-zinc-400">{order.qty}</span>
+                                  </td>
+                                  <td className="py-4 text-right">
+                                     <span className="text-[10px] font-bold text-zinc-600">{new Date(order.time).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}</span>
+                                  </td>
+                                </tr>
+                            )) : (
+                               <tr>
+                                  <td colSpan={5} className="py-8 text-center text-[10px] font-black uppercase text-zinc-700 italic">No recent executions in this sector</td>
+                               </tr>
+                            )}
+                         </tbody>
+                      </table>
                    </div>
                 </div>
 
