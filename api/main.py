@@ -177,6 +177,31 @@ def get_orders(market: str = None):
     except Exception as e:
         return {"error": str(e)}
 
+@app.get("/api/trading/coherence")
+def get_coherence():
+    try:
+        api_key = os.getenv("AIRTABLE_API_KEY")
+        base_id = os.getenv("AIRTABLE_BASE_ID")
+        table_name = os.getenv("AIRTABLE_TABLE_NAME_LOGS", "Trading Logs")
+        
+        if not api_key or not base_id:
+            return {"error": "Airtable credentials missing"}
+            
+        url = f"https://api.airtable.com/v0/{base_id}/{table_name}?maxRecords=1&sort[0][field]=Timestamp&sort[0][direction]=desc"
+        headers = {"Authorization": f"Bearer {api_key}"}
+        resp = requests.get(url, headers=headers).json()
+        
+        if "records" in resp and resp["records"]:
+            fields = resp["records"][0]["fields"]
+            return {
+                "coherence_score": fields.get("Coherence Score", 0.5),
+                "omega_score": fields.get("Omega Score", 0.4),
+                "last_reason": fields.get("Razon", "Stable")
+            }
+        return {"coherence_score": 0.5, "omega_score": 0.4, "last_reason": "No data"}
+    except Exception as e:
+        return {"error": str(e)}
+
 @app.get("/api/health")
 def health_check():
     return {

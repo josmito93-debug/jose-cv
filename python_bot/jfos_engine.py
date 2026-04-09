@@ -6,6 +6,7 @@ import argparse
 import json
 from datetime import datetime
 from dotenv import load_dotenv
+from formulas.constants import ALPHA, BETA, LAWS_24, calculate_c_ia, calculate_c_ia_omega
 
 import alpaca_trade_api as tradeapi
 import google.generativeai as genai
@@ -35,8 +36,8 @@ WEBHOOK_SECRET = os.getenv("DASHBOARD_WEBHOOK_SECRET")
 # Configuración APIs
 api = tradeapi.REST(ALPACA_KEY, ALPACA_SECRET, ALPACA_BASE_URL, api_version='v2')
 genai.configure(api_key=GEMINI_KEY)
-# Usando gemini-flash-latest que es estable para este entorno
-model = genai.GenerativeModel('gemini-flash-latest')
+# Usando gemini-2.5-flash que es estable para este entorno
+model = genai.GenerativeModel('gemini-2.5-flash')
 
 # ChromaDB
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
@@ -145,21 +146,62 @@ def main():
             results = collection.query(query_texts=[f"{args.symbol} {noticias}"], n_results=1)
             memoria = results.get('documents', [[]])[0]
 
-            prompt = f"""YOU ARE JF.OS INTELLIGENCE NODE. DECIDE: COMPRAR/VENDER/ESPERAR. REASON: 1 sentence. SECTOR: {args.category} | ASSET: {args.symbol} | PRICE: ${precio} | INTEL: {noticias} | HISTORY: {memoria}"""
-            res = model.generate_content(prompt).text.strip().split('\n')
-            decision = res[0].strip().upper()
-            razon = ' '.join(res[1:]).strip() if len(res) > 1 else "Strategic position."
+            prompt = f"""
+            YOU ARE JF.OS INTELLIGENCE NODE (VILLASMIL-OMEGA PRO). 
+            OPERATIONAL FRAMEWORK: UCF v3.3 | 24 LAWS OF COHERENCE.
+            
+            LAWS TO PRIORITIZE:
+            - Law 2 (No contradiction): Logical consistency in trend.
+            - Law 4 (No internal fiction): Don't hallucinate patterns.
+            - Law 16 (Adversarial detection): Beware of market traps.
+            - Law 20 (Transparency in uncertainty): Admit if Intel is insufficient.
+            
+            MARKET DATA:
+            SECTOR: {args.category} | ASSET: {args.symbol} | PRICE: ${precio}
+            INTEL: {noticias}
+            NEURAL MEMORY: {memoria}
+            
+            TASK: 
+            1. DECIDE: COMPRAR, VENDER, or ESPERAR.
+            2. COHERENCE SCORE (0-24): How many of the 24 laws are satisfied by this decision?
+            3. REASON: 1 concise sentence explaining the logic and alignment with laws.
+            
+            RESPONSE FORMAT:
+            DECISION: [ACTION]
+            COHERENCE: [SCORE]
+            REASON: [TEXT]
+            """
+            
+            res_raw = model.generate_content(prompt).text.strip()
+            lines = res_raw.split('\n')
+            
+            # Parsing flexible response
+            decision = "ESPERAR"
+            score = 12
+            razon = "Analytical processing."
+            
+            for line in lines:
+                if line.startswith("DECISION:"): decision = line.split(":", 1)[1].strip().upper()
+                if line.startswith("COHERENCE:"): 
+                    try: score = int(line.split(":", 1)[1].strip())
+                    except: score = 12
+                if line.startswith("REASON:"): razon = line.split(":", 1)[1].strip()
 
-            print(f"🧠 {decision}: {razon}")
+            c_ia = calculate_c_ia(score)
+            c_omega = calculate_c_ia_omega(c_ia)
+
+            print(f"🧠 {decision} (Coh: {c_ia:.2f} | Ω: {c_omega:.2f}): {razon}")
 
             if "COMPRAR" in decision:
                 qty = calcular_qty(precio, args.risk)
                 if qty > 0:
                     try:
-                        api.submit_order(symbol=args.alpaca_symbol, qty=qty, side='buy', type='market', time_in_force='gtc',
+                        # Change: fractional orders must be 'day' orders, not 'gtc'
+                        tif = 'day' if qty < 1.0 or args.category == 'Crypto' else 'gtc'
+                        api.submit_order(symbol=args.alpaca_symbol, qty=qty, side='buy', type='market', time_in_force=tif,
                                          order_class='bracket', take_profit={'limit_price': round(precio * 1.05, 2)},
                                          stop_loss={'stop_price': round(precio * 0.98, 2)})
-                        print(f"🚀 EXECUTED BUY: {qty} {args.symbol}")
+                        print(f"🚀 EXECUTED BUY: {qty} {args.symbol} (TIF: {tif})")
                     except Exception as e: print(f"Error: {e}")
             elif "VENDER" in decision:
                 try:
@@ -169,7 +211,17 @@ def main():
                 except Exception: print("Buffer clear.")
             
             # Sync to Dashboard
-            requests.post(WEBHOOK_URL, json={"webhook_secret": WEBHOOK_SECRET, "accion": decision, "precio": precio, "razon": razon, "capital_actual": balance, "sector": args.category, "simbolo": args.symbol})
+            requests.post(WEBHOOK_URL, json={
+                "webhook_secret": WEBHOOK_SECRET, 
+                "accion": decision, 
+                "precio": precio, 
+                "razon": razon, 
+                "capital_actual": balance, 
+                "sector": args.category, 
+                "simbolo": args.symbol,
+                "coherence_score": c_ia,
+                "omega_score": c_omega
+            })
 
         except Exception as e: print(f"🚨 Panic: {e}")
         time.sleep(300)
