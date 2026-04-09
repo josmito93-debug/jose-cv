@@ -63,10 +63,10 @@ def get_trading_stats():
         # Extrapolate metrics for the 4 markets based on total PnL
         # Since Alpaca paper doesn't split these natively by account history, we estimate based on active bots
         markets = {
-            "crypto": {"pnl": total_pnl * 0.4, "win_rate": round(min(win_rate * 1.1, 99.9), 1), "status": "ACTIVE"},
-            "stocks": {"pnl": total_pnl * 0.45, "win_rate": round(min(win_rate * 0.95, 99.9), 1), "status": "ACTIVE"},
-            "forex": {"pnl": total_pnl * 0.1, "win_rate": round(min(win_rate * 0.8, 99.9), 1), "status": "MONITORING"},
-            "metals": {"pnl": total_pnl * 0.05, "win_rate": round(min(win_rate * 0.85, 99.9), 1), "status": "MONITORING"}
+            "crypto": {"equity": current_equity * 0.4, "pnl": total_pnl * 0.4, "win_rate": round(min(win_rate * 1.1, 99.9), 1), "status": "ACTIVE"},
+            "stocks": {"equity": current_equity * 0.45, "pnl": total_pnl * 0.45, "win_rate": round(min(win_rate * 0.95, 99.9), 1), "status": "ACTIVE"},
+            "forex": {"equity": current_equity * 0.1, "pnl": total_pnl * 0.1, "win_rate": round(min(win_rate * 0.8, 99.9), 1), "status": "MONITORING"},
+            "metals": {"equity": current_equity * 0.05, "pnl": total_pnl * 0.05, "win_rate": round(min(win_rate * 0.85, 99.9), 1), "status": "MONITORING"}
         }
         
         return {
