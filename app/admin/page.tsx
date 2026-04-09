@@ -187,7 +187,7 @@ export default function UnifiedAdminVercel() {
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
         
         {/* Left Column: Client Inventory (Stakent List View) */}
-        <div className="xl:col-span-12 bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] overflow-hidden">
+        <div className="xl:col-span-8 bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] overflow-hidden">
           <div className="p-8 border-b border-white/5 flex items-center justify-between bg-[#111113]/50">
              <h3 className="text-sm font-black uppercase tracking-widest italic">Inventory & Billing Module</h3>
              <div className="flex items-center gap-4">
@@ -278,6 +278,66 @@ export default function UnifiedAdminVercel() {
                 )}
               </tbody>
             </table>
+          </div>
+        </div>
+
+        {/* Right Column: Autonomous Agents */}
+        <div className="xl:col-span-4 space-y-6">
+          <div className="bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] p-8">
+             <div className="flex items-center justify-between mb-8">
+                <h3 className="text-sm font-black uppercase tracking-widest text-zinc-500 italic">Active Agents</h3>
+                <div className="flex items-center gap-2">
+                   <span className="relative flex h-2 w-2">
+                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                   </span>
+                   <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Online</span>
+                </div>
+             </div>
+
+             <div className="space-y-4">
+                {/* n8n Automation Agent */}
+                <div className="group p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-indigo-500/30 hover:bg-indigo-500/5 transition-all">
+                   <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                         <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
+                            <Cpu className="w-5 h-5 text-indigo-400" />
+                         </div>
+                         <div>
+                            <h4 className="text-sm font-black tracking-tighter">Automator (n8n)</h4>
+                            <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Workflow Engine</p>
+                         </div>
+                      </div>
+                      <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-indigo-400 transition-colors" />
+                   </div>
+                   <div className="flex items-center gap-4 text-[10px] font-bold mb-4">
+                      <div className="flex items-center gap-1.5 text-zinc-500 px-2 py-1 bg-white/5 rounded border border-white/5"><Zap className="w-3 h-3 text-amber-400" /> 1,204 runs</div>
+                      <div className="flex items-center gap-1.5 text-zinc-500 px-2 py-1 bg-white/5 rounded border border-white/5"><CheckCircle2 className="w-3 h-3 text-emerald-400" /> 99% OK</div>
+                   </div>
+                   <a href="https://n8n.cloud" target="_blank" rel="noopener noreferrer" className="block w-full py-2.5 bg-white/5 hover:bg-indigo-500/10 text-center rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-indigo-400 transition-all">Launch Studio</a>
+                </div>
+
+                {/* Content Creator Agent */}
+                <div className="group p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-purple-500/30 hover:bg-purple-500/5 transition-all">
+                   <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                         <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+                            <FileText className="w-5 h-5 text-purple-400" />
+                         </div>
+                         <div>
+                            <h4 className="text-sm font-black tracking-tighter">Copywriter AI</h4>
+                            <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Content Engine</p>
+                         </div>
+                      </div>
+                      <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-purple-400 transition-colors" />
+                   </div>
+                   <div className="flex items-center gap-4 text-[10px] font-bold mb-4">
+                      <div className="flex items-center gap-1.5 text-zinc-500 px-2 py-1 bg-white/5 rounded border border-white/5"><Zap className="w-3 h-3 text-amber-400" /> 84 posts</div>
+                      <div className="flex items-center gap-1.5 text-zinc-500 px-2 py-1 bg-white/5 rounded border border-white/5"><Activity className="w-3 h-3 text-blue-400" /> Synced</div>
+                   </div>
+                   <button className="block w-full py-2.5 bg-white/5 hover:bg-purple-500/10 text-center rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-purple-400 transition-all">Command Agent</button>
+                </div>
+             </div>
           </div>
         </div>
 
