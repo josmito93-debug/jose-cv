@@ -64,14 +64,13 @@ export default function PaymentPage() {
     if (!script) {
       script = document.createElement('script');
       script.id = scriptId;
-      script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&vault=true&intent=subscription`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&vault=true&intent=subscription&components=buttons&currency=USD`;
       script.async = true;
       document.body.appendChild(script);
     }
     
     script.onload = () => {
       if (window.paypal && document.getElementById('paypal-button-container')) {
-        // Clear container incase it already rendered
         document.getElementById('paypal-button-container')!.innerHTML = '';
         window.paypal.Buttons({
           style: {
@@ -92,6 +91,10 @@ export default function PaymentPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ clientId: client.id, subscriptionId: data.subscriptionID, method: 'PAYPAL' })
             });
+          },
+          onError: (err: any) => {
+            console.error('PayPal Error:', err);
+            alert("PayPal no pudo abrir la opción de tarjeta. Es posible que el navegador esté bloqueando ventanas emergentes o que el comercio no admita pagos de tarjeta sin cuenta para suscripciones.");
           }
         }).render('#paypal-button-container');
       }
