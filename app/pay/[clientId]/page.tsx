@@ -217,7 +217,13 @@ export default function PaymentPage() {
                       </div>
 
                       {paymentTab === 'paypal' && (
-                        <div id="paypal-button-container" className="min-h-[150px] relative z-10 animate-in fade-in zoom-in-95 duration-300" />
+                        <div className="space-y-4">
+                          <div id="paypal-button-container" className="min-h-[150px] relative z-10 animate-in fade-in zoom-in-95 duration-300" />
+                          <p className="text-[10px] text-zinc-500 text-center leading-relaxed">
+                            <span className="text-zinc-400 font-bold">Tip:</span> Para pagar con tarjeta de débito/crédito, selecciona el botón negro de PayPal. <br/>
+                            Nota: PayPal requiere crear una cuenta para suscripciones recurrentes.
+                          </p>
+                        </div>
                       )}
 
                       {paymentTab === 'pagomovil' && (
