@@ -100,6 +100,29 @@ export class AirtableCRM {
   }
 
   /**
+   * Get client by Business Name from Airtable (Fallback)
+   */
+  async getClientByBusinessName(businessName: string): Promise<any> {
+    try {
+      const records = await this.base(this.tableName)
+        .select({
+          filterByFormula: `LOWER({Business Name}) = '${businessName.toLowerCase()}'`,
+          maxRecords: 1,
+        })
+        .firstPage();
+
+      if (records.length > 0) {
+        return records[0];
+      }
+
+      return null;
+    } catch (error) {
+      logger.error('Failed to get client by business name from Airtable', error);
+      throw error;
+    }
+  }
+
+  /**
    * Update specific fields in Airtable
    */
   async updateFields(recordId: string, fields: any): Promise<void> {
