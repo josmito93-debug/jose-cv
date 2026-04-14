@@ -8,6 +8,7 @@ interface PhaseItem {
   title: string;
   description: string;
   bullets?: string[];
+  tag?: string;
 }
 
 interface PhaseProps {
@@ -76,10 +77,10 @@ export default function PhaseSection({ phase }: PhaseProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: index * 0.05 }}
-                className="group relative bg-[#0e131f] p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 overflow-hidden"
+                className="group relative bg-[#0e131f] p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 overflow-hidden min-h-[160px] flex flex-col"
               >
                 {/* 
-                   Luxury Gradient Border (Bias Correction 4)
+                   Luxury Gradient Border
                    A pseudo-border that is transparent at the top and emerald at the bottom 
                 */}
                 <div 
@@ -94,7 +95,7 @@ export default function PhaseSection({ phase }: PhaseProps) {
                 {/* Bottom Glow Aura */}
                 <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-[#2ddc80]/10 blur-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <div className="relative z-10 flex gap-4 md:gap-6 items-start">
+                <div className="relative z-10 flex gap-4 md:gap-6 items-start flex-1">
                   <div className="mt-1 flex-shrink-0 w-7 h-7 rounded-lg bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20">
                     <Check className="w-4 h-4 text-[#2ddc80]" strokeWidth={3} />
                   </div>
@@ -121,6 +122,17 @@ export default function PhaseSection({ phase }: PhaseProps) {
                     )}
                   </div>
                 </div>
+
+                {/* Minimalist Floating Tag PNG */}
+                {item.tag && (
+                  <div className="relative z-20 mt-6 self-start group-hover:translate-x-1 transition-transform duration-500">
+                    <img 
+                      src={item.tag} 
+                      alt="" 
+                      className="h-4 md:h-5 w-auto object-contain opacity-40 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
+                    />
+                  </div>
+                )}
               </motion.div>
             ))}
           </div>
