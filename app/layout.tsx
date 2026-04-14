@@ -5,6 +5,10 @@ import ChatWidget from "./components/ChatWidget";
 export const metadata: Metadata = {
   title: "Universa Agency - High Performance Digital Infrastructure",
   description: "Universa Agency professional workspace. Automated high-performance digital infrastructure and trading intelligence.",
+  icons: {
+    icon: "/icon.png?v=2",
+    apple: "/icon.png?v=2",
+  },
 };
 
 export default function RootLayout({
