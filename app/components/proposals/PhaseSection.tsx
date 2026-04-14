@@ -87,11 +87,11 @@ export default function PhaseSection({ phase }: PhaseProps) {
                    A pseudo-border that is transparent at the top and emerald at the bottom 
                 */}
                 <div 
-                  className="absolute inset-0 rounded-[1.5rem] md:rounded-[2rem] border-[1.5px] border-transparent transition-all duration-500 z-10"
+                  className="absolute inset-0 rounded-[1.5rem] md:rounded-[2rem] border-[2.5px] border-transparent transition-all duration-500 z-10"
                   style={{
                     maskImage: 'linear-gradient(to bottom, transparent, black)',
                     WebkitMaskImage: 'linear-gradient(to bottom, transparent 20%, black 100%)',
-                    borderColor: 'rgba(45, 220, 128, 0.4)'
+                    borderColor: 'rgba(45, 220, 128, 0.5)'
                   }}
                 />
                 
