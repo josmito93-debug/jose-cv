@@ -8,6 +8,7 @@ import UniversalProposalNav from '@/app/components/proposals/UniversalProposalNa
 import ProposalHero from '@/app/components/proposals/ProposalHero';
 import PhaseSection from '@/app/components/proposals/PhaseSection';
 import PricingSummary from '@/app/components/proposals/PricingSummary';
+import SpaceRocks from '@/app/components/proposals/SpaceRocks';
 
 interface ProposalData {
   client: string;
@@ -68,6 +69,9 @@ export default function ProposalPage() {
           className="absolute bottom-[-10%] left-[15%] w-[450px] h-[450px] bg-[#2ddc80]/15 blur-[130px] rounded-full"
         />
       </div>
+
+      {/* Atmospheric Space Rocks */}
+      <SpaceRocks />
 
       <div className="relative z-10 w-full h-full">
         <UniversalProposalNav clientName={proposal.client} />
