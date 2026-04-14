@@ -15,12 +15,22 @@ async function runTest() {
       contactName: 'Ingeniero Fix',
       email: 'bot@universa.agency',
       phone: '+584240000000',
+      businessType: 'other' as const,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    branding: {
+      colors: { primary: '#000000' }
     },
     payment: {
-      status: 'UNPAID',
-      method: '',
+      status: 'pending' as const,
+      amount: 0,
+      method: 'pago_movil' as const,
+      currency: 'USD',
       reference: '',
-      nextDueDate: null
+    },
+    deployment: {
+      status: 'not_started' as const
     }
   };
 

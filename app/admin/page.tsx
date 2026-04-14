@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Users, 
@@ -24,6 +25,7 @@ import {
 } from 'lucide-react';
 
 export default function UnifiedAdminVercel() {
+  const router = useRouter();
   const [clients, setClients] = useState<any[]>([]);
   const [vercelProjects, setVercelProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);

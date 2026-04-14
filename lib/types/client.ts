@@ -94,6 +94,20 @@ export const SEOSchema = z.object({
   generatedAt: z.string().datetime(),
 });
 
+export const DependencySchema = z.object({
+  type: z.enum(['llm', 'database', 'webhook', 'other']),
+  status: z.enum(['verified', 'error', 'missing', 'pending']),
+  config: z.record(z.string()).optional(),
+  error: z.string().optional(),
+  lastCheckedAt: z.string().datetime().optional(),
+});
+
+export const AutomationSchema = z.object({
+  llmConfig: z.record(z.string()).optional(),
+  masterPrompt: z.string().optional(),
+  activeWorkflows: z.array(z.string()).optional(),
+});
+
 export const AssetsSchema = z.object({
   wireframes: WireframeSchema.optional(),
   images: z.array(z.object({
@@ -142,6 +156,8 @@ export const ClientDataSchema = z.object({
   }).optional(),
   assets: AssetsSchema.optional(),
   deployment: DeploymentSchema,
+  dependencies: z.record(DependencySchema).optional(),
+  automation: AutomationSchema.optional(),
   airtableRecordId: z.string().optional(),
   codaRowId: z.string().optional(),
 });

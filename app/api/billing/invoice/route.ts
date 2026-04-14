@@ -12,16 +12,29 @@ export async function POST(request: Request) {
     try {
       const recordId = await airtableCRM.syncClient({
         info: {
-          clientId: clientId, // This might be prj_...
+          clientId: clientId,
           businessName: businessName || 'Sin Negocio',
           contactName: contactName || 'Sin Nombre',
           email: email || '',
-          phone: phone || ''
+          phone: phone || '',
+          businessType: 'other', // Default value to satisfy strict type
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
         },
         payment: {
-          status: 'UNPAID'
+          status: 'pending', // Match PaymentInfoSchema: 'pending' | 'processing' | 'completed' | 'failed'
+          amount: 30,       // Default amount
+          currency: 'USD'
+        },
+        branding: {
+          colors: {
+            primary: '#6366f1' // Indigo
+          }
+        },
+        deployment: {
+          status: 'not_started'
         }
-      });
+      } as any); // Use cast to any to handle nested property variations if necessary, but providing main fields
       console.log('Client synced to Airtable during invoice gen:', recordId);
     } catch (syncError) {
       console.error('Failed to sync client during invoice generation:', syncError);

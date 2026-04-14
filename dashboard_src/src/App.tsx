@@ -30,7 +30,7 @@ const App: React.FC = () => {
   const [positions, setPositions] = useState<any[]>([]);
   const [history, setHistory] = useState<any[]>([]);
   const [coherence, setCoherence] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+
 
   const fetchData = async () => {
     try {
@@ -52,8 +52,6 @@ const App: React.FC = () => {
       setCoherence(cohData);
     } catch (err) {
       console.error("Dashboard Sync Error:", err);
-    } finally {
-      setLoading(false);
     }
   };
 
