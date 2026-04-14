@@ -15,13 +15,13 @@ const ROCKS = [
 
 export default function SpaceRocks() {
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden">
       {ROCKS.map((rock) => (
         <motion.div
           key={rock.id}
           initial={{ opacity: 0, y: 0 }}
           animate={{ 
-            opacity: [0, 0.6, 0.4],
+            opacity: [0, 0.9, 0.7],
             y: [-30, 30, -30],
             rotate: [0, 5, -5, 0]
           }}

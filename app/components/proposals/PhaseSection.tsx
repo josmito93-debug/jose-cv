@@ -79,8 +79,8 @@ export default function PhaseSection({ phase }: PhaseProps) {
                 transition={{ delay: index * 0.05 }}
                 className="group relative bg-[#0e131f] p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 overflow-hidden min-h-[160px] flex flex-col"
               >
-                {/* Luxury Card Texture Layer */}
-                <div className="absolute inset-0 z-0 opacity-[0.2] bg-[url('/images/texture.png')] bg-repeat pointer-events-none" />
+                {/* Luxury Card Texture Layer - Increased Visibility */}
+                <div className="absolute inset-0 z-0 opacity-[0.4] bg-[url('/images/texture.png')] bg-repeat pointer-events-none" />
 
                 {/* 
                    Luxury Gradient Border
