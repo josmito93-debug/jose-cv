@@ -21,8 +21,13 @@ interface PhaseProps {
 
 export default function PhaseSection({ phase }: PhaseProps) {
   return (
-    <section className="py-16 md:py-24 px-6 relative">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 md:py-24 px-6 relative overflow-hidden">
+      {/* Background Illumination (Emerald Aura) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full z-0 pointer-events-none opacity-20">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(45,220,128,0.15)_0%,transparent_70%)]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
           {/* Phase Header - Sticky only on large screens */}
           <div className="lg:col-span-4 flex flex-col items-start lg:sticky lg:top-32 h-fit mb-8 lg:mb-0">
@@ -63,7 +68,7 @@ export default function PhaseSection({ phase }: PhaseProps) {
           </div>
 
           {/* Phase Items */}
-          <div className="lg:col-span-8 flex flex-col gap-4">
+          <div className="lg:col-span-8 flex flex-col gap-6 md:gap-8">
             {phase.items.map((item, index) => (
               <motion.div
                 key={index}
@@ -71,12 +76,25 @@ export default function PhaseSection({ phase }: PhaseProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: index * 0.05 }}
-                className="group relative bg-[#0e131f] hover:bg-white/[0.04] border border-[#2ddc80]/20 hover:border-[#2ddc80]/50 p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 overflow-hidden"
+                className="group relative bg-[#0e131f] p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 overflow-hidden"
               >
-                {/* Subtle Emerald Refraction Glow */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#2ddc80]/5 blur-[60px] pointer-events-none" />
+                {/* 
+                   Luxury Gradient Border (Bias Correction 4)
+                   A pseudo-border that is transparent at the top and emerald at the bottom 
+                */}
+                <div 
+                  className="absolute inset-0 rounded-[1.5rem] md:rounded-[2rem] border-[1.5px] border-transparent transition-all duration-500"
+                  style={{
+                    maskImage: 'linear-gradient(to bottom, transparent, black)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, transparent 20%, black 100%)',
+                    borderColor: 'rgba(45, 220, 128, 0.4)'
+                  }}
+                />
                 
-                <div className="flex gap-4 md:gap-6 items-start">
+                {/* Bottom Glow Aura */}
+                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-[#2ddc80]/10 blur-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10 flex gap-4 md:gap-6 items-start">
                   <div className="mt-1 flex-shrink-0 w-7 h-7 rounded-lg bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20">
                     <Check className="w-4 h-4 text-[#2ddc80]" strokeWidth={3} />
                   </div>
@@ -110,7 +128,7 @@ export default function PhaseSection({ phase }: PhaseProps) {
       </div>
       
       {/* Visual Divider */}
-      <div className="w-full max-w-7xl mx-auto h-[1px] bg-white/5 mt-20 md:mt-32" />
+      <div className="w-full max-w-7xl mx-auto h-[1px] bg-white/5 mt-20 md:mt-32 shadow-[0_-10px_30px_rgba(45,220,128,0.05)]" />
     </section>
   );
 }
