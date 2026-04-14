@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useParams } from 'next/navigation';
+import { motion } from 'framer-motion';
 import proposalsData from '@/data/proposals.json';
 import UniversalProposalNav from '@/app/components/proposals/UniversalProposalNav';
 import ProposalHero from '@/app/components/proposals/ProposalHero';
@@ -15,7 +16,7 @@ interface ProposalData {
     id: number;
     name: string;
     investment: number;
-    items: Array<{ title: string; description: string }>;
+    items: Array<{ title: string; description: string; bullets?: string[]; tag?: string }>;
   }>;
   summary: string;
   cta: string;
@@ -37,25 +38,57 @@ export default function ProposalPage() {
   }
 
   return (
-    <main className="bg-[#0e131f] min-h-screen selection:bg-[#2ddc80] selection:text-[#0e131f]">
-      <UniversalProposalNav clientName={proposal.client} />
-      
-      <ProposalHero 
-        client={proposal.client} 
-        title={proposal.title} 
-        summary={proposal.summary} 
-      />
-
-      <div className="relative z-10 bg-[#0e131f]">
-        {proposal.phases.map((phase) => (
-          <PhaseSection key={phase.id} phase={phase} />
-        ))}
+    <main className="bg-[#0e131f] min-h-screen selection:bg-[#2ddc80] selection:text-[#0e131f] relative overflow-hidden">
+      {/* Background Cinematic Motion Blur */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <motion.div 
+          animate={{ 
+            x: [0, 100, -50, 0],
+            y: [0, -80, 50, 0],
+            scale: [1, 1.1, 0.9, 1]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-[10%] -left-[5%] w-[500px] h-[500px] bg-[#2ddc80]/15 blur-[120px] rounded-full"
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, -120, 80, 0],
+            y: [0, 100, -50, 0],
+            scale: [1, 0.8, 1.1, 1]
+          }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[40%] -right-[10%] w-[700px] h-[700px] bg-[#2ddc80]/10 blur-[150px] rounded-full"
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, 50, -100, 0],
+            y: [0, -50, 100, 0]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-[-10%] left-[15%] w-[450px] h-[450px] bg-[#2ddc80]/15 blur-[130px] rounded-full"
+        />
       </div>
 
-      <PricingSummary 
-        phases={proposal.phases} 
-        cta={proposal.cta} 
-      />
+      <div className="relative z-10 w-full h-full">
+        <UniversalProposalNav clientName={proposal.client} />
+        
+        <ProposalHero 
+          client={proposal.client} 
+          title={proposal.title} 
+          summary={proposal.summary} 
+        />
+
+        <div className="relative">
+          {proposal.phases.map((phase) => (
+            <PhaseSection key={phase.id} phase={phase} />
+          ))}
+        </div>
+
+        <PricingSummary 
+          phases={proposal.phases} 
+          cta={proposal.cta} 
+        />
+      </div>
     </main>
   );
 }
