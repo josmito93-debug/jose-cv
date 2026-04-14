@@ -12,7 +12,7 @@ interface ProposalHeroProps {
 
 export default function ProposalHero({ client, status, title, summary }: ProposalHeroProps) {
   return (
-    <section className="relative min-h-[90dvh] md:min-h-[80dvh] flex flex-col justify-center px-6 pt-24 md:pt-32 pb-12 overflow-hidden bg-[#0e131f]">
+    <section className="relative min-h-[90dvh] md:min-h-screen flex flex-col justify-center px-6 pt-32 md:pt-48 pb-20 md:pb-40 overflow-hidden bg-[#0e131f]">
       {/* Background Cinematic Elements */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <motion.div 
@@ -28,8 +28,8 @@ export default function ProposalHero({ client, status, title, summary }: Proposa
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 items-end">
-          <div className="lg:col-span-8 flex flex-col items-start gap-5 md:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24 items-end">
+          <div className="lg:col-span-8 flex flex-col items-start gap-8 md:gap-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -56,7 +56,7 @@ export default function ProposalHero({ client, status, title, summary }: Proposa
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.2 }}
-              className="text-base md:text-xl text-white/80 max-w-xl font-medium leading-relaxed mt-4 md:mt-6"
+              className="text-base md:text-xl text-white/80 max-w-2xl font-medium leading-relaxed mt-6 md:mt-10"
             >
               {summary}
             </motion.p>
