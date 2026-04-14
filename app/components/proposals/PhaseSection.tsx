@@ -7,6 +7,7 @@ import { Check } from 'lucide-react';
 interface PhaseItem {
   title: string;
   description: string;
+  bullets?: string[];
 }
 
 interface PhaseProps {
@@ -70,23 +71,36 @@ export default function PhaseSection({ phase }: PhaseProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: index * 0.05 }}
-                className="group relative bg-[#0e131f] hover:bg-white/[0.04] border border-white/5 hover:border-[#2ddc80]/30 p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500"
+                className="group relative bg-[#0e131f] hover:bg-white/[0.04] border border-[#2ddc80]/20 hover:border-[#2ddc80]/50 p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 overflow-hidden"
               >
-                {/* Subtle Refraction Border */}
-                <div className="absolute inset-0 rounded-[1.5rem] md:rounded-[2rem] border border-white/5 group-hover:border-[#2ddc80]/10 transition-colors pointer-events-none" />
+                {/* Subtle Emerald Refraction Glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#2ddc80]/5 blur-[60px] pointer-events-none" />
                 
                 <div className="flex gap-4 md:gap-6 items-start">
-                  <div className="mt-1 flex-shrink-0 w-6 h-6 rounded-lg bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20">
+                  <div className="mt-1 flex-shrink-0 w-7 h-7 rounded-lg bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20">
                     <Check className="w-4 h-4 text-[#2ddc80]" strokeWidth={3} />
                   </div>
                   
-                  <div className="flex flex-col gap-2 md:gap-3">
-                    <h3 className="text-white font-black text-lg md:text-xl tracking-tight uppercase group-hover:text-[#2ddc80] transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-white/70 text-sm leading-relaxed max-w-[65ch]">
-                      {item.description}
-                    </p>
+                  <div className="flex flex-col gap-2 md:gap-4 w-full">
+                    <div className="flex flex-col gap-1">
+                      <h3 className="text-white font-black text-xl md:text-2xl tracking-tight uppercase group-hover:text-[#2ddc80] transition-colors leading-none">
+                        {item.title}
+                      </h3>
+                      <p className="text-white/80 text-sm font-medium leading-relaxed max-w-[65ch]">
+                        {item.description}
+                      </p>
+                    </div>
+
+                    {item.bullets && (
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 mt-2">
+                        {item.bullets.map((bullet, idx) => (
+                          <li key={idx} className="flex items-center gap-2 text-white/50 text-[13px] font-medium group-hover:text-white/80 transition-colors">
+                            <div className="w-1 h-1 rounded-full bg-[#2ddc80]" />
+                            {bullet}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
               </motion.div>
