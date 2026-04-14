@@ -12,46 +12,20 @@ interface PricingSummaryProps {
 export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
   const total = phases.reduce((acc, curr) => acc + curr.investment, 0);
   
-  // Phase 1 Breakdown
-  const p1_total = phases[0]?.investment || 0;
-  const p1_start = p1_total * 0.5;
-  const p1_end = p1_total * 0.5;
-  
-  // Phase 2 Breakdown
-  const p2_total = phases[1]?.investment || 0;
-  const p2_start = p2_total * 0.5;
-  const p2_end = p2_total * 0.5;
-
-  const milestones = [
-    {
-      title: "Inicio de Proyecto",
-      description: "50% de la Fase 01 para comenzar",
-      amount: p1_start,
-      icon: <PlayCircle className="w-5 h-5" />,
-      status: "Reserva"
-    },
-    {
-      title: "Cierre de Fase 01",
-      description: "50% restante al finalizar el desarrollo estratégico",
-      amount: p1_end,
-      icon: <CheckCircle2 className="w-5 h-5" />,
-      status: "Entregable"
-    },
-    {
-      title: "Inicio de Fase 02",
-      description: "50% de la Fase 02 para integración de sistemas",
-      amount: p2_start,
-      icon: <Wallet className="w-5 h-5" />,
-      status: "Integración"
-    },
-    {
-       title: "Lanzamiento Final",
-       description: "Saldo final para entrega de claves y acceso total",
-       amount: p2_end,
-       icon: <ArrowRight className="w-5 h-5" />,
-       status: "Finalización"
-    }
-  ];
+  const milestones = phases.map((phase, i) => {
+    const isFirst = i === 0;
+    const isLast = i === phases.length - 1;
+    
+    return {
+      title: isFirst ? "Reserva de Proyecto" : isLast ? "Lanzamiento Final" : phase.name,
+      description: isFirst 
+        ? "Iniciamos con el 50% del total para el desarrollo estratégico de marca." 
+        : "Saldo para la entrega final de todos los activos y manual de identidad.",
+      amount: phase.investment,
+      icon: isFirst ? <PlayCircle className="w-5 h-5" /> : <CheckCircle2 className="w-5 h-5" />,
+      status: isFirst ? "Inicio" : "Finalización"
+    };
+  });
 
   return (
     <section className="py-20 md:py-32 px-6 relative overflow-hidden">

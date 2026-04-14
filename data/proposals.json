@@ -133,8 +133,8 @@
     "phases": [
       {
         "id": 1,
-        "name": "FASE 1: BRAND DNA (FUNDAMENTO ESTRATÉGICO)",
-        "investment": 200,
+        "name": "FASE 1: BRAND DNA + IDENTIDAD VISUAL",
+        "investment": 325,
         "items": [
           {
             "title": "Desarrollo del ADN de Marca",
@@ -146,91 +146,42 @@
               "Posicionamiento estratégico en el mercado"
             ],
             "tag": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Sistema de Identidad Visual",
+            "description": "Desarrollo de logo profesional, variantes e isotipo adaptable.",
+            "bullets": [
+              "Concepto basado en estrategia de marca",
+              "Logo principal y variantes secundarias",
+              "Isotipo adaptable (Digital/Packaging)",
+              "Manual de Marca (Brand Guidelines)"
+            ],
+            "tag": "/tags/Graphic desing.png"
           }
         ]
       },
       {
         "id": 2,
-        "name": "FASE 2: IDENTIDAD VISUAL COMPLETA",
-        "investment": 250,
+        "name": "FASE 2: APLICACIONES + ACTIVOS DE MARCA",
+        "investment": 325,
         "items": [
           {
-            "title": "Diseño de Sistema de Identidad",
-            "description": "Desarrollo de logo profesional, variantes e isotipo adaptable.",
+            "title": "Packaging + Brochure",
+            "description": "Diseño de empaque y brochure de ventas orientado a conversión.",
             "bullets": [
-              "Concepto basado en estrategia de marca",
-              "Logo principal y variantes secundarias",
-              "Isotipo adaptable para digital y packaging",
-              "Diseño escalable y profesional"
+              "Experiencia de unboxing optimizada",
+              "Brochure con copywriting persuasivo",
+              "Diseño funcional + estético"
             ],
             "tag": "/tags/Graphic desing.png"
           },
           {
-            "title": "Línea Gráfica Estratégica",
-            "description": "Sistema visual completo que define la estética de ROXE.",
+            "title": "Contenido RRSS + Motion Logo",
+            "description": "Base inicial para presencia digital y animación de alto nivel.",
             "bullets": [
-              "Paleta de colores estratégica",
-              "Tipografías alineadas a la personalidad",
-              "Estilo visual (Minimal/Premium/Bold)",
-              "Dirección de arte y composición"
-            ],
-            "tag": "/tags/Graphic desing.png"
-          },
-          {
-            "title": "Manual de Marca (Guidelines)",
-            "description": "Documento de control para escalar la marca sin perder consistencia.",
-            "bullets": [
-              "Uso correcto y restricciones del logo",
-              "Paleta de colores con códigos exactos",
-              "Jerarquías tipográficas",
-              "Guía de aplicaciones correctas"
-            ],
-            "tag": "/tags/Graphic desing.png"
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "name": "FASE 3: APLICACIONES DE MARCA",
-        "investment": 200,
-        "items": [
-          {
-            "title": "Packaging de Producto",
-            "description": "Diseño enfocado en percepción de valor y experiencia de unboxing.",
-            "bullets": [
-              "Diseño funcional + estético",
-              "Adaptación a identidad visual",
-              "Optimización de experiencia de usuario"
-            ],
-            "tag": "/tags/Graphic desing.png"
-          },
-          {
-            "title": "Brochure de Producto",
-            "description": "Diseño profesional orientado a ventas con copywriting persuasivo.",
-            "bullets": [
-              "Estructura clara y persuasiva",
-              "Copywriting enfocado en beneficios",
-              "Uso estratégico de imágenes"
-            ],
-            "tag": "/tags/Graphic desing.png"
-          },
-          {
-            "title": "Contenido Estratégico RRSS",
-            "description": "Base inicial para una presencia digital sólida y consistente.",
-            "bullets": [
-              "10 Posts (Branding/Producto/Conversión)",
-              "10 Stories (Interacción/Retención/CTA)",
-              "Diseño alineado a la nueva identidad"
-            ],
-            "tag": "/tags/Graphic desing.png"
-          },
-          {
-            "title": "Animación de Logo",
-            "description": "Motion design profesional para elevar la percepción de marca.",
-            "bullets": [
-              "Versión animada para uso digital",
-              "Uso en Ads y Redes Sociales",
-              "Intro de contenido de alto nivel"
+              "10 Posts + 10 Stories estratégicos",
+              "Animación de logo (Motion design)",
+              "Activos listos para Ads y contenido"
             ],
             "tag": "/tags/Graphic desing.png"
           }
