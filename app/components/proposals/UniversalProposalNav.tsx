@@ -14,7 +14,7 @@ export default function UniversalProposalNav({ clientName }: { clientName: strin
           transition={{ type: "spring", stiffness: 100, damping: 20 }}
           className="flex items-center gap-3"
         >
-          <div className="relative w-8 h-8">
+          <div className="relative w-12 h-12">
             <Image 
               src="/images/universa_logo.png" 
               alt="Universa Agency" 
@@ -22,7 +22,7 @@ export default function UniversalProposalNav({ clientName }: { clientName: strin
               className="object-contain"
             />
           </div>
-          <span className="font-sans font-bold text-sm tracking-widest uppercase text-white/90">
+          <span className="font-sans font-bold text-lg tracking-tight text-white/90 ml-1">
             Universa Agency
           </span>
         </motion.div>

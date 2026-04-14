@@ -56,12 +56,12 @@ export default function UniversaNexusV5() {
       <header className="h-20 border-b border-white/[0.05] backdrop-blur-3xl px-8 flex items-center justify-between shrink-0 z-50 sticky top-0">
         <div className="flex items-center gap-10">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 group-hover:scale-110 transition-transform flex items-center justify-center">
+            <div className="w-10 h-10 group-hover:scale-110 transition-transform flex items-center justify-center">
               <img src="/images/universa_logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <div className="h-6 w-px bg-white/10 mx-2" />
             <div className="flex flex-col">
-              <h1 className="text-lg font-black tracking-tighter uppercase italic leading-none">Universa <span className="text-indigo-500">Nexus</span></h1>
+              <h1 className="text-xl font-black tracking-tight italic leading-none">Universa <span className="text-indigo-500">Nexus</span></h1>
               <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-[0.3em] mt-1">Central Command Hub</span>
             </div>
           </Link>
