@@ -79,12 +79,15 @@ export default function PhaseSection({ phase }: PhaseProps) {
                 transition={{ delay: index * 0.05 }}
                 className="group relative bg-[#0e131f] p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 overflow-hidden min-h-[160px] flex flex-col"
               >
+                {/* Luxury Card Texture Layer */}
+                <div className="absolute inset-0 z-0 opacity-[0.05] bg-[url('/images/texture.png')] bg-repeat mix-blend-overlay pointer-events-none" />
+
                 {/* 
                    Luxury Gradient Border
                    A pseudo-border that is transparent at the top and emerald at the bottom 
                 */}
                 <div 
-                  className="absolute inset-0 rounded-[1.5rem] md:rounded-[2rem] border-[1.5px] border-transparent transition-all duration-500"
+                  className="absolute inset-0 rounded-[1.5rem] md:rounded-[2rem] border-[1.5px] border-transparent transition-all duration-500 z-10"
                   style={{
                     maskImage: 'linear-gradient(to bottom, transparent, black)',
                     WebkitMaskImage: 'linear-gradient(to bottom, transparent 20%, black 100%)',
@@ -123,13 +126,13 @@ export default function PhaseSection({ phase }: PhaseProps) {
                   </div>
                 </div>
 
-                {/* Minimalist Floating Tag PNG */}
+                {/* Minimalist Floating Tag PNG - Now Fixed Bottom Right & Always Colored */}
                 {item.tag && (
-                  <div className="relative z-20 mt-6 self-start group-hover:translate-x-1 transition-transform duration-500">
+                  <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 z-20 transition-transform duration-500 group-hover:scale-110">
                     <img 
                       src={item.tag} 
                       alt="" 
-                      className="h-4 md:h-5 w-auto object-contain opacity-40 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
+                      className="h-4 md:h-5 w-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-500"
                     />
                   </div>
                 )}
