@@ -74,6 +74,7 @@ export default function ProposalPage() {
         
         <ProposalHero 
           client={proposal.client} 
+          status={proposal.status || "Análisis de Mercado Completado"}
           title={proposal.title} 
           summary={proposal.summary} 
         />
