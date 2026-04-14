@@ -10,31 +10,70 @@
         "items": [
           {
             "title": "Arquitectura del sitio",
-            "description": "SEO + Conversión. Home, Shop, Producto, About, Contact, FAQ, Blog estratégico. Incluye sitemap.xml."
+            "description": "Estructura optimizada para buscadores y motores de IA.",
+            "bullets": [
+              "Home (Optimizada para conversión)",
+              "Shop (Categorías estratégicas)",
+              "Página de producto (CRO avanzado)",
+              "About, Contact & FAQ",
+              "Sitemap.xml & Robots.txt"
+            ]
           },
           {
             "title": "Navegación Inteligente",
-            "description": "Mega menú dinámico, organización por categorías, acceso rápido a subcategorías. Optimizado para desktop y mobile."
+            "description": "Menú dinámico que mejora la experiencia del usuario.",
+            "bullets": [
+              "Mega menú desplegable",
+              "Jerarquía por tipo de producto",
+              "Acceso rápido a subcategorías",
+              "Destacados (Best Sellers)"
+            ]
           },
           {
             "title": "Base de Datos Dinámica",
-            "description": "Panel de administración intuitivo, gestión de inventario, edición de precios en tiempo real."
+            "description": "Gestión de productos simplificada y escalable.",
+            "bullets": [
+              "Panel de administración intuitivo",
+              "Gestión de inventario y stock",
+              "Modificación de precios en tiempo real",
+              "Subida de imágenes optimizadas"
+            ]
           },
           {
              "title": "Optimización SEO + IA",
-             "description": "Estructura pensada para motores tradicionales y modelos de IA (ChatGPT, Perplexity, Perplexity)."
+             "description": "Preparado para el futuro de las búsquedas.",
+             "bullets": [
+               "ChatGPT & Perplexity Optimizados",
+               "Google SGE (Search Generative Experience)",
+               "Datos estructurados (Schema Markup)"
+             ]
           },
           {
              "title": "Copywriting Persuasivo",
-             "description": "Psicología del consumidor, headlines de alto impacto y storytelling de marca."
+             "description": "Diseñado bajo principios de psicología del consumidor.",
+             "bullets": [
+               "Headlines de alto impacto",
+               "Secciones de beneficios",
+               "Microcopy (CTAs estratégicos)"
+             ]
           },
           {
              "title": "Hero Section Animado",
-             "description": "Animación custom de alto impacto diseñada para detener el scroll y generar interés en 3 segundos."
+             "description": "Captura atención en los primeros 3 segundos.",
+             "bullets": [
+               "Animación custom (No plantilla)",
+               "Motion sutil orientado a conversión",
+               "Diferenciador clave visual"
+             ]
           },
           {
-             "title": "CRO Página de Producto",
-             "description": "Estructura diseñada para maximizar conversiones, incluye Upsell inteligente y prueba social."
+             "title": "ROXE Blog Estratégico",
+             "description": "Motor de adquisición orgánica y autoridad.",
+             "bullets": [
+               " Topic clusters SEO-friendly",
+               "Generación de Authority Backlinks",
+               "Estrategia de contenido Linkable"
+             ]
           }
         ]
       },
@@ -45,15 +84,30 @@
         "items": [
           {
             "title": "Pasarela de Pago Profesional",
-            "description": "Integración segura y flujo de checkout simplificado."
+            "description": "Seguridad y simplicidad en el checkout.",
+            "bullets": [
+              "Integración segura (Stripe/PayPal)",
+              "Flujo de pago optimizado",
+              "Confianza visual para el cliente"
+            ]
           },
           {
-            "title": "Métodos Avanzados",
-            "description": "Apple Pay, Klarna (Buy Now Pay Later), Afterpay."
+            "title": "Métodos de Pago Avanzados",
+            "description": "Aumenta la tasa de conversión.",
+            "bullets": [
+              "Apple Pay & Google Pay",
+              "Klarna (Buy Now Pay Later)",
+              "Afterpay"
+            ]
           },
           {
             "title": "Automatización de Emails",
-            "description": "Confirmaciones de compra, recibos profesionales y remarketing base."
+            "description": "Mejora la experiencia post-compra.",
+            "bullets": [
+              "Confirmaciones inteligentes",
+              "Recibos profesionales",
+              "Base para remarketing"
+            ]
           }
         ]
       }
