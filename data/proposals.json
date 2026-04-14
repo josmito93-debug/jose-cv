@@ -125,5 +125,119 @@
     ],
     "summary": "Esto no es diseño web. Esto es infraestructura de ventas digital.",
     "cta": "https://wa.me/17863024923"
+  },
+  "roxe-branding": {
+    "client": "ROXE",
+    "status": "Estrategia e Identidad de Marca",
+    "title": "BRAND DNA + IDENTIDAD COMPLETA",
+    "phases": [
+      {
+        "id": 1,
+        "name": "FASE 1: BRAND DNA (FUNDAMENTO ESTRATÉGICO)",
+        "investment": 200,
+        "items": [
+          {
+            "title": "Desarrollo del ADN de Marca",
+            "description": "Definición de propósito, visión, valores y personalidad de marca.",
+            "bullets": [
+              "Propósito, Visión y Misión estratégica",
+              "Arquetipo psicológico y tono verbal",
+              "Público objetivo y Propuesta Única de Valor",
+              "Posicionamiento estratégico en el mercado"
+            ],
+            "tag": "/tags/Graphic desing.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "FASE 2: IDENTIDAD VISUAL COMPLETA",
+        "investment": 250,
+        "items": [
+          {
+            "title": "Diseño de Sistema de Identidad",
+            "description": "Desarrollo de logo profesional, variantes e isotipo adaptable.",
+            "bullets": [
+              "Concepto basado en estrategia de marca",
+              "Logo principal y variantes secundarias",
+              "Isotipo adaptable para digital y packaging",
+              "Diseño escalable y profesional"
+            ],
+            "tag": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Línea Gráfica Estratégica",
+            "description": "Sistema visual completo que define la estética de ROXE.",
+            "bullets": [
+              "Paleta de colores estratégica",
+              "Tipografías alineadas a la personalidad",
+              "Estilo visual (Minimal/Premium/Bold)",
+              "Dirección de arte y composición"
+            ],
+            "tag": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Manual de Marca (Guidelines)",
+            "description": "Documento de control para escalar la marca sin perder consistencia.",
+            "bullets": [
+              "Uso correcto y restricciones del logo",
+              "Paleta de colores con códigos exactos",
+              "Jerarquías tipográficas",
+              "Guía de aplicaciones correctas"
+            ],
+            "tag": "/tags/Graphic desing.png"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "FASE 3: APLICACIONES DE MARCA",
+        "investment": 200,
+        "items": [
+          {
+            "title": "Packaging de Producto",
+            "description": "Diseño enfocado en percepción de valor y experiencia de unboxing.",
+            "bullets": [
+              "Diseño funcional + estético",
+              "Adaptación a identidad visual",
+              "Optimización de experiencia de usuario"
+            ],
+            "tag": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Brochure de Producto",
+            "description": "Diseño profesional orientado a ventas con copywriting persuasivo.",
+            "bullets": [
+              "Estructura clara y persuasiva",
+              "Copywriting enfocado en beneficios",
+              "Uso estratégico de imágenes"
+            ],
+            "tag": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Contenido Estratégico RRSS",
+            "description": "Base inicial para una presencia digital sólida y consistente.",
+            "bullets": [
+              "10 Posts (Branding/Producto/Conversión)",
+              "10 Stories (Interacción/Retención/CTA)",
+              "Diseño alineado a la nueva identidad"
+            ],
+            "tag": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Animación de Logo",
+            "description": "Motion design profesional para elevar la percepción de marca.",
+            "bullets": [
+              "Versión animada para uso digital",
+              "Uso en Ads y Redes Sociales",
+              "Intro de contenido de alto nivel"
+            ],
+            "tag": "/tags/Graphic desing.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Las marcas no compiten por lo que venden. Compiten por cómo son percibidas. ROXE será construida no como un diseño… sino como un activo de posicionamiento de alto valor.",
+    "cta": "https://wa.me/17863024923"
   }
 }
