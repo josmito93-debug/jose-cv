@@ -15,7 +15,7 @@ const ROCKS = [
 
 export default function SpaceRocks() {
   return (
-    <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden">
+    <div className="fixed inset-0 z-5 pointer-events-none overflow-hidden">
       {ROCKS.map((rock) => (
         <motion.div
           key={rock.id}

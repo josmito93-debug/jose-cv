@@ -75,12 +75,12 @@ export default function PhaseSection({ phase }: PhaseProps) {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className="group relative bg-[#0e131f] p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 overflow-hidden min-h-[160px] flex flex-col"
+                className="group relative bg-[#0e131f]/70 backdrop-blur-md p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 overflow-hidden min-h-[160px] flex flex-col"
               >
-                {/* Luxury Card Texture Layer - Increased Visibility */}
-                <div className="absolute inset-0 z-0 opacity-[0.4] bg-[url('/images/texture.png')] bg-repeat pointer-events-none" />
+                {/* Luxury Card Texture Layer - Extreme Fine Grain */}
+                <div className="absolute inset-0 z-0 opacity-[0.25] bg-[url('/images/texture.png')] bg-repeat bg-[length:50px_50px] pointer-events-none" />
 
                 {/* 
                    Luxury Gradient Border
