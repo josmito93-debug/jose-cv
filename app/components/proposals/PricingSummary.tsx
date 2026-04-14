@@ -133,7 +133,7 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
         </div>
 
         <div className="mt-20 md:mt-32 pt-12 border-t border-white/5 text-center">
-            <span className="text-white/10 text-[10px] font-bold uppercase tracking-[0.4em]">
+            <span className="text-white/10 text-[10px] font-bold tracking-[0.2em]">
               Universa Agency &copy; 2026 &nbsp;|&nbsp; Propuesta de Desarrollo Estratégico
             </span>
         </div>
