@@ -82,6 +82,30 @@ export default function ProposalHero({ client, status, title, summary }: Proposa
           </div>
         </div>
       </div>
+
+      {/* Infinite Tech Stack Carousel */}
+      <div className="absolute bottom-6 md:bottom-12 w-full py-6 md:py-8 overflow-hidden backdrop-blur-sm border-t border-white/5">
+        <div className="flex gap-20 animate-[scroll-left_40s_linear_infinite] w-max select-none">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="flex gap-20 items-center">
+              {[
+                { name: "n8n", icon: "n8n", color: "EA4B71" },
+                { name: "Webflow", icon: "webflow", color: "4353FF" },
+                { name: "React", icon: "react", color: "61DAFB" },
+                { name: "Vercel", icon: "vercel", color: "FFFFFF" },
+                { name: "Supabase", icon: "supabase", color: "3ECF8E" },
+                { name: "Airtable", icon: "airtable", color: "18BFFF" },
+                { name: "Notion", icon: "notion", color: "FFFFFF" },
+              ].map((logo, idx) => (
+                <div key={idx} className="flex items-center gap-4 opacity-40 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 group-carousel">
+                  <img src={`https://cdn.simpleicons.org/${logo.icon}/${logo.color}`} alt={logo.name} className="w-5 h-5 md:w-6 md:h-6 object-contain" />
+                  <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em]">{logo.name}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
