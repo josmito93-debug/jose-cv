@@ -1,0 +1,64 @@
+{
+  "roxe": {
+    "client": "ROXE",
+    "title": "DESARROLLO WEB ECOMMERCE",
+    "phases": [
+      {
+        "id": 1,
+        "name": "DESARROLLO ESTRATÉGICO DEL ECOMMERCE",
+        "investment": 750,
+        "items": [
+          {
+            "title": "Arquitectura del sitio",
+            "description": "SEO + Conversión. Home, Shop, Producto, About, Contact, FAQ, Blog estratégico. Incluye sitemap.xml."
+          },
+          {
+            "title": "Navegación Inteligente",
+            "description": "Mega menú dinámico, organización por categorías, acceso rápido a subcategorías. Optimizado para desktop y mobile."
+          },
+          {
+            "title": "Base de Datos Dinámica",
+            "description": "Panel de administración intuitivo, gestión de inventario, edición de precios en tiempo real."
+          },
+          {
+             "title": "Optimización SEO + IA",
+             "description": "Estructura pensada para motores tradicionales y modelos de IA (ChatGPT, Perplexity, Perplexity)."
+          },
+          {
+             "title": "Copywriting Persuasivo",
+             "description": "Psicología del consumidor, headlines de alto impacto y storytelling de marca."
+          },
+          {
+             "title": "Hero Section Animado",
+             "description": "Animación custom de alto impacto diseñada para detener el scroll y generar interés en 3 segundos."
+          },
+          {
+             "title": "CRO Página de Producto",
+             "description": "Estructura diseñada para maximizar conversiones, incluye Upsell inteligente y prueba social."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "INTEGRACIÓN DE SISTEMA DE PAGOS",
+        "investment": 450,
+        "items": [
+          {
+            "title": "Pasarela de Pago Profesional",
+            "description": "Integración segura y flujo de checkout simplificado."
+          },
+          {
+            "title": "Métodos Avanzados",
+            "description": "Apple Pay, Klarna (Buy Now Pay Later), Afterpay."
+          },
+          {
+            "title": "Automatización de Emails",
+            "description": "Confirmaciones de compra, recibos profesionales y remarketing base."
+          }
+        ]
+      }
+    ],
+    "summary": "Esto no es diseño web. Esto es infraestructura de ventas digital.",
+    "cta": "https://wa.me/your-number-here"
+  }
+}

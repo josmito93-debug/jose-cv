@@ -77,7 +77,7 @@ export class FigmaManager {
   private baseUrl = 'https://api.figma.com/v1';
 
   constructor(accessToken?: string) {
-    this.accessToken = accessToken || process.env.FIGMA_ACCESS_TOKEN;
+    this.accessToken = accessToken || process.env.FIGMA_ACCESS_TOKEN || '';
     this.teamId = process.env.FIGMA_TEAM_ID;
     
     if (!this.accessToken) {

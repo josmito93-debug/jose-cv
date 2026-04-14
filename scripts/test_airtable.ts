@@ -26,7 +26,7 @@ async function test() {
     }).firstPage();
     
     console.log('Success! Found', records.length, 'records.');
-    records.forEach(r => {
+    records.forEach((r: any) => {
       console.log(`[${r.get('Timestamp')}] ${r.get('Accion')} ${r.get('Simbolo') || ''} @ ${r.get('Precio')} - ${r.get('Razon')}`);
     });
   } catch (error: any) {
