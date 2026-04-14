@@ -28,12 +28,12 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
   });
 
   return (
-    <section className="py-20 md:py-32 px-6 relative overflow-hidden">
+    <section className="py-32 md:py-48 px-6 relative overflow-hidden">
       {/* Background Texture Overlay */}
       <div className="absolute inset-0 z-0 opacity-[0.03] bg-[url('/images/texture.png')] bg-repeat" />
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-20 items-start">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-start">
           
           {/* Left Side: Summary & CTA */}
           <div className="lg:col-span-5 flex flex-col items-start text-left">
@@ -41,7 +41,7 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-3 px-6 py-2 bg-[#2ddc80]/10 border border-[#2ddc80]/20 rounded-full mb-8"
+              className="inline-flex items-center gap-3 px-6 py-2 bg-[#2ddc80]/10 border border-[#2ddc80]/20 rounded-full mb-12"
             >
               <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] animate-pulse" />
               <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-widest">
@@ -53,7 +53,7 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-5xl md:text-7xl font-black tracking-tighter text-white leading-[0.85] uppercase mb-8"
+              className="text-5xl md:text-7xl font-black tracking-tighter text-white leading-[0.85] uppercase mb-12"
             >
               Inversión <br />
               <span className="text-[#2ddc80]">Total</span>
@@ -63,7 +63,7 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
                initial={{ opacity: 0, y: 20 }}
                whileInView={{ opacity: 1, y: 0 }}
                viewport={{ once: true }}
-               className="flex flex-col gap-4 w-full mb-12"
+               className="flex flex-col gap-6 w-full mb-16"
             >
               {phases.map((phase, i) => (
                 <div key={i} className="flex justify-between items-end pb-4 border-b border-white/5">
@@ -94,7 +94,7 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
               {/* Vertical Connection Line */}
               <div className="absolute left-[27px] top-6 bottom-6 w-[2px] bg-gradient-to-bottom from-[#2ddc80] via-[#2ddc80]/20 to-transparent z-0" />
               
-              <div className="flex flex-col gap-10 relative z-10">
+              <div className="flex flex-col gap-16 relative z-10">
                 {milestones.map((m, i) => (
                   <motion.div
                     key={i}
@@ -109,7 +109,7 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
                     </div>
                     
                     <div className="flex flex-col gap-1 pt-1 flex-1">
-                      <div className="flex justify-between items-center mb-1">
+                      <div className="flex justify-between items-center mb-2">
                         <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-[0.3em] opacity-60">
                           {m.status}
                         </span>
@@ -132,7 +132,7 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
 
         </div>
 
-        <div className="mt-20 md:mt-32 pt-12 border-t border-white/5 text-center">
+        <div className="mt-32 md:mt-48 pt-12 border-t border-white/5 text-center">
             <span className="text-white/10 text-[10px] font-bold tracking-[0.2em]">
               Universa Agency &copy; 2026 &nbsp;|&nbsp; Propuesta de Desarrollo Estratégico
             </span>
