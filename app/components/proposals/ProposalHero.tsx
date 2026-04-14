@@ -5,11 +5,12 @@ import { motion } from 'framer-motion';
 
 interface ProposalHeroProps {
   client: string;
+  status: string;
   title: string;
   summary: string;
 }
 
-export default function ProposalHero({ client, title, summary }: ProposalHeroProps) {
+export default function ProposalHero({ client, status, title, summary }: ProposalHeroProps) {
   return (
     <section className="relative min-h-[90dvh] md:min-h-[80dvh] flex flex-col justify-center px-6 pt-24 md:pt-32 pb-12 overflow-hidden bg-[#0e131f]">
       {/* Background Cinematic Elements */}
@@ -75,7 +76,7 @@ export default function ProposalHero({ client, title, summary }: ProposalHeroPro
                 ESTADO ACTUAL
               </span>
               <p className="text-white font-black text-xl md:text-2xl tracking-tight leading-tight uppercase relative z-10">
-                Análisis <br className="hidden lg:block" /> de Mercado <br className="hidden lg:block" /> Completado
+                {status}
               </p>
             </motion.div>
           </div>
