@@ -100,7 +100,7 @@ export default function PhaseSection({ phase }: PhaseProps) {
                 <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-[#2ddc80]/10 blur-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 {/* Content Block */}
-                <div className="relative z-10 flex gap-6 md:gap-10 items-start p-10 md:p-14 pb-4 md:pb-6">
+                <div className="relative z-10 flex gap-6 md:gap-10 items-start p-10 md:p-14 flex-1">
                   <div className="mt-1 flex-shrink-0 w-7 h-7 rounded-lg bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20">
                     <Check className="w-4 h-4 text-[#2ddc80]" strokeWidth={3} />
                   </div>
@@ -128,18 +128,18 @@ export default function PhaseSection({ phase }: PhaseProps) {
                   </div>
                 </div>
 
-                {/* Full-width Graphics Block */}
+                {/* Full-width Graphics Block (Footer Style) */}
                 {item.tag && (
-                  <div className="relative z-20 w-full px-10 pb-10 md:px-14 md:pb-14 mt-4">
-                    <div className="w-full flex justify-center items-center py-10 md:py-14 bg-white/[0.02] border border-white/5 rounded-[1.5rem] md:rounded-[2rem] transition-transform duration-500 group-hover:scale-[1.02]">
+                  <div className="relative z-20 w-full mt-auto border-t border-white/5 bg-white/[0.01]">
+                    <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover:scale-[1.01]">
                       {item.tag.startsWith('/') ? (
                         <img 
                           src={item.tag} 
                           alt="" 
-                          className="w-full max-w-md h-auto object-contain opacity-60 group-hover:opacity-100 transition-all duration-500"
+                          className="w-full max-w-lg h-auto object-contain opacity-60 group-hover:opacity-100 transition-all duration-500"
                         />
                       ) : (
-                        <div className="w-full flex justify-center opacity-60 group-hover:opacity-100 transition-all duration-500">
+                        <div className="w-full flex justify-center opacity-70 group-hover:opacity-100 transition-all duration-500">
                           <GraphicResolver id={item.tag} />
                         </div>
                       )}
