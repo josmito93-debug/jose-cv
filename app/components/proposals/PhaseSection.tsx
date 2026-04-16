@@ -126,14 +126,20 @@ export default function PhaseSection({ phase }: PhaseProps) {
                   </div>
                 </div>
 
-                {/* Minimalist Floating Tag PNG - Now Fixed Bottom Right & Always Colored */}
+                {/* Minimalist Floating Tag - Support for both Images and Pure Code Graphics */}
                 {item.tag && (
                   <div className="absolute bottom-5 right-6 md:bottom-8 md:right-10 z-20 transition-transform duration-500 group-hover:scale-110">
-                    <img 
-                      src={item.tag} 
-                      alt="" 
-                      className="h-3.5 md:h-5 w-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-500"
-                    />
+                    {item.tag.startsWith('/') ? (
+                      <img 
+                        src={item.tag} 
+                        alt="" 
+                        className="h-3.5 md:h-5 w-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-500"
+                      />
+                    ) : (
+                      <div className="opacity-80 group-hover:opacity-100 transition-all duration-500 origin-bottom-right scale-75 md:scale-90">
+                        <GraphicResolver id={item.tag} />
+                      </div>
+                    )}
                   </div>
                 )}
               </motion.div>

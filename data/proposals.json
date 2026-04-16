@@ -190,5 +190,105 @@
     ],
     "summary": "Las marcas no compiten por lo que venden. Compiten por cómo son percibidas. ROXE será construida no como un diseño… sino como un activo de posicionamiento de alto valor.",
     "cta": "https://wa.me/17863024923"
+  },
+  "panenka": {
+    "client": "Panenka Restaurant",
+    "status": "Introductory Package - First Month",
+    "title": "ECOSISTEMA DE VENTAS Y CRECIMIENTO",
+    "phases": [
+      {
+        "id": 1,
+        "name": "PRODUCCIÓN Y ECOSISTEMA DIGITAL",
+        "investment": 1800,
+        "items": [
+          {
+            "title": "Producción de Video (Sales Focused)",
+            "description": "Contenido audiovisual diseñado para convertir visualizaciones en clientes directos.",
+            "bullets": [
+              "4 Reels de alta calidad por mes",
+              "1 Reel Comercial Premium (Cámara Pro)",
+              "Scripts persuasivos y hooks virales",
+              "Producción cinematográfica (Iluminación/Framing)"
+            ],
+            "tag": "panenka-video"
+          },
+          {
+            "title": "Desarrollo Web + Ecosistema de Ventas",
+            "description": "Tu propia plataforma de ventas sin depender de terceros.",
+            "bullets": [
+              "Sitio web completo bajo dominio propio",
+              "Estructura SEO (Venezuelan food near me)",
+              "Sistema de Landing Centralizado (QuickLinks)",
+              "Integración de pagos directos (Stripe/Square)"
+            ],
+            "tag": "panenka-web"
+          },
+          {
+            "title": "Ventaja Estratégica y Datos",
+            "description": "Recupera el control de tus clientes y márgenes de beneficio.",
+            "bullets": [
+              "Propiedad total de datos y tráfico",
+              "Tracking de comportamiento de usuario",
+              "Evita comisiones de terceros",
+              "Posicionamiento orgánico en Google"
+            ],
+            "tag": "panenka-advantage"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "INFRAESTRUCTURA DE MARKETING Y ADS",
+        "investment": 500,
+        "items": [
+          {
+            "title": "Customer Journey & Data System",
+            "description": "Clasificación inteligente del tráfico para maximizar el ROI.",
+            "bullets": [
+              "Sistema de segmentación Cold/Warm/Hot",
+              "Recolección de data en cada etapa",
+              "Identificación de perfil del cliente ideal",
+              "Escalamiento basado en performance real"
+            ],
+            "tag": "panenka-journey"
+          },
+          {
+            "title": "Tracking y Pixel Infrastructure",
+            "description": "Configuración técnica avanzada para retargeting.",
+            "bullets": [
+              "Integración de Facebook Pixel",
+              "Sistema de Full Funnel Tracking",
+              "Setup de campañas de retargeting",
+              "Optimización de conversiones"
+            ],
+            "tag": "panenka-tracking"
+          },
+          {
+            "title": "Gestión de Publicidad (Ads)",
+            "description": "Campañas optimizadas para crecimiento escalable.",
+            "bullets": [
+              "Creación y optimización de campañas",
+              "Redirección de tráfico a plataforma propia",
+              "Foco en ROI medible",
+              "Escalamiento estratégico"
+            ],
+            "tag": "panenka-ads"
+          },
+          {
+            "title": "Diseño Gráfico y Assets Pro",
+            "description": "Identidad visual de alto nivel para anuncios y redes.",
+            "bullets": [
+              "Diseño custom (No AI)",
+              "Flyers promocionales premium",
+              "Creativos animados (After Effects)",
+              "Visuales enfocados en conversión"
+            ],
+            "tag": "panenka-design"
+          }
+        ]
+      }
+    ],
+    "summary": "Esto no es solo marketing. Es la construcción de tu propio activo digital para dejar de depender de comisiones externas y dominar el mercado local.",
+    "cta": "https://wa.me/17863024923"
   }
 }
