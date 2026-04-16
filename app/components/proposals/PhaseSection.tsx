@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
+import { Check, Video, Globe, ShieldCheck, Users, Activity, Megaphone, Palette, LucideIcon } from 'lucide-react';
 import GraphicResolver from './graphics/GraphicResolver';
 
 interface PhaseItem {
@@ -10,6 +10,7 @@ interface PhaseItem {
   description: string;
   bullets?: string[];
   tag?: string;
+  icon?: string;
 }
 
 interface PhaseProps {
@@ -20,6 +21,16 @@ interface PhaseProps {
     items: PhaseItem[];
   };
 }
+
+const IconMap: Record<string, LucideIcon> = {
+  video: Video,
+  globe: Globe,
+  shield: ShieldCheck,
+  users: Users,
+  activity: Activity,
+  megaphone: Megaphone,
+  palette: Palette
+};
 
 export default function PhaseSection({ phase }: PhaseProps) {
   return (
@@ -71,83 +82,88 @@ export default function PhaseSection({ phase }: PhaseProps) {
 
           {/* Phase Items */}
           <div className="lg:col-span-8 flex flex-col gap-6 md:gap-8">
-            {phase.items.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="group relative bg-[#0e131f]/70 backdrop-blur-md rounded-[1.5rem] md:rounded-[2.5rem] transition-all duration-500 overflow-hidden flex flex-col"
-              >
-                {/* Luxury Card Texture Layer - Extreme Fine Grain */}
-                <div className="absolute inset-0 z-0 opacity-[0.25] bg-[url('/images/texture.png')] bg-repeat bg-[length:50px_50px] pointer-events-none" />
+            {phase.items.map((item, index) => {
+              const IconComponent = (item.icon && IconMap[item.icon]) || Check;
+              
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
+                  className="group relative bg-[#0e131f]/70 backdrop-blur-md rounded-[1.5rem] md:rounded-[2.5rem] transition-all duration-500 overflow-hidden flex flex-col"
+                >
+                  {/* Luxury Card Texture Layer - Extreme Fine Grain */}
+                  <div className="absolute inset-0 z-0 opacity-[0.25] bg-[url('/images/texture.png')] bg-repeat bg-[length:50px_50px] pointer-events-none" />
 
-                {/* 
-                   Luxury Gradient Border
-                   A pseudo-border that is transparent at the top and emerald at the bottom 
-                */}
-                <div 
-                  className="absolute inset-0 rounded-[1.5rem] md:rounded-[2.5rem] border-[2.5px] border-transparent transition-all duration-500 z-10"
-                  style={{
-                    maskImage: 'linear-gradient(to bottom, transparent, black)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, transparent 20%, black 100%)',
-                    borderColor: 'rgba(45, 220, 128, 0.5)'
-                  }}
-                />
-                
-                {/* Bottom Glow Aura */}
-                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-[#2ddc80]/10 blur-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                {/* Content Block */}
-                <div className="relative z-10 flex gap-6 md:gap-10 items-start p-10 md:p-14 flex-1">
-                  <div className="mt-1 flex-shrink-0 w-7 h-7 rounded-lg bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20">
-                    <Check className="w-4 h-4 text-[#2ddc80]" strokeWidth={3} />
-                  </div>
+                  {/* 
+                     Luxury Gradient Border
+                     A pseudo-border that is transparent at the top and emerald at the bottom 
+                  */}
+                  <div 
+                    className="absolute inset-0 rounded-[1.5rem] md:rounded-[2.5rem] border-[2.5px] border-transparent transition-all duration-500 z-10"
+                    style={{
+                      maskImage: 'linear-gradient(to bottom, transparent, black)',
+                      WebkitMaskImage: 'linear-gradient(to bottom, transparent 20%, black 100%)',
+                      borderColor: 'rgba(45, 220, 128, 0.5)'
+                    }}
+                  />
                   
-                  <div className="flex flex-col gap-4 md:gap-10 w-full">
-                    <div className="flex flex-col gap-2">
-                      <h3 className="text-white font-black text-xl md:text-2xl tracking-tight uppercase group-hover:text-[#2ddc80] transition-colors leading-none">
-                        {item.title}
-                      </h3>
-                      <p className="text-white/80 text-sm font-medium leading-relaxed max-w-[65ch]">
-                        {item.description}
-                      </p>
+                  {/* Bottom Glow Aura */}
+                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-[#2ddc80]/10 blur-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Content Block */}
+                  <div className="relative z-10 flex flex-col items-start p-10 md:p-14 pb-14 flex-1">
+                    {/* Semantic Icon at Top-Left */}
+                    <div className="mb-8 flex-shrink-0 w-12 h-12 rounded-xl bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20 shadow-[0_0_20px_rgba(45,220,128,0.1)] group-hover:scale-110 transition-transform duration-500">
+                      <IconComponent className="w-6 h-6 text-[#2ddc80]" strokeWidth={2.5} />
                     </div>
+                    
+                    <div className="flex flex-col gap-4 md:gap-10 w-full">
+                      <div className="flex flex-col gap-3">
+                        <h3 className="text-white font-black text-2xl md:text-3xl tracking-tight uppercase group-hover:text-[#2ddc80] transition-colors leading-none">
+                          {item.title}
+                        </h3>
+                        <p className="text-white/80 text-base md:text-lg font-medium leading-relaxed max-w-[65ch]">
+                          {item.description}
+                        </p>
+                      </div>
 
-                    {item.bullets && (
-                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 mt-2">
-                        {item.bullets.map((bullet, idx) => (
-                          <li key={idx} className="flex items-center gap-2 text-white/50 text-[13px] font-medium group-hover:text-white/80 transition-colors">
-                            <div className="w-1 h-1 rounded-full bg-[#2ddc80]" />
-                            {bullet}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </div>
-
-                {/* Full-width Graphics Block (Footer Style) */}
-                {item.tag && (
-                  <div className="relative z-20 w-full mt-auto border-t border-white/5 bg-white/[0.01]">
-                    <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover:scale-[1.01]">
-                      {item.tag.startsWith('/') ? (
-                        <img 
-                          src={item.tag} 
-                          alt="" 
-                          className="w-full max-w-lg h-auto object-contain opacity-60 group-hover:opacity-100 transition-all duration-500"
-                        />
-                      ) : (
-                        <div className="w-full flex justify-center opacity-70 group-hover:opacity-100 transition-all duration-500">
-                          <GraphicResolver id={item.tag} />
-                        </div>
+                      {item.bullets && (
+                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4 mt-2">
+                          {item.bullets.map((bullet, idx) => (
+                            <li key={idx} className="flex items-center gap-3 text-white/50 text-sm md:text-base font-medium group-hover:text-white/80 transition-colors">
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] shadow-[0_0_8px_#2ddc80]" />
+                              {bullet}
+                            </li>
+                          ))}
+                        </ul>
                       )}
                     </div>
                   </div>
-                )}
-              </motion.div>
-            ))}
+
+                  {/* Full-width Graphics Block (Footer Style) */}
+                  {item.tag && (
+                    <div className="relative z-20 w-full mt-auto border-t border-white/5 bg-white/[0.01]">
+                      <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover:scale-[1.01]">
+                        {item.tag.startsWith('/') ? (
+                          <img 
+                            src={item.tag} 
+                            alt="" 
+                            className="w-full max-w-lg h-auto object-contain opacity-60 group-hover:opacity-100 transition-all duration-500"
+                          />
+                        ) : (
+                          <div className="w-full flex justify-center opacity-70 group-hover:opacity-100 transition-all duration-500">
+                            <GraphicResolver id={item.tag} />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
