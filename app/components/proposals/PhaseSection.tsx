@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
+import GraphicResolver from './graphics/GraphicResolver';
 
 interface PhaseItem {
   title: string;
