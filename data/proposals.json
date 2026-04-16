@@ -204,6 +204,7 @@
           {
             "title": "Producción de Video (Sales Focused)",
             "description": "Contenido audiovisual diseñado para convertir visualizaciones en clientes directos.",
+            "icon": "video",
             "bullets": [
               "5 Reels Cinematográficos de Alta Gama por mes",
               "Producción 100% con Cámara Pro (Estilo Comercial de TV)",
@@ -222,6 +223,7 @@
           {
             "title": "Desarrollo Web + Ecosistema de Ventas",
             "description": "Tu propia plataforma de ventas sin depender de terceros.",
+            "icon": "globe",
             "bullets": [
               "Sitio web completo bajo dominio propio",
               "Estructura SEO (Venezuelan food in Houston, TX)",
@@ -233,6 +235,7 @@
           {
             "title": "Ventaja Estratégica y Datos",
             "description": "Recupera el control de tus clientes y márgenes de beneficio.",
+            "icon": "shield",
             "bullets": [
               "Propiedad total de datos y tráfico",
               "Tracking de comportamiento de usuario",
@@ -252,6 +255,7 @@
           {
             "title": "Customer Journey & Data System",
             "description": "Clasificación inteligente del tráfico para maximizar el ROI.",
+            "icon": "users",
             "bullets": [
               "Sistema de segmentación Cold/Warm/Hot",
               "Recolección de data en cada etapa",
@@ -263,6 +267,7 @@
           {
             "title": "Tracking y Pixel Infrastructure",
             "description": "Configuración técnica avanzada para retargeting.",
+            "icon": "activity",
             "bullets": [
               "Integración de Facebook Pixel",
               "Sistema de Full Funnel Tracking",
@@ -274,6 +279,7 @@
           {
             "title": "Gestión de Publicidad (Ads)",
             "description": "Campañas optimizadas para crecimiento escalable.",
+            "icon": "megaphone",
             "bullets": [
               "Creación y optimización de campañas",
               "Redirección de tráfico a plataforma propia",
@@ -285,6 +291,7 @@
           {
             "title": "Diseño Gráfico y Assets Pro",
             "description": "Identidad visual de alto nivel para anuncios y redes.",
+            "icon": "palette",
             "bullets": [
               "Diseño custom (No AI)",
               "Flyers promocionales premium",
