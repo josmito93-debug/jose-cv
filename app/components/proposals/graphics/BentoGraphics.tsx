@@ -7,25 +7,69 @@ export function BentoVideo() {
   return (
     <div className="w-full max-w-[320px] h-[450px] md:h-[500px] bg-[#0e131f] border border-white/10 rounded-2xl relative overflow-hidden p-4 shadow-2xl">
       <div className="absolute inset-0 bg-gradient-to-b from-[#2ddc80]/5 to-transparent" />
-      {/* Cinematic Viewfinder */}
-      <div className="absolute top-4 left-4 flex gap-2 items-center">
-        <motion.div 
-          animate={{ opacity: [1, 0, 1] }}
-          transition={{ duration: 1, repeat: Infinity }}
-          className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_10px_red]" 
-        />
-        <span className="text-[8px] font-black tracking-[0.3em] text-white/40">REC 00:24:12</span>
+      
+      {/* Corner Crop Markers (L-Shapes) */}
+      <div className="absolute top-6 left-6 w-4 h-4 border-l-2 border-t-2 border-[#2ddc80]/40 rounded-tl-sm pointer-events-none" />
+      <div className="absolute top-6 right-6 w-4 h-4 border-r-2 border-t-2 border-[#2ddc80]/40 rounded-tr-sm pointer-events-none" />
+      <div className="absolute bottom-24 left-6 w-4 h-4 border-l-2 border-b-2 border-[#2ddc80]/40 rounded-bl-sm pointer-events-none" />
+      <div className="absolute bottom-24 right-6 w-4 h-4 border-r-2 border-b-2 border-[#2ddc80]/40 rounded-br-sm pointer-events-none" />
+
+      {/* Cinematic Viewfinder HUD */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-4 z-20">
+        <div className="flex gap-2 items-center px-3 py-1 bg-black/40 backdrop-blur-md border border-white/5 rounded-full">
+           <motion.div 
+             animate={{ opacity: [1, 0, 1] }}
+             transition={{ duration: 1, repeat: Infinity }}
+             className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_10px_red]" 
+           />
+           <span className="text-[7px] font-black tracking-[0.2em] text-white/80">REC</span>
+        </div>
+        <div className="px-3 py-1 bg-black/40 backdrop-blur-md border border-white/5 rounded-full">
+           <span className="text-[7px] font-black tracking-[0.2em] text-[#2ddc80]">4K 60FPS</span>
+        </div>
+      </div>
+
+      {/* Battery/Storage HUD (Top Right) */}
+      <div className="absolute top-6 right-10 flex flex-col gap-1 items-end opacity-40 z-20">
+         <div className="flex gap-1 items-center">
+            <span className="text-[6px] font-black text-white uppercase tracking-tighter">SD1</span>
+            <div className="w-4 h-2 bg-emerald-500/30 border border-white/10 rounded-sm overflow-hidden">
+               <div className="w-3/4 h-full bg-emerald-400" />
+            </div>
+         </div>
+         <span className="text-[5px] font-bold text-white/60">01:24:12</span>
       </div>
       
-      {/* Simulated Reels UI */}
+      {/* Simulated Reels UI with Camera Elements */}
       <div className="mt-8 w-full h-full flex flex-col gap-4">
-        <div className="w-full h-[80%] bg-white/5 rounded-xl relative overflow-hidden">
+        <div className="w-full h-[80%] bg-white/5 rounded-xl relative overflow-hidden group/view">
+          {/* Main Visual */}
           <motion.div 
             animate={{ scale: [1, 1.05, 1] }} 
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
             className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=400')] bg-cover opacity-60" 
           />
-          <div className="absolute bottom-4 left-4 flex flex-col gap-2 w-3/4">
+          
+          {/* Pro Center Crosshair/Focus */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+             <motion.div 
+                animate={{ scale: [1, 0.95, 1], opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-16 h-16 border border-[#2ddc80]/30 rounded-lg flex items-center justify-center"
+             >
+                <div className="w-1 h-[1px] bg-[#2ddc80]" />
+                <div className="h-1 w-[1px] bg-[#2ddc80]" />
+             </motion.div>
+          </div>
+
+          {/* Histogram (Mini) */}
+          <div className="absolute bottom-6 right-6 w-16 h-8 flex items-end gap-[1px] opacity-40">
+             {[30, 45, 20, 60, 80, 50, 40, 25, 70, 55].map((h, i) => (
+                <div key={i} className="flex-1 bg-white/40" style={{ height: `${h}%` }} />
+             ))}
+          </div>
+
+          <div className="absolute bottom-4 left-4 flex flex-col gap-2 w-3/4 z-20">
              <div className="h-1.5 w-full bg-[#2ddc80]/40 rounded-full overflow-hidden">
                 <motion.div 
                    animate={{ x: ["-100%", "100%"] }}
@@ -36,13 +80,25 @@ export function BentoVideo() {
              <div className="h-1 w-1/2 bg-white/20 rounded-full" />
           </div>
         </div>
-        <div className="flex justify-between items-center px-4">
-           <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-              <div className="w-4 h-4 bg-[#2ddc80] rounded-sm transform rotate-45" />
+
+        {/* Camera Info Bar (PRO Settings) */}
+        <div className="flex justify-between items-center px-4 py-2 bg-black/20 border-t border-white/5 -mt-4 relative z-30">
+           <div className="flex gap-4">
+              <div className="flex flex-col">
+                 <span className="text-[5px] font-black text-white/30 uppercase tracking-widest">ISO</span>
+                 <span className="text-[8px] font-black text-white/80">400</span>
+              </div>
+              <div className="flex flex-col">
+                 <span className="text-[5px] font-black text-white/30 uppercase tracking-widest">Speed</span>
+                 <span className="text-[8px] font-black text-white/80">1/50</span>
+              </div>
+              <div className="flex flex-col">
+                 <span className="text-[5px] font-black text-white/30 uppercase tracking-widest">Iris</span>
+                 <span className="text-[8px] font-black text-white/80">f/2.8</span>
+              </div>
            </div>
-           <div className="flex gap-3">
-              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10" />
-              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10" />
+           <div className="w-8 h-8 rounded-full bg-[#2ddc80]/10 border border-[#2ddc80]/30 flex items-center justify-center transition-transform hover:scale-110">
+              <div className="w-2.5 h-2.5 bg-[#2ddc80] rounded-sm transform rotate-45 shadow-[0_0_8px_#2ddc80]" />
            </div>
         </div>
       </div>
