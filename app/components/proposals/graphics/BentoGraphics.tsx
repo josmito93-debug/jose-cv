@@ -117,7 +117,7 @@ export function BentoWeb() {
           <div className="w-2.5 h-2.5 rounded-full bg-green-500/30" />
         </div>
         <div className="ml-4 h-5 w-64 bg-white/5 rounded-full flex items-center px-4">
-           <span className="text-[8px] text-white/40 font-black tracking-widest uppercase">https://panenka.restaurant.ve</span>
+           <span className="text-[8px] text-white/40 font-black tracking-widest uppercase">https://panenka-houston.com</span>
         </div>
       </div>
       
