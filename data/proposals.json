@@ -198,8 +198,8 @@
     "phases": [
       {
         "id": 1,
-        "name": "PRODUCCIÓN Y ECOSISTEMA DIGITAL",
-        "investment": 1800,
+        "name": "PRODUCCIÓN DE VIDEOS PROFESIONALES",
+        "investment": 600,
         "items": [
           {
             "title": "Producción de Video (Sales Focused)",
@@ -211,7 +211,14 @@
               "Producción cinematográfica (Iluminación/Framing)"
             ],
             "tag": "panenka-video"
-          },
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "DESARROLLO DE PLATAFORMA WEB",
+        "investment": 1200,
+        "items": [
           {
             "title": "Desarrollo Web + Ecosistema de Ventas",
             "description": "Tu propia plataforma de ventas sin depender de terceros.",
@@ -238,7 +245,7 @@
         ]
       },
       {
-        "id": 2,
+        "id": 3,
         "name": "INFRAESTRUCTURA DE MARKETING Y ADS",
         "investment": 500,
         "items": [
