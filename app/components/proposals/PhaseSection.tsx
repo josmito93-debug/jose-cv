@@ -78,7 +78,7 @@ export default function PhaseSection({ phase }: PhaseProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className="group relative bg-[#0e131f]/70 backdrop-blur-md p-10 md:p-14 rounded-[1.5rem] md:rounded-[2.5rem] transition-all duration-500 overflow-hidden min-h-[160px] flex flex-col"
+                className="group relative bg-[#0e131f]/70 backdrop-blur-md rounded-[1.5rem] md:rounded-[2.5rem] transition-all duration-500 overflow-hidden flex flex-col"
               >
                 {/* Luxury Card Texture Layer - Extreme Fine Grain */}
                 <div className="absolute inset-0 z-0 opacity-[0.25] bg-[url('/images/texture.png')] bg-repeat bg-[length:50px_50px] pointer-events-none" />
@@ -88,7 +88,7 @@ export default function PhaseSection({ phase }: PhaseProps) {
                    A pseudo-border that is transparent at the top and emerald at the bottom 
                 */}
                 <div 
-                  className="absolute inset-0 rounded-[1.5rem] md:rounded-[2rem] border-[2.5px] border-transparent transition-all duration-500 z-10"
+                  className="absolute inset-0 rounded-[1.5rem] md:rounded-[2.5rem] border-[2.5px] border-transparent transition-all duration-500 z-10"
                   style={{
                     maskImage: 'linear-gradient(to bottom, transparent, black)',
                     WebkitMaskImage: 'linear-gradient(to bottom, transparent 20%, black 100%)',
@@ -99,7 +99,8 @@ export default function PhaseSection({ phase }: PhaseProps) {
                 {/* Bottom Glow Aura */}
                 <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-[#2ddc80]/10 blur-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <div className="relative z-10 flex gap-6 md:gap-10 items-start flex-1">
+                {/* Content Block */}
+                <div className="relative z-10 flex gap-6 md:gap-10 items-start p-10 md:p-14 pb-4 md:pb-6">
                   <div className="mt-1 flex-shrink-0 w-7 h-7 rounded-lg bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20">
                     <Check className="w-4 h-4 text-[#2ddc80]" strokeWidth={3} />
                   </div>
@@ -127,20 +128,22 @@ export default function PhaseSection({ phase }: PhaseProps) {
                   </div>
                 </div>
 
-                {/* Minimalist Floating Tag - Support for both Images and Pure Code Graphics */}
+                {/* Full-width Graphics Block */}
                 {item.tag && (
-                  <div className="absolute bottom-5 right-6 md:bottom-8 md:right-10 z-20 transition-transform duration-500 group-hover:scale-110">
-                    {item.tag.startsWith('/') ? (
-                      <img 
-                        src={item.tag} 
-                        alt="" 
-                        className="h-3.5 md:h-5 w-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-500"
-                      />
-                    ) : (
-                      <div className="opacity-80 group-hover:opacity-100 transition-all duration-500 origin-bottom-right scale-75 md:scale-90">
-                        <GraphicResolver id={item.tag} />
-                      </div>
-                    )}
+                  <div className="relative z-20 w-full px-10 pb-10 md:px-14 md:pb-14 mt-4">
+                    <div className="w-full flex justify-center items-center py-10 md:py-14 bg-white/[0.02] border border-white/5 rounded-[1.5rem] md:rounded-[2rem] transition-transform duration-500 group-hover:scale-[1.02]">
+                      {item.tag.startsWith('/') ? (
+                        <img 
+                          src={item.tag} 
+                          alt="" 
+                          className="w-full max-w-md h-auto object-contain opacity-60 group-hover:opacity-100 transition-all duration-500"
+                        />
+                      ) : (
+                        <div className="w-full flex justify-center opacity-60 group-hover:opacity-100 transition-all duration-500">
+                          <GraphicResolver id={item.tag} />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </motion.div>
