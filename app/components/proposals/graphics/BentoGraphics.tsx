@@ -156,13 +156,22 @@ export function BentoAdvantage() {
        <div className="relative z-10 flex flex-col h-full justify-between">
           <div className="flex justify-between items-start">
             <div className="flex flex-col gap-1">
+               <div className="flex items-center gap-2 mb-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa] animate-pulse" />
+                  <span className="text-[7px] font-black text-blue-400 uppercase tracking-widest">Meta Pixel Active</span>
+               </div>
                <span className="text-[12px] font-black text-[#2ddc80] uppercase tracking-[0.4em]">Analytics</span>
                <h4 className="text-white font-black text-5xl tracking-tighter">100%</h4>
             </div>
-            <div className="w-12 h-12 rounded-full bg-[#2ddc80]/20 border border-[#2ddc80]/30 flex items-center justify-center">
-               <svg className="w-6 h-6 text-[#2ddc80]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-               </svg>
+            <div className="flex flex-col items-end gap-2">
+               <div className="w-12 h-12 rounded-full bg-[#2ddc80]/20 border border-[#2ddc80]/30 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-[#2ddc80]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+               </div>
+               <div className="px-2 py-0.5 bg-white/5 border border-white/10 rounded-full">
+                  <span className="text-[5px] font-black text-white/40 uppercase tracking-widest">Source: Proprietary</span>
+               </div>
             </div>
           </div>
           
