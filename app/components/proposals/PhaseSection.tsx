@@ -116,8 +116,8 @@ export default function PhaseSection({ phase }: PhaseProps) {
                   {/* Content Block */}
                   <div className="relative z-10 flex flex-col items-start p-10 md:p-14 pb-14 flex-1">
                     {/* Semantic Icon at Top-Left */}
-                    <div className="mb-8 flex-shrink-0 w-12 h-12 rounded-xl bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20 shadow-[0_0_20px_rgba(45,220,128,0.1)] group-hover:scale-110 transition-transform duration-500">
-                      <IconComponent className="w-6 h-6 text-[#2ddc80]" strokeWidth={2.5} />
+                    <div className="mb-8 flex-shrink-0 w-10 h-10 rounded-lg bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20 shadow-[0_0_20px_rgba(45,220,128,0.1)] group-hover:scale-110 transition-transform duration-500">
+                      <IconComponent className="w-5 h-5 text-[#2ddc80]" strokeWidth={2.5} />
                     </div>
                     
                     <div className="flex flex-col gap-4 md:gap-10 w-full">
