@@ -305,5 +305,95 @@
     ],
     "summary": "Producción cinematográfica de nivel TV para dominar el mercado local. Construimos tu propio ecosistema de ventas masivas, eliminando comisiones externas y capturando la atención con contenido visual de alto impacto.",
     "cta": "https://wa.me/17863024923"
+  },
+  "uncle_coyo": {
+    "client": "Uncle Coyo’s",
+    "status": "Digital Ecosystem & Growth Strategy",
+    "title": "PROPUESTA DE ECOSISTEMA DIGITAL & CRECIMIENTO",
+    "phases": [
+      {
+        "id": 1,
+        "name": "FASE 1: DESARROLLO WEB (E-COMMERCE RESTAURANT SYSTEM)",
+        "investment": 1000,
+        "items": [
+          {
+            "title": "Ecosistema de Ventas Directas",
+            "description": "Plataforma de pedidos online (delivery & pickup) sin comisiones de terceros.",
+            "icon": "globe",
+            "bullets": [
+              "Integración directa con Clover POS",
+              "Checkout completo con pago integrado",
+              "Captura de dirección y datos del cliente",
+              "Sistema de pedidos en tiempo real"
+            ],
+            "tag": "coyo-ecosystem"
+          },
+          {
+            "title": "QR Ordering System (Mesa & Bar)",
+            "description": "Innovación clave para aumentar el ticket promedio y rotación.",
+            "icon": "qr",
+            "bullets": [
+              "QR único por mesa/barra",
+              "Escaneo -> Orden -> Pago automático",
+              "Reducción de fricción en el servicio",
+              "Sincronización automática con Clover"
+            ],
+            "tag": "coyo-qr"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "FASE 2: PRODUCCIÓN DE CONTENIDO (HIGH CONVERSION)",
+        "investment": 1000,
+        "items": [
+          {
+            "title": "Content Production Hub",
+            "description": "Producción audiovisual de alto nivel diseñada para viralidad y ventas.",
+            "icon": "video",
+            "bullets": [
+              "Video con cámara profesional y edición pro",
+              "Reels optimizados para conversión",
+              "Scripts diseñados bajo psicología de ventas",
+              "Diseño gráfico ilimitado (Flyers, After Effects)"
+            ],
+            "tag": "coyo-content"
+          },
+          {
+            "title": "Data Tracking & Inteligencia",
+            "description": "Transformamos el tráfico en una base de datos inteligente.",
+            "icon": "activity",
+            "bullets": [
+              "Implementación de Píxeles y Eventos",
+              "Clasificación Cold/Warm/Hot/Client",
+              "Optimización de Ads basada en data real",
+              "Audiencias Lookalike para escalamiento"
+            ],
+            "tag": "coyo-data"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "FASE 3: EVENTOS & ACTIVACIONES (RWR RECORDS)",
+        "investment": 600,
+        "items": [
+          {
+            "title": "Activaciones & Tráfico Nocturno",
+            "description": "Estrategia mensual para potenciar el consumo en el bar.",
+            "icon": "star",
+            "bullets": [
+              "Producción de eventos exclusivos",
+              "Activaciones mensuales presenciales",
+              "Estrategia de crecimiento para el bar",
+              "Gestión de RWR Records"
+            ],
+            "tag": "coyo-events"
+          }
+        ]
+      }
+    ],
+    "summary": "Construcción de un activo digital propio, que convierte tráfico en clientes y clientes en crecimiento sostenible. Uncle Coyo’s deja de depender de terceros y opera bajo un sistema diseñado para escalar y medir cada interacción.",
+    "cta": "https://wa.me/17863024923"
   }
 }

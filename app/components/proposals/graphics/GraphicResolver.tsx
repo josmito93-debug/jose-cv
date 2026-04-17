@@ -10,7 +10,13 @@ export type GraphicId =
   | 'panenka-journey'
   | 'panenka-tracking'
   | 'panenka-ads'
-  | 'panenka-design';
+  | 'panenka-design'
+  | 'coyo-ecosystem'
+  | 'coyo-clover'
+  | 'coyo-qr'
+  | 'coyo-data'
+  | 'coyo-content'
+  | 'coyo-events';
 
 interface GraphicResolverProps {
   id: GraphicId | string;
@@ -32,6 +38,18 @@ export default function GraphicResolver({ id }: GraphicResolverProps) {
       return <Bento.BentoAds />;
     case 'panenka-design':
       return <Bento.BentoDesign />;
+    case 'coyo-ecosystem':
+      return <Bento.BentoEcosystem />;
+    case 'coyo-qr':
+      return <Bento.BentoQR />;
+    case 'coyo-data':
+      return <Bento.BentoDataTracking />;
+    case 'coyo-clover':
+      return <Bento.BentoClover />;
+    case 'coyo-content':
+      return <Bento.BentoVideo />; // Reusing the high-end video graphic for coyo-content
+    case 'coyo-events':
+      return <Bento.BentoEvents />;
     default:
       return null;
   }
