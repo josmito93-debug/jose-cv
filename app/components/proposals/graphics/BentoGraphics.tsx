@@ -229,7 +229,8 @@ export function BentoJourney() {
           <motion.circle 
             animate={{ cy: [15, 45, 80, 15], opacity: [0, 1, 1, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            cx="50" cy="15" r="3" fill="#2ddc80" shadow="0 0 15px #2ddc80"
+            cx="50" cy="15" r="3" fill="#2ddc80"
+            style={{ filter: 'drop-shadow(0 0 8px #2ddc80)' }}
           />
           <motion.circle 
             animate={{ cy: [15, 45, 80, 15], opacity: [0, 1, 1, 0] }}
