@@ -93,11 +93,11 @@ export default function UncleCoyoProposalPage() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-12 md:p-20 bg-white/[0.02] border border-white/5 rounded-[4rem] relative overflow-hidden"
+            className="p-10 md:p-16 bg-white/[0.03] border border-white/10 rounded-[3rem] relative overflow-hidden group shadow-2xl"
           >
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#2ddc80]/5 blur-[120px] rounded-full -mr-40 -mt-40" />
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#2ddc80]/5 blur-[120px] rounded-full -mr-40 -mt-40 group-hover:bg-[#2ddc80]/10 transition-colors" />
             
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div>
                 <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-[0.5em] mb-6 block">Inteligencia Comercial</span>
                 <h3 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase mb-8 leading-none">
@@ -107,50 +107,50 @@ export default function UncleCoyoProposalPage() {
                 
                 <div className="space-y-8">
                   <div className="flex gap-6">
-                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
                       <span className="text-[10px] font-black text-white/40">01</span>
                     </div>
                     <div>
                       <h4 className="text-white font-black uppercase tracking-widest text-sm mb-2">Captura Inmediata (Cliente Frío)</h4>
-                      <p className="text-white/40 text-sm leading-relaxed">
+                      <p className="text-white/40 text-[11px] font-medium leading-relaxed">
                         Desde que el usuario entra a la web, el Píxel ya está trabajando. Capturamos su data sin que tenga que realizar ninguna acción manual. Ya sabemos quién es.
                       </p>
                     </div>
                   </div>
 
                   <div className="flex gap-6">
-                    <div className="w-10 h-10 rounded-full bg-[#2ddc80]/20 border border-[#2ddc80]/30 flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-[#2ddc80]/20 border border-[#2ddc80]/30 flex items-center justify-center shrink-0">
                       <span className="text-[10px] font-black text-[#2ddc80]">02</span>
                     </div>
                     <div>
                       <h4 className="text-[#2ddc80] font-black uppercase tracking-widest text-sm mb-2">Intención Real (Cliente Tibio)</h4>
-                      <p className="text-white/40 text-sm leading-relaxed">
+                      <p className="text-white/40 text-[11px] font-medium leading-relaxed">
                         Si alguien agrega al carrito, el sistema lo marca como "Ready para comprar". Es un cliente tibio que solo necesita un empujón final para convertirse.
                       </p>
                     </div>
                   </div>
 
                   <div className="flex gap-6">
-                    <div className="w-10 h-10 rounded-full bg-[#2ddc80] flex items-center justify-center shrink-0 shadow-[0_0_20px_#2ddc80]">
+                    <div className="w-10 h-10 rounded-xl bg-[#2ddc80] flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(45,220,128,0.4)]">
                       <span className="text-[10px] font-black text-[#0e131f]">03</span>
                     </div>
                     <div>
                       <h4 className="text-white font-black uppercase tracking-widest text-sm mb-2">Conversión Total (Cliente Caliente)</h4>
-                      <p className="text-white/40 text-sm leading-relaxed">
+                      <p className="text-white/40 text-[11px] font-medium leading-relaxed">
                         Al dar clic en comprar, el eco-sistema identifica el perfil exacto de tu cliente ideal. Esto permite que Facebook busque a miles de personas idénticas.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-12 p-6 bg-[#2ddc80]/10 border-l-4 border-[#2ddc80] rounded-r-xl">
-                  <p className="text-[#2ddc80] text-xs font-bold leading-relaxed italic">
+                <div className="mt-12 p-6 bg-[#2ddc80]/5 border-l-2 border-[#2ddc80] rounded-r-xl">
+                  <p className="text-[#2ddc80] text-[11px] font-bold leading-relaxed italic">
                     "Creamos este ecosistema para que Uncle Coyo's recupere el control: más ventas en delivery sin comisiones externas y recolección de data de cada visitante."
                   </p>
                 </div>
               </div>
 
-              <div className="bg-[#0e131f] border border-white/10 rounded-[3rem] p-10 shadow-2xl relative overflow-hidden">
+              <div className="bg-[#0e131f]/50 border border-white/10 rounded-2xl p-8 shadow-2xl relative overflow-hidden backdrop-blur-sm">
                  {/* Visual Funnel Representation */}
                  <div className="flex flex-col gap-6">
                     {[
@@ -164,7 +164,7 @@ export default function UncleCoyoProposalPage() {
                           <span>{step.l}</span>
                           <span>{step.p}</span>
                         </div>
-                        <div className="h-4 w-full bg-white/5 rounded-full overflow-hidden">
+                        <div className="h-3 w-full bg-white/5 rounded-full overflow-hidden">
                           <motion.div 
                             initial={{ width: 0 }}
                             whileInView={{ width: step.p }}
@@ -177,9 +177,9 @@ export default function UncleCoyoProposalPage() {
                     ))}
                  </div>
                  
-                 <div className="mt-12 pt-8 border-t border-white/5 flex items-center justify-center">
+                 <div className="mt-10 pt-6 border-t border-white/5 flex items-center justify-center">
                     <div className="flex items-center gap-3 px-4 py-2 bg-[#2ddc80]/10 border border-[#2ddc80]/20 rounded-full">
-                       <div className="w-2 h-2 rounded-full bg-[#2ddc80] animate-pulse" />
+                       <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] animate-pulse" />
                        <span className="text-[9px] font-black text-[#2ddc80] uppercase tracking-widest">Pixel Active & Learning</span>
                     </div>
                  </div>
