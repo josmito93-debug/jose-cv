@@ -86,6 +86,105 @@ export default function UncleCoyoProposalPage() {
                </div>
             </div>
           </motion.div>
+        {/* Facebook Pixel & Data Power Section */}
+        <div className="max-w-7xl mx-auto px-6 mb-32">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="p-12 md:p-20 bg-white/[0.02] border border-white/5 rounded-[4rem] relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#2ddc80]/5 blur-[120px] rounded-full -mr-40 -mt-40" />
+            
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+              <div>
+                <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-[0.5em] mb-6 block">Inteligencia Comercial</span>
+                <h3 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase mb-8 leading-none">
+                  El Poder del <br />
+                  <span className="text-[#2ddc80]">Facebook Pixel</span>
+                </h3>
+                
+                <div className="space-y-8">
+                  <div className="flex gap-6">
+                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                      <span className="text-[10px] font-black text-white/40">01</span>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-black uppercase tracking-widest text-sm mb-2">Captura Inmediata (Cliente Frío)</h4>
+                      <p className="text-white/40 text-sm leading-relaxed">
+                        Desde que el usuario entra a la web, el Píxel ya está trabajando. Capturamos su data sin que tenga que realizar ninguna acción manual. Ya sabemos quién es.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-6">
+                    <div className="w-10 h-10 rounded-full bg-[#2ddc80]/20 border border-[#2ddc80]/30 flex items-center justify-center shrink-0">
+                      <span className="text-[10px] font-black text-[#2ddc80]">02</span>
+                    </div>
+                    <div>
+                      <h4 className="text-[#2ddc80] font-black uppercase tracking-widest text-sm mb-2">Intención Real (Cliente Tibio)</h4>
+                      <p className="text-white/40 text-sm leading-relaxed">
+                        Si alguien agrega al carrito, el sistema lo marca como "Ready para comprar". Es un cliente tibio que solo necesita un empujón final para convertirse.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-6">
+                    <div className="w-10 h-10 rounded-full bg-[#2ddc80] flex items-center justify-center shrink-0 shadow-[0_0_20px_#2ddc80]">
+                      <span className="text-[10px] font-black text-[#0e131f]">03</span>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-black uppercase tracking-widest text-sm mb-2">Conversión Total (Cliente Caliente)</h4>
+                      <p className="text-white/40 text-sm leading-relaxed">
+                        Al dar clic en comprar, el eco-sistema identifica el perfil exacto de tu cliente ideal. Esto permite que Facebook busque a miles de personas idénticas.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-12 p-6 bg-[#2ddc80]/10 border-l-4 border-[#2ddc80] rounded-r-xl">
+                  <p className="text-[#2ddc80] text-xs font-bold leading-relaxed italic">
+                    "Creamos este ecosistema para que Uncle Coyo's recupere el control: más ventas en delivery sin comisiones externas y recolección de data de cada visitante."
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-[#0e131f] border border-white/10 rounded-[3rem] p-10 shadow-2xl relative overflow-hidden">
+                 {/* Visual Funnel Representation */}
+                 <div className="flex flex-col gap-6">
+                    {[
+                      { l: 'Visitantes', p: '100%', o: 0.2 },
+                      { l: 'Vieron Menú', p: '65%', o: 0.4 },
+                      { l: 'Agregaron Carrito', p: '35%', o: 0.6 },
+                      { l: 'Compraron', p: '12%', o: 1 },
+                    ].map((step, i) => (
+                      <div key={i} className="flex flex-col gap-2">
+                        <div className="flex justify-between text-[8px] font-black uppercase tracking-widest opacity-40">
+                          <span>{step.l}</span>
+                          <span>{step.p}</span>
+                        </div>
+                        <div className="h-4 w-full bg-white/5 rounded-full overflow-hidden">
+                          <motion.div 
+                            initial={{ width: 0 }}
+                            whileInView={{ width: step.p }}
+                            transition={{ delay: i * 0.1, duration: 1.5 }}
+                            className="h-full bg-[#2ddc80]"
+                            style={{ opacity: step.o }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                 </div>
+                 
+                 <div className="mt-12 pt-8 border-t border-white/5 flex items-center justify-center">
+                    <div className="flex items-center gap-3 px-4 py-2 bg-[#2ddc80]/10 border border-[#2ddc80]/20 rounded-full">
+                       <div className="w-2 h-2 rounded-full bg-[#2ddc80] animate-pulse" />
+                       <span className="text-[9px] font-black text-[#2ddc80] uppercase tracking-widest">Pixel Active & Learning</span>
+                    </div>
+                 </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
         <div className="relative">
