@@ -606,57 +606,148 @@ export function BentoEvents() {
 }
 
 export function BentoComparison() {
-  const [index, setIndex] = React.useState(0);
+  const [step, setStep] = React.useState(0);
+  const [isClicking, setIsClicking] = React.useState(false);
+  const [showShockwave, setShowShockwave] = React.useState(false);
+  
   const images = [
     '/proposals/uncle-coyo/website-yes-1.png',
     '/proposals/uncle-coyo/website-yes-2.png',
     '/proposals/uncle-coyo/website-yes-3.png',
   ];
 
+  // Steps: 
+  // 0: Image 1 - Cursor Moving to +
+  // 1: Image 1 - Clic +
+  // 2: Transition to Image 2
+  // 3: Image 2 - Cursor Moving to Pagar
+  // 4: Image 2 - Clic Pagar
+  // 5: Transition to Image 3 (Success)
+  // 6: Success Wait & Loop
+
   React.useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(timer);
+    let timeout: NodeJS.Timeout;
+
+    const runSequence = async () => {
+      // Step 0 -> 1: Move to + and Click
+      setStep(0);
+      await new Promise(r => setTimeout(r, 1500));
+      setIsClicking(true);
+      setShowShockwave(true);
+      await new Promise(r => setTimeout(r, 400));
+      setIsClicking(false);
+      setShowShockwave(false);
+      
+      // Step 1 -> 2: Transition to Img 2
+      await new Promise(r => setTimeout(r, 300));
+      setStep(2);
+      
+      // Step 2 -> 3: Move to Pagar and Click
+      await new Promise(r => setTimeout(r, 1500));
+      setIsClicking(true);
+      setShowShockwave(true);
+      await new Promise(r => setTimeout(r, 400));
+      setIsClicking(false);
+      setShowShockwave(false);
+
+      // Step 3 -> 4: Transition to Img 3
+      await new Promise(r => setTimeout(r, 300));
+      setStep(4);
+      
+      // Success Wait
+      await new Promise(r => setTimeout(r, 3000));
+      setStep(6); // Reset Trigger
+    };
+
+    runSequence();
+    const interval = setInterval(runSequence, 10000);
+    return () => clearInterval(interval);
   }, []);
+
+  // Cursor Positions based on steps
+  const cursorCoords = React.useMemo(() => {
+    if (step <= 1) return { x: '78%', y: '32%' }; // Position of the Red + Button
+    if (step >= 2 && step <= 4) return { x: '50%', y: '88%' }; // Position of Pagar Button
+    return { x: '50%', y: '50%' };
+  }, [step]);
 
   return (
     <div className="w-full max-w-[900px] bg-[#0e131f] border border-white/10 rounded-2xl p-6 md:p-8 relative overflow-hidden group shadow-2xl">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-        {/* YES Side */}
+        {/* YES Side (Animated) */}
         <div className="flex flex-col gap-6">
           <div className="relative group/yes">
             <div className="absolute -inset-1 bg-gradient-to-r from-[#2ddc80] to-[#2ddc80]/50 rounded-xl blur opacity-10 group-hover/yes:opacity-30 transition duration-1000"></div>
-            {/* Taller container to show more of the full capture */}
+            
             <div className="relative aspect-[3/5] w-full bg-[#0e131f] border border-[#2ddc80]/60 rounded-xl overflow-hidden shadow-[0_0_40px_rgba(45,220,128,0.1)]">
               {/* Checkmark Badge */}
-              <div className="absolute top-4 left-4 z-20 w-8 h-8 bg-[#2ddc80] rounded-lg flex items-center justify-center shadow-lg">
+              <div className="absolute top-4 left-4 z-30 w-8 h-8 bg-[#2ddc80] rounded-lg flex items-center justify-center shadow-lg">
                 <svg className="w-5 h-5 text-[#0e131f]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              
-              <div className="absolute inset-0 bg-white/5 animate-pulse" />
-              
-              {/* Image Sequence with Object-Top to see the hero but keep full height context */}
-              <div className="relative w-full h-full overflow-y-auto scrollbar-hide">
-                {images.map((img, i) => (
-                  <motion.img
-                    key={img}
-                    src={img}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: index === i ? 1 : 0 }}
-                    transition={{ duration: 1, ease: 'easeInOut' }}
-                    className="absolute inset-0 w-full object-cover object-top"
-                    alt={`Website Yes ${i + 1}`}
-                  />
-                ))}
+
+              {/* Image Layer */}
+              <div className="absolute inset-0 z-10 pointer-events-none">
+                <motion.div 
+                   animate={{ 
+                     scale: isClicking ? 0.995 : 1,
+                     filter: isClicking ? 'brightness(1.1)' : 'brightness(1)'
+                   }}
+                   className="w-full h-full relative"
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={step < 2 ? 0 : step < 4 ? 1 : 2}
+                      src={images[step < 2 ? 0 : step < 4 ? 1 : 2]}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.8 }}
+                      className="absolute inset-0 w-full object-cover object-top"
+                    />
+                  </AnimatePresence>
+                </motion.div>
+              </div>
+
+              {/* Simulation Layer (Cursor & Shockwave) */}
+              <div className="absolute inset-0 z-20 pointer-events-none">
+                {/* Virtual Cursor */}
+                {step < 5 && (
+                  <motion.div
+                    animate={{ 
+                      left: cursorCoords.x, 
+                      top: cursorCoords.y,
+                      scale: isClicking ? 0.8 : 1
+                    }}
+                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    className="absolute w-8 h-8 -ml-4 -mt-4 flex items-center justify-center"
+                  >
+                    {/* Visual Cursor Circle */}
+                    <div className="w-full h-full rounded-full border-2 border-white bg-black/20 backdrop-blur-sm shadow-[0_0_15px_rgba(255,255,255,0.5)] flex items-center justify-center">
+                       <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                    </div>
+                    
+                    {/* Shockwave Effect */}
+                    {showShockwave && (
+                      <motion.div 
+                        initial={{ scale: 1, opacity: 0.8 }}
+                        animate={{ scale: 4, opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute w-full h-full rounded-full bg-white ring-4 ring-white"
+                      />
+                    )}
+                  </motion.div>
+                )}
               </div>
             </div>
             
             <div className="mt-4 flex flex-col gap-2">
-              <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-[0.4em]">Propuesta Ganadora</span>
-              <p className="text-white/60 text-[11px] font-medium leading-relaxed">Arquitectura optimizada para conversión y UX fluido.</p>
+              <div className="flex items-center gap-2">
+                 <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] animate-pulse" />
+                 <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-[0.4em]">Experiencia Optimizada</span>
+              </div>
+              <p className="text-white/60 text-[11px] font-medium leading-relaxed">Simulación de pedido: Scan &bull; Order &bull; Pay en menos de 30 segundos.</p>
             </div>
           </div>
 
@@ -677,10 +768,9 @@ export function BentoComparison() {
           </motion.a>
         </div>
 
-        {/* NO Side */}
+        {/* NO Side (Static) */}
         <div className="flex flex-col gap-6">
           <div className="relative">
-            {/* Removed grayscale and opacity reduction to show original colors clearly */}
             <div className="relative aspect-[3/5] w-full bg-[#0e131f] border border-red-500/30 rounded-xl overflow-hidden shadow-2xl">
               {/* X Badge */}
               <div className="absolute top-4 left-4 z-20 w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center shadow-lg">
