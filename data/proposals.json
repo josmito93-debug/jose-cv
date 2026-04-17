@@ -360,14 +360,15 @@
             "tag": "coyo-content"
           },
           {
-            "title": "Data Tracking & Inteligencia",
-            "description": "Transformamos el tráfico en una base de datos inteligente.",
+            "title": "Facebook Pixel & Data Inteligente",
+            "description": "Tu e-commerce no solo vende tacos, recolecta inteligencia comercial cada segundo.",
             "icon": "activity",
             "bullets": [
-              "Implementación de Píxeles y Eventos",
-              "Clasificación Cold/Warm/Hot/Client",
-              "Optimización de Ads basada en data real",
-              "Audiencias Lookalike para escalamiento"
+              "Visto (Frío): Captura de data inmediata al entrar a la web.",
+              "Carrito (Tibio): Identificación de intención de compra real.",
+              "Checkout (Caliente): Perfilado del cliente ideal para conversiones.",
+              "Retargeting: Campañas automáticas según el nivel de interés.",
+              "Lookalike Audiences: Facebook encuentra clientes similares a tus compradores."
             ],
             "tag": "coyo-data"
           }
