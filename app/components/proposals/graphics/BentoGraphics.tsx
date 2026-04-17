@@ -612,8 +612,8 @@ export function BentoComparison() {
   
   const images = [
     '/proposals/uncle-coyo/website-yes-1.png',
-    '/proposals/uncle-coyo/website-yes-2.png',
     '/proposals/uncle-coyo/website-yes-3.png',
+    '/proposals/uncle-coyo/website-yes-2.png',
   ];
 
   // Steps: 
