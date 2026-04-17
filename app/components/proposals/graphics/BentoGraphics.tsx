@@ -621,15 +621,16 @@ export function BentoComparison() {
   }, []);
 
   return (
-    <div className="w-full max-w-[800px] bg-[#0e131f] border border-white/10 rounded-[3rem] p-6 md:p-10 relative overflow-hidden group shadow-2xl">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+    <div className="w-full max-w-[900px] bg-[#0e131f] border border-white/10 rounded-2xl p-6 md:p-8 relative overflow-hidden group shadow-2xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
         {/* YES Side */}
         <div className="flex flex-col gap-6">
           <div className="relative group/yes">
-            <div className="absolute -inset-1 bg-gradient-to-r from-[#2ddc80] to-[#2ddc80]/50 rounded-2xl blur opacity-20 group-hover/yes:opacity-40 transition duration-1000"></div>
-            <div className="relative aspect-[4/3] w-full bg-[#0e131f] border-2 border-[#2ddc80] rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(45,220,128,0.2)]">
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#2ddc80] to-[#2ddc80]/50 rounded-xl blur opacity-10 group-hover/yes:opacity-30 transition duration-1000"></div>
+            {/* Taller container to show more of the full capture */}
+            <div className="relative aspect-[3/5] w-full bg-[#0e131f] border border-[#2ddc80]/60 rounded-xl overflow-hidden shadow-[0_0_40px_rgba(45,220,128,0.1)]">
               {/* Checkmark Badge */}
-              <div className="absolute top-4 left-4 z-20 w-8 h-8 bg-[#2ddc80] rounded-full flex items-center justify-center shadow-lg">
+              <div className="absolute top-4 left-4 z-20 w-8 h-8 bg-[#2ddc80] rounded-lg flex items-center justify-center shadow-lg">
                 <svg className="w-5 h-5 text-[#0e131f]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
@@ -637,8 +638,8 @@ export function BentoComparison() {
               
               <div className="absolute inset-0 bg-white/5 animate-pulse" />
               
-              {/* Image Sequence */}
-              <div className="relative w-full h-full">
+              {/* Image Sequence with Object-Top to see the hero but keep full height context */}
+              <div className="relative w-full h-full overflow-y-auto scrollbar-hide">
                 {images.map((img, i) => (
                   <motion.img
                     key={img}
@@ -646,7 +647,7 @@ export function BentoComparison() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: index === i ? 1 : 0 }}
                     transition={{ duration: 1, ease: 'easeInOut' }}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full object-cover object-top"
                     alt={`Website Yes ${i + 1}`}
                   />
                 ))}
@@ -655,7 +656,7 @@ export function BentoComparison() {
             
             <div className="mt-4 flex flex-col gap-2">
               <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-[0.4em]">Propuesta Ganadora</span>
-              <p className="text-white/60 text-[11px] font-medium leading-relaxed">Arquitectura optimizada para conversión, diseño editorial y UX fluido.</p>
+              <p className="text-white/60 text-[11px] font-medium leading-relaxed">Arquitectura optimizada para conversión y UX fluido.</p>
             </div>
           </div>
 
@@ -664,9 +665,9 @@ export function BentoComparison() {
             href="https://unclecoyo.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full py-4 bg-gradient-to-r from-[#2ddc80] to-[#2ddc80]/80 rounded-2xl flex items-center justify-center gap-3 shadow-[0_20px_40px_-10px_rgba(45,220,128,0.4)] group/btn relative overflow-hidden"
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            className="w-full py-4 bg-gradient-to-r from-[#2ddc80] to-[#2ddc80]/80 rounded-xl flex items-center justify-center gap-3 shadow-[0_20px_40px_-10px_rgba(45,220,128,0.4)] group/btn relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000" />
             <span className="text-[12px] font-black text-[#0e131f] uppercase tracking-[0.2em] relative z-10">Ver Website en Vivo</span>
@@ -679,9 +680,10 @@ export function BentoComparison() {
         {/* NO Side */}
         <div className="flex flex-col gap-6">
           <div className="relative">
-            <div className="relative aspect-[4/3] w-full bg-[#0e131f] border-2 border-red-500/50 rounded-2xl overflow-hidden opacity-60 grayscale-[0.5]">
+            {/* Matching taller aspect ratio and sharper borders */}
+            <div className="relative aspect-[3/5] w-full bg-[#0e131f] border border-red-500/30 rounded-xl overflow-hidden opacity-50 grayscale-[0.8] hover:opacity-70 transition-opacity duration-700">
               {/* X Badge */}
-              <div className="absolute top-4 left-4 z-20 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center shadow-lg">
+              <div className="absolute top-4 left-4 z-20 w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center shadow-lg">
                 <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -689,14 +691,14 @@ export function BentoComparison() {
 
               <img 
                 src="/proposals/uncle-coyo/website-no.png" 
-                className="w-full h-full object-cover" 
+                className="w-full object-cover object-top" 
                 alt="Website No"
               />
             </div>
             
-            <div className="mt-4 flex flex-col gap-2">
+            <div className="mt-4 flex flex-col gap-2 border-l border-red-500/20 pl-4">
               <span className="text-red-500/60 text-[10px] font-black uppercase tracking-[0.4em]">Estado Actual / Genérico</span>
-              <p className="text-white/30 text-[11px] font-medium leading-relaxed">Interfaces que no capturan la esencia ni optimizan la data del cliente.</p>
+              <p className="text-white/30 text-[11px] font-medium leading-relaxed">Interfaces limitadas que no capturan la esencia del negocio.</p>
             </div>
           </div>
         </div>
