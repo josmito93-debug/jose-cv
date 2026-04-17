@@ -86,6 +86,7 @@ export default function UncleCoyoProposalPage() {
                </div>
             </div>
           </motion.div>
+        </div>
         {/* Facebook Pixel & Data Power Section */}
         <div className="max-w-7xl mx-auto px-6 mb-32">
           <motion.div 
