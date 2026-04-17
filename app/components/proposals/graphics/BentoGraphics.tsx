@@ -680,8 +680,8 @@ export function BentoComparison() {
         {/* NO Side */}
         <div className="flex flex-col gap-6">
           <div className="relative">
-            {/* Matching taller aspect ratio and sharper borders */}
-            <div className="relative aspect-[3/5] w-full bg-[#0e131f] border border-red-500/30 rounded-xl overflow-hidden opacity-50 grayscale-[0.8] hover:opacity-70 transition-opacity duration-700">
+            {/* Removed grayscale and opacity reduction to show original colors clearly */}
+            <div className="relative aspect-[3/5] w-full bg-[#0e131f] border border-red-500/30 rounded-xl overflow-hidden shadow-2xl">
               {/* X Badge */}
               <div className="absolute top-4 left-4 z-20 w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center shadow-lg">
                 <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
