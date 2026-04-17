@@ -16,7 +16,8 @@ export type GraphicId =
   | 'coyo-qr'
   | 'coyo-data'
   | 'coyo-content'
-  | 'coyo-events';
+  | 'coyo-events'
+  | 'coyo-comparison';
 
 interface GraphicResolverProps {
   id: GraphicId | string;
@@ -50,6 +51,8 @@ export default function GraphicResolver({ id }: GraphicResolverProps) {
       return <Bento.BentoVideo />; // Reusing the high-end video graphic for coyo-content
     case 'coyo-events':
       return <Bento.BentoEvents />;
+    case 'coyo-comparison':
+      return <Bento.BentoComparison />;
     default:
       return null;
   }

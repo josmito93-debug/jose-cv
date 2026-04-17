@@ -339,6 +339,18 @@
               "Sincronización automática con Clover"
             ],
             "tag": "coyo-qr"
+          },
+          {
+            "title": "Evolución Visual & UX",
+            "description": "Transformamos una interfaz genérica en una experiencia de marca premium.",
+            "icon": "zap",
+            "bullets": [
+              "Diseño centrado en el usuario (UX)",
+              "Carga ultra-rápida y mobile-first",
+              "Aumento de confianza del cliente",
+              "Optimización de embudo de ventas"
+            ],
+            "tag": "coyo-comparison"
           }
         ]
       },
