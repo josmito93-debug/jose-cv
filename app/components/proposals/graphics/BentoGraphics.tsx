@@ -367,3 +367,240 @@ export function BentoDesign() {
     </div>
   );
 }
+
+export function BentoEcosystem() {
+  return (
+    <div className="w-full max-w-[600px] h-[350px] bg-[#0e131f] border border-white/10 rounded-[3rem] p-8 md:p-12 relative overflow-hidden group shadow-2xl">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,220,128,0.05)_0%,transparent_60%)]" />
+      
+      <div className="flex flex-col h-full justify-between relative z-10">
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-black text-[#2ddc80] uppercase tracking-[0.4em]">Integrated Architecture</span>
+            <h4 className="text-white font-black text-4xl tracking-tighter">Digital Ecosystem</h4>
+          </div>
+          <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+            <svg className="w-6 h-6 text-[#2ddc80]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-1.5l1.13-1.13a4.5 4.5 0 001.272-3.181V5.125c0-.621.504-1.125 1.125-1.125h.75c.621 0 1.125.504 1.125 1.125v4.576c0 .62.247 1.214.686 1.654l1.17 1.17a3 3 0 010 4.242 3 3 0 01-4.242 0z" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between relative py-6">
+          {/* Path Line */}
+          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#2ddc80]/30 to-transparent -translate-y-1/2" />
+          
+          {[
+            { label: 'ADS', icon: 'megaphone' },
+            { label: 'WEB', icon: 'globe' },
+            { label: 'CLOVER', icon: 'pos' },
+            { label: 'SALES', icon: 'check' }
+          ].map((step, i) => (
+            <motion.div 
+              key={i}
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ delay: i * 0.2 }}
+              className="flex flex-col items-center gap-3 relative z-10"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-[#0e131f] border border-[#2ddc80]/30 flex items-center justify-center shadow-[0_0_20px_rgba(45,220,128,0.15)] group-hover:border-[#2ddc80] transition-colors duration-500">
+                <div className="w-6 h-6 bg-[#2ddc80]/20 rounded-lg animate-pulse" />
+              </div>
+              <span className="text-[9px] font-black text-white/50 uppercase tracking-[0.2em]">{step.label}</span>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="mt-8 flex gap-6 text-[8px] font-black text-white/30 uppercase tracking-[0.3em] overflow-hidden whitespace-nowrap">
+          <motion.div 
+            animate={{ x: [0, -100, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            className="flex gap-10"
+          >
+            <span>Instagram Bio Hub &bull; Direct Checkout &bull; Real Time Orders &bull; Clover Sync &bull; No Commissions</span>
+            <span>Instagram Bio Hub &bull; Direct Checkout &bull; Real Time Orders &bull; Clover Sync &bull; No Commissions</span>
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function BentoQR() {
+  return (
+    <div className="w-full max-w-[360px] h-[450px] bg-[#0e131f] border border-white/10 rounded-[4rem] p-6 relative overflow-hidden group">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#2ddc80]/10 to-transparent opacity-30" />
+      
+      {/* Mobile Mockup */}
+      <div className="mx-auto w-[240px] h-full bg-black border-[6px] border-[#1a1f2e] rounded-[3rem] relative shadow-2xl overflow-hidden mt-10">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-[#1a1f2e] rounded-b-2xl z-20" />
+        
+        <div className="p-6 pt-12 flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <div className="h-3 w-1/2 bg-white/10 rounded-full" />
+            <div className="h-6 w-3/4 bg-[#2ddc80]/20 border border-[#2ddc80]/30 rounded-lg" />
+          </div>
+
+          <div className="aspect-square w-full bg-white/5 border border-dashed border-[#2ddc80]/30 rounded-3xl flex items-center justify-center p-8 relative overflow-hidden">
+            <motion.div 
+              animate={{ rotate: 90 }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              className="w-full h-full border-[10px] border-[#2ddc80]/20 rounded-2xl" 
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-24 h-24 bg-white/[0.03] border border-white/10 rounded-lg flex items-center justify-center">
+                 <div className="w-16 h-16 grid grid-cols-4 grid-rows-4 gap-1 opacity-40">
+                    {[...Array(16)].map((_, i) => (
+                      <div key={i} className={`bg-[#2ddc80] ${Math.random() > 0.5 ? 'opacity-100' : 'opacity-0'}`} />
+                    ))}
+                 </div>
+              </div>
+            </div>
+            {/* Scan Line */}
+            <motion.div 
+              animate={{ top: ['0%', '100%', '0%'] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              className="absolute left-0 w-full h-[2px] bg-[#2ddc80] shadow-[0_0_15px_#2ddc80] z-10" 
+            />
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <div className="h-10 w-full bg-[#2ddc80] rounded-xl flex items-center justify-center shadow-[0_10px_20px_rgba(45,220,128,0.3)]">
+               <span className="text-[10px] font-black text-[#0e131f] uppercase tracking-widest">Pagar Orden</span>
+            </div>
+            <div className="h-2 w-1/3 bg-white/10 rounded-full self-center" />
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute bottom-8 left-0 w-full text-center px-10">
+        <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.4em]">QR Ordering System</span>
+      </div>
+    </div>
+  );
+}
+
+export function BentoDataTracking() {
+  return (
+    <div className="w-full max-w-[420px] h-[350px] bg-[#0e131f] border border-white/10 rounded-[3rem] p-10 relative overflow-hidden group">
+      <div className="flex flex-col h-full justify-between relative z-10">
+        <div className="flex flex-col gap-1">
+          <span className="text-[10px] font-black text-[#2ddc80] uppercase tracking-[0.4em]">Data Science</span>
+          <h4 className="text-white font-black text-4xl tracking-tighter">Pixel Funnel</h4>
+        </div>
+
+        <div className="flex flex-col gap-4 mt-8">
+          {[
+            { label: 'Cold Traffic', color: 'bg-white/10', width: '100%', count: '24.5k' },
+            { label: 'Menu Interaction', color: 'bg-[#2ddc80]/20', width: '75%', count: '12.2k' },
+            { label: 'Add to Cart', color: 'bg-[#2ddc80]/40', width: '45%', count: '4.8k' },
+            { label: 'Completed Sale', color: 'bg-[#2ddc80]', width: '25%', count: '1.2k' },
+          ].map((row, i) => (
+            <div key={i} className="flex flex-col gap-2">
+              <div className="flex justify-between text-[8px] font-black uppercase tracking-widest opacity-40">
+                <span>{row.label}</span>
+                <span>{row.count}</span>
+              </div>
+              <div className="h-2.5 w-full bg-white/5 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: row.width }}
+                  transition={{ delay: i * 0.1, duration: 1.5, ease: "easeOut" }}
+                  className={`h-full ${row.color}`} 
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function BentoClover() {
+  return (
+    <div className="w-full max-w-[360px] h-[360px] bg-[#0e131f] border border-white/10 rounded-[3.5rem] p-8 relative overflow-hidden group flex flex-col items-center justify-center">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(45,220,128,0.1)_0%,transparent_70%)] opacity-50" />
+      
+      <div className="relative w-48 h-48 flex items-center justify-center">
+        {/* Connection Orbits */}
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0 border-2 border-dashed border-[#2ddc80]/20 rounded-full" 
+        />
+        <motion.div 
+          animate={{ rotate: -360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-4 border border-dashed border-[#2ddc80]/10 rounded-full" 
+        />
+
+        {/* Central Clover Node */}
+        <div className="w-24 h-24 bg-[#0e131f] border border-[#2ddc80]/40 rounded-[2rem] flex items-center justify-center shadow-[0_0_50px_rgba(45,220,128,0.2)] relative z-20">
+           <div className="flex flex-col items-center gap-1">
+             <div className="w-8 h-8 rounded-lg bg-[#2ddc80] flex items-center justify-center shadow-[0_0_20px_#2ddc80]">
+                <div className="w-4 h-4 border-2 border-[#0e131f]" />
+             </div>
+             <span className="text-[8px] font-black text-[#2ddc80] tracking-widest mt-2 uppercase">CLOVER</span>
+           </div>
+        </div>
+
+        {/* Satellite Nodes */}
+        <motion.div 
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-full flex items-center gap-2"
+        >
+           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+           <span className="text-[7px] font-black text-white/60 tracking-widest uppercase">Syncing Orders</span>
+        </motion.div>
+      </div>
+
+      <div className="mt-8 text-center">
+        <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.4em]">Clover POS Integration</span>
+      </div>
+    </div>
+  );
+}
+
+export function BentoEvents() {
+  return (
+    <div className="w-full max-w-[420px] h-[350px] bg-[#0e131f] border border-white/10 rounded-[3rem] p-10 relative overflow-hidden group">
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-blue-500/10" />
+      
+      <div className="relative z-10 h-full flex flex-col justify-between">
+        <div className="flex justify-between items-start">
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-black text-purple-400 uppercase tracking-[0.4em]">Nightlife Strategy</span>
+            <h4 className="text-white font-black text-4xl tracking-tighter">RWR Records</h4>
+          </div>
+          <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+            <span className="text-[8px] font-black text-white/40 uppercase tracking-[0.2em]">Live Events</span>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center gap-4 relative py-10">
+           {/* Abstract Audio Visualization */}
+           <div className="flex items-end gap-1 h-20">
+              {[...Array(15)].map((_, i) => (
+                <motion.div 
+                  key={i}
+                  animate={{ height: [20, 80, 40, 90, 30] }}
+                  transition={{ delay: i * 0.1, duration: 1, repeat: Infinity, ease: "easeInOut" }}
+                  className="w-2 bg-gradient-to-t from-purple-500 to-blue-400 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+                />
+              ))}
+           </div>
+        </div>
+
+        <div className="flex justify-between items-center text-[9px] font-black text-white/30 uppercase tracking-[0.3em]">
+           <span>Activaciones</span>
+           <span>&bull;</span>
+           <span>Tráfico Nocturno</span>
+           <span>&bull;</span>
+           <span>Engagement</span>
+        </div>
+      </div>
+    </div>
+  );
+}

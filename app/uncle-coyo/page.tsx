@@ -1,0 +1,123 @@
+'use client';
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import proposalsData from '@/data/proposals.json';
+import UniversalProposalNav from '@/app/components/proposals/UniversalProposalNav';
+import ProposalHero from '@/app/components/proposals/ProposalHero';
+import PhaseSection from '@/app/components/proposals/PhaseSection';
+import PricingSummary from '@/app/components/proposals/PricingSummary';
+import SpaceRocks from '@/app/components/proposals/SpaceRocks';
+
+export default function UncleCoyoProposalPage() {
+  const proposal = (proposalsData as any)["uncle_coyo"];
+
+  if (!proposal) {
+    return (
+      <div className="min-h-screen bg-[#0e131f] flex flex-col items-center justify-center text-center p-6">
+        <h1 className="text-4xl font-black text-white mb-4 uppercase tracking-tighter">Propuesta no encontrada</h1>
+        <a href="/" className="mt-8 text-[#2ddc80] font-bold uppercase tracking-widest text-xs border-b border-[#2ddc80]/30 pb-1">Volver al inicio</a>
+      </div>
+    );
+  }
+
+  return (
+    <main className="bg-[#0e131f] min-h-screen selection:bg-[#2ddc80] selection:text-[#0e131f] relative overflow-hidden font-sans">
+      {/* Background Cinematic Motion Blur */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <motion.div 
+          animate={{ x: [0, 80, -40, 0], y: [0, -60, 40, 0], scale: [1, 1.15, 0.95, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-[5%] -left-[5%] w-[600px] h-[600px] bg-[#2ddc80]/15 blur-[100px] rounded-full"
+        />
+        <motion.div 
+          animate={{ x: [0, -100, 60, 0], y: [0, 80, -40, 0], scale: [1, 0.9, 1.1, 1] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[30%] -right-[5%] w-[800px] h-[800px] bg-[#2ddc80]/10 blur-[140px] rounded-full"
+        />
+        <motion.div 
+          animate={{ x: [0, 60, -80, 0], y: [0, -30, 70, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-[-15%] left-[10%] w-[500px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full"
+        />
+      </div>
+
+      <SpaceRocks />
+
+      <div className="relative z-10 w-full h-full">
+        <UniversalProposalNav clientName={proposal.client} />
+        
+        <ProposalHero 
+          client={proposal.client} 
+          status={proposal.status}
+          title={proposal.title} 
+          summary={proposal.summary} 
+        />
+
+        {/* Timeline & Delivery Commitment */}
+        <div className="max-w-7xl mx-auto px-6 mb-24">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-10"
+          >
+            <div className="p-10 bg-white/[0.03] border border-white/10 rounded-[3rem] relative overflow-hidden group">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-[#2ddc80]/10 blur-3xl rounded-full translate-x-10 -translate-y-10 group-hover:bg-[#2ddc80]/20 transition-colors" />
+               <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Velocidad de Implementación</span>
+               <h3 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase mb-6 leading-none">
+                 Timeline: <br />
+                 <span className="text-[#2ddc80]">&lt; 7 Días Hábiles</span>
+               </h3>
+               <p className="text-white/50 text-sm font-medium leading-relaxed max-w-md">
+                 Sistema completo llave en mano. Desde la configuración de Clover hasta el despliegue de las campañas de Ads iniciales.
+               </p>
+            </div>
+
+            <div className="p-10 bg-gradient-to-br from-[#2ddc80]/20 to-transparent border border-[#2ddc80]/30 rounded-[3rem] flex flex-col justify-center">
+               <span className="text-white text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Objetivo de Conversión</span>
+               <h3 className="text-4xl font-black text-white tracking-tighter uppercase mb-6 leading-tight">
+                 Reducción de Comisiones <br />
+                 <span className="opacity-50 line-through text-2xl md:text-3xl">Hasta 30% en Apps</span>
+               </h3>
+               <div className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] animate-pulse" />
+                  <p className="text-[#2ddc80] text-sm font-black uppercase tracking-[0.1em]">Soberanía Digital Total</p>
+               </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="relative">
+          {proposal.phases.map((phase: any) => (
+            <PhaseSection key={phase.id} phase={phase} />
+          ))}
+        </div>
+
+        <PricingSummary 
+          phases={proposal.phases.map((p: any) => ({
+            name: p.name,
+            investment: p.investment
+          }))} 
+          cta={proposal.cta} 
+        />
+
+        {/* Closing Quote */}
+        <div className="max-w-7xl mx-auto px-6 py-32 text-center">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center"
+            >
+              <span className="w-12 h-[1px] bg-[#2ddc80]/50 mb-12" />
+              <h4 className="text-white/30 text-xl md:text-3xl font-black uppercase tracking-[0.3em] max-w-4xl leading-tight">
+                "Esto no es una página web. Es la construcción de un activo digital propio que convierte tráfico en clientes."
+              </h4>
+              <span className="w-12 h-[1px] bg-[#2ddc80]/50 mt-12" />
+            </motion.div>
+        </div>
+      </div>
+    </main>
+  );
+}
