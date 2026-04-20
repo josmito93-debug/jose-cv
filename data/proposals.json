@@ -503,5 +503,55 @@
     ],
     "summary": "Transformamos el talento visual en un activo de ventas automatizado. Un portafolio de alto impacto diseñado para capturar clientes de alto valor, integrado con un sistema de reservas que elimina la fricción operativa.",
     "cta": "https://wa.me/17863024923"
+  },
+  "latin-soul": {
+    "client": "Marco Navarro",
+    "status": "Producción de Contenido - Latin Soul",
+    "title": "CONTENT & VISUAL IDENTITY PACK",
+    "phases": [
+      {
+        "id": 1,
+        "name": "VISUAL CORE & CONTENT PRODUCTION",
+        "investment": 300,
+        "items": [
+          {
+            "title": "Video (After Movie)",
+            "description": "Recapitulación cinematográfica de alta energía que captura los mejores momentos y la esencia del evento.",
+            "bullets": [
+              "Edición cinematográfica y corrección de color",
+              "Diseño de sonido de alto impacto",
+              "Optimizado para distribución en redes sociales",
+              "Entrega en alta resolución"
+            ],
+            "tag": "panenka-video"
+          },
+          {
+            "title": "Animated Flyer",
+            "description": "Gráficos en movimiento dinámicos diseñados para captar la atención e impulsar el engagement.",
+            "bullets": [
+              "Transiciones y animaciones fluidas",
+              "Optimizado para Instagram/Facebook Stories",
+              "Integración de marca Latin Soul",
+              "Diseño de movimiento llamativo"
+            ],
+            "tag": "panenka-design"
+          },
+          {
+            "title": "Static Flyer",
+            "description": "Diseño profesional en alta resolución para promoción impresa y digital.",
+            "bullets": [
+              "Composición visual premium",
+              "Jerarquía de información clara",
+              "Listo para redes sociales e impresión",
+              "Branding consistente de Latin Soul"
+            ],
+            "tag": "/tags/Graphic desing.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Latin Soul no es solo un evento; es una experiencia. Este pack asegura que cada activo visual refleje la calidad premium y la energía vibrante de la marca, maximizando el impacto y el recuerdo.",
+    "cta": "https://buy.stripe.com/test_28E6oz1XF34L3FB3kD7ss00"
   }
+
 }
