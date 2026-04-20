@@ -408,5 +408,94 @@
     ],
     "summary": "Construcción de un activo digital propio, que convierte tráfico en clientes y clientes en crecimiento sostenible. Uncle Coyo’s deja de depender de terceros y opera bajo un sistema diseñado para escalar y medir cada interacción.",
     "cta": "https://wa.me/17863024923"
+  },
+  "milex-films": {
+    "client": "Milex Films",
+    "status": "Propuesta de Estrategia Visual",
+    "title": "ECOSISTEMA DIGITAL PARA CINEMATOGRAFÍA & FOTOGRAFÍA",
+    "phases": [
+      {
+        "id": 1,
+        "name": "FASE 1: PORTAFOLIO CINEMATOGRÁFICO DE ALTO IMPACTO",
+        "investment": 300,
+        "items": [
+          {
+            "title": "Portafolio Interactivo & Inmersivo",
+            "description": "Una vitrina digital diseñada para resaltar la calidad narrativa y técnica de cada proyecto.",
+            "bullets": [
+              "Galería de video con carga optimizada",
+              "Showcase de fotografía en alta resolución",
+              "Storytelling visual por proyecto",
+              "Diseño Minimalista & Editorial"
+            ],
+            "tag": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Catálogo de Servicios Estratégicos",
+            "description": "Presentación clara y persuasiva de los servicios ofrecidos.",
+            "bullets": [
+              "Paquetes de Bodas & Eventos",
+              "Producción Comercial & Corporativa",
+              "Sesiones de Retrato & Moda",
+              "Post-producción & Color Grading"
+            ],
+            "tag": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Lead Acquisition & Contacto",
+            "description": "Puente directo entre el cliente y el profesional.",
+            "bullets": [
+              "Integración fluida con WhatsApp",
+              "Formulario de contacto personalizado",
+              "Links a redes sociales estratégicas",
+              "Optimización para dispositivos móviles"
+            ],
+            "tag": "/tags/SEO and google.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "FASE 2: SISTEMA DE RESERVAS & AUTOMATIZACIÓN",
+        "investment": 200,
+        "items": [
+          {
+            "title": "Booking System Pro",
+            "description": "Elimina la fricción operativa y permite que los clientes agenden por sí mismos.",
+            "bullets": [
+              "Calendario inteligente de disponibilidad",
+              "Sincronización con Google Calendar",
+              "Gestión de sesiones y bloqueos de fecha",
+              "Experiencia de reserva intuitiva"
+            ],
+            "tag": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Pasarela de Pagos (Depósitos)",
+            "description": "Asegura cada fecha con un cobro automático de seña.",
+            "bullets": [
+              "Integración con Stripe / PayPal",
+              "Cobro de depósito para confirmación",
+              "Generación automática de recibos",
+              "Gestión segura de datos financieros"
+            ],
+            "tag": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Automatización de Notificaciones",
+            "description": "Mantén al cliente informado sin mover un dedo.",
+            "bullets": [
+              "Emails automáticos de confirmación",
+              "Recordatorios de sesión (24h / 1h antes)",
+              "Follow-up post-sesión automatizado",
+              "Panel de administración para gestión total"
+            ],
+            "tag": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Transformamos el talento visual en un activo de ventas automatizado. Un portafolio de alto impacto diseñado para capturar clientes de alto valor, integrado con un sistema de reservas que elimina la fricción operativa.",
+    "cta": "https://wa.me/17863024923"
   }
 }
