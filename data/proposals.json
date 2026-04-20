@@ -525,7 +525,8 @@
               "Optimized for social media distribution",
               "High-resolution delivery"
             ],
-            "tag": "panenka-video"
+            "tag": "panenka-video",
+            "tagLabel": "GRAPHIC DESIGN"
           },
           {
             "title": "Animated Flyer",
@@ -536,7 +537,8 @@
               "Latin Soul branding integration",
               "Eye-catching motion design"
             ],
-            "tag": "panenka-design"
+            "tag": "panenka-design",
+            "tagLabel": "GRAPHIC DESIGN"
           },
           {
             "title": "Static Flyer",
@@ -547,7 +549,8 @@
               "Ready for social media and print",
               "Consistent Latin Soul branding"
             ],
-            "tag": "/tags/Graphic desing.png"
+            "tag": "/tags/Graphic desing.png",
+            "tagLabel": "GRAPHIC DESIGN"
           }
         ]
       }
