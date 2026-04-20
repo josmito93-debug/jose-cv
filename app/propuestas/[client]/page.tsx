@@ -9,6 +9,7 @@ import ProposalHero from '@/app/components/proposals/ProposalHero';
 import PhaseSection from '@/app/components/proposals/PhaseSection';
 import PricingSummary from '@/app/components/proposals/PricingSummary';
 import SpaceRocks from '@/app/components/proposals/SpaceRocks';
+import RelatedProjects from '@/app/components/proposals/RelatedProjects';
 
 interface ProposalData {
   client: string;
@@ -92,6 +93,8 @@ export default function ProposalPage() {
             <PhaseSection key={phase.id} phase={phase} lang={proposal.lang} />
           ))}
         </div>
+
+        <RelatedProjects lang={proposal.lang} />
 
         <PricingSummary 
           phases={proposal.phases} 
