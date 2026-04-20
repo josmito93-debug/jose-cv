@@ -22,6 +22,7 @@ interface PhaseProps {
     investment: number;
     items: PhaseItem[];
   };
+  lang?: 'en' | 'es';
 }
 
 const IconMap: Record<string, LucideIcon> = {
@@ -34,7 +35,7 @@ const IconMap: Record<string, LucideIcon> = {
   palette: Palette
 };
 
-export default function PhaseSection({ phase }: PhaseProps) {
+export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
   return (
     <section className="py-24 md:py-48 px-6 relative overflow-hidden">
       {/* Background Illumination (Emerald Aura) */}
@@ -52,7 +53,7 @@ export default function PhaseSection({ phase }: PhaseProps) {
               viewport={{ once: true }}
               className="text-[#2ddc80] font-black text-[10px] md:text-xs uppercase tracking-[0.4em] mb-4 flex items-center gap-4"
             >
-              Fase {phase.id}
+              {lang === 'en' ? 'Phase' : 'Fase'} {phase.id}
               <div className="h-[1px] w-8 bg-[#2ddc80]/30" />
             </motion.div>
             
@@ -74,7 +75,7 @@ export default function PhaseSection({ phase }: PhaseProps) {
               className="bg-[#2ddc80] px-6 py-4 rounded-2xl flex flex-col gap-1 items-start shadow-lg shadow-[#2ddc80]/10"
             >
               <span className="text-[#0e131f] text-[10px] font-black uppercase tracking-widest opacity-60">
-                Inversión
+                {lang === 'en' ? 'Investment' : 'Inversión'}
               </span>
               <span className="text-[#0e131f] text-2xl md:text-3xl font-black tracking-tight">
                 ${phase.investment.toLocaleString()}

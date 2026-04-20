@@ -506,8 +506,10 @@
   },
   "latin-soul": {
     "client": "Marco Navarro",
-    "status": "Producción de Contenido - Latin Soul",
+    "status": "Content Production - Latin Soul",
     "title": "CONTENT & VISUAL IDENTITY PACK",
+    "lang": "en",
+    "ctaText": "Accept and Pay Now",
     "phases": [
       {
         "id": 1,
@@ -516,41 +518,41 @@
         "items": [
           {
             "title": "Video (After Movie)",
-            "description": "Recapitulación cinematográfica de alta energía que captura los mejores momentos y la esencia del evento.",
+            "description": "High-energy cinematic recap capturing the best moments and essence of the event.",
             "bullets": [
-              "Edición cinematográfica y corrección de color",
-              "Diseño de sonido de alto impacto",
-              "Optimizado para distribución en redes sociales",
-              "Entrega en alta resolución"
+              "Cinematic editing and color correction",
+              "High-impact sound design",
+              "Optimized for social media distribution",
+              "High-resolution delivery"
             ],
             "tag": "panenka-video"
           },
           {
             "title": "Animated Flyer",
-            "description": "Gráficos en movimiento dinámicos diseñados para captar la atención e impulsar el engagement.",
+            "description": "Dynamic motion graphics designed to capture attention and drive digital engagement.",
             "bullets": [
-              "Transiciones y animaciones fluidas",
-              "Optimizado para Instagram/Facebook Stories",
-              "Integración de marca Latin Soul",
-              "Diseño de movimiento llamativo"
+              "Smooth transitions and fluid animations",
+              "Optimized for Instagram/Facebook Stories",
+              "Latin Soul branding integration",
+              "Eye-catching motion design"
             ],
             "tag": "panenka-design"
           },
           {
             "title": "Static Flyer",
-            "description": "Diseño profesional en alta resolución para promoción impresa y digital.",
+            "description": "Professional high-resolution design for both print and digital promotion.",
             "bullets": [
-              "Composición visual premium",
-              "Jerarquía de información clara",
-              "Listo para redes sociales e impresión",
-              "Branding consistente de Latin Soul"
+              "Premium visual composition",
+              "Clear information hierarchy",
+              "Ready for social media and print",
+              "Consistent Latin Soul branding"
             ],
             "tag": "/tags/Graphic desing.png"
           }
         ]
       }
     ],
-    "summary": "Latin Soul no es solo un evento; es una experiencia. Este pack asegura que cada activo visual refleje la calidad premium y la energía vibrante de la marca, maximizando el impacto y el recuerdo.",
+    "summary": "Latin Soul is not just an event; it's an experience. This pack ensures that every visual asset reflects the premium quality and vibrant energy of the brand, maximizing impact and memory.",
     "cta": "https://buy.stripe.com/test_28E6oz1XF34L3FB3kD7ss00"
   }
 

@@ -8,9 +8,10 @@ interface ProposalHeroProps {
   status: string;
   title: string;
   summary: string;
+  lang?: 'en' | 'es';
 }
 
-export default function ProposalHero({ client, status, title, summary }: ProposalHeroProps) {
+export default function ProposalHero({ client, status, title, summary, lang = 'es' }: ProposalHeroProps) {
   return (
     <section className="relative min-h-[90dvh] md:min-h-screen flex flex-col justify-center px-6 pt-32 md:pt-48 pb-20 md:pb-40 overflow-hidden bg-[#0e131f]">
       {/* Background Cinematic Elements */}
@@ -38,7 +39,7 @@ export default function ProposalHero({ client, status, title, summary }: Proposa
             >
               <div className="h-[2px] w-8 md:w-12 bg-[#2ddc80]" />
               <span className="text-[#2ddc80] font-black text-[10px] md:text-xs uppercase tracking-[0.4em]">
-                Propuesta Estratégica
+                {lang === 'en' ? 'Strategic Proposal' : 'Propuesta Estratégica'}
               </span>
             </motion.div>
 
@@ -49,7 +50,7 @@ export default function ProposalHero({ client, status, title, summary }: Proposa
               className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white leading-[0.9] uppercase"
             >
               {title} <br />
-              <span className="text-white/10">PARA {client}</span>
+              <span className="text-white/10">{lang === 'en' ? 'FOR' : 'PARA'} {client}</span>
             </motion.h1>
 
             <motion.p
@@ -72,8 +73,8 @@ export default function ProposalHero({ client, status, title, summary }: Proposa
               {/* Animated Accent Glow */}
               <div className="absolute -bottom-1/2 -right-1/2 w-48 h-48 bg-[#2ddc80]/20 blur-[60px] rounded-full group-hover:bg-[#2ddc80]/30 transition-colors" />
               
-              <span className="block text-[#2ddc80] text-[10px] uppercase tracking-widest font-black mb-2 relative z-10">
-                ESTADO ACTUAL
+              <span className="text-[#2ddc80] text-[10px] uppercase tracking-widest font-black mb-2 relative z-10">
+                {lang === 'en' ? 'CURRENT STATUS' : 'ESTADO ACTUAL'}
               </span>
               <p className="text-white font-black text-xl md:text-2xl tracking-tight leading-tight uppercase relative z-10">
                 {status}

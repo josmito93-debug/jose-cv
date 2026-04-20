@@ -7,9 +7,11 @@ import { ArrowRight, Wallet, CheckCircle2, PlayCircle } from 'lucide-react';
 interface PricingSummaryProps {
   phases: Array<{ name: string; investment: number }>;
   cta: string;
+  lang?: 'en' | 'es';
+  ctaText?: string;
 }
 
-export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
+export default function PricingSummary({ phases, cta, lang = 'es', ctaText }: PricingSummaryProps) {
   const total = phases.reduce((acc, curr) => acc + curr.investment, 0);
   
   const milestones = phases.map((phase, i) => {
@@ -17,13 +19,15 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
     const isLast = i === phases.length - 1;
     
     return {
-      title: isFirst ? "Reserva de Proyecto" : isLast ? "Lanzamiento Final" : phase.name,
+      title: isFirst 
+        ? (lang === 'en' ? "Project Deposit" : "Reserva de Proyecto")
+        : (isLast ? (lang === 'en' ? "Final Delivery" : "Entrega Final") : phase.name),
       description: isFirst 
-        ? "Iniciamos con el 50% del total para el desarrollo estratégico de marca." 
-        : "Saldo para la entrega final de todos los activos y manual de identidad.",
+        ? (lang === 'en' ? "We initiate the process with the starting investment for production." : "Iniciamos con el pago inicial para el desarrollo de activos.") 
+        : (lang === 'en' ? "Final balance for project completion and full asset delivery." : "Saldo para la entrega final de todos los activos."),
       amount: phase.investment,
       icon: isFirst ? <PlayCircle className="w-5 h-5" /> : <CheckCircle2 className="w-5 h-5" />,
-      status: isFirst ? "Inicio" : "Finalización"
+      status: isFirst ? (lang === 'en' ? "START" : "INICIO") : (lang === 'en' ? "COMPLETION" : "FINALIZACIÓN")
     };
   });
 
@@ -45,7 +49,7 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
             >
               <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] animate-pulse" />
               <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-widest">
-                Esquema de Facturación
+                {lang === 'en' ? 'Billing Structure' : 'Esquema de Facturación'}
               </span>
             </motion.div>
 
@@ -55,8 +59,8 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
               viewport={{ once: true }}
               className="text-5xl md:text-7xl font-black tracking-tighter text-white leading-[0.85] uppercase mb-12"
             >
-              Inversión <br />
-              <span className="text-[#2ddc80]">Total</span>
+              {lang === 'en' ? 'Total' : 'Inversión'} <br />
+              <span className="text-[#2ddc80]">{lang === 'en' ? 'Investment' : 'Total'}</span>
             </motion.h2>
 
             <motion.div 
@@ -67,12 +71,16 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
             >
               {phases.map((phase, i) => (
                 <div key={i} className="flex justify-between items-end pb-4 border-b border-white/5">
-                  <span className="text-white/40 font-bold uppercase tracking-widest text-xs">Fase 0{i+1}: {phase.name}</span>
+                  <span className="text-white/40 font-bold uppercase tracking-widest text-xs">
+                    {lang === 'en' ? 'Phase' : 'Fase'} 0{i+1}: {phase.name}
+                  </span>
                   <span className="text-white font-black text-xl">${phase.investment.toLocaleString()}</span>
                 </div>
               ))}
               <div className="flex justify-between items-end pt-4">
-                <span className="text-white font-black uppercase tracking-[0.2em] text-sm">TOTAL ACUMULADO</span>
+                <span className="text-white font-black uppercase tracking-[0.2em] text-sm">
+                  {lang === 'en' ? 'TOTAL ACCUMULATED' : 'TOTAL ACUMULADO'}
+                </span>
                 <span className="text-[#2ddc80] font-black text-4xl tracking-tighter">${total.toLocaleString()}</span>
               </div>
             </motion.div>
@@ -83,7 +91,7 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
               whileTap={{ scale: 0.98 }}
               className="w-full inline-flex items-center justify-center gap-4 bg-[#2ddc80] text-[#0e131f] px-12 py-6 rounded-[1.5rem] md:rounded-[2rem] font-black text-xl uppercase tracking-tighter shadow-[0_20px_40px_-15px_rgba(45,220,128,0.4)]"
             >
-              Aceptar Propuesta
+              {ctaText || (lang === 'en' ? 'Accept Proposal' : 'Aceptar Propuesta')}
               <ArrowRight className="w-6 h-6" strokeWidth={3} />
             </motion.a>
           </div>
@@ -134,7 +142,7 @@ export default function PricingSummary({ phases, cta }: PricingSummaryProps) {
 
         <div className="mt-32 md:mt-48 pt-12 border-t border-white/5 text-center">
             <span className="text-white/10 text-[10px] font-bold tracking-[0.2em]">
-              Universa Agency &copy; 2026 &nbsp;|&nbsp; Propuesta de Desarrollo Estratégico
+              Universa Agency &copy; 2026 &nbsp;|&nbsp; {lang === 'en' ? 'Strategic Development Proposal' : 'Propuesta de Desarrollo Estratégico'}
             </span>
         </div>
       </div>
