@@ -11,6 +11,7 @@ interface PhaseItem {
   bullets?: string[];
   tag?: string;
   tagLabel?: string;
+  tagImage?: string;
   image?: string;
   icon?: string;
 }
@@ -100,15 +101,25 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                   {/* Luxury Card Texture Layer - Extreme Fine Grain */}
                   <div className="absolute inset-0 z-0 opacity-[0.25] bg-[url('/images/texture.png')] bg-repeat bg-[length:50px_50px] pointer-events-none" />
 
-                  {/* Absolute Status Tag - Cool Small Tag */}
-                  {item.tagLabel && (
+                  {/* Absolute Status Tag - Image or Text Label */}
+                  {(item.tagImage || item.tagLabel) && (
                     <div className="absolute top-6 right-6 md:top-10 md:right-10 z-30">
-                      <div className="px-3 py-1.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full flex items-center gap-2 group-hover:border-[#2ddc80]/30 transition-colors">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] animate-pulse shadow-[0_0_8px_#2ddc80]" />
-                        <span className="text-white font-black text-[9px] uppercase tracking-[0.2em]">
-                          {item.tagLabel}
-                        </span>
-                      </div>
+                      {item.tagImage ? (
+                        <div className="relative group/tag">
+                          <img 
+                            src={item.tagImage} 
+                            alt={item.tagLabel || ""} 
+                            className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-[0_0_15px_rgba(45,220,128,0.3)] group-hover/tag:scale-110 transition-transform duration-500"
+                          />
+                        </div>
+                      ) : (
+                        <div className="px-3 py-1.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full flex items-center gap-2 group-hover:border-[#2ddc80]/30 transition-colors">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] animate-pulse shadow-[0_0_8px_#2ddc80]" />
+                          <span className="text-white font-black text-[9px] uppercase tracking-[0.2em]">
+                            {item.tagLabel}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )}
 

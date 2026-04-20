@@ -526,7 +526,7 @@
               "High-resolution delivery"
             ],
             "tag": "panenka-video",
-            "tagLabel": "GRAPHIC DESIGN"
+            "tagImage": "/tags/Graphic desing.png"
           },
           {
             "title": "Animated Flyer",
@@ -538,7 +538,7 @@
               "Eye-catching motion design"
             ],
             "tag": "panenka-design",
-            "tagLabel": "GRAPHIC DESIGN"
+            "tagImage": "/tags/Graphic desing.png"
           },
           {
             "title": "Static Flyer",
@@ -549,8 +549,7 @@
               "Ready for social media and print",
               "Consistent Latin Soul branding"
             ],
-            "tag": "/tags/Graphic desing.png",
-            "tagLabel": "GRAPHIC DESIGN"
+            "tagImage": "/tags/Graphic desing.png"
           }
         ]
       }
