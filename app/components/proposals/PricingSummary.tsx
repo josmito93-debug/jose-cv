@@ -17,7 +17,7 @@ export default function PricingSummary({ phases, cta, lang = 'es', ctaText }: Pr
   const milestones = phases.map((phase, i) => {
     const isFirst = i === 0;
     const isLast = i === phases.length - 1;
-    
+    return {
       title: isFirst 
         ? (lang === 'en' ? (phases.length === 1 ? "Full Project Investment" : "Project Deposit") : "Reserva de Proyecto")
         : (isLast ? (lang === 'en' ? "Final Delivery" : "Entrega Final") : phase.name),
