@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-export default function UniversalProposalNav({ clientName }: { clientName: string }) {
+export default function UniversalProposalNav({ clientName, lang = 'es' }: { clientName: string; lang?: 'en' | 'es' }) {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -35,7 +35,7 @@ export default function UniversalProposalNav({ clientName }: { clientName: strin
         >
           <div className="w-2 h-2 rounded-full bg-[#2ddc80] animate-pulse" />
           <span className="text-[10px] font-bold uppercase tracking-tighter text-white/60">
-            Propuesta para: <span className="text-white">{clientName}</span>
+            {lang === 'en' ? 'Proposal for:' : 'Propuesta para:'} <span className="text-white">{clientName}</span>
           </span>
         </motion.div>
       </div>

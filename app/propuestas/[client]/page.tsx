@@ -12,12 +12,15 @@ import SpaceRocks from '@/app/components/proposals/SpaceRocks';
 
 interface ProposalData {
   client: string;
+  status?: string;
   title: string;
+  lang?: 'en' | 'es';
+  ctaText?: string;
   phases: Array<{
     id: number;
     name: string;
     investment: number;
-    items: Array<{ title: string; description: string; bullets?: string[]; tag?: string }>;
+    items: Array<{ title: string; description: string; bullets?: string[]; tag?: string; tagLabel?: string }>;
   }>;
   summary: string;
   cta: string;
@@ -74,24 +77,27 @@ export default function ProposalPage() {
       <SpaceRocks />
 
       <div className="relative z-10 w-full h-full">
-        <UniversalProposalNav clientName={proposal.client} />
+        <UniversalProposalNav clientName={proposal.client} lang={proposal.lang} />
         
         <ProposalHero 
           client={proposal.client} 
           status={proposal.status || "Análisis de Mercado Completado"}
           title={proposal.title} 
           summary={proposal.summary} 
+          lang={proposal.lang}
         />
 
         <div className="relative">
           {proposal.phases.map((phase) => (
-            <PhaseSection key={phase.id} phase={phase} />
+            <PhaseSection key={phase.id} phase={phase} lang={proposal.lang} />
           ))}
         </div>
 
         <PricingSummary 
           phases={proposal.phases} 
           cta={proposal.cta} 
+          lang={proposal.lang}
+          ctaText={proposal.ctaText}
         />
       </div>
     </main>
