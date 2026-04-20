@@ -797,3 +797,264 @@ export function BentoComparison() {
     </div>
   );
 }
+
+export function BentoMilexPortfolio() {
+  return (
+    <div className="w-full max-w-[500px] h-[300px] bg-[#0e131f] border border-white/10 rounded-3xl relative overflow-hidden group/portfolio">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#2ddc80]/5 to-transparent" />
+      
+      {/* Viewfinder HUD */}
+      <div className="absolute inset-4 border border-white/5 rounded-2xl pointer-events-none z-20">
+        <div className="absolute top-4 left-4 w-6 h-[1px] bg-[#2ddc80]/40" />
+        <div className="absolute top-4 left-4 w-[1px] h-6 bg-[#2ddc80]/40" />
+        <div className="absolute top-4 right-4 w-6 h-[1px] bg-[#2ddc80]/40" />
+        <div className="absolute top-4 right-4 w-[1px] h-6 bg-[#2ddc80]/40" />
+        <div className="absolute bottom-4 left-4 w-6 h-[1px] bg-[#2ddc80]/40" />
+        <div className="absolute bottom-4 left-4 w-[1px] h-6 bg-[#2ddc80]/40" />
+        <div className="absolute bottom-4 right-4 w-6 h-[1px] bg-[#2ddc80]/40" />
+        <div className="absolute bottom-4 right-4 w-[1px] h-6 bg-[#2ddc80]/40" />
+      </div>
+
+      <div className="p-8 h-full flex gap-6">
+        <div className="w-1/2 h-full bg-white/5 rounded-xl relative overflow-hidden">
+          <motion.img 
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 15, repeat: Infinity }}
+            src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=400" 
+            className="absolute inset-0 w-full h-full object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+          <div className="absolute bottom-4 left-4 flex flex-col gap-1">
+             <span className="text-[8px] font-black text-[#2ddc80] uppercase tracking-widest">Shutter: 1/125</span>
+             <span className="text-[10px] font-black text-white uppercase tracking-tighter">PORTFOLIO_V1.RAW</span>
+          </div>
+        </div>
+
+        <div className="flex-1 flex flex-col gap-4 py-2">
+           <div className="flex justify-between items-center">
+              <span className="text-[9px] font-black text-white/40 uppercase tracking-[0.2em]">Exif Data</span>
+              <div className="flex gap-1">
+                 <div className="w-1 h-1 rounded-full bg-[#2ddc80]" />
+                 <div className="w-1 h-1 rounded-full bg-[#2ddc80]/30" />
+              </div>
+           </div>
+           
+           <div className="flex flex-col gap-3">
+              {[
+                { label: 'ISO', val: '100' },
+                { label: 'F-STOP', val: 'f/1.8' },
+                { label: 'FOCUS', val: 'AUTO_AI' }
+              ].map((stat, i) => (
+                <div key={i} className="flex justify-between items-center py-2 border-b border-white/5">
+                   <span className="text-[7px] font-black text-white/30 uppercase tracking-widest">{stat.label}</span>
+                   <span className="text-[10px] font-black text-[#2ddc80] uppercase tracking-tighter">{stat.val}</span>
+                </div>
+              ))}
+           </div>
+
+           <div className="mt-auto h-12 w-full border border-[#2ddc80]/20 rounded-lg flex items-center justify-center bg-[#2ddc80]/5">
+              <span className="text-[8px] font-black text-[#2ddc80] uppercase tracking-[0.3em]">Cinematic Rendering</span>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function BentoMilexServices() {
+  return (
+    <div className="w-full max-w-[420px] h-[350px] bg-[#0e131f] border border-white/10 rounded-[3rem] p-10 relative overflow-hidden group">
+       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#2ddc80] to-transparent opacity-30" />
+       
+       <div className="flex flex-col h-full">
+          <div className="flex justify-between items-start mb-8">
+             <div className="flex flex-col gap-1">
+                <span className="text-[10px] font-black text-[#2ddc80] uppercase tracking-[0.4em]">Service Hub</span>
+                <h4 className="text-white font-black text-3xl tracking-tighter">Production Tiers</h4>
+             </div>
+             <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                <div className="w-4 h-4 bg-[#2ddc80] rounded-sm transform rotate-45" />
+             </div>
+          </div>
+
+          <div className="flex flex-col gap-4">
+             {[
+               { name: 'Cinematic Session', price: '300', active: true },
+               { name: 'Wedding Full Pack', price: '850', active: false },
+               { name: 'Commercial Post', price: '200', active: true }
+             ].map((svc, i) => (
+               <motion.div 
+                 key={i}
+                 whileHover={{ x: 5 }}
+                 className={`p-4 rounded-xl border ${svc.active ? 'border-[#2ddc80]/30 bg-[#2ddc80]/5' : 'border-white/5 bg-white/[0.02] opacity-50'} flex justify-between items-center transition-all`}
+               >
+                  <div className="flex items-center gap-3">
+                     <div className={`w-2 h-2 rounded-full ${svc.active ? 'bg-[#2ddc80] shadow-[0_0_8px_#2ddc80]' : 'bg-white/20'}`} />
+                     <span className="text-xs font-black text-white uppercase tracking-tight">{svc.name}</span>
+                  </div>
+                  <span className="text-xs font-bold text-white/40">${svc.price}</span>
+               </motion.div>
+             ))}
+          </div>
+
+          <div className="mt-auto flex justify-between items-center pt-6 border-t border-white/5 text-[9px] font-black text-white/30 uppercase tracking-[0.3em]">
+             <span>Dynamic Pricing</span>
+             <span className="text-[#2ddc80]">Market Optimized</span>
+          </div>
+       </div>
+    </div>
+  );
+}
+
+export function BentoMilexBooking() {
+  return (
+    <div className="w-full max-w-[360px] h-[360px] bg-[#0e131f] border border-white/10 rounded-[3.5rem] p-8 relative overflow-hidden group">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,220,128,0.05)_0%,transparent_70%)]" />
+      
+      <div className="relative z-10 h-full flex flex-col">
+        <div className="flex items-center gap-3 mb-8">
+           <div className="w-8 h-8 rounded-lg bg-[#2ddc80]/20 flex items-center justify-center">
+              <svg className="w-4 h-4 text-[#2ddc80]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+           </div>
+           <div className="flex flex-col">
+              <span className="text-[8px] font-black text-[#2ddc80] uppercase tracking-[0.2em]">Booking Logic</span>
+              <span className="text-[12px] font-black text-white uppercase tracking-widest">April 2026</span>
+           </div>
+        </div>
+
+        <div className="grid grid-cols-7 gap-2 mb-6">
+           {[...Array(28)].map((_, i) => {
+             const isBooked = [4, 7, 12, 15, 22].includes(i + 1);
+             return (
+               <motion.div 
+                 key={i}
+                 whileHover={{ scale: 1.1 }}
+                 className={`aspect-square rounded-lg flex items-center justify-center border ${isBooked ? 'bg-[#2ddc80]/40 border-[#2ddc80]/60' : 'bg-white/5 border-white/10 hover:border-[#2ddc80]/40'} transition-all cursor-pointer`}
+               >
+                  <span className={`text-[8px] font-bold ${isBooked ? 'text-white' : 'text-white/20'}`}>{i + 1}</span>
+               </motion.div>
+             );
+           })}
+        </div>
+
+        <div className="mt-auto p-4 bg-[#2ddc80] rounded-2xl flex items-center justify-center shadow-[0_15px_30px_-10px_rgba(45,220,128,0.5)] group-hover:scale-[1.02] transition-transform">
+           <span className="text-[10px] font-black text-[#0e131f] uppercase tracking-[0.3em]">Confirm Reservation</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function BentoMilexPayments() {
+  return (
+    <div className="w-full max-w-[420px] h-[300px] bg-[#0e131f] border border-white/10 rounded-[2.5rem] p-10 relative overflow-hidden group">
+      <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#2ddc80]/5 rounded-full blur-[100px]" />
+      
+      <div className="flex flex-col h-full">
+        <div className="flex justify-between items-start mb-10">
+           <div className="flex flex-col gap-1">
+              <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">Transaction</span>
+              <h4 className="text-white font-black text-3xl tracking-tighter">Payment Verified</h4>
+           </div>
+           <div className="px-4 py-2 bg-[#2ddc80]/10 border border-[#2ddc80]/30 rounded-full flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-[#2ddc80] animate-pulse" />
+              <span className="text-[9px] font-black text-[#2ddc80] uppercase tracking-widest">SECURE</span>
+           </div>
+        </div>
+
+        <div className="flex items-center gap-8">
+           {/* Glow Card Visual */}
+           <div className="w-32 h-20 bg-gradient-to-br from-white/10 to-white/5 rounded-xl border border-white/10 p-4 relative group-hover:border-[#2ddc80]/40 transition-colors">
+              <div className="w-6 h-4 bg-[#2ddc80]/40 rounded-sm mb-4" />
+              <div className="flex gap-1">
+                 <div className="w-2 h-1 bg-white/20 rounded-full" />
+                 <div className="w-2 h-1 bg-white/20 rounded-full" />
+                 <div className="w-2 h-1 bg-white/20 rounded-full" />
+                 <div className="w-6 h-1 bg-white/40 rounded-full" />
+              </div>
+              <motion.div 
+                animate={{ x: [0, 10, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-[#2ddc80] rounded-full blur-md opacity-40" 
+              />
+           </div>
+
+           <div className="flex flex-col gap-2">
+              <span className="text-[24px] font-black text-white tracking-widest">$200.00</span>
+              <span className="text-[9px] font-black text-[#2ddc80] uppercase tracking-[0.3em]">Session Deposit (50%)</span>
+           </div>
+        </div>
+
+        <div className="mt-auto h-2 w-full bg-white/5 rounded-full overflow-hidden">
+           <motion.div 
+             initial={{ width: 0 }}
+             whileInView={{ width: '100%' }}
+             transition={{ duration: 2, ease: "easeInOut" }}
+             className="h-full bg-[#2ddc80]" 
+           />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function BentoMilexNotifications() {
+  return (
+    <div className="w-full max-w-[360px] h-[400px] bg-[#0e131f] border border-white/10 rounded-[3rem] p-8 relative overflow-hidden group">
+      <div className="absolute inset-0 bg-[#2ddc80]/3 opacity-[0.02]" />
+      
+      <div className="relative z-10 flex flex-col h-full">
+         <div className="flex items-center justify-between mb-8">
+            <span className="text-[10px] font-black text-[#2ddc80] uppercase tracking-[0.4em]">Automation Hub</span>
+            <div className="w-6 h-6 rounded-full border border-white/10 flex items-center justify-center">
+               <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80]" />
+            </div>
+         </div>
+
+         <div className="flex flex-col gap-4">
+            {[
+              { type: 'Booking', msg: 'New Session Reserved', time: '2m ago' },
+              { type: 'Payment', msg: 'Deposit Received', time: '15m ago' },
+              { type: 'Reminder', msg: 'Session Reminder Sent', time: '1h ago' },
+              { type: 'System', msg: 'Calendar Synced', time: 'Now' }
+            ].map((node, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl flex flex-col gap-1 relative overflow-hidden"
+              >
+                 <div className="absolute top-0 right-0 w-12 h-12 bg-[#2ddc80]/5 rounded-bl-3xl" />
+                 <div className="flex justify-between items-center text-[7px] font-black uppercase tracking-widest text-[#2ddc80]/60">
+                    <span>{node.type} Node</span>
+                    <span className="text-white/20">{node.time}</span>
+                 </div>
+                 <span className="text-[10px] font-black text-white uppercase tracking-tight">{node.msg}</span>
+              </motion.div>
+            ))}
+         </div>
+
+         <div className="mt-auto pt-6 flex flex-col gap-3">
+            <div className="flex items-center gap-4">
+               <div className="flex-1 h-[1px] bg-white/10" />
+               <span className="text-[7px] font-black text-white/20 uppercase tracking-[0.5em]">Realtime Stream</span>
+               <div className="flex-1 h-[1px] bg-white/10" />
+            </div>
+            <div className="flex justify-center gap-4">
+               {[...Array(4)].map((_, i) => (
+                 <motion.div 
+                   key={i}
+                   animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+                   transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
+                   className="w-1.5 h-1.5 rounded-full bg-[#2ddc80]" 
+                 />
+               ))}
+            </div>
+         </div>
+      </div>
+    </div>
+  );
+}

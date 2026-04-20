@@ -10,6 +10,8 @@ interface PhaseItem {
   description: string;
   bullets?: string[];
   tag?: string;
+  tagLabel?: string;
+  image?: string;
   icon?: string;
 }
 
@@ -97,12 +99,24 @@ export default function PhaseSection({ phase }: PhaseProps) {
                   {/* Luxury Card Texture Layer - Extreme Fine Grain */}
                   <div className="absolute inset-0 z-0 opacity-[0.25] bg-[url('/images/texture.png')] bg-repeat bg-[length:50px_50px] pointer-events-none" />
 
+                  {/* Absolute Status Tag - Cool Small Tag */}
+                  {item.tagLabel && (
+                    <div className="absolute top-6 right-6 md:top-10 md:right-10 z-30">
+                      <div className="px-3 py-1.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full flex items-center gap-2 group-hover:border-[#2ddc80]/30 transition-colors">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] animate-pulse shadow-[0_0_8px_#2ddc80]" />
+                        <span className="text-white font-black text-[9px] uppercase tracking-[0.2em]">
+                          {item.tagLabel}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
                   {/* 
                      Luxury Gradient Border
                      A pseudo-border that is transparent at the top and emerald at the bottom 
                   */}
                   <div 
-                    className="absolute inset-0 rounded-[1.5rem] md:rounded-[2.5rem] border-[2.5px] border-transparent transition-all duration-500 z-10"
+                    className="absolute inset-0 rounded-[1.5rem] md:rounded-[2.5rem] border-[2.5px] border-transparent transition-all duration-500 z-10 pointer-events-none"
                     style={{
                       maskImage: 'linear-gradient(to bottom, transparent, black)',
                       WebkitMaskImage: 'linear-gradient(to bottom, transparent 20%, black 100%)',
@@ -114,7 +128,7 @@ export default function PhaseSection({ phase }: PhaseProps) {
                   <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-[#2ddc80]/10 blur-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   {/* Content Block */}
-                  <div className="relative z-10 flex flex-col items-start p-10 md:p-14 pb-14 flex-1">
+                  <div className="relative z-10 flex flex-col items-start p-10 md:p-14 pb-8 flex-1">
                     {/* Semantic Icon at Top-Left */}
                     <div className="mb-8 flex-shrink-0 w-10 h-10 rounded-lg bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20 shadow-[0_0_20px_rgba(45,220,128,0.1)] group-hover:scale-110 transition-transform duration-500">
                       <IconComponent className="w-5 h-5 text-[#2ddc80]" strokeWidth={2.5} />
@@ -143,8 +157,22 @@ export default function PhaseSection({ phase }: PhaseProps) {
                     </div>
                   </div>
 
-                  {/* Full-width Graphics Block (Footer Style) */}
-                  {item.tag && (
+                  {/* Cinematic UI Image */}
+                  {item.image && (
+                    <div className="relative z-20 px-10 md:px-14 pb-14">
+                      <div className="relative rounded-2xl overflow-hidden border border-white/5 bg-black/40 group-hover:border-[#2ddc80]/20 transition-all duration-500 shadow-2xl">
+                        <img 
+                          src={item.image} 
+                          alt={item.title}
+                          className="w-full h-auto object-cover opacity-80 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Full-width Graphics Block (Legacy / Special Tags) */}
+                  {item.tag && !item.image && (
                     <div className="relative z-20 w-full mt-auto border-t border-white/5 bg-white/[0.01]">
                       <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover:scale-[1.01]">
                         {item.tag.startsWith('/') ? (
