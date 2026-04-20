@@ -29,7 +29,7 @@ interface ProposalData {
 export default function ProposalPage() {
   const params = useParams();
   const clientSlug = (params.client as string)?.toLowerCase();
-  const proposal = (proposalsData as Record<string, ProposalData>)[clientSlug];
+  const proposal = (proposalsData as any)[clientSlug] as ProposalData;
 
   if (!proposal) {
     return (
