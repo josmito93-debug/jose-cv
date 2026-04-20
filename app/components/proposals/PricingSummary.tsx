@@ -18,12 +18,11 @@ export default function PricingSummary({ phases, cta, lang = 'es', ctaText }: Pr
     const isFirst = i === 0;
     const isLast = i === phases.length - 1;
     
-    return {
       title: isFirst 
-        ? (lang === 'en' ? "Project Deposit" : "Reserva de Proyecto")
+        ? (lang === 'en' ? (phases.length === 1 ? "Full Project Investment" : "Project Deposit") : "Reserva de Proyecto")
         : (isLast ? (lang === 'en' ? "Final Delivery" : "Entrega Final") : phase.name),
       description: isFirst 
-        ? (lang === 'en' ? "We initiate the process with the starting investment for production." : "Iniciamos con el pago inicial para el desarrollo de activos.") 
+        ? (lang === 'en' ? "Full 100% payment for the production and delivery of all high-end assets." : "Iniciamos con el pago inicial para el desarrollo de activos.") 
         : (lang === 'en' ? "Final balance for project completion and full asset delivery." : "Saldo para la entrega final de todos los activos."),
       amount: phase.investment,
       icon: isFirst ? <PlayCircle className="w-5 h-5" /> : <CheckCircle2 className="w-5 h-5" />,
