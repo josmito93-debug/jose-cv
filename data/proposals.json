@@ -428,7 +428,8 @@
               "Storytelling visual por proyecto",
               "Diseño Minimalista & Editorial"
             ],
-            "tag": "/tags/WEb desiing and UI.png"
+            "tagLabel": "CINEMA",
+            "tag": "milex-portfolio"
           },
           {
             "title": "Catálogo de Servicios Estratégicos",
@@ -439,7 +440,8 @@
               "Sesiones de Retrato & Moda",
               "Post-producción & Color Grading"
             ],
-            "tag": "/tags/WEb desiing and UI.png"
+            "tagLabel": "SERVICES",
+            "tag": "milex-services"
           },
           {
             "title": "Lead Acquisition & Contacto",
@@ -450,7 +452,8 @@
               "Links a redes sociales estratégicas",
               "Optimización para dispositivos móviles"
             ],
-            "tag": "/tags/SEO and google.png"
+            "tagLabel": "SEO & WEB",
+            "tag": "milex-notifications"
           }
         ]
       },
@@ -468,7 +471,8 @@
               "Gestión de sesiones y bloqueos de fecha",
               "Experiencia de reserva intuitiva"
             ],
-            "tag": "/tags/WEb desiing and UI.png"
+            "tagLabel": "WEB PRO",
+            "tag": "milex-booking"
           },
           {
             "title": "Pasarela de Pagos (Depósitos)",
@@ -479,7 +483,8 @@
               "Generación automática de recibos",
               "Gestión segura de datos financieros"
             ],
-            "tag": "/tags/WEb desiing and UI.png"
+            "tagLabel": "FINANCE",
+            "tag": "milex-payments"
           },
           {
             "title": "Automatización de Notificaciones",
@@ -490,7 +495,8 @@
               "Follow-up post-sesión automatizado",
               "Panel de administración para gestión total"
             ],
-            "tag": "/tags/SEO and google.png"
+            "tagLabel": "AUTOMATION",
+            "tag": "milex-notifications"
           }
         ]
       }

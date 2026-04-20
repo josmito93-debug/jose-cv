@@ -17,7 +17,12 @@ export type GraphicId =
   | 'coyo-data'
   | 'coyo-content'
   | 'coyo-events'
-  | 'coyo-comparison';
+  | 'coyo-comparison'
+  | 'milex-portfolio'
+  | 'milex-services'
+  | 'milex-booking'
+  | 'milex-payments'
+  | 'milex-notifications';
 
 interface GraphicResolverProps {
   id: GraphicId | string;
@@ -53,6 +58,16 @@ export default function GraphicResolver({ id }: GraphicResolverProps) {
       return <Bento.BentoEvents />;
     case 'coyo-comparison':
       return <Bento.BentoComparison />;
+    case 'milex-portfolio':
+      return <Bento.BentoMilexPortfolio />;
+    case 'milex-services':
+      return <Bento.BentoMilexServices />;
+    case 'milex-booking':
+      return <Bento.BentoMilexBooking />;
+    case 'milex-payments':
+      return <Bento.BentoMilexPayments />;
+    case 'milex-notifications':
+      return <Bento.BentoMilexNotifications />;
     default:
       return null;
   }
