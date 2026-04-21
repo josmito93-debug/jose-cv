@@ -40,7 +40,7 @@ export default function PaymentPage() {
   const [isSubmittingStripe, setIsSubmittingStripe] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "AQxpVIzS_RkU9bweuhLgEC_0xbuU6qEpRRhIqoKLI-dhnhYvMDTwBBFQnGn6XF_IVplsUsBgd9DHvOaV";
+  const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "AcNr82BD48pnlIl28HVmixKIjD_sDJ0K7Hg6FabJ8s1vIlWew7X98Y4KvTg83_aYY_PbFmpWBKXAGo5O";
 
   useEffect(() => {
     // Handle success/cancel status from Stripe redirect
