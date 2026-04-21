@@ -21,9 +21,12 @@ export async function POST(request: Request) {
     nextDueDate.setMonth(nextDueDate.getMonth() + 1);
 
     // Update the record
+    let status = 'PAID';
+    if (method === 'PAGO_MOVIL') status = 'PENDING_VERIFICATION';
+
     await airtableCRM.updateFields(record.id, {
-      'Payment Status': method === 'PAGO_MOVIL' ? 'PENDING_VERIFICATION' : 'PAID',
-      'Payment Method': method === 'PAGO_MOVIL' ? 'PAGO_MOVIL' : 'PAYPAL',
+      'Payment Status': status,
+      'Payment Method': method,
       'Payment Reference': subscriptionId,
       'Next Due Date': nextDueDate.toISOString().split('T')[0]
     });
