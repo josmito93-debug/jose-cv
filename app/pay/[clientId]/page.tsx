@@ -32,6 +32,7 @@ export default function PaymentPage() {
   const [loading, setLoading] = useState(true);
   const [paid, setPaid] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [debugInfo, setDebugInfo] = useState<string | null>(null);
 
   const [paymentTab, setPaymentTab] = useState<'stripe' | 'paypal' | 'pagomovil'>('stripe');
   const [referenceNumber, setReferenceNumber] = useState('');
@@ -106,7 +107,8 @@ export default function PaymentPage() {
           },
           onError: (err: any) => {
             console.error('PayPal Error:', err);
-            alert("PayPal no pudo abrir la opción de tarjeta. Es posible que el navegador esté bloqueando ventanas emergentes o que el comercio no admita pagos de tarjeta sin cuenta para suscripciones.");
+            setDebugInfo(JSON.stringify(err, null, 2) || "Error desconocido de PayPal");
+            alert("PayPal Error: " + (err?.message || "Revisa la información de depuración al final de la página."));
           }
         }).render('#paypal-button-container');
       }
@@ -128,10 +130,12 @@ export default function PaymentPage() {
       if (data.success && data.url) {
         window.location.href = data.url;
       } else {
+        setDebugInfo(JSON.stringify(data, null, 2));
         alert("Error al iniciar pago con Stripe: " + (data.error || "Desconocido"));
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setDebugInfo(err.message || "Error de red");
       alert("Error de conexión con el servidor de pagos.");
     } finally {
       setIsSubmittingStripe(false);
@@ -400,6 +404,15 @@ export default function PaymentPage() {
             <Zap className="w-6 h-6" />
             <ShieldCheck className="w-6 h-6" />
         </div>
+
+        {debugInfo && (
+          <div className="mt-8 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl">
+            <p className="text-[10px] font-black text-red-400 uppercase tracking-widest mb-2">Debug Info</p>
+            <pre className="text-[9px] text-zinc-400 overflow-auto max-h-40 whitespace-pre-wrap">
+              {debugInfo}
+            </pre>
+          </div>
+        )}
       </motion.div>
     </div>
   );
