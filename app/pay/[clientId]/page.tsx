@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShieldCheck, 
@@ -13,7 +13,8 @@ import {
   Globe,
   Lock,
   Copy,
-  Smartphone
+  Smartphone,
+  ChevronRight
 } from 'lucide-react';
 
 declare global {
@@ -24,17 +25,28 @@ declare global {
 
 export default function PaymentPage() {
   const { clientId: clientUrlId } = useParams();
+  const searchParams = useSearchParams();
+  const status = searchParams.get('status');
+
   const [client, setClient] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [paid, setPaid] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [paymentTab, setPaymentTab] = useState<'paypal' | 'pagomovil'>('paypal');
+  const [paymentTab, setPaymentTab] = useState<'stripe' | 'paypal' | 'pagomovil'>('stripe');
   const [referenceNumber, setReferenceNumber] = useState('');
   const [isSubmittingPM, setIsSubmittingPM] = useState(false);
+  const [isSubmittingStripe, setIsSubmittingStripe] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   const PAYPAL_CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "AQxpVIzS_RkU9bweuhLgEC_0xbuU6qEpRRhIqoKLI-dhnhYvMDTwBBFQnGn6XF_IVplsUsBgd9DHvOaV";
+
+  useEffect(() => {
+    // Handle success/cancel status from Stripe redirect
+    if (status === 'success') {
+      setPaid(true);
+    }
+  }, [status]);
 
   useEffect(() => {
     const fetchClient = async () => {
@@ -104,6 +116,27 @@ export default function PaymentPage() {
       /* Do not aggressively remove script to allow switching tabs back and forth smoothly */
     };
   }, [client, paid, paymentTab, PAYPAL_CLIENT_ID]);
+  const handleStripeSubmit = async () => {
+    setIsSubmittingStripe(true);
+    try {
+      const res = await fetch('/api/payment/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId: client.id || clientUrlId })
+      });
+      const data = await res.json();
+      if (data.success && data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Error al iniciar pago con Stripe: " + (data.error || "Desconocido"));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error de conexión con el servidor de pagos.");
+    } finally {
+      setIsSubmittingStripe(false);
+    }
+  };
 
   const handlePagoMovilSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -206,6 +239,12 @@ export default function PaymentPage() {
 
                       <div className="flex bg-black/50 border border-white/5 rounded-2xl p-1 gap-2">
                          <button 
+                            onClick={() => setPaymentTab('stripe')}
+                            className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${paymentTab === 'stripe' ? 'bg-indigo-600 text-white shadow-lg' : 'text-zinc-500 hover:text-white'}`}
+                         >
+                            Tarjeta
+                         </button>
+                         <button 
                             onClick={() => setPaymentTab('paypal')}
                             className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${paymentTab === 'paypal' ? 'bg-indigo-600 text-white shadow-lg' : 'text-zinc-500 hover:text-white'}`}
                          >
@@ -215,9 +254,39 @@ export default function PaymentPage() {
                             onClick={() => setPaymentTab('pagomovil')}
                             className={`flex-1 py-3 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${paymentTab === 'pagomovil' ? 'bg-emerald-600 text-white shadow-lg' : 'text-zinc-500 hover:text-white'}`}
                          >
-                            <Smartphone className="w-4 h-4" /> Pago Móvil
+                            Pago Móvil
                          </button>
                       </div>
+
+                      {paymentTab === 'stripe' && (
+                        <div className="space-y-6 animate-in fade-in zoom-in-95 duration-300">
+                           <div className="p-6 bg-white/5 border border-white/10 rounded-2xl space-y-4">
+                              <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 bg-indigo-500/10 rounded-full flex items-center justify-center">
+                                   <CreditCard className="w-5 h-5 text-indigo-400" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-bold text-white">Pago con Tarjeta</p>
+                                  <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-black">Powered by Stripe</p>
+                                </div>
+                              </div>
+                              <p className="text-xs text-zinc-400 leading-relaxed">
+                                Serás redirigido al portal seguro de Stripe para configurar tu suscripción mensual de <span className="text-white font-bold">$30.00</span>.
+                              </p>
+                           </div>
+                           <button 
+                             onClick={handleStripeSubmit}
+                             disabled={isSubmittingStripe}
+                             className="w-full flex items-center justify-center gap-3 bg-white text-black hover:bg-zinc-200 disabled:opacity-50 font-black py-4 rounded-2xl transition-all text-sm uppercase tracking-tighter italic"
+                           >
+                              {isSubmittingStripe ? <Loader2 className="w-5 h-5 animate-spin" /> : (
+                                <>
+                                  Continuar al Pago <ChevronRight className="w-4 h-4" />
+                                </>
+                              )}
+                           </button>
+                        </div>
+                      )}
 
                       {paymentTab === 'paypal' && (
                         <div className="space-y-4">
@@ -305,11 +374,11 @@ export default function PaymentPage() {
                         <CheckCircle2 className="w-10 h-10 text-emerald-400" />
                     </div>
                     <div className="space-y-2">
-                        {paymentTab === 'paypal' ? (
+                        {paymentTab === 'stripe' || paymentTab === 'paypal' ? (
                           <>
                             <h2 className="text-2xl font-black text-white uppercase italic">Facturación Activa</h2>
                             <p className="text-zinc-500 text-sm px-6">
-                                Tu pago automático fue completado. Los nodos de Universa se han sincronizado con tu cuenta.
+                                Tu suscripción automática fue configurada exitosamente. Los nodos de Universa se han sincronizado con tu cuenta.
                             </p>
                           </>
                         ) : (
