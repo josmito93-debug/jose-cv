@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'VisbyCF-Bold';
+  src: url('/fonts/VisbyCF-BoldOblique.otf') format('opentype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'VisbyCF-Heavy';
+  src: url('/fonts/VisbyCF-HeavyOblique.otf') format('opentype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'VisbyCF-Medium';
+  src: url('/fonts/VisbyCF-Medium.otf') format('opentype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'VisbyCF-Light';
+  src: url('/fonts/VisbyCF-Light.otf') format('opentype');
+  font-weight: 300;
+}

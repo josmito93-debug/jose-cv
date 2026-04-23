@@ -1,0 +1,22 @@
+{
+  "name": "remotion-cava-ad",
+  "version": "1.0.0",
+  "description": "Video ad for Cava Khaled using Remotion",
+  "scripts": {
+    "start": "remotion preview",
+    "build": "remotion render src/index.tsx AdComposition out/cava-ad.mp4"
+  },
+  "dependencies": {
+    "remotion": "4.0.222",
+    "@remotion/cli": "4.0.222",
+    "@remotion/fonts": "4.0.222",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "lucide-react": "^0.263.1",
+    "zod": "3.22.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0"
+  }
+}
