@@ -98,6 +98,7 @@ export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug
         <PricingSummary 
           phases={proposal.phases} 
           cta={proposal.cta} 
+          clientSlug={clientSlug}
           lang={proposal.lang}
           ctaText={proposal.ctaText}
         />

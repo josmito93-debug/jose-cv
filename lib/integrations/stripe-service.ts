@@ -72,6 +72,36 @@ export const stripeService = {
   },
 
   /**
+   * Create a Checkout Session for a one-time payment
+   */
+  async createOneTimePaymentSession(clientId: string, amount: number, description: string, successUrl: string, cancelUrl: string) {
+    const session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: description,
+              description: 'One-time payment for digital services by Universa Agency',
+            },
+            unit_amount: amount * 100, // amount in cents
+          },
+          quantity: 1,
+        },
+      ],
+      metadata: {
+        clientId,
+      },
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+    });
+
+    return session.url;
+  },
+
+  /**
    * Verify signature for webhooks
    */
   constructEvent(body: string, sig: string, secret: string) {
