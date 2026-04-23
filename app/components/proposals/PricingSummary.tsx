@@ -2,16 +2,45 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Wallet, CheckCircle2, PlayCircle } from 'lucide-react';
+import { ArrowRight, Wallet, CheckCircle2, PlayCircle, Loader2, CreditCard } from 'lucide-react';
 
 interface PricingSummaryProps {
   phases: Array<{ name: string; investment: number }>;
   cta: string;
+  clientSlug?: string;
   lang?: 'en' | 'es';
   ctaText?: string;
 }
 
-export default function PricingSummary({ phases, cta, lang = 'es', ctaText }: PricingSummaryProps) {
+export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', ctaText }: PricingSummaryProps) {
+  const [isPaying, setIsPaying] = React.useState(false);
+
+  const handlePayDeposit = async () => {
+    if (!clientSlug) return;
+    setIsPaying(true);
+    try {
+      const res = await fetch('/api/payment/stripe/one-time', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          clientId: clientSlug,
+          amount: phases[0].investment,
+          description: `Deposit for ${phases[0].name}`
+        })
+      });
+      const data = await res.json();
+      if (data.success && data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Error al iniciar el pago: " + (data.error || "Desconocido"));
+      }
+    } catch (err) {
+      alert("Error de conexión al procesar el pago.");
+    } finally {
+      setIsPaying(false);
+    }
+  };
+
   const total = phases.reduce((acc, curr) => acc + curr.investment, 0);
   
   const milestones = phases.map((phase, i) => {
@@ -84,15 +113,34 @@ export default function PricingSummary({ phases, cta, lang = 'es', ctaText }: Pr
               </div>
             </motion.div>
 
-            <motion.a
-              href={cta}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full inline-flex items-center justify-center gap-4 bg-[#2ddc80] text-[#0e131f] px-12 py-6 rounded-[1.5rem] md:rounded-[2rem] font-black text-xl uppercase tracking-tighter shadow-[0_20px_40px_-15px_rgba(45,220,128,0.4)]"
-            >
-              {ctaText || (lang === 'en' ? 'Accept Proposal' : 'Aceptar Propuesta')}
-              <ArrowRight className="w-6 h-6" strokeWidth={3} />
-            </motion.a>
+            <div className="flex flex-col gap-4 w-full">
+              <motion.button
+                onClick={handlePayDeposit}
+                disabled={isPaying}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full inline-flex items-center justify-center gap-4 bg-white text-[#0e131f] px-12 py-6 rounded-[1.5rem] md:rounded-[2rem] font-black text-xl uppercase tracking-tighter shadow-[0_20px_40px_-15px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.2)] transition-all disabled:opacity-50"
+              >
+                {isPaying ? (
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                ) : (
+                  <>
+                    {lang === 'en' ? 'Pay Project Deposit' : 'Pagar Reserva ($1,000)'}
+                    <CreditCard className="w-6 h-6" strokeWidth={3} />
+                  </>
+                )}
+              </motion.button>
+
+              <motion.a
+                href={cta}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full inline-flex items-center justify-center gap-4 bg-[#2ddc80]/10 border border-[#2ddc80]/30 text-[#2ddc80] px-12 py-5 rounded-[1.5rem] md:rounded-[2rem] font-black text-sm uppercase tracking-widest hover:bg-[#2ddc80]/20 transition-all"
+              >
+                {ctaText || (lang === 'en' ? 'Contact via WhatsApp' : 'Contactar por WhatsApp')}
+                <ArrowRight className="w-5 h-5" strokeWidth={3} />
+              </motion.a>
+            </div>
           </div>
 
           {/* Right Side: Visual Roadmap Diagram */}
