@@ -556,6 +556,89 @@
     ],
     "summary": "Latin Soul is not just an event; it's an experience. This pack ensures that every visual asset reflects the premium quality and vibrant energy of the brand, maximizing impact and memory.",
     "cta": "https://buy.stripe.com/test_28E6oz1XF34L3FB3kD7ss00"
+  },
+  "n1c4": {
+    "client": "N1C4 Barber Studio",
+    "status": "Ecosistema Digital Integrado",
+    "title": "PROPUESTA TÉCNICA: ECOSISTEMA DIGITAL INTEGRADO N1C4",
+    "phases": [
+      {
+        "id": 1,
+        "name": "INFRAESTRUCTURA WEB ROBUSTA",
+        "investment": 1000,
+        "items": [
+          {
+            "title": "Desarrollo en Dominio Propio",
+            "description": "Eliminamos la dependencia de portales externos. La reserva ocurre en tu dominio, fortaleciendo el SEO y la autoridad de marca.",
+            "bullets": [
+              "Propiedad total de la plataforma",
+              "Posicionamiento Local (Miami SEO)",
+              "Experiencia de marca coherente"
+            ],
+            "tag": "panenka-web"
+          },
+          {
+            "title": "Integración Nativa con API de Booksy",
+            "description": "Conexión directa mediante API REST y OAuth 2.0. Sincronización en tiempo real de disponibilidad, servicios y barberos.",
+            "bullets": [
+              "Sincronización instantánea",
+              "Sin redirecciones externas",
+              "Flujo de reserva inmersivo"
+            ],
+            "tag": "milex-booking"
+          },
+          {
+            "title": "Arquitectura High-Fidelity",
+            "description": "Diseño optimizado para dispositivos móviles con tiempos de carga ultrarrápidos, esencial para campañas de marketing.",
+            "bullets": [
+              "Mobile-First performance",
+              "Diseño de alta gama",
+              "Optimizado para conversión (CRO)"
+            ],
+            "tag": "panenka-design"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "AGENTE IA & ECOSISTEMA DE GESTIÓN",
+        "investment": 1000,
+        "items": [
+          {
+            "title": "Agente de Inteligencia Artificial (Concierge 24/7)",
+            "description": "Un recepcionista de élite automatizado para N1C4.",
+            "bullets": [
+              "Voz hiperrealista (ElevenLabs)",
+              "Gestión de llamadas y WhatsApp",
+              "Recordatorios inteligentes (Booksy API)",
+              "Reducción de No-Shows"
+            ],
+            "tag": "coyo-content"
+          },
+          {
+            "title": "Dashboard de Comando (Portal de Gestión)",
+            "description": "Portal exclusivo para supervisar toda la operación en tiempo real.",
+            "bullets": [
+              "Registro de conversaciones",
+              "Analítica de citas (Confirmadas vs Canceladas)",
+              "Métricas de efectividad del agente"
+            ],
+            "tag": "coyo-data"
+          },
+          {
+            "title": "Marketing e Inteligencia de Datos",
+            "description": "Implementación avanzada para medir el comportamiento y maximizar el ROI.",
+            "bullets": [
+              "Píxel de Meta & Google Analytics",
+              "Seguimiento de conversiones",
+              "Optimización de anuncios avanzada"
+            ],
+            "tag": "panenka-advantage"
+          }
+        ]
+      }
+    ],
+    "summary": "Tu negocio deja de ser un link en una plataforma ajena para convertirse en un destino digital propio. Eficiencia operativa y retorno de inversión garantizado.",
+    "cta": "https://wa.me/17863024923"
   }
-
 }
