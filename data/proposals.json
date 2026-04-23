@@ -577,8 +577,7 @@
               "Independencia de Portales Externos"
             ],
             "tag": "panenka-web",
-            "tagLabel": "LIVE DOMAIN",
-            "ctaText": "RESERVE NOW",
+            "tagImage": "/tags/WEb desiing and UI.png",
             "ctaLink": "https://n1c4.com"
           },
           {
@@ -590,7 +589,7 @@
               "Checkout sin Redirecciones"
             ],
             "tag": "milex-booking",
-            "tagLabel": "API ACTIVE"
+            "tagImage": "/tags/WEb desiing and UI.png"
           },
           {
             "title": "Experiencia de Usuario High-Fidelity",
@@ -601,7 +600,7 @@
               "Optimizado para Mobile Conversions"
             ],
             "tag": "panenka-design",
-            "tagLabel": "60FPS DESIGN"
+            "tagImage": "/tags/Graphic desing.png"
           }
         ]
       },
@@ -620,7 +619,7 @@
               "Reducción Drástica de No-Shows"
             ],
             "tag": "n8n-flow",
-            "tagLabel": "AI HUB"
+            "tagImage": "/tags/SEO and google.png"
           },
           {
             "title": "Dashboard de Comando & Analítica",
@@ -631,7 +630,7 @@
               "Previsión de Ingresos"
             ],
             "tag": "coyo-data",
-            "tagLabel": "BI ANALYTICS"
+            "tagImage": "/tags/SEO and google.png"
           }
         ]
       }
