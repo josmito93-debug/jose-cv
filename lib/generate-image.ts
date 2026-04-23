@@ -1,20 +1,21 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const API_KEY = process.env.GOOGLE_AI_API_KEY || 'AIzaSyDqh9Jx3jbSBFUaPV6EJM9BAkYt3tqZDf4';
+const API_KEY = process.env.GOOGLE_AI_API_KEY || process.env.GEMINI_API_KEY;
 
 export async function generateImage(prompt: string) {
   try {
-    const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp-image-generation' });
+    const genAI = new GoogleGenerativeAI(API_KEY || '');
+    // gemini-2.5-flash es el modelo con cuota verificada en mis pruebas
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
     
-    console.log('Generated image response:', text);
+    console.log('Generated response:', text);
     return text;
   } catch (error) {
-    console.error('Error generating image:', error);
+    console.error('Error in generation:', error);
     throw error;
   }
 }
@@ -25,10 +26,10 @@ export async function testImageGeneration() {
   
   try {
     const result = await generateImage(prompt);
-    console.log('Image generated successfully:', result);
+    console.log('Generation successful:', result);
     return result;
   } catch (error) {
-    console.error('Failed to generate image:', error);
+    console.error('Failed generation:', error);
     return null;
   }
 }

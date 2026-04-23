@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import axios from 'axios';
 
-// Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+const MODEL_NAME = 'gemini-2.5-flash';
 
-// Import existing BUSINESS_FIELDS from original file conceptually, or redefine them here for reference
 const BUSINESS_FIELDS: Record<string, { label: string; icon: string }> = {
   businessName: { label: 'Nombre del Negocio', icon: '🏢' },
   businessType: { label: 'Tipo de Negocio', icon: '🛍️' },
@@ -29,28 +28,18 @@ export interface BusinessInfo {
   timestamp: string;
 }
 
-interface Message {
-  role: 'user' | 'assistant' | 'model';
-  content: string;
-}
-
 const SYSTEM_PROMPT = `
 Eres Attom, la Inteligencia Artificial de Universa Agency encargada de la arquitectura de ecosistemas digitales. 
 Tu misión no es recolectar datos, sino DESCUBRIR la esencia del negocio para proyectarla en una web de alta gama.
 
 DATOS QUE DEBES EXTRAER (Identifiers):
 - businessName: Nombre comercial.
-- businessType: Tipo de negocio (Restaurante, SaaS, etc).
+- businessType: Tipo de negocio.
 - valueProp: El "por qué" el cliente debería elegirlos.
 - contact: WhatsApp o Email.
 - brandStyle: Vibración (Minimalista, Lujoso, Tecnológico).
 - industry: Sector específico.
 - reference: Instagram o web actual.
-
-CRITERIOS:
-1. Habla como un consultor de tecnología de Silicon Valley: sofisticado, minimalista y visionario.
-2. NUNCA preguntes como un formulario. Si te dan un dato, elógialo analíticamente y haz la siguiente pregunta estratégica.
-3. Si el usuario envía una URL, el contenido scrapeado se te proporcionará. Úsalo para validar y autocompletar campos sin preguntar lo que ya sabes.
 
 FORMATO DE RESPUESTA (JSON):
 {
@@ -59,33 +48,32 @@ FORMATO DE RESPUESTA (JSON):
     { "field": "identifier", "value": "Texto extraído o inferido" }
   ]
 }
-
-NUNCA respondas con texto plano fuera del JSON.
 `;
 
-// Helper: Scrape URL content
 async function scrapeUrl(url: string): Promise<string> {
   try {
-    const { data } = await axios.get(url, { 
-      timeout: 8000,
-      headers: { 'User-Agent': 'Mozilla/5.0 (JF.OS Attom Bot)' }
-    });
+    const { data } = await axios.get(url, { timeout: 5000 });
     const titleMatch = data.match(/<title[^>]*>([^<]+)<\/title>/i);
-    const title = titleMatch ? titleMatch[1] : '';
-    const metaDescMatch = data.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["'][^>]*>/i);
-    const metaDesc = metaDescMatch ? metaDescMatch[1] : '';
-    const bodyMatch = data.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-    let textContent = '';
-    if (bodyMatch) {
-      let cleanBody = bodyMatch[1].replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
-      cleanBody = cleanBody.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
-      cleanBody = cleanBody.replace(/<[^>]+>/g, ' ');
-      cleanBody = cleanBody.replace(/\s+/g, ' ').trim();
-      textContent = cleanBody.substring(0, 3000);
-    }
-    return `Título Web: ${title}\nMeta Descripción: ${metaDesc}\nContenido: ${textContent}`;
+    const textContent = data.replace(/<[^>]+>/g, ' ').substring(0, 2000);
+    return `Título: ${titleMatch ? titleMatch[1] : ''}\nContenido: ${textContent}`;
   } catch (error) {
     return 'No se pudo acceder al contenido.';
+  }
+}
+
+async function generateWithRetry(prompt: string, retries = 3) {
+  const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+  for (let i = 0; i < retries; i++) {
+    try {
+      const result = await model.generateContent(prompt);
+      return (await result.response).text();
+    } catch (error: any) {
+      if ((error.message?.includes('503') || error.message?.includes('429')) && i < retries - 1) {
+        await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+        continue;
+      }
+      throw error;
+    }
   }
 }
 
@@ -94,22 +82,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { messages, currentInfo } = body;
 
-    const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-    if (!apiKey) {
-      console.error('CRITICAL: GEMINI_API_KEY is missing in environment.');
-      return NextResponse.json({
-        response: 'ERR_CONFIG: La API Key de Gemini no está configurada en los Secretos de Vercel.',
-        extractedInfo: [],
-        success: false
-      }, { status: 500 });
-    }
-
     if (!messages || messages.length === 0) {
-      return NextResponse.json({
-        response: '¡Protocolo Attom Iniciado! Soy tu arquitecto digital. ¿Cuál es el nombre de tu proyecto?',
-        extractedInfo: [],
-        success: true
-      });
+      return NextResponse.json({ response: '¡Hola! Soy tu arquitecto digital. ¿Cuál es el nombre de tu proyecto?', extractedInfo: [] });
     }
 
     const lastUserMessage = messages[messages.length - 1]?.content || '';
@@ -117,82 +91,32 @@ export async function POST(request: NextRequest) {
     const urls = lastUserMessage.match(urlRegex);
     let scrapedContext = '';
 
-    if (urls && urls.length > 0) {
+    if (urls) {
       for (const url of urls) {
-        scrapedContext += `\n\nCONTENIDO EXTRAÍDO DE ${url}:\n`;
         scrapedContext += await scrapeUrl(url);
       }
     }
 
-    // Build History
-    const historyText = messages.slice(-6).map((m: any) => `${m.role === 'user' ? 'USER' : 'ATTOM'}: ${m.content}`).join('\n');
-    
-    const prompt = `
-${SYSTEM_PROMPT}
+    const historyText = messages.slice(-5).map((m: any) => `${m.role}: ${m.content}`).join('\n');
+    const prompt = `${SYSTEM_PROMPT}\n\nCONTEXTO ACTUAL: ${JSON.stringify(currentInfo || [])}\n\nSCRAPING: ${scrapedContext}\n\nHISTORIAL:\n${historyText}\n\nUSUARIO: ${lastUserMessage}\n\nResponde estrictamente en JSON.`;
 
-CONTEXTO ACTUAL RECOPILADO:
-${JSON.stringify(currentInfo || [])}
+    const responseText = await generateWithRetry(prompt);
+    if (!responseText) throw new Error('No se pudo generar respuesta');
 
-${scrapedContext ? `CONTEXTO EXTERNO (Web Scraping):\n${scrapedContext}\n` : ''}
+    const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+    const parsedData = JSON.parse(cleanedJson);
 
-ULTIMOS MENSAJES:
-${historyText}
-
-NUEVO MENSAJE DEL USUARIO:
-${lastUserMessage}
-
-Responde extrictamente en JSON. Asegúrate de incluir por lo menos el campo "response".
-`;
-
-    // Setup Gemini
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
-    // Use a slightly more robust generation
-    const result = await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.7,
-        topP: 0.8,
-        topK: 40,
-        maxOutputTokens: 1024,
-        // We'll trust the prompt for JSON if responseMimeType is causing issues in some environments
-      }
-    });
-
-    const responseText = result.response.text();
-    
-    let parsedData;
-    try {
-      // Robust JSON cleaning
-      const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
-      parsedData = JSON.parse(cleanedJson);
-    } catch (e) {
-      console.error("RAW AI RESPONSE:", responseText);
-      const match = responseText.match(/\{[\s\S]*\}/);
-      if (match) {
-        parsedData = JSON.parse(match[0]);
-      } else {
-        return NextResponse.json({
-          response: 'He tenido una interferencia en la señal. ¿Puedes repetirme eso de forma más sencilla?',
-          extractedInfo: [],
-          success: false
-        });
-      }
-    }
-
-    // Process extracted info
     const extractedInfo: BusinessInfo[] = [];
-    if (parsedData.extractedInfo && Array.isArray(parsedData.extractedInfo)) {
+    if (parsedData.extractedInfo) {
       parsedData.extractedInfo.forEach((item: any) => {
-        if (!item.field || !item.value) return;
-        const fieldMeta = BUSINESS_FIELDS[item.field];
-        if (fieldMeta) {
+        const meta = BUSINESS_FIELDS[item.field];
+        if (meta) {
           extractedInfo.push({
             id: `${item.field}-${Date.now()}`,
             field: item.field,
-            label: fieldMeta.label,
+            label: meta.label,
             value: item.value,
-            icon: fieldMeta.icon,
+            icon: meta.icon,
             confirmed: true,
             timestamp: new Date().toISOString()
           });
@@ -200,26 +124,9 @@ Responde extrictamente en JSON. Asegúrate de incluir por lo menos el campo "res
       });
     }
 
-    return NextResponse.json({
-      response: parsedData.response || "Excelente punto. ¿Qué más debería saber?",
-      extractedInfo,
-      success: true
-    });
+    return NextResponse.json({ response: parsedData.response, extractedInfo, success: true });
 
   } catch (error: any) {
-    console.error('CRITICAL ERROR in chat-collector:', error);
-    return NextResponse.json({
-      response: `FALLO_NEURONAL: ${error.message || 'Error desconocido'}. ¿Podemos intentarlo de nuevo?`,
-      extractedInfo: [],
-      success: false
-    }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
-}
-
-export async function GET() {
-  return NextResponse.json({
-    status: 'ok',
-    mode: 'ATTO-GEMINI (AI Powered)',
-    message: 'Attom Chat Collector is active with Gemini and Web Scraping capabilities.'
-  });
 }
