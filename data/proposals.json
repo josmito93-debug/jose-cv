@@ -601,6 +601,18 @@
             ],
             "tag": "panenka-design",
             "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Marketing & Inteligencia de Datos",
+            "description": "Estrategia integral para dominar el mercado local. Implementamos las herramientas necesarias para medir, analizar y escalar tu negocio.",
+            "bullets": [
+              "Copywriting Profesional (Ventas)",
+              "Optimización SEO Avanzada",
+              "Google Analytics & Site Map",
+              "Pixel de Meta (Retargeting)"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
           }
         ]
       },
