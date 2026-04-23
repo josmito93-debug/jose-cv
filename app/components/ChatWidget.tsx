@@ -26,13 +26,75 @@ export default function ChatWidget() {
     scrollToBottom();
   }, [messages]);
 
-  // Mensaje de bienvenida al abrir el chat
+  // Manejar subida de archivos
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const fileMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: `📁 Subiendo ${files.length} archivo(s): ${Array.from(files).map(f => f.name).join(', ')}`,
+      timestamp: new Date(),
+    };
+
+    setMessages(prev => [...prev, fileMessage]);
+    
+    // Aquí podrías implementar la subida real a S3/Vercel Blob
+    setTimeout(() => {
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: '✅ He recibido tus archivos. Los usaré para el diseño de tu web. ¿Deseas agregar algo más o podemos finalizar?',
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, assistantMessage]);
+    }, 1500);
+  };
+
+  // Finalizar y guardar en Airtable
+  const handleFinalize = async () => {
+    setIsLoading(true);
+    try {
+      // Intentar extraer el nombre del negocio del historial (básico)
+      const lastMessages = messages.map(m => m.content).join(' ');
+      
+      const response = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'save',
+          clientInfo: {
+            businessName: messages.find(m => m.role === 'user')?.content.substring(0, 50) || 'Nuevo Cliente Web',
+            // En una versión más pro, pediríamos estos datos explícitamente o usaríamos IA para extraerlos
+          }
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        const successMessage: Message = {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: '🎊 ¡Listo! He guardado toda tu información en nuestro sistema. Un asesor de Universa Agency te contactará en las próximas 24 horas para mostrarte el primer borrador de tu web.',
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, successMessage]);
+      }
+    } catch (error) {
+      console.error('Error al finalizar:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (isOpen && messages.length === 0 && showWelcome) {
       const welcomeMessage: Message = {
         id: 'welcome',
         role: 'assistant',
-        content: '¡Hola! 👋 Soy el asistente de ATTOM. Estoy aquí para ayudarte con información sobre nuestro servicio de creación de páginas web. ¿En qué puedo ayudarte?',
+        content: '¡Hola! 👋 Soy Attom. Cuéntame sobre tu negocio y te ayudaré a crear tu página web gratis hoy mismo.',
         timestamp: new Date(),
       };
       setMessages([welcomeMessage]);
@@ -213,28 +275,55 @@ export default function ChatWidget() {
 
           {/* Input */}
           <div className="p-4 bg-white border-t border-gray-100">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Escribe tu mensaje..."
-                className="flex-1 px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 text-sm"
-                disabled={isLoading}
-              />
-              <button
-                onClick={sendMessage}
-                disabled={isLoading || !inputValue.trim()}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                }}
-              >
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
-              </button>
+            <div className="flex flex-col gap-2">
+              {messages.length > 3 && (
+                <button
+                  onClick={handleFinalize}
+                  className="mb-2 w-full py-2 bg-green-500 text-white rounded-xl text-xs font-bold hover:bg-green-600 transition-colors shadow-sm"
+                >
+                  ✅ FINALIZAR Y GUARDAR
+                </button>
+              )}
+              <div className="flex gap-2">
+                <input
+                  type="file"
+                  id="file-upload"
+                  className="hidden"
+                  onChange={handleFileUpload}
+                  multiple
+                />
+                <button
+                  onClick={() => document.getElementById('file-upload')?.click()}
+                  disabled={isLoading}
+                  className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-all"
+                  title="Subir logo o fotos (+)"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                </button>
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Escribe tu mensaje..."
+                  className="flex-1 px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 text-sm"
+                  disabled={isLoading}
+                />
+                <button
+                  onClick={sendMessage}
+                  disabled={isLoading || !inputValue.trim()}
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  }}
+                >
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>

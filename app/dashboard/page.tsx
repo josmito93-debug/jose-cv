@@ -22,7 +22,8 @@ export default function TerminalHQ() {
     { id: 'crypto', name: 'Crypto', icon: Cpu, href: '/dashboard/crypto', color: 'emerald' },
     { id: 'forex', name: 'Forex', icon: RefreshCcw, href: '/dashboard/forex', color: 'blue' },
     { id: 'metals', name: 'Metals', icon: Zap, href: '/dashboard/metals', color: 'amber' },
-    { id: 'stocks', name: 'Stocks', icon: TrendingUp, href: '/dashboard/stocks', color: 'indigo' }
+    { id: 'stocks', name: 'Stocks', icon: TrendingUp, href: '/dashboard/stocks', color: 'indigo' },
+    { id: 'attom', name: 'ATTOM Webs', icon: Globe, href: '/dashboard/attom', color: 'purple' }
   ];
 
   return (
@@ -60,16 +61,21 @@ export default function TerminalHQ() {
       </div>
 
       {/* Sector Overview Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         {sectors.map((sector) => (
           <Link href={sector.href} key={sector.id}>
             <motion.div 
                whileHover={{ scale: 1.02, y: -5 }}
-               className="bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] p-8 relative overflow-hidden group hover:border-emerald-500/30 transition-all"
+               className={`bg-[#0C0C0E] border ${sector.id === 'attom' ? 'border-purple-500/30' : 'border-white/5'} rounded-[2.5rem] p-8 relative overflow-hidden group hover:border-emerald-500/30 transition-all`}
             >
+               {sector.id === 'attom' && (
+                 <div className="absolute top-6 right-6 px-2 py-0.5 bg-purple-500/20 border border-purple-500/30 rounded-full text-[8px] font-black text-purple-400 uppercase tracking-widest animate-pulse">
+                   New
+                 </div>
+               )}
                <div className="flex items-center justify-between mb-10">
                   <div className={`p-4 rounded-2xl bg-white/5 group-hover:bg-emerald-500/10 transition-colors`}>
-                     <sector.icon className="w-6 h-6 text-zinc-500 group-hover:text-emerald-400" />
+                     <sector.icon className={`w-6 h-6 ${sector.id === 'attom' ? 'text-purple-400' : 'text-zinc-500'} group-hover:text-emerald-400`} />
                   </div>
                   <ArrowUpRight className="w-5 h-5 text-zinc-800 group-hover:text-emerald-400" />
                </div>
