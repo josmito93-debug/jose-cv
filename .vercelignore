@@ -5,3 +5,25 @@ api/node_modules
 api/.venv
 *.log
 camera_flys_back_*.jpg
+
+# Large folders to exclude from deploy
+remotion-cava-ad
+video_adf
+Attom
+n8n-skills-main
+PyTrader-python-mt4-mt5-trading-api-connector-drag-n-drop-master
+chroma_db
+websites uncle
+untitled folder
+rocas espaciasles
+animacion
+project tags
+scratch
+showcase
+textura
+font
+logo
+docs
+dist
+*.pyc
+__pycache__
