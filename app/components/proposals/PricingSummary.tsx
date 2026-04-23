@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Wallet, CheckCircle2, PlayCircle, Loader2, CreditCard } from 'lucide-react';
 
 interface PricingSummaryProps {
@@ -14,6 +14,7 @@ interface PricingSummaryProps {
 
 export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', ctaText }: PricingSummaryProps) {
   const [isPaying, setIsPaying] = React.useState(false);
+  const [showZelle, setShowZelle] = React.useState(false);
 
   const handlePayDeposit = async () => {
     if (!clientSlug) return;
@@ -140,6 +141,44 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
                 {ctaText || (lang === 'en' ? 'Contact via WhatsApp' : 'Contactar por WhatsApp')}
                 <ArrowRight className="w-5 h-5" strokeWidth={3} />
               </motion.a>
+
+              <div className="mt-4 pt-4 border-t border-white/5 w-full">
+                <button 
+                  onClick={() => setShowZelle(!showZelle)}
+                  className="w-full flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-[#673ab7] flex items-center justify-center text-white text-[10px] font-black italic">Z</div>
+                    <span className="text-white/60 text-[10px] font-black uppercase tracking-widest">Pagar con Zelle</span>
+                  </div>
+                  <ArrowRight className={`w-4 h-4 text-white/20 group-hover:text-white/60 transition-all ${showZelle ? 'rotate-90' : ''}`} />
+                </button>
+
+                <AnimatePresence>
+                  {showZelle && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-4 p-6 bg-[#673ab7]/10 border border-[#673ab7]/30 rounded-2xl space-y-4">
+                        <div className="space-y-1">
+                          <p className="text-[10px] font-black text-[#673ab7] uppercase tracking-widest">Account Name</p>
+                          <p className="text-white font-black text-sm uppercase">universa Lab Media</p>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[10px] font-black text-[#673ab7] uppercase tracking-widest">Zelle Email / Phone</p>
+                          <p className="text-white font-black text-xl tracking-tight">7863040124</p>
+                        </div>
+                        <p className="text-[10px] text-white/40 font-medium leading-relaxed">
+                          Una vez realizado el pago, envía el comprobante por WhatsApp para activar tu proyecto.
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </div>
 
