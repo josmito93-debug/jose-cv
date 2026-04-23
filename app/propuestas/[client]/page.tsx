@@ -25,6 +25,7 @@ interface ProposalData {
   }>;
   summary: string;
   cta: string;
+  hideRelated?: boolean;
 }
 
 export default function ProposalPage() {
@@ -94,7 +95,7 @@ export default function ProposalPage() {
           ))}
         </div>
 
-        <RelatedProjects lang={proposal.lang} />
+        {!proposal.hideRelated && <RelatedProjects lang={proposal.lang} />}
 
         <PricingSummary 
           phases={proposal.phases} 

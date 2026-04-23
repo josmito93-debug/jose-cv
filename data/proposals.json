@@ -561,6 +561,7 @@
     "client": "N1C4 Barber Studio",
     "status": "Ecosistema Digital Integrado",
     "title": "PROPUESTA TÉCNICA: ECOSISTEMA DIGITAL INTEGRADO N1C4",
+    "hideRelated": true,
     "phases": [
       {
         "id": 1,
@@ -613,7 +614,7 @@
               "Recordatorios inteligentes (Booksy API)",
               "Reducción de No-Shows"
             ],
-            "tag": "coyo-content"
+            "tag": "n8n-flow"
           },
           {
             "title": "Dashboard de Comando (Portal de Gestión)",

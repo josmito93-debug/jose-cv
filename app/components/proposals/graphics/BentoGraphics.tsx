@@ -1058,3 +1058,126 @@ export function BentoMilexNotifications() {
     </div>
   );
 }
+
+export function BentoN8nFlow() {
+  return (
+    <div className="w-full max-w-[550px] h-[320px] bg-[#0e131f] border border-white/10 rounded-[2.5rem] relative overflow-hidden p-8 shadow-2xl group">
+      {/* Background Grid - n8n style */}
+      <div className="absolute inset-0 opacity-[0.05]" 
+           style={{ 
+             backgroundImage: 'radial-gradient(circle, #2ddc80 1px, transparent 1px)', 
+             backgroundSize: '24px 24px' 
+           }} 
+      />
+      
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(45,220,128,0.03)_0%,transparent_70%)]" />
+
+      <div className="relative h-full flex items-center justify-between px-6">
+        {/* Connection Lines (SVG) */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          <defs>
+            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(45,220,128,0.1)" />
+              <stop offset="50%" stopColor="rgba(45,220,128,0.8)" />
+              <stop offset="100%" stopColor="rgba(45,220,128,0.1)" />
+            </linearGradient>
+          </defs>
+          <motion.path 
+            d="M 120 160 C 180 160, 180 100, 240 100" 
+            stroke="url(#lineGrad)" strokeWidth="3" fill="none"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.path 
+            d="M 120 160 C 180 160, 180 220, 240 220" 
+            stroke="url(#lineGrad)" strokeWidth="3" fill="none"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 2, repeat: Infinity, delay: 0.5, ease: "linear" }}
+          />
+          <motion.path 
+            d="M 310 100 C 370 100, 370 160, 430 160" 
+            stroke="url(#lineGrad)" strokeWidth="3" fill="none"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 2, repeat: Infinity, delay: 1, ease: "linear" }}
+          />
+          <motion.path 
+            d="M 310 220 C 370 220, 370 160, 430 160" 
+            stroke="url(#lineGrad)" strokeWidth="3" fill="none"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 2, repeat: Infinity, delay: 1.5, ease: "linear" }}
+          />
+        </svg>
+
+        {/* Trigger Node (Webhook/Call) */}
+        <div className="flex flex-col items-center gap-4 relative z-10">
+           <div className="w-20 h-20 rounded-2xl bg-[#1a1f2e] border-2 border-[#2ddc80] flex items-center justify-center shadow-[0_0_40px_rgba(45,220,128,0.2)] group-hover:scale-105 transition-transform relative">
+              {/* Input/Output Dots */}
+              <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-[#2ddc80] rounded-full border-4 border-[#0e131f] shadow-[0_0_10px_#2ddc80]" />
+              
+              <div className="flex flex-col items-center gap-1">
+                 <div className="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center border border-orange-500/40">
+                    <div className="w-4 h-4 bg-orange-500 rounded-sm animate-pulse" />
+                 </div>
+                 <span className="text-[6px] font-black text-white tracking-[0.2em] uppercase mt-1">Webhook</span>
+              </div>
+           </div>
+           <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10">
+              <span className="text-[8px] font-black text-white/40 uppercase tracking-widest">Inbound</span>
+           </div>
+        </div>
+
+        {/* Processing Nodes (AI & Logic) */}
+        <div className="flex flex-col gap-16 relative z-10">
+           {/* AI Node */}
+           <div className="flex flex-col items-center gap-3">
+              <div className="w-16 h-16 rounded-2xl bg-[#1a1f2e] border border-white/20 flex items-center justify-center group-hover:border-[#2ddc80]/50 transition-colors relative shadow-xl">
+                 <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-3 h-3 bg-white/40 rounded-full border-2 border-[#0e131f]" />
+                 <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#2ddc80] rounded-full border-2 border-[#0e131f]" />
+                 
+                 <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center border border-emerald-500/30">
+                    <div className="w-3.5 h-3.5 border-2 border-emerald-500 rounded-full border-t-transparent animate-spin" />
+                 </div>
+              </div>
+              <span className="text-[7px] font-black text-white/30 uppercase tracking-[0.3em]">AI Agent</span>
+           </div>
+
+           {/* Booksy Node */}
+           <div className="flex flex-col items-center gap-3">
+              <div className="w-16 h-16 rounded-2xl bg-[#1a1f2e] border border-white/20 flex items-center justify-center group-hover:border-[#2ddc80]/50 transition-colors relative shadow-xl">
+                 <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-3 h-3 bg-white/40 rounded-full border-2 border-[#0e131f]" />
+                 <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#2ddc80] rounded-full border-2 border-[#0e131f]" />
+                 
+                 <div className="w-7 h-7 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/30">
+                    <div className="w-4 h-1 bg-blue-400 rounded-full" />
+                 </div>
+              </div>
+              <span className="text-[7px] font-black text-white/30 uppercase tracking-[0.3em]">Booksy API</span>
+           </div>
+        </div>
+
+        {/* Destination Node (WhatsApp/Client) */}
+        <div className="flex flex-col items-center gap-4 relative z-10">
+           <div className="w-20 h-20 rounded-2xl bg-[#1a1f2e] border border-[#2ddc80]/40 flex items-center justify-center shadow-2xl group-hover:border-[#2ddc80] transition-colors relative">
+              <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-[#2ddc80] rounded-full border-4 border-[#0e131f] shadow-[0_0_10px_#2ddc80]" />
+              
+              <div className="flex flex-col items-center gap-1">
+                 <div className="w-8 h-8 rounded-lg bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/30">
+                    <svg className="w-4 h-4 text-[#2ddc80]" fill="currentColor" viewBox="0 0 24 24">
+                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
+                    </svg>
+                 </div>
+                 <span className="text-[6px] font-black text-white tracking-[0.2em] uppercase mt-1">Guas App</span>
+              </div>
+           </div>
+           <div className="px-3 py-1 bg-[#2ddc80]/10 rounded-full border border-[#2ddc80]/20">
+              <span className="text-[8px] font-black text-[#2ddc80] uppercase tracking-widest">Confirmed</span>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+}

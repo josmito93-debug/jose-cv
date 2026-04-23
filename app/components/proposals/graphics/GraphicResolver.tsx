@@ -22,7 +22,8 @@ export type GraphicId =
   | 'milex-services'
   | 'milex-booking'
   | 'milex-payments'
-  | 'milex-notifications';
+  | 'milex-notifications'
+  | 'n8n-flow';
 
 interface GraphicResolverProps {
   id: GraphicId | string;
@@ -68,6 +69,8 @@ export default function GraphicResolver({ id }: GraphicResolverProps) {
       return <Bento.BentoMilexPayments />;
     case 'milex-notifications':
       return <Bento.BentoMilexNotifications />;
+    case 'n8n-flow':
+      return <Bento.BentoN8nFlow />;
     default:
       return null;
   }
