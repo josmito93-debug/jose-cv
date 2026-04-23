@@ -117,7 +117,7 @@ export function BentoWeb() {
           <div className="w-2.5 h-2.5 rounded-full bg-green-500/30" />
         </div>
         <div className="ml-4 h-5 w-64 bg-white/5 rounded-full flex items-center px-4">
-           <span className="text-[8px] text-white/40 font-black tracking-widest uppercase">https://panenka-houston.com</span>
+           <span className="text-[8px] text-white/40 font-black tracking-widest uppercase">https://n1c4.com</span>
         </div>
       </div>
       
@@ -128,7 +128,7 @@ export function BentoWeb() {
            <div className="h-2.5 w-full bg-white/5 rounded-full" />
            <div className="h-2.5 w-2/3 bg-white/5 rounded-full" />
            <div className="mt-4 h-12 w-full bg-gradient-to-r from-[#2ddc80] to-[#2ddc80]/80 rounded-xl flex items-center justify-center shadow-[0_15px_30px_-10px_rgba(45,220,128,0.5)]">
-              <span className="text-xs font-black text-[#0e131f] uppercase tracking-widest">Hacer Pedido</span>
+              <span className="text-xs font-black text-[#0e131f] uppercase tracking-widest">RESERVE NOW</span>
            </div>
         </div>
         <div className="col-span-5 h-[160px] bg-white/[0.03] border border-white/5 rounded-[2rem] relative flex items-center justify-center overflow-hidden">
