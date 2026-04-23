@@ -90,6 +90,7 @@ export default function AdminShell({ children }: ShellProps) {
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-700">Automation</p>
            </div>
            <NavItem href="/collector" icon={Zap} label="Attom Collector" active={pathname === '/collector'} />
+           <NavItem href="/dashboard/attom" icon={Globe} label="ATTOM Lead Center" active={pathname === '/dashboard/attom'} />
            <NavItem href="/hq/n8n" icon={Database} label="N8N Architect" active={pathname === '/hq/n8n'} />
            
            <div className="px-5 mt-8 mb-4">
