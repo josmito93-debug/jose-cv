@@ -188,38 +188,45 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                   {/* Full-width Graphics Block (Legacy / Special Tags) */}
                   {(item.tag || (item.ctaText && item.ctaLink)) && !item.image && (
                     <div className="relative z-20 w-full mt-auto border-t border-white/5 bg-white/[0.01] flex flex-col items-center">
-                      {item.tag && (
-                        <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover:scale-[1.01]">
-                          {item.tag.startsWith('/') ? (
-                            <img 
-                              src={item.tag} 
-                              alt="" 
-                              className="w-full max-w-lg h-auto object-contain opacity-60 group-hover:opacity-100 transition-all duration-500"
-                            />
-                          ) : (
-                            <div className="w-full flex justify-center opacity-70 group-hover:opacity-100 transition-all duration-500">
-                              <GraphicResolver id={item.tag} />
+                      {item.ctaLink ? (
+                        <a 
+                          href={item.ctaLink} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="w-full flex flex-col items-center group/link"
+                        >
+                          {item.tag && (
+                            <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover/link:scale-[1.01]">
+                              {item.tag.startsWith('/') ? (
+                                <img 
+                                  src={item.tag} 
+                                  alt="" 
+                                  className="w-full max-w-lg h-auto object-contain opacity-60 group-hover/link:opacity-100 transition-all duration-500"
+                                />
+                              ) : (
+                                <div className="w-full flex justify-center opacity-70 group-hover/link:opacity-100 transition-all duration-500">
+                                  <GraphicResolver id={item.tag} />
+                                </div>
+                              )}
                             </div>
                           )}
-                        </div>
-                      )}
-
-                      {item.ctaText && item.ctaLink && (
-                        <div className="pb-12 md:pb-16 mt-[-20px] md:mt-[-40px]">
-                          <motion.a 
-                            href={item.ctaLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.05, y: -2 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-10 py-4 bg-[#2ddc80] text-[#0e131f] font-black uppercase tracking-[0.3em] text-[11px] rounded-full flex items-center gap-4 shadow-[0_10px_40px_rgba(45,220,128,0.3)] hover:shadow-[0_15px_50px_rgba(45,220,128,0.5)] transition-all duration-300"
-                          >
-                            {item.ctaText}
-                            <div className="w-5 h-5 rounded-full bg-[#0e131f]/10 flex items-center justify-center">
-                              <Globe className="w-3 h-3" />
-                            </div>
-                          </motion.a>
-                        </div>
+                        </a>
+                      ) : (
+                        item.tag && (
+                          <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover:scale-[1.01]">
+                            {item.tag.startsWith('/') ? (
+                              <img 
+                                src={item.tag} 
+                                alt="" 
+                                className="w-full max-w-lg h-auto object-contain opacity-60 group-hover:opacity-100 transition-all duration-500"
+                              />
+                            ) : (
+                              <div className="w-full flex justify-center opacity-70 group-hover:opacity-100 transition-all duration-500">
+                                <GraphicResolver id={item.tag} />
+                              </div>
+                            )}
+                          </div>
+                        )
                       )}
                     </div>
                   )}
