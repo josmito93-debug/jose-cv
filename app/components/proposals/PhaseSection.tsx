@@ -14,6 +14,8 @@ interface PhaseItem {
   tagImage?: string;
   image?: string;
   icon?: string;
+  ctaText?: string;
+  ctaLink?: string;
 }
 
 interface PhaseProps {
@@ -165,6 +167,20 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                             </li>
                           ))}
                         </ul>
+                      )}
+
+                      {item.ctaText && item.ctaLink && (
+                        <motion.a 
+                          href={item.ctaLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="mt-6 px-8 py-3 bg-[#2ddc80] text-[#0e131f] font-black uppercase tracking-[0.2em] text-[10px] rounded-xl flex items-center gap-3 w-fit shadow-[0_0_20px_rgba(45,220,128,0.2)] hover:shadow-[0_0_30px_rgba(45,220,128,0.4)] transition-all duration-300"
+                        >
+                          {item.ctaText}
+                          <Globe className="w-3.5 h-3.5" />
+                        </motion.a>
                       )}
                     </div>
                   </div>
