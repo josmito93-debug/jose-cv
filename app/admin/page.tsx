@@ -366,6 +366,26 @@ export default function UnifiedAdminVercel() {
                       Command Agent
                     </button>
                 </div>
+                {/* ATTOM Webs Agent */}
+                <div className="group p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all">
+                   <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                         <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                            <Globe className="w-5 h-5 text-emerald-400" />
+                         </div>
+                         <div>
+                            <h4 className="text-sm font-black tracking-tighter">ATTOM Webs</h4>
+                            <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Digital Architect</p>
+                         </div>
+                      </div>
+                      <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-emerald-400 transition-colors" />
+                   </div>
+                   <div className="flex items-center gap-4 text-[10px] font-bold mb-4">
+                      <div className="flex items-center gap-1.5 text-zinc-500 px-2 py-1 bg-white/5 rounded border border-white/5"><TrendingUp className="w-3 h-3 text-emerald-400" /> Active Leads</div>
+                      <div className="flex items-center gap-1.5 text-zinc-500 px-2 py-1 bg-white/5 rounded border border-white/5"><Activity className="w-3 h-3 text-indigo-400" /> Live Hub</div>
+                   </div>
+                   <Link href="/dashboard/attom" className="block w-full py-2.5 bg-white/5 hover:bg-emerald-500/10 text-center rounded-lg text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-emerald-400 transition-all">Manage Webs</Link>
+                </div>
              </div>
           </div>
         </div>
