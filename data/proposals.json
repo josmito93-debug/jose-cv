@@ -565,76 +565,73 @@
     "phases": [
       {
         "id": 1,
-        "name": "INFRAESTRUCTURA WEB ROBUSTA",
-        "investment": 1000,
+        "name": "INFRAESTRUCTURA WEB DE ALTA CONVERSIÓN",
+        "investment": 1200,
         "items": [
           {
-            "title": "Desarrollo en Dominio Propio",
-            "description": "Eliminamos la dependencia de portales externos. La reserva ocurre en tu dominio, fortaleciendo el SEO y la autoridad de marca.",
+            "title": "Propiedad Digital & Autoridad de Marca",
+            "description": "Tu negocio vive en tu propio dominio, capturando el 100% del valor del SEO local en Miami y proyectando una imagen de élite ante tus clientes.",
             "bullets": [
-              "Propiedad total de la plataforma",
-              "Posicionamiento Local (Miami SEO)",
-              "Experiencia de marca coherente"
+              "Control Total de Datos y Clientes",
+              "Dominio de SEO Local (Miami)",
+              "Independencia de Portales Externos"
             ],
-            "tag": "panenka-web"
+            "tag": "panenka-web",
+            "tagLabel": "LIVE DOMAIN",
+            "ctaText": "RESERVE NOW",
+            "ctaLink": "https://n1c4.com"
           },
           {
-            "title": "Integración Nativa con API de Booksy",
-            "description": "Conexión directa mediante API REST y OAuth 2.0. Sincronización en tiempo real de disponibilidad, servicios y barberos.",
+            "title": "Booking Engine de Próxima Generación",
+            "description": "Sincronización nativa con Booksy API. Tus clientes reservan sin fricción, eliminando saltos a apps externas y aumentando la conversión.",
             "bullets": [
-              "Sincronización instantánea",
-              "Sin redirecciones externas",
-              "Flujo de reserva inmersivo"
+              "OAuth 2.0 Security & Sync",
+              "Disponibilidad en Tiempo Real",
+              "Checkout sin Redirecciones"
             ],
-            "tag": "milex-booking"
+            "tag": "milex-booking",
+            "tagLabel": "API ACTIVE"
           },
           {
-            "title": "Arquitectura High-Fidelity",
-            "description": "Diseño optimizado para dispositivos móviles con tiempos de carga ultrarrápidos, esencial para campañas de marketing.",
+            "title": "Experiencia de Usuario High-Fidelity",
+            "description": "Diseño minimalista y ultra-rápido optimizado para dispositivos móviles. Convertimos cada visita en una cita confirmada.",
             "bullets": [
-              "Mobile-First performance",
-              "Diseño de alta gama",
-              "Optimizado para conversión (CRO)"
+              "Velocidad de Carga Ultra-rápida",
+              "Interfaz de Lujo (Premium UI)",
+              "Optimizado para Mobile Conversions"
             ],
-            "tag": "panenka-design"
+            "tag": "panenka-design",
+            "tagLabel": "60FPS DESIGN"
           }
         ]
       },
       {
         "id": 2,
-        "name": "AGENTE IA & ECOSISTEMA DE GESTIÓN",
-        "investment": 1000,
+        "name": "INTELIGENCIA ARTIFICIAL & ESCALABILIDAD",
+        "investment": 1800,
         "items": [
           {
-            "title": "Agente de Inteligencia Artificial (Concierge 24/7)",
-            "description": "Un recepcionista de élite automatizado para N1C4.",
+            "title": "Concierge IA 24/7 (Autónomo)",
+            "description": "Un recepcionista de élite que nunca duerme. Gestiona citas, responde dudas por WhatsApp y realiza llamadas con voz hiperrealista.",
             "bullets": [
-              "Voz hiperrealista (ElevenLabs)",
-              "Gestión de llamadas y WhatsApp",
-              "Recordatorios inteligentes (Booksy API)",
-              "Reducción de No-Shows"
+              "Voz Clonada (ElevenLabs)",
+              "Automatización de WhatsApp",
+              "Recordatorios Inteligentes",
+              "Reducción Drástica de No-Shows"
             ],
-            "tag": "n8n-flow"
+            "tag": "n8n-flow",
+            "tagLabel": "AI HUB"
           },
           {
-            "title": "Dashboard de Comando (Portal de Gestión)",
-            "description": "Portal exclusivo para supervisar toda la operación en tiempo real.",
+            "title": "Dashboard de Comando & Analítica",
+            "description": "Control total del negocio. Monitorea el rendimiento de cada barbero e ingresos proyectados en tiempo real.",
             "bullets": [
-              "Registro de conversaciones",
-              "Analítica de citas (Confirmadas vs Canceladas)",
-              "Métricas de efectividad del agente"
+              "Métricas en Tiempo Real",
+              "Control de Barber Performance",
+              "Previsión de Ingresos"
             ],
-            "tag": "coyo-data"
-          },
-          {
-            "title": "Marketing e Inteligencia de Datos",
-            "description": "Implementación avanzada para medir el comportamiento y maximizar el ROI.",
-            "bullets": [
-              "Píxel de Meta & Google Analytics",
-              "Seguimiento de conversiones",
-              "Optimización de anuncios avanzada"
-            ],
-            "tag": "panenka-advantage"
+            "tag": "coyo-data",
+            "tagLabel": "BI ANALYTICS"
           }
         ]
       }
