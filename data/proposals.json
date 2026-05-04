@@ -649,5 +649,95 @@
     ],
     "summary": "Tu negocio deja de ser un link en una plataforma ajena para convertirse en un destino digital propio. Eficiencia operativa y retorno de inversión garantizado.",
     "cta": "https://wa.me/17863024923"
+  },
+  "305-transfers": {
+    "client": "305 Transfers LLC",
+    "status": "Custom Web App + Booking System",
+    "title": "PLATAFORMA DIGITAL & BOOKING ENGINE",
+    "hideRelated": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "FASE 1: CUSTOM WEB APP & ESTRUCTURA CORE",
+        "investment": 1000,
+        "items": [
+          {
+            "title": "Web App (UI/UX Custom)",
+            "description": "Desarrollo 100% custom, sin plantillas. Una experiencia tipo app (mobile-first) optimizada para velocidad, conversión y navegación fluida.",
+            "bullets": [
+              "Diseño moderno, premium y orientado a conversión",
+              "Arquitectura de alto rendimiento",
+              "Carga ultra-rápida e intuitiva"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Catálogo de Servicios & Luxury Drivers",
+            "description": "Visualización impecable de tours, SUVs y servicios de transporte privado con descripciones, itinerarios y mapas interactivos.",
+            "bullets": [
+              "Tours (Miami, Key West, etc.)",
+              "Reserva de chofer privado (SUV)",
+              "Itinerarios completos y visuales"
+            ],
+            "tag": "milex-services",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "SEO & Ecosistema de Contenido",
+            "description": "Estructura técnica optimizada para ranking en Google y sección de Blog/Noticias para educación del cliente y crecimiento orgánico.",
+            "bullets": [
+              "Keywords estratégicas locales",
+              "Sección de Blog y nuevos servicios",
+              "Base sólida para escalamiento SEO"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "FASE 2: BOOKING ENGINE & AUTOMATIZACIÓN",
+        "investment": 1000,
+        "items": [
+          {
+            "title": "Sistema de Reservas Avanzado",
+            "description": "El motor central del proyecto. Un sistema robusto y en tiempo real para gestionar fechas, disponibilidad y confirmaciones sin fricciones.",
+            "bullets": [
+              "Disponibilidad de fechas en tiempo real",
+              "Gestión de número de participantes",
+              "Confirmación de reservas automatizada"
+            ],
+            "tag": "milex-booking",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Automatización de Emails (API)",
+            "description": "Flujos de comunicación automatizados para mantener al cliente informado, generar confianza y reducir no-shows.",
+            "bullets": [
+              "Confirmación de reserva inmediata",
+              "Mensaje de bienvenida",
+              "Recordatorios 24h y previos al tour"
+            ],
+            "tag": "milex-notifications",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Social Proof & Reviews",
+            "description": "Integración en vivo de validación social para aumentar drásticamente la tasa de conversión y la confianza del usuario.",
+            "bullets": [
+              "Integración nativa con Google Reviews",
+              "Integración con GetYourGuide",
+              "Visualización atractiva en la plataforma"
+            ],
+            "tag": "coyo-data",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      }
+    ],
+    "summary": "En términos prácticos, no estás comprando una web, estás construyendo un activo digital de alto rendimiento. Una herramienta operativa y escalable que funciona como una aplicación nativa y que preparará a 305 Transfers LLC para un volumen de reservas masivo a largo plazo.",
+    "cta": "https://wa.me/17863024923"
   }
 }
