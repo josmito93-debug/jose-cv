@@ -659,7 +659,7 @@
       {
         "id": 1,
         "name": "FASE 1: CUSTOM WEB APP & ESTRUCTURA CORE",
-        "investment": 1000,
+        "investment": 250,
         "items": [
           {
             "title": "Web App (UI/UX Custom)",
@@ -699,7 +699,7 @@
       {
         "id": 2,
         "name": "FASE 2: BOOKING ENGINE & AUTOMATIZACIÓN",
-        "investment": 1000,
+        "investment": 250,
         "items": [
           {
             "title": "Sistema de Reservas Avanzado",
