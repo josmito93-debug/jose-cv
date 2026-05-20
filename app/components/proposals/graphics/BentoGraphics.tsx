@@ -149,6 +149,49 @@ export function BentoWeb() {
   );
 }
 
+export function BentoFuego() {
+  return (
+    <div className="w-full max-w-[600px] h-[240px] md:h-[300px] bg-[#0e131f] border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative group">
+      {/* Browser Bar */}
+      <div className="h-10 bg-white/5 border-b border-white/10 flex items-center px-6 gap-3">
+        <div className="flex gap-2">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+          <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+          <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+        </div>
+        <div className="ml-4 h-5 w-64 bg-white/5 rounded-full flex items-center px-4">
+           <span className="text-[8px] text-white/40 font-black tracking-widest uppercase">https://fuego.com</span>
+        </div>
+      </div>
+      
+      {/* Content */}
+      <div className="p-10 grid grid-cols-12 gap-10 h-full">
+        <div className="col-span-7 flex flex-col gap-6">
+           <div className="h-4 w-3/4 bg-white/10 rounded-full" />
+           <div className="h-2.5 w-full bg-white/5 rounded-full" />
+           <div className="h-2.5 w-2/3 bg-white/5 rounded-full" />
+           <div className="mt-4 h-12 w-full bg-gradient-to-r from-[#ff2a00] to-[#ff7a00] rounded-xl flex items-center justify-center shadow-[0_15px_30px_-10px_rgba(255,42,0,0.5)]">
+              <span className="text-xs font-black text-white uppercase tracking-widest">PEDIR POR WHATSAPP</span>
+           </div>
+        </div>
+        <div className="col-span-5 h-[160px] bg-white/[0.03] border border-white/5 rounded-[2rem] relative flex items-center justify-center overflow-hidden">
+           <motion.div 
+             animate={{ rotate: 360 }}
+             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+             className="absolute inset-0 opacity-20"
+           >
+              <div className="absolute top-0 left-1/2 w-[1px] h-full bg-[#ff2a00]" />
+              <div className="absolute left-0 top-1/2 w-full h-[1px] bg-[#ff2a00]" />
+           </motion.div>
+           <div className="w-16 h-16 rounded-full bg-[#ff2a00] shadow-[0_0_40px_rgba(255,42,0,0.6)] relative z-10 flex items-center justify-center">
+              <span className="text-white font-black text-xs">FUEGO</span>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function BentoAdvantage() {
   return (
     <div className="w-full max-w-[360px] h-[360px] bg-[#0e131f] border border-white/10 rounded-[3.5rem] p-10 relative overflow-hidden group">
