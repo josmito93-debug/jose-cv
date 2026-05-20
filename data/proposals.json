@@ -739,5 +739,180 @@
     ],
     "summary": "En términos prácticos, no estás comprando una web, estás construyendo un activo digital de alto rendimiento. Una herramienta operativa y escalable que funciona como una aplicación nativa y que preparará a 305 Transfers LLC para un volumen de reservas masivo a largo plazo.",
     "cta": "https://wa.me/17863024923"
+  },
+  "tresequinas": {
+    "client": "Panadería Tresequinas",
+    "status": "Propuesta Comercial",
+    "title": "ECOMMERCE PROFESIONAL + GESTIÓN DE REDES",
+    "phases": [
+      {
+        "id": 1,
+        "name": "DESARROLLO WEB ECOMMERCE",
+        "investment": 300,
+        "items": [
+          {
+            "title": "Ecosistema de Venta Web",
+            "description": "Una vitrina digital profesional para mostrar productos y recibir pedidos.",
+            "bullets": [
+              "Catálogo de productos organizado",
+              "Pedidos online directos a WhatsApp",
+              "Diseño responsive optimizado para celular",
+              "Dominio personalizado conectado"
+            ],
+            "tag": "panenka-web"
+          },
+          {
+            "title": "Facebook Pixel & Medición",
+            "description": "Instalación de herramientas para medir visitas y optimizar futuras campañas.",
+            "bullets": [
+              "Instalación base del Meta Pixel",
+              "Medición de tráfico y clics importantes",
+              "Preparación para campañas de remarketing"
+            ],
+            "tag": "panenka-tracking"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "GESTIÓN DE REDES SOCIALES (MENSUAL)",
+        "investment": 200,
+        "items": [
+          {
+            "title": "Diseño Gráfico & Contenido",
+            "description": "Creación de piezas visuales profesionales para atraer clientes.",
+            "bullets": [
+              "Flyers promocionales para productos estrella",
+              "Posts e historias para Instagram y Facebook",
+              "Creatividades para anuncios pagados"
+            ],
+            "tag": "panenka-design"
+          }
+        ]
+      }
+    ],
+    "summary": "Convierte la presencia digital de Tresequinas en un canal de venta medible y ordenado. Condiciones: 50% para iniciar y 50% para finalizar.",
+    "cta": "https://wa.me/17863024923"
+  },
+  "fuego": {
+    "client": "FUEGO",
+    "status": "Propuesta Comercial",
+    "title": "ECOMMERCE INNOVADOR + INVENTARIO",
+    "hideRelated": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "DESARROLLO ESTRATÉGICO ECOMMERCE",
+        "investment": 100,
+        "items": [
+          {
+            "title": "Ecosistema de Venta Web",
+            "description": "Una vitrina digital profesional para mostrar productos y recibir pedidos.",
+            "bullets": [
+              "Home impactante con animaciones fluidas",
+              "Catálogo dinámico con categorías y fichas",
+              "Experiencia móvil premium de alta velocidad"
+            ],
+            "tag": "fuego-web"
+          },
+          {
+            "title": "Inventario con Base de Datos",
+            "description": "Registro administrable de productos para controlar stock y disponibilidad.",
+            "bullets": [
+              "Control de stock (aviso de fuera de stock)",
+              "Base de datos escalable para nuevos productos",
+              "Reglas inteligentes de flujo de pedidos"
+            ],
+            "tag": "coyo-data"
+          },
+          {
+            "title": "WhatsApp con Data Ordenada",
+            "description": "Mensaje de pedido precargado para atención rápida y sin fricción.",
+            "bullets": [
+              "Mensaje automático con producto, cantidad y link",
+              "Menos fricción en la compra para el cliente",
+              "Mejor seguimiento operativo"
+            ],
+            "tag": "panenka-design"
+          },
+          {
+            "title": "Pixel y Ventas con Publicidad",
+            "description": "La web se construye preparada para que la publicidad aprenda y mida.",
+            "bullets": [
+              "Instalación de Meta/Facebook Pixel",
+              "Preparación para audiencias de remarketing",
+              "Medición de eventos comerciales clave"
+            ],
+            "tag": "panenka-tracking"
+          }
+        ]
+      }
+    ],
+    "summary": "Construiremos una web innovadora, diferente y comercial para FUEGO. Inversión: Pago único de $100 y $30 mensuales por el hosting.",
+    "cta": "https://wa.me/17863024923"
+  },
+  "jander-luxury": {
+    "client": "Jander",
+    "status": "Custom Web App + E-Commerce",
+    "title": "PLATAFORMA HIGH-TICKET & REPAIR ENGINE",
+    "hideRelated": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "FASE 1: BRANDING, BOOKING ENGINE & SEO CORE",
+        "investment": 500,
+        "items": [
+          {
+            "title": "Arquitectura Web High-End",
+            "description": "Diseño inmersivo y de altísima fidelidad que transmite confianza inmediata al consumidor high-ticket de marcas como Rolex, Patek Philippe o AP.",
+            "bullets": [
+              "Estética premium, limpia y minimalista",
+              "Optimización de velocidad y experiencia móvil",
+              "Galería de Before & After impactante"
+            ],
+            "tag": "coyo-data"
+          },
+          {
+            "title": "Booking Engine Exclusivo",
+            "description": "Un sistema de reservas centralizado y elegante para que el usuario agende sus reparaciones de forma privada y sin fricciones.",
+            "bullets": [
+              "Filtro inteligente (reloj armado o desarmado)",
+              "Cálculo de fees automáticos y transparentes",
+              "Gestión de cupos y confirmaciones en tiempo real"
+            ],
+            "tag": "milex-booking"
+          },
+          {
+            "title": "Fundamentos de Posicionamiento SEO",
+            "description": "Estructuración técnica de la plataforma diseñada para escalar progresivamente y captar búsquedas de alta intención en Google.",
+            "bullets": [
+              "Arquitectura de enlaces optimizada",
+              "Metadatos y jerarquía de contenido H1/H2",
+              "Configuración base para indexación orgánica"
+            ],
+            "tag": "panenka-tracking"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "FASE 2: E-COMMERCE LUXURY",
+        "investment": 500,
+        "items": [
+          {
+            "title": "Catálogo de Alta Precisión",
+            "description": "Plataforma de ventas detallada para coleccionistas, permitiendo navegar piezas, customizaciones y repuestos con filtros avanzados.",
+            "bullets": [
+              "Filtros por marca, precio y categoría",
+              "Fichas técnicas con estado de caja y papeles",
+              "Galerías en alta resolución y zoom inmersivo"
+            ],
+            "tag": "panenka-web"
+          }
+        ]
+      }
+    ],
+    "summary": "En términos prácticos, no estás comprando una página web, estás construyendo el brazo digital de tu boutique. Un activo de alto rendimiento diseñado para captar clientes high-ticket, transmitir absoluta confianza y centralizar tu operación logística y de ventas.",
+    "cta": "https://wa.me/17863024923"
   }
 }
