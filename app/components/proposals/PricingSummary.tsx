@@ -126,7 +126,7 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
                   <Loader2 className="w-6 h-6 animate-spin" />
                 ) : (
                   <>
-                    {lang === 'en' ? 'Pay Project Deposit' : 'Pagar Reserva ($1,000)'}
+                    {lang === 'en' ? 'Pay Project Deposit' : `Pagar Reserva ($${phases[0].investment.toLocaleString()})`}
                     <CreditCard className="w-6 h-6" strokeWidth={3} />
                   </>
                 )}

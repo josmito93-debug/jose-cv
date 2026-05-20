@@ -32,7 +32,8 @@ HISTORICAL_LESSONS = {
     ],
     "stocks": [
         "NVIDIA Earnings: AI sector catalyst. Strategy: If NVDA beats, buy semi-conductor ETFs like SMH.",
-        "Tech Sell-off 2022: High interest rates kill growth stocks. Strategy: Stick to Dow Jones value stocks."
+        "Tech Sell-off 2022: High interest rates kill growth stocks. Strategy: Stick to Dow Jones value stocks.",
+        "Innovation Focus: Look for companies with high R&D spend and disruptive products (e.g., AI, Robotics, Biotech). Strategy: Prioritize growth and innovation over short-term earnings if the market sentiment supports it."
     ]
 }
 

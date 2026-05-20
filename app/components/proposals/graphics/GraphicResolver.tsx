@@ -6,6 +6,7 @@ import * as Bento from './BentoGraphics';
 export type GraphicId = 
   | 'panenka-video'
   | 'panenka-web'
+  | 'fuego-web'
   | 'panenka-advantage'
   | 'panenka-journey'
   | 'panenka-tracking'
@@ -35,6 +36,8 @@ export default function GraphicResolver({ id }: GraphicResolverProps) {
       return <Bento.BentoVideo />;
     case 'panenka-web':
       return <Bento.BentoWeb />;
+    case 'fuego-web':
+      return <Bento.BentoFuego />;
     case 'panenka-advantage':
       return <Bento.BentoAdvantage />;
     case 'panenka-journey':

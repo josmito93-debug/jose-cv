@@ -7,7 +7,7 @@ echo "🚀 [JF.OS] Launching Professional Trading Terminal Nodes..."
 
 # 1. First, train the memory nodes
 echo "🧠 Training Neural Memory..."
-python3 python_bot/train_memory.py
+./.venv/bin/python3 python_bot/train_memory.py
 
 echo "--------------------------------------------------------"
 
@@ -15,16 +15,16 @@ echo "--------------------------------------------------------"
 # We assume the user has the credentials in python_bot/.env
 
 echo "🛰️ Starting CRYPTO Node (BTC/USD)..."
-python3 python_bot/jfos_engine.py --symbol "BTC/USD" --alpaca_symbol "BTCUSD" --category "Crypto" &
+./.venv/bin/python3 python_bot/jfos_engine.py --symbol "BTC/USD" --alpaca_symbol "BTCUSD" --category "Crypto" &
 
 echo "🛰️ Starting FOREX Node (EUR/USD)..."
-python3 python_bot/jfos_engine.py --symbol "EUR/USD" --alpaca_symbol "EURUSD" --category "Forex" &
+./.venv/bin/python3 python_bot/jfos_engine.py --symbol "EUR/USD" --alpaca_symbol "EURUSD" --category "Forex" &
 
 echo "🛰️ Starting METALS Node (Gold - XAU/USD)..."
-python3 python_bot/jfos_engine.py --symbol "XAU/USD" --alpaca_symbol "XAUUSD" --category "Metals" &
+./.venv/bin/python3 python_bot/jfos_engine.py --symbol "XAU/USD" --alpaca_symbol "XAUUSD" --category "Metals" &
 
 echo "🛰️ Starting STOCKS Node (NVIDIA - NVDA)..."
-python3 python_bot/jfos_engine.py --symbol "NVDA" --alpaca_symbol "NVDA" --category "Stocks" &
+./.venv/bin/python3 python_bot/jfos_engine.py --symbol "NVDA" --alpaca_symbol "NVDA" --category "Stocks" &
 
 echo "--------------------------------------------------------"
 echo "✅ ALL NODES ACTIVE. Check dashboard for live updates."
