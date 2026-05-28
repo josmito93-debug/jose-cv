@@ -541,6 +541,7 @@ export default function UniversalLanding() {
                   <ul className="space-y-6 text-[11px] font-black uppercase tracking-widest text-white/20">
                      <li className="hover:text-[#2ddc80] transition-colors"><Link href="/admin">Admin</Link></li>
                      <li className="hover:text-[#2ddc80] transition-colors"><Link href="/dashboard/attom">Leads</Link></li>
+                     <li className="hover:text-[#2ddc80] transition-colors"><Link href="/invoice">Facturas</Link></li>
                      <li className="hover:text-[#2ddc80] transition-colors"><a href="https://wa.me/17863024923">WhatsApp</a></li>
                   </ul>
                </div>
