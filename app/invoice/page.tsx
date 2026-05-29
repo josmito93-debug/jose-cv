@@ -869,7 +869,10 @@ export default function InvoicePage() {
               `}
             >
               {/* Top Accent Line */}
-              <div className="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-transparent via-[#2ddc80] to-transparent z-20" />
+              <div 
+                className="absolute top-0 left-0 right-0 h-[4px] z-20" 
+                style={{ background: 'linear-gradient(to right, transparent, #2ddc80, transparent)' }}
+              />
               
               {/* Luxury Proposal Gradient Border (Only visible in dark theme screen, hidden in print) */}
               {previewTheme === 'dark' && (
@@ -960,7 +963,10 @@ export default function InvoicePage() {
                 </div>
 
                 {/* Decorative Header Divider Line */}
-                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#2ddc80]/50 to-transparent my-1 print:bg-zinc-200 print:h-[1px] print:my-4" />
+                <div 
+                  className="h-[2px] w-full my-1 print:bg-zinc-200 print:h-[1px] print:my-4" 
+                  style={{ background: 'linear-gradient(to right, transparent, rgba(45, 220, 128, 0.5), transparent)' }}
+                />
 
                 {/* 2. Client Section */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
