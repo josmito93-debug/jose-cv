@@ -70,6 +70,8 @@ export default function InvoicePage() {
   const [previewTheme, setPreviewTheme] = useState<'dark' | 'light'>('dark');
   const [alertMsg, setAlertMsg] = useState<string | null>(null);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [orderStatus, setOrderStatus] = useState<'pending' | 'paid' | 'processing' | 'cancelled'>('pending');
+  const [orderStatusSubtext, setOrderStatusSubtext] = useState('Los servicios comenzarán una vez sea abonado el primer pago de la cotización.');
 
   // Set default dates on load
   useEffect(() => {
@@ -111,6 +113,8 @@ export default function InvoicePage() {
         setDiscountPercent(parsed.discountPercent ?? 0);
         setPaymentNotes(parsed.paymentNotes || '');
         setAdditionalNotes(parsed.additionalNotes || '');
+        setOrderStatus(parsed.orderStatus || 'pending');
+        setOrderStatusSubtext(parsed.orderStatusSubtext || 'Los servicios comenzarán una vez sea abonado el primer pago de la cotización.');
       } catch (e) {
         console.error('Error parsing saved draft', e);
       }
@@ -125,7 +129,8 @@ export default function InvoicePage() {
       emisorName, emisorRepresentative, emisorEmail, emisorPhone, emisorAddress, emisorTaxId,
       clientName, clientEmail, clientPhone, clientAddress,
       items, taxPercent, discountPercent,
-      paymentNotes, additionalNotes
+      paymentNotes, additionalNotes,
+      orderStatus, orderStatusSubtext
     };
     localStorage.setItem('universa-invoice-draft', JSON.stringify(stateToSave));
   }, [
@@ -133,7 +138,8 @@ export default function InvoicePage() {
     emisorName, emisorRepresentative, emisorEmail, emisorPhone, emisorAddress, emisorTaxId,
     clientName, clientEmail, clientPhone, clientAddress,
     items, taxPercent, discountPercent,
-    paymentNotes, additionalNotes
+    paymentNotes, additionalNotes,
+    orderStatus, orderStatusSubtext
   ]);
 
   // Calculations
@@ -423,29 +429,21 @@ export default function InvoicePage() {
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
       const margin = 12;
-      const imgWidth = pdfWidth - 2 * margin;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const maxPdfWidth = pdfWidth - 2 * margin;
+      const maxPdfHeight = pdfHeight - 2 * margin;
 
-      if (imgHeight <= pdfHeight - 2 * margin) {
-        const yOffset = margin;
-        pdf.addImage(imgData, 'PNG', margin, yOffset, imgWidth, imgHeight);
-      } else {
-        let heightLeft = imgHeight;
-        let position = 0;
-        let page = 1;
+      let imgWidth = maxPdfWidth;
+      let imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        while (heightLeft > 0) {
-          if (page > 1) {
-            pdf.addPage();
-          }
-          
-          pdf.addImage(imgData, 'PNG', margin, position + margin, imgWidth, imgHeight);
-          
-          heightLeft -= (pdfHeight - 2 * margin);
-          position -= (pdfHeight - 2 * margin);
-          page++;
-        }
+      if (imgHeight > maxPdfHeight) {
+        imgHeight = maxPdfHeight;
+        imgWidth = (canvas.width * imgHeight) / canvas.height;
       }
+
+      const xOffset = margin + (maxPdfWidth - imgWidth) / 2;
+      const yOffset = margin;
+
+      pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
 
       const fileName = `${invoiceNumber || 'cotizacion'}.pdf`.toLowerCase().replace(/\s+/g, '-');
       pdf.save(fileName);
@@ -644,6 +642,43 @@ export default function InvoicePage() {
                       type="date" 
                       value={dueDate} 
                       onChange={(e) => setDueDate(e.target.value)} 
+                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#2ddc80] focus:ring-1 focus:ring-[#2ddc80] transition-all"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-white/5">
+                  <div className="sm:col-span-1">
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-1.5">Estado de la Orden</label>
+                    <select
+                      value={orderStatus}
+                      onChange={(e) => {
+                        const newStatus = e.target.value as any;
+                        setOrderStatus(newStatus);
+                        if (newStatus === 'pending') {
+                          setOrderStatusSubtext('Los servicios comenzarán una vez sea abonado el primer pago de la cotización.');
+                        } else if (newStatus === 'paid') {
+                          setOrderStatusSubtext('Esta cotización ha sido aprobada y el pago ha sido confirmado. ¡Gracias!');
+                        } else if (newStatus === 'processing') {
+                          setOrderStatusSubtext('El proyecto se encuentra actualmente en desarrollo y ejecución.');
+                        } else if (newStatus === 'cancelled') {
+                          setOrderStatusSubtext('Esta cotización ha sido cancelada, vencida o suspendida.');
+                        }
+                      }}
+                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#2ddc80] focus:ring-1 focus:ring-[#2ddc80] transition-all"
+                    >
+                      <option value="pending" className="bg-zinc-950">Pendiente</option>
+                      <option value="paid" className="bg-zinc-950">Pagada / Aprobada</option>
+                      <option value="processing" className="bg-zinc-950">En Proceso</option>
+                      <option value="cancelled" className="bg-zinc-950">Cancelada</option>
+                    </select>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-1.5">Mensaje de Explicación</label>
+                    <input 
+                      type="text" 
+                      value={orderStatusSubtext} 
+                      onChange={(e) => setOrderStatusSubtext(e.target.value)} 
+                      placeholder="Ej: Los servicios comenzarán al abonar..."
                       className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#2ddc80] focus:ring-1 focus:ring-[#2ddc80] transition-all"
                     />
                   </div>
@@ -1047,12 +1082,22 @@ export default function InvoicePage() {
                   <div className="flex flex-col justify-center border-l border-white/5 border-zinc-200 pl-0 md:pl-8 pt-4 md:pt-0">
                     <span className="text-[9px] font-black uppercase tracking-widest text-[#2ddc80] print-text-dark block mb-2">Estado de la Orden</span>
                     <div className="flex items-center gap-3">
-                      <div className="w-3.5 h-3.5 rounded-full bg-amber-500 animate-pulse" />
+                      <div className={`w-3.5 h-3.5 rounded-full animate-pulse ${
+                        orderStatus === 'pending' ? 'bg-amber-500 shadow-[0_0_8px_#f59e0b]' :
+                        orderStatus === 'paid' ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' :
+                        orderStatus === 'processing' ? 'bg-indigo-500 shadow-[0_0_8px_#6366f1]' :
+                        'bg-red-500 shadow-[0_0_8px_#ef4444]'
+                      }`} />
                       <span className={`text-xs font-black uppercase tracking-wider print-text-dark ${previewTheme === 'dark' ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                        Esperando Confirmación / Pendiente
+                        {orderStatus === 'pending' && 'Esperando Confirmación / Pendiente'}
+                        {orderStatus === 'paid' && 'Aprobada / Pagada'}
+                        {orderStatus === 'processing' && 'En Proceso / Producción'}
+                        {orderStatus === 'cancelled' && 'Cancelada / Vencida'}
                       </span>
                     </div>
-                    <p className="text-[10px] text-zinc-500 mt-2">Los servicios comenzarán una vez sea abonado el primer pago de la cotización.</p>
+                    {orderStatusSubtext && (
+                      <p className="text-[10px] text-zinc-500 mt-2">{orderStatusSubtext}</p>
+                    )}
                   </div>
                 </div>
 
