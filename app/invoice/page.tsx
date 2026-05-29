@@ -338,11 +338,74 @@ export default function InvoicePage() {
       const jspdfModule = await import('jspdf');
       const jsPDF = jspdfModule.jsPDF || jspdfModule.default || jspdfModule;
 
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = 1;
+      tempCanvas.height = 1;
+      const ctx = tempCanvas.getContext('2d');
+
+      const resolveColorToRgba = (colorStr: string): string => {
+        if (!ctx || !colorStr) return colorStr;
+        if (!colorStr.includes('oklab') && !colorStr.includes('oklch') && !colorStr.includes('color-mix')) {
+          return colorStr;
+        }
+        try {
+          ctx.clearRect(0, 0, 1, 1);
+          ctx.fillStyle = colorStr;
+          ctx.fillRect(0, 0, 1, 1);
+          const data = ctx.getImageData(0, 0, 1, 1).data;
+          return `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
+        } catch (e) {
+          return colorStr;
+        }
+      };
+
+      const sanitizeElement = (origEl: HTMLElement, cloneEl: HTMLElement) => {
+        const computed = window.getComputedStyle(origEl);
+        const colorProps = [
+          'color',
+          'backgroundColor',
+          'borderColor',
+          'borderTopColor',
+          'borderRightColor',
+          'borderBottomColor',
+          'borderLeftColor',
+        ];
+
+        colorProps.forEach((prop) => {
+          const val = computed[prop as any];
+          if (val) {
+            cloneEl.style[prop as any] = resolveColorToRgba(val);
+          }
+        });
+
+        const shadow = computed.boxShadow;
+        if (shadow && (shadow.includes('oklab') || shadow.includes('oklch'))) {
+          cloneEl.style.boxShadow = shadow.includes('none') ? 'none' : '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+        }
+      };
+
+      const sanitizeAll = (orig: HTMLElement, clone: HTMLElement) => {
+        sanitizeElement(orig, clone);
+        const origChildren = orig.children;
+        const cloneChildren = clone.children;
+        for (let i = 0; i < origChildren.length; i++) {
+          if (origChildren[i] && cloneChildren[i]) {
+            sanitizeAll(origChildren[i] as HTMLElement, cloneChildren[i] as HTMLElement);
+          }
+        }
+      };
+
       const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
+        onclone: (clonedDoc) => {
+          const clonedRoot = clonedDoc.getElementById('printable-invoice');
+          if (clonedRoot) {
+            sanitizeAll(element, clonedRoot);
+          }
+        }
       });
 
       if (originalTheme !== 'light') {
