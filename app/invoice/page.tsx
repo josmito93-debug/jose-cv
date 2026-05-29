@@ -332,13 +332,14 @@ export default function InvoicePage() {
         throw new Error('Elemento de factura no encontrado');
       }
 
-      const [html2canvas, jsPDF] = await Promise.all([
-        import('html2canvas').then((m) => m.default),
-        import('jspdf').then((m) => m.default)
-      ]);
+      const html2canvasModule = await import('html2canvas');
+      const html2canvas = html2canvasModule.default || html2canvasModule;
+
+      const jspdfModule = await import('jspdf');
+      const jsPDF = jspdfModule.jsPDF || jspdfModule.default || jspdfModule;
 
       const canvas = await html2canvas(element, {
-        scale: 3,
+        scale: 2,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
@@ -386,9 +387,9 @@ export default function InvoicePage() {
       const fileName = `${invoiceNumber || 'cotizacion'}.pdf`.toLowerCase().replace(/\s+/g, '-');
       pdf.save(fileName);
       triggerAlert('PDF descargado con éxito.');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al generar el PDF:', error);
-      triggerAlert('Error al generar el PDF.');
+      triggerAlert(`Error: ${error.message || 'Error al generar el PDF'}`);
     } finally {
       setIsGeneratingPDF(false);
     }
@@ -917,6 +918,7 @@ export default function InvoicePage() {
                           alt="Universa Logo" 
                           width={72} 
                           height={72}
+                          unoptimized
                           className={`transition-all duration-300 print-logo-dark print-logo-img object-contain
                             ${previewTheme === 'dark' ? '' : 'brightness-0'}
                           `}
