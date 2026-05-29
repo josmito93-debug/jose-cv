@@ -126,7 +126,10 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
                   <Loader2 className="w-6 h-6 animate-spin" />
                 ) : (
                   <>
-                    {lang === 'en' ? 'Pay Project Deposit' : `Pagar Reserva ($${phases[0].investment.toLocaleString()})`}
+                    {phases.length === 1 
+                      ? (lang === 'en' ? `Pay $${phases[0].investment.toLocaleString()} USD with Stripe` : `Pagar $${phases[0].investment.toLocaleString()} USD con Stripe`)
+                      : (lang === 'en' ? `Pay Project Deposit ($${phases[0].investment.toLocaleString()})` : `Pagar Reserva ($${phases[0].investment.toLocaleString()})`)
+                    }
                     <CreditCard className="w-6 h-6" strokeWidth={3} />
                   </>
                 )}

@@ -914,5 +914,68 @@
     ],
     "summary": "En términos prácticos, no estás comprando una página web, estás construyendo el brazo digital de tu boutique. Un activo de alto rendimiento diseñado para captar clientes high-ticket, transmitir absoluta confianza y centralizar tu operación logística y de ventas.",
     "cta": "https://wa.me/17863024923"
+  },
+  "305transfers": {
+    "client": "305 Transfers",
+    "status": "Propuesta de Campaña Meta Ads",
+    "title": "CAMPAÑA META ADS - MUNDIAL DE FÚTBOL MIAMI 2026",
+    "lang": "es",
+    "ctaText": "Contactar por WhatsApp",
+    "phases": [
+      {
+        "id": 1,
+        "name": "DISEÑO CREATIVO, MONTAJE Y LANZAMIENTO",
+        "investment": 175,
+        "items": [
+          {
+            "title": "Conceptos Creativos & Mensajes Persuasivos",
+            "description": "Definición de los ángulos de venta dirigidos a turistas y aficionados que viajan a Miami por los juegos del Mundial 2026.",
+            "bullets": [
+              "Copywriting persuasivo enfocado en traslados exclusivos y sin estrés.",
+              "Estrategias de comunicación para captar grupos de aficionados y familias.",
+              "Llamados a la acción directos para agendar traslados desde aeropuertos o hacia el Hard Rock Stadium."
+            ],
+            "icon": "palette",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Diseño de Creativos Gráficos Premium",
+            "description": "Diseño visual de los anuncios que detendrán el scroll en Facebook e Instagram, proyectando una imagen profesional y de confianza.",
+            "bullets": [
+              "Diseño de anuncios adaptados a la identidad visual de 305 Transfers.",
+              "Optimización de formatos para Stories/Reels (9:16) y Feed (1:1).",
+              "Artes enfocados en resolver la principal fricción del turista: seguridad y puntualidad."
+            ],
+            "icon": "palette",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Configuración de Campaña & Segmentación Ultra-Local",
+            "description": "Montaje técnico de la campaña en Meta Ads Manager enfocándose en el público de alta intención.",
+            "bullets": [
+              "Segmentación demográfica y geográfica (Miami, Fort Lauderdale, inmediaciones del estadio).",
+              "Segmentación por intereses: Aficionados de selecciones del mundial, viajeros frecuentes y turistas.",
+              "Configuración del presupuesto optimizado para maximizar el alcance de la inversión."
+            ],
+            "icon": "megaphone",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Lanzamiento, Optimización & Enlace Directo",
+            "description": "Vinculación del Pixel de Meta y redirección directa de los anuncios para generar reservas inmediatas.",
+            "bullets": [
+              "Enlace directo de los anuncios a tu WhatsApp o canal de reservas preferido.",
+              "Monitoreo inicial para garantizar la entrega correcta de los anuncios.",
+              "Entrega de la estructura de campaña configurada y lista para correr."
+            ],
+            "icon": "activity",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Capta a los miles de turistas y fanáticos que visitan Miami para los juegos del Mundial 2026. Esta campaña posiciona a 305 Transfers como el servicio de transporte premium ideal para sus traslados al Hard Rock Stadium, aeropuertos y paseos turísticos. Propuesta comercial de un solo pago de $175 USD procesado de manera segura a través de Stripe o Zelle.",
+    "cta": "https://wa.me/17863024923",
+    "hideRelated": true
   }
 }

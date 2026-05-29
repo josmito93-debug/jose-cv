@@ -30,3 +30,4 @@ node_modules
 out
 build
 dist
+.env*

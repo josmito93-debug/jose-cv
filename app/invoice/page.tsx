@@ -6,7 +6,8 @@ import {
   FileText, 
   Plus, 
   Trash2, 
-  Printer, 
+  Download,
+  Loader2, 
   Sparkles, 
   ArrowLeft, 
   RotateCcw,
@@ -68,6 +69,7 @@ export default function InvoicePage() {
   // UI state
   const [previewTheme, setPreviewTheme] = useState<'dark' | 'light'>('dark');
   const [alertMsg, setAlertMsg] = useState<string | null>(null);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   // Set default dates on load
   useEffect(() => {
@@ -312,8 +314,84 @@ export default function InvoicePage() {
     }
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handleDownloadPDF = async () => {
+    if (isGeneratingPDF) return;
+    setIsGeneratingPDF(true);
+    triggerAlert('Generando PDF...');
+
+    try {
+      const originalTheme = previewTheme;
+
+      if (originalTheme !== 'light') {
+        setPreviewTheme('light');
+        await new Promise((resolve) => setTimeout(resolve, 300));
+      }
+
+      const element = document.getElementById('printable-invoice');
+      if (!element) {
+        throw new Error('Elemento de factura no encontrado');
+      }
+
+      const [html2canvas, jsPDF] = await Promise.all([
+        import('html2canvas').then((m) => m.default),
+        import('jspdf').then((m) => m.default)
+      ]);
+
+      const canvas = await html2canvas(element, {
+        scale: 3,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+      });
+
+      if (originalTheme !== 'light') {
+        setPreviewTheme(originalTheme);
+      }
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'letter'
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      const margin = 12;
+      const imgWidth = pdfWidth - 2 * margin;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      if (imgHeight <= pdfHeight - 2 * margin) {
+        const yOffset = margin;
+        pdf.addImage(imgData, 'PNG', margin, yOffset, imgWidth, imgHeight);
+      } else {
+        let heightLeft = imgHeight;
+        let position = 0;
+        let page = 1;
+
+        while (heightLeft > 0) {
+          if (page > 1) {
+            pdf.addPage();
+          }
+          
+          pdf.addImage(imgData, 'PNG', margin, position + margin, imgWidth, imgHeight);
+          
+          heightLeft -= (pdfHeight - 2 * margin);
+          position -= (pdfHeight - 2 * margin);
+          page++;
+        }
+      }
+
+      const fileName = `${invoiceNumber || 'cotizacion'}.pdf`.toLowerCase().replace(/\s+/g, '-');
+      pdf.save(fileName);
+      triggerAlert('PDF descargado con éxito.');
+    } catch (error) {
+      console.error('Error al generar el PDF:', error);
+      triggerAlert('Error al generar el PDF.');
+    } finally {
+      setIsGeneratingPDF(false);
+    }
   };
 
   return (
@@ -398,10 +476,19 @@ export default function InvoicePage() {
               <RotateCcw className="w-4 h-4" /> Limpiar Datos
             </button>
             <button 
-              onClick={handlePrint}
-              className="flex items-center gap-2 px-6 py-3.5 bg-[#2ddc80] hover:bg-[#20b867] text-[#0e131f] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-[#2ddc80]/10 hover:scale-[1.02]"
+              onClick={handleDownloadPDF}
+              disabled={isGeneratingPDF}
+              className="flex items-center gap-2 px-6 py-3.5 bg-[#2ddc80] hover:bg-[#20b867] text-[#0e131f] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-[#2ddc80]/10 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Printer className="w-4 h-4" /> Descargar PDF / Imprimir
+              {isGeneratingPDF ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Descargando...
+                </>
+              ) : (
+                <>
+                  <Download className="w-4 h-4" /> Descargar PDF
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -751,7 +838,7 @@ export default function InvoicePage() {
           {/* ========================================================================= */}
           <div className="lg:col-span-6 space-y-6">
             
-            {/* Theme Toggle & Print Button (Hidden during print) */}
+            {/* Theme Toggle (Hidden during print) */}
             <div className="flex justify-between items-center bg-white/5 border border-white/5 rounded-2xl p-3 print:hidden">
               <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 pl-2">Estilo de Vista Previa</span>
               <div className="flex bg-black rounded-xl p-1 gap-1">
