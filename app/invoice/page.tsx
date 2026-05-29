@@ -1112,6 +1112,43 @@ export default function InvoicePage() {
 
       {/* Global CSS overrides for clean full-page Printing */}
       <style dangerouslySetInnerHTML={{ __html: `
+        #printable-invoice {
+          --color-zinc-50: #f9fafb;
+          --color-zinc-100: #f3f4f6;
+          --color-zinc-200: #e5e7eb;
+          --color-zinc-300: #d1d5db;
+          --color-zinc-400: #9ca3af;
+          --color-zinc-500: #6b7280;
+          --color-zinc-600: #4b5563;
+          --color-zinc-700: #374151;
+          --color-zinc-800: #1f2937;
+          --color-zinc-900: #111827;
+          
+          --color-emerald-50: #ecfdf5;
+          --color-emerald-100: #d1fae5;
+          --color-emerald-200: #a7f3d0;
+          --color-emerald-300: #6ee7b7;
+          --color-emerald-400: #34d399;
+          --color-emerald-500: #10b981;
+          --color-emerald-600: #059669;
+          --color-emerald-700: #047857;
+          --color-emerald-800: #065f46;
+          --color-emerald-900: #064e3b;
+          --color-emerald-950: #022c22;
+          
+          --color-amber-50: #fffbeb;
+          --color-amber-100: #fef3c7;
+          --color-amber-200: #fde68a;
+          --color-amber-300: #fcd34d;
+          --color-amber-400: #fbbf24;
+          --color-amber-500: #f59e0b;
+          --color-amber-600: #d97706;
+          --color-amber-700: #b45309;
+          --color-amber-800: #92400e;
+          --color-amber-900: #78350f;
+          --color-amber-950: #451a03;
+        }
+
         @media print {
           /* Force page margin to avoid headers/footers */
           @page {
