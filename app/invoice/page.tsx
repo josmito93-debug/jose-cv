@@ -409,6 +409,27 @@ export default function InvoicePage() {
         onclone: (clonedDoc) => {
           const clonedRoot = clonedDoc.getElementById('printable-invoice');
           if (clonedRoot) {
+            const clonedLogo = clonedRoot.querySelector('.print-logo-img') as HTMLImageElement;
+            if (clonedLogo) {
+              try {
+                const canvas = document.createElement('canvas');
+                canvas.width = clonedLogo.naturalWidth || clonedLogo.width || 72;
+                canvas.height = clonedLogo.naturalHeight || clonedLogo.height || 72;
+                const ctx = canvas.getContext('2d');
+                if (ctx) {
+                  ctx.drawImage(clonedLogo, 0, 0, canvas.width, canvas.height);
+                  ctx.globalCompositeOperation = 'source-in';
+                  ctx.fillStyle = '#000000';
+                  ctx.fillRect(0, 0, canvas.width, canvas.height);
+                  clonedLogo.src = canvas.toDataURL();
+                  clonedLogo.style.filter = 'none';
+                  clonedLogo.className = clonedLogo.className.replace('brightness-0', '');
+                }
+              } catch (e) {
+                console.error('Error al convertir logo a negro:', e);
+              }
+            }
+
             sanitizeAll(element, clonedRoot);
           }
         }
@@ -1008,10 +1029,10 @@ export default function InvoicePage() {
                   <div className="space-y-4">
                     {/* Universa Brand Logo */}
                     <div className="flex items-center gap-4">
-                      <div className={`w-20 h-20 flex items-center justify-center p-2 rounded-2xl border transition-colors print-logo-container
+                      <div className={`w-20 h-20 flex items-center justify-center transition-all print-logo-container
                         ${previewTheme === 'dark' 
-                          ? 'bg-black/40 border-white/10' 
-                          : 'bg-zinc-100 border-zinc-200 print:bg-transparent print:border-none'
+                          ? 'bg-black/40 border-white/10 rounded-2xl border p-2' 
+                          : 'bg-transparent border-none p-0'
                         }
                       `}>
                         <Image 
