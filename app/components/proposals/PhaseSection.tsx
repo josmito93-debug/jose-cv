@@ -110,7 +110,7 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                   className="group relative bg-[#0e131f]/70 backdrop-blur-md rounded-[1.5rem] md:rounded-[2.5rem] transition-all duration-500 overflow-hidden flex flex-col"
                 >
                   {/* Luxury Card Texture Layer - Extreme Fine Grain */}
-                  <div className="absolute inset-0 z-0 opacity-[0.25] bg-[url('/images/texture.png')] bg-repeat bg-[length:50px_50px] pointer-events-none" />
+                  <div className="absolute inset-0 z-0 opacity-[0.25] bg-repeat bg-[length:50px_50px] pointer-events-none" style={{ backgroundImage: "url('/images/texture.png')" }} />
 
                   {/* Absolute Status Tag - Image or Text Label */}
                   {(tagImg || item.tagLabel) && (

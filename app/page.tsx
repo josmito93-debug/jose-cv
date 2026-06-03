@@ -229,12 +229,12 @@ export default function UniversalLanding() {
   });
 
   const carouselTags = [
-    { name: "Growth", status: "muted" },
-    { name: "Animacion", status: "glow" },
+    { name: "Groth", status: "glow" },
+    { name: "Animación", status: "glow" },
     { name: "Social Media", status: "glow" },
     { name: "Paid Media", status: "active" },
-    { name: "Produccion", status: "glow" },
-    { name: "Web Design", status: "muted" }
+    { name: "Producción", status: "glow" },
+    { name: "Web Design", status: "glow" }
   ];
 
   // Duplicate the array 4 times to ensure seamless infinite looping on wider viewports
@@ -263,7 +263,7 @@ export default function UniversalLanding() {
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           className="absolute top-[40%] -right-[10%] w-[700px] h-[700px] bg-[#2ddc80]/10 blur-[150px] rounded-full"
         />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.02]" />
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/carbon-fibre.png')" }} />
       </div>
 
       {/* Navigation - Clean Floating Logo */}
@@ -380,17 +380,22 @@ export default function UniversalLanding() {
               className="flex gap-6 w-max px-6"
             >
               {scrollTags.map((tag, idx) => (
-                <div 
-                  key={idx} 
-                  className={`px-6 py-3 md:px-8 md:py-3.5 rounded-full text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md whitespace-nowrap transition-all duration-300 ${
-                    tag.status === 'active' 
-                      ? 'bg-[#2ddc80]/15 border border-[#2ddc80]/40 text-[#2ddc80] shadow-xl shadow-[#2ddc80]/25 animate-pulse'
-                      : tag.status === 'glow'
-                      ? 'bg-[#2ddc80]/5 border border-[#2ddc80]/20 text-[#2ddc80]/70 hover:scale-105 hover:bg-[#2ddc80]/15 hover:border-[#2ddc80]/30 hover:text-[#2ddc80]'
-                      : 'bg-white/5 border border-white/10 text-white/50 hover:scale-105 hover:bg-white/10'
-                  }`}
-                >
-                  {tag.name}
+                <div key={idx} className="flex items-center gap-6">
+                  <div 
+                    className={`px-6 py-3 md:px-8 md:py-3.5 rounded-full text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md whitespace-nowrap transition-all duration-300 border text-[#2ddc80] hover:scale-105 hover:border-[#2ddc80]/60 hover:text-white ${
+                      tag.status === 'active' 
+                        ? 'border-[#2ddc80]/40 shadow-[0_0_15px_rgba(45,220,128,0.25)] animate-pulse'
+                        : 'border-[#2ddc80]/20 shadow-[0_0_10px_rgba(45,220,128,0.1)]'
+                    }`}
+                    style={{
+                      background: 'radial-gradient(circle at center, rgba(45, 220, 128, 0.12) 0%, rgba(45, 220, 128, 0.02) 100%)',
+                    }}
+                  >
+                    {tag.name}
+                  </div>
+                  <svg className="w-3.5 h-3.5 text-[#00f0ff] animate-pulse flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2c0 5.522 4.478 10 10 10-5.522 0-10 4.478-10 10 0-5.522-4.478-10-10-10 5.522 0 10-4.478 10-10z" />
+                  </svg>
                 </div>
               ))}
             </motion.div>
@@ -444,7 +449,7 @@ export default function UniversalLanding() {
                         borderColor: 'rgba(45, 220, 128, 0.4)'
                       }}
                     >
-                      <div className="absolute inset-0 z-0 opacity-[0.25] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
+                      <div className="absolute inset-0 z-0 opacity-[0.25] pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/carbon-fibre.png')" }} />
                       <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-20 bg-[#2ddc80]/10 blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                       <div className="relative z-10">
@@ -511,7 +516,7 @@ export default function UniversalLanding() {
                   className="relative bg-[#0e131f] rounded-[3rem] border border-white/5 overflow-hidden flex flex-col pt-12 px-10 w-[400px] md:w-[480px] h-[600px] md:h-[680px] transition-all duration-500 hover:border-[#2ddc80]/20"
                 >
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[60%] bg-gradient-to-b from-[#162033]/50 to-transparent z-0" />
-                    <div className="absolute inset-0 z-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
+                    <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/carbon-fibre.png')" }} />
 
                     <div className="relative z-10 space-y-6 flex-1">
                        <div className="flex items-center gap-3">

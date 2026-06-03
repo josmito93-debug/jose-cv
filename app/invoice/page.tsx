@@ -499,7 +499,7 @@ export default function InvoicePage() {
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           className="absolute top-[35%] -right-[10%] w-[600px] h-[600px] bg-[#2ddc80]/5 blur-[150px] rounded-full"
         />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.01]" />
+        <div className="absolute inset-0 opacity-[0.01]" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/carbon-fibre.png')" }} />
       </div>
 
       {/* Navigation Bar (Hidden during print) */}
@@ -1018,7 +1018,7 @@ export default function InvoicePage() {
 
               {/* Texture Layer (Only on dark theme screen) */}
               {previewTheme === 'dark' && (
-                <div className="absolute inset-0 z-0 opacity-[0.25] bg-[url('/images/texture.png')] bg-repeat bg-[length:50px_50px] pointer-events-none print:hidden" />
+                <div className="absolute inset-0 z-0 opacity-[0.25] bg-repeat bg-[length:50px_50px] pointer-events-none print:hidden" style={{ backgroundImage: "url('/images/texture.png')" }} />
               )}
 
               {/* Content Container */}

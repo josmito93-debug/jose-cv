@@ -46,7 +46,7 @@
 /** @tailwind components */
 /** @tailwind utilities */
 
-/* Professional UI Pro Skin Tokens & Configuration */
+/* Professional UI Pro Skin Tokens and Configuration */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -816,8 +816,8 @@ section.hero-fullscreen .tech-badge span {
   text-align: left;
 }
 
-.timeline-item:nth-child(odd) .timeline-desc li {
-  @media (min-width: 768px) {
+@media (min-width: 768px) {
+  .timeline-item:nth-child(odd) .timeline-desc li {
     padding-left: 0;
     padding-right: 15px;
   }
@@ -830,8 +830,8 @@ section.hero-fullscreen .tech-badge span {
   color: var(--accent-color);
 }
 
-.timeline-item:nth-child(odd) .timeline-desc li::before {
-  @media (min-width: 768px) {
+@media (min-width: 768px) {
+  .timeline-item:nth-child(odd) .timeline-desc li::before {
     left: auto;
     right: 0;
   }

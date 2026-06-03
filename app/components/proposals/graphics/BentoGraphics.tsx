@@ -47,7 +47,8 @@ export function BentoVideo() {
           <motion.div 
             animate={{ scale: [1, 1.05, 1] }} 
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=400')] bg-cover opacity-60" 
+            className="absolute inset-0 bg-cover opacity-60" 
+            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=400')" }} 
           />
           
           {/* Pro Center Crosshair/Focus */}

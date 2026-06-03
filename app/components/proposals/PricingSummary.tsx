@@ -93,7 +93,7 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
   return (
     <section className="py-32 md:py-48 px-6 relative overflow-hidden">
       {/* Background Texture Overlay */}
-      <div className="absolute inset-0 z-0 opacity-[0.03] bg-[url('/images/texture.png')] bg-repeat" />
+      <div className="absolute inset-0 z-0 opacity-[0.03] bg-repeat" style={{ backgroundImage: "url('/images/texture.png')" }} />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-start">
