@@ -363,7 +363,13 @@ export default function UniversalLanding() {
           </motion.div>
 
           {/* Six Tags Infinite Carousel (Bigger on Desktop & Mobile) */}
-          <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden py-4 mt-16 z-10 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+          <div 
+            className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden py-4 mt-16 z-10"
+            style={{
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+              maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
+            }}
+          >
             <motion.div 
               animate={{ x: ["0%", "-25%"] }}
               transition={{ 
