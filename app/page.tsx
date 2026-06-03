@@ -229,7 +229,7 @@ export default function UniversalLanding() {
   });
 
   const carouselTags = [
-    { name: "Groth", status: "muted" },
+    { name: "Growth", status: "muted" },
     { name: "Animacion", status: "glow" },
     { name: "Social Media", status: "glow" },
     { name: "Paid Media", status: "active" },
@@ -318,11 +318,6 @@ export default function UniversalLanding() {
           <Image src="/planetas/universaArtboard 1.png" alt="Side Planet" width={450} height={450} className="w-full h-full object-contain" />
         </div>
 
-        {/* Right planet/orb balancing the left side */}
-        <div className="absolute -right-[200px] md:-right-[250px] top-[20%] w-[350px] h-[350px] md:w-[450px] md:h-[450px] opacity-40 pointer-events-none mix-blend-screen z-0">
-          <Image src="/planetas/universaArtboard 23.png" alt="Side Planet Right" width={450} height={450} className="w-full h-full object-contain" />
-        </div>
-
         {/* Glow coming from the sun (right side) */}
         <div className="absolute right-0 bottom-0 w-1/2 h-full bg-gradient-to-t from-emerald-500/5 via-transparent to-transparent pointer-events-none blur-3xl z-0" />
         <div className="absolute right-[-10%] bottom-0 w-1/3 h-2/3 bg-emerald-500/10 rounded-full pointer-events-none blur-[150px] z-0" />
@@ -367,16 +362,10 @@ export default function UniversalLanding() {
              </button>
           </motion.div>
 
-          {/* Six Tags Infinite Carousel (Centered & Balanced with both-side masks on all browsers) */}
-          <div 
-            className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden py-4 mt-16 z-10"
-            style={{
-              WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
-              maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
-            }}
-          >
+          {/* Six Tags Infinite Carousel (Bigger on Desktop & Mobile) */}
+          <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden py-4 mt-16 z-10 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
             <motion.div 
-              animate={{ x: ["-12.5%", "-37.5%"] }}
+              animate={{ x: ["0%", "-25%"] }}
               transition={{ 
                 ease: "linear", 
                 duration: 20, 
@@ -385,26 +374,17 @@ export default function UniversalLanding() {
               className="flex gap-6 w-max px-6"
             >
               {scrollTags.map((tag, idx) => (
-                <div key={idx} className="flex items-center gap-6">
-                  {/* Tag capsule */}
-                  <div 
-                    className={`px-8 py-3.5 md:px-12 md:py-4 rounded-[1.25rem] md:rounded-[1.5rem] text-sm md:text-base font-medium tracking-wide backdrop-blur-md whitespace-nowrap transition-all duration-300 cursor-default ${
-                      tag.status === 'active' 
-                        ? 'bg-[#0e131f]/75 border border-[#2ddc80]/40 text-white bg-[radial-gradient(ellipse_at_top,rgba(45,220,128,0.25),transparent_70%)] shadow-xl shadow-[#2ddc80]/10 animate-pulse'
-                        : tag.status === 'glow'
-                        ? 'bg-[#0e131f]/65 border border-[#2ddc80]/20 text-white/90 bg-[radial-gradient(ellipse_at_top,rgba(45,220,128,0.15),transparent_65%)] hover:scale-105 hover:border-[#2ddc80]/30 hover:text-white transition-all duration-300'
-                        : 'bg-[#0e131f]/50 border border-white/5 text-white/40 hover:scale-105 hover:border-white/15 hover:text-white/60 transition-all duration-300'
-                    }`}
-                  >
-                    {tag.name}
-                  </div>
-                  
-                  {/* Separator: Small blue/cyan sparkle */}
-                  <div className="flex items-center justify-center text-cyan-400/80 pointer-events-none">
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2c0 5.522 4.478 10 10 10-5.522 0-10 4.478-10 10 0-5.522-4.478-10-10-10 5.522 0 10-4.478 10-10z" />
-                    </svg>
-                  </div>
+                <div 
+                  key={idx} 
+                  className={`px-6 py-3 md:px-8 md:py-3.5 rounded-full text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md whitespace-nowrap transition-all duration-300 ${
+                    tag.status === 'active' 
+                      ? 'bg-[#2ddc80]/15 border border-[#2ddc80]/40 text-[#2ddc80] shadow-xl shadow-[#2ddc80]/25 animate-pulse'
+                      : tag.status === 'glow'
+                      ? 'bg-[#2ddc80]/5 border border-[#2ddc80]/20 text-[#2ddc80]/70 hover:scale-105 hover:bg-[#2ddc80]/15 hover:border-[#2ddc80]/30 hover:text-[#2ddc80]'
+                      : 'bg-white/5 border border-white/10 text-white/50 hover:scale-105 hover:bg-white/10'
+                  }`}
+                >
+                  {tag.name}
                 </div>
               ))}
             </motion.div>
