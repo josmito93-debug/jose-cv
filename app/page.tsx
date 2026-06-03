@@ -228,6 +228,18 @@ export default function UniversalLanding() {
     offset: ["start start", "end end"]
   });
 
+  const carouselTags = [
+    { name: "Growth", status: "muted" },
+    { name: "Animacion", status: "glow" },
+    { name: "Social Media", status: "glow" },
+    { name: "Paid Media", status: "active" },
+    { name: "Produccion", status: "glow" },
+    { name: "Web Design", status: "muted" }
+  ];
+
+  // Duplicate the array 4 times to ensure seamless infinite looping on wider viewports
+  const scrollTags = [...carouselTags, ...carouselTags, ...carouselTags, ...carouselTags];
+
   return (
     <div ref={containerRef} className="bg-[#0e131f] text-white selection:bg-[#2ddc80] selection:text-[#0e131f] font-sans">
       
@@ -350,33 +362,33 @@ export default function UniversalLanding() {
              </button>
           </motion.div>
 
-          {/* Six Tags (Bigger on Desktop & Mobile as per instructions) */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="flex flex-wrap justify-center items-center gap-3 mt-16 max-w-4xl px-4"
-          >
-            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-white/5 border border-white/10 rounded-full text-white/50 text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md hover:scale-105 hover:bg-white/10 transition-all duration-300 cursor-default">
-              Growth
-            </div>
-            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-[#2ddc80]/5 border border-[#2ddc80]/20 rounded-full text-[#2ddc80]/70 text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md shadow-lg shadow-[#2ddc80]/5 hover:scale-105 hover:bg-[#2ddc80]/15 hover:border-[#2ddc80]/30 hover:text-[#2ddc80] transition-all duration-300 cursor-default">
-              Animacion
-            </div>
-            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-[#2ddc80]/5 border border-[#2ddc80]/20 rounded-full text-[#2ddc80]/70 text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md shadow-lg shadow-[#2ddc80]/5 hover:scale-105 hover:bg-[#2ddc80]/15 hover:border-[#2ddc80]/30 hover:text-[#2ddc80] transition-all duration-300 cursor-default">
-              Social Media
-            </div>
-            {/* Active Paid Media Tag with stronger glow */}
-            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-[#2ddc80]/15 border border-[#2ddc80]/40 rounded-full text-[#2ddc80] text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md shadow-xl shadow-[#2ddc80]/25 hover:scale-105 hover:bg-[#2ddc80]/25 hover:border-[#2ddc80]/50 transition-all duration-300 cursor-default animate-pulse">
-              Paid Media
-            </div>
-            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-[#2ddc80]/5 border border-[#2ddc80]/20 rounded-full text-[#2ddc80]/70 text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md shadow-lg shadow-[#2ddc80]/5 hover:scale-105 hover:bg-[#2ddc80]/15 hover:border-[#2ddc80]/30 hover:text-[#2ddc80] transition-all duration-300 cursor-default">
-              Produccion
-            </div>
-            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-white/5 border border-white/10 rounded-full text-white/50 text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md hover:scale-105 hover:bg-white/10 transition-all duration-300 cursor-default">
-              Web Design
-            </div>
-          </motion.div>
+          {/* Six Tags Infinite Carousel (Bigger on Desktop & Mobile) */}
+          <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden py-4 mt-16 z-10 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+            <motion.div 
+              animate={{ x: ["0%", "-25%"] }}
+              transition={{ 
+                ease: "linear", 
+                duration: 20, 
+                repeat: Infinity 
+              }}
+              className="flex gap-6 w-max px-6"
+            >
+              {scrollTags.map((tag, idx) => (
+                <div 
+                  key={idx} 
+                  className={`px-6 py-3 md:px-8 md:py-3.5 rounded-full text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md whitespace-nowrap transition-all duration-300 ${
+                    tag.status === 'active' 
+                      ? 'bg-[#2ddc80]/15 border border-[#2ddc80]/40 text-[#2ddc80] shadow-xl shadow-[#2ddc80]/25 animate-pulse'
+                      : tag.status === 'glow'
+                      ? 'bg-[#2ddc80]/5 border border-[#2ddc80]/20 text-[#2ddc80]/70 hover:scale-105 hover:bg-[#2ddc80]/15 hover:border-[#2ddc80]/30 hover:text-[#2ddc80]'
+                      : 'bg-white/5 border border-white/10 text-white/50 hover:scale-105 hover:bg-white/10'
+                  }`}
+                >
+                  {tag.name}
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </div>
 
         {/* Floor Landscape Image at the bottom */}
