@@ -255,75 +255,141 @@ export default function UniversalLanding() {
       </div>
 
       {/* Navigation - Clean Floating Logo */}
-      <nav className="fixed top-0 w-full z-[100] px-8 py-6 flex justify-between items-center bg-[#0e131f]/20 backdrop-blur-xl border-b border-white/5">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 flex items-center justify-center p-1 transition-transform hover:scale-110">
-            <Image src="/images/universa_logo.png" alt="Universa" width={48} height={48} />
-          </div>
-          <span className="text-2xl font-black italic tracking-tighter uppercase leading-none">Universa</span>
+      <nav className="fixed top-0 w-full z-[100] px-6 py-4 flex justify-between items-center bg-[#0e131f]/10 backdrop-blur-md border-b border-white/5 md:px-12 md:py-6">
+        <div className="flex items-center gap-3">
+          <Image src="/images/universa_logo.png" alt="Universa" width={40} height={40} className="object-contain" />
+          <span className="text-xl font-extrabold tracking-widest text-white uppercase font-sans">UNIVERSA</span>
         </div>
-        <div className="hidden lg:flex items-center gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500">
+        <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-white/80">
+          <a href="#" className="hover:text-[#2ddc80] transition-colors">Home</a>
+          <a href="#services" className="hover:text-[#2ddc80] transition-colors">Agencia</a>
           <a href="#services" className="hover:text-[#2ddc80] transition-colors">Servicios</a>
           <a href="#portfolio" className="hover:text-[#2ddc80] transition-colors">Portafolio</a>
-          <a href="#team" className="hover:text-[#2ddc80] transition-colors">Equipo</a>
-          <Link href="https://wa.me/17863024923" className="px-8 py-4 bg-[#2ddc80] text-[#0e131f] rounded-full hover:scale-105 transition-all duration-300 font-black shadow-lg shadow-[#2ddc80]/10">
-            Iniciar Misión
+          <a href="#blog" className="hover:text-[#2ddc80] transition-colors">Blog</a>
+          <a href="#contact" className="hover:text-[#2ddc80] transition-colors">Contacto</a>
+        </div>
+        <div className="flex items-center gap-4">
+          <Link href="https://wa.me/17863024923" className="px-6 py-2.5 bg-white text-black rounded-full hover:scale-105 transition-all duration-300 font-extrabold text-xs uppercase tracking-wider shadow-lg">
+            Cotiza tu proyecto
           </Link>
+          <svg className="w-5 h-5 text-white/80 hover:text-white transition-colors cursor-pointer" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2c0 5.522 4.478 10 10 10-5.522 0-10 4.478-10 10 0-5.522-4.478-10-10-10 5.522 0 10-4.478 10-10z" />
+          </svg>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col justify-center items-center pt-48 pb-40 px-8 lg:px-24 text-center">
-        <div className="max-w-5xl mx-auto w-full relative z-10 flex flex-col items-center gap-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-4"
-          >
-            <div className="h-[2px] w-8 bg-[#2ddc80]" />
-            <span className="text-[#2ddc80] font-black text-[10px] md:text-xs uppercase tracking-[0.4em]">
-              Agencia Digital de Alto Rendimiento
-            </span>
-            <div className="h-[2px] w-8 bg-[#2ddc80]" />
-          </motion.div>
+      <section className="relative min-h-screen flex flex-col justify-center items-center pt-48 pb-32 px-6 lg:px-24 text-center overflow-hidden">
+        
+        {/* Wireframe Bento Grid Pattern */}
+        <div className="absolute inset-0 z-0 opacity-15 pointer-events-none overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_70%,transparent_100%)]">
+          <div className="absolute inset-0 grid grid-cols-3 md:grid-cols-6 gap-6 p-6">
+            {Array.from({ length: 24 }).map((_, i) => (
+              <div key={i} className="border border-white/10 rounded-[2.5rem] aspect-square w-full" />
+            ))}
+          </div>
+        </div>
 
+        {/* Top planet sphere cut in half */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[45%] w-[550px] h-[550px] md:w-[800px] md:h-[800px] opacity-80 pointer-events-none mix-blend-screen overflow-hidden z-0">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 180, repeat: Infinity, ease: "linear" }}
+            className="w-full h-full"
+          >
+            <Image src="/planetas/universaArtboard 5.png" alt="Planet" width={800} height={800} className="w-full h-full object-contain" />
+          </motion.div>
+        </div>
+
+        {/* Left planet/orb similar to screenshot */}
+        <div className="absolute -left-[200px] md:-left-[250px] top-[15%] w-[350px] h-[350px] md:w-[450px] md:h-[450px] opacity-40 pointer-events-none mix-blend-screen z-0">
+          <Image src="/planetas/universaArtboard 1.png" alt="Side Planet" width={450} height={450} className="w-full h-full object-contain" />
+        </div>
+
+        {/* Glow coming from the sun (right side) */}
+        <div className="absolute right-0 bottom-0 w-1/2 h-full bg-gradient-to-t from-emerald-500/5 via-transparent to-transparent pointer-events-none blur-3xl z-0" />
+        <div className="absolute right-[-10%] bottom-0 w-1/3 h-2/3 bg-emerald-500/10 rounded-full pointer-events-none blur-[150px] z-0" />
+
+        {/* Main Content Area */}
+        <div className="max-w-5xl mx-auto w-full relative z-10 flex flex-col items-center gap-8 mt-12 md:mt-0">
+          
+          {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-8xl font-black tracking-tighter text-white leading-[1.1]"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white leading-[1.05] max-w-4xl font-sans"
           >
-            Donde la estrategia <br />
-            <span className="text-[#2ddc80]">se encuentra con el</span> <br />
-            Universo.
+            Donde la estrategia se <br />
+            encuentra con el universo.
           </motion.h1>
 
+          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-white/70 max-w-2xl font-medium leading-relaxed mt-4"
+            className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl font-semibold leading-relaxed"
           >
-            Construimos ecosistemas digitales de alto rendimiento que dominan Google, Meta y el mercado global. No diseñamos webs, creamos activos financieros.
+            Fusionamos ciencia, datos y creatividad para <br className="hidden md:inline" />
+            expandir el potencial de tu marca
           </motion.p>
 
+          {/* Two Buttons */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-6 mt-8"
+            className="flex flex-col sm:flex-row gap-4 mt-2 w-full sm:w-auto px-6 sm:px-0"
           >
-             <button className="px-12 py-6 bg-[#2ddc80] text-[#0e131f] font-black text-xs uppercase tracking-widest rounded-full shadow-xl shadow-[#2ddc80]/20 hover:scale-105 transition-transform">
-                Lanzar Proyecto
+             <button className="px-8 py-4 bg-white text-black font-extrabold text-xs md:text-sm uppercase tracking-wider rounded-full shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer">
+                Explorar el Universo
              </button>
-             <button className="px-12 py-6 bg-white/5 border border-white/10 text-white font-black text-xs uppercase tracking-widest rounded-full backdrop-blur-xl hover:bg-white/10 transition-all">
-                Explorar Universo
+             <button className="px-8 py-4 bg-white text-black font-extrabold text-xs md:text-sm uppercase tracking-wider rounded-full shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer">
+                Habla con un especialista
              </button>
+          </motion.div>
+
+          {/* Six Tags (Bigger on Desktop & Mobile as per instructions) */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="flex flex-wrap justify-center items-center gap-3 mt-16 max-w-4xl px-4"
+          >
+            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-white/5 border border-white/10 rounded-full text-white/50 text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md hover:scale-105 hover:bg-white/10 transition-all duration-300 cursor-default">
+              Growth
+            </div>
+            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-[#2ddc80]/5 border border-[#2ddc80]/20 rounded-full text-[#2ddc80]/70 text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md shadow-lg shadow-[#2ddc80]/5 hover:scale-105 hover:bg-[#2ddc80]/15 hover:border-[#2ddc80]/30 hover:text-[#2ddc80] transition-all duration-300 cursor-default">
+              Animacion
+            </div>
+            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-[#2ddc80]/5 border border-[#2ddc80]/20 rounded-full text-[#2ddc80]/70 text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md shadow-lg shadow-[#2ddc80]/5 hover:scale-105 hover:bg-[#2ddc80]/15 hover:border-[#2ddc80]/30 hover:text-[#2ddc80] transition-all duration-300 cursor-default">
+              Social Media
+            </div>
+            {/* Active Paid Media Tag with stronger glow */}
+            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-[#2ddc80]/15 border border-[#2ddc80]/40 rounded-full text-[#2ddc80] text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md shadow-xl shadow-[#2ddc80]/25 hover:scale-105 hover:bg-[#2ddc80]/25 hover:border-[#2ddc80]/50 transition-all duration-300 cursor-default animate-pulse">
+              Paid Media
+            </div>
+            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-[#2ddc80]/5 border border-[#2ddc80]/20 rounded-full text-[#2ddc80]/70 text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md shadow-lg shadow-[#2ddc80]/5 hover:scale-105 hover:bg-[#2ddc80]/15 hover:border-[#2ddc80]/30 hover:text-[#2ddc80] transition-all duration-300 cursor-default">
+              Produccion
+            </div>
+            <div className="px-6 py-3 md:px-8 md:py-3.5 bg-white/5 border border-white/10 rounded-full text-white/50 text-xs md:text-sm font-black uppercase tracking-widest backdrop-blur-md hover:scale-105 hover:bg-white/10 transition-all duration-300 cursor-default">
+              Web Design
+            </div>
           </motion.div>
         </div>
 
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-10 pointer-events-none mix-blend-screen overflow-hidden">
-           <Image src="/planetas/universaArtboard 5.png" alt="Planet" width={800} height={800} className="animate-pulse" />
+        {/* Floor Landscape Image at the bottom */}
+        <div className="absolute bottom-0 left-0 right-0 w-full h-[220px] sm:h-[300px] md:h-[450px] lg:h-[550px] xl:h-[650px] pointer-events-none z-0">
+          <Image 
+            src="/planetas/piso-hero-section.png" 
+            alt="Floor" 
+            fill
+            priority
+            className="object-cover object-bottom"
+          />
+          {/* Subtle gradient to blend the bottom edge with next section */}
+          <div className="absolute bottom-0 left-0 right-0 h-1/6 bg-gradient-to-t from-[#0e131f] to-transparent" />
         </div>
       </section>
 
