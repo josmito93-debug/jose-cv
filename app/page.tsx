@@ -185,39 +185,27 @@ const PROJECTS = [
 const SERVICES = [
   {
     id: 'google',
-    title: 'Google Mastery',
-    description: 'Transformamos búsquedas en transacciones. No solo posicionamos; adueñamos el mercado orgánico y pagado.',
+    title: 'Google SEO',
+    description: 'Fusionamos ciencia, datos y creatividad para expandir el potencial de tu marca',
     planet: '/planetas/universaArtboard 21.png',
-    tag: 'SEO & ADS',
-    bullets: ['Technical SEO Audit', 'SEM Strategy', 'Local Maps Control', 'Keyword Domination'],
-    icon: Search
+  },
+  {
+    id: 'webdev',
+    title: 'Web Develop',
+    description: 'Fusionamos ciencia, datos y creatividad para expandir el potencial de tu marca',
+    planet: '/planetas/universaArtboard 22.png',
   },
   {
     id: 'meta',
-    title: 'Social Intelligence',
-    description: 'Algoritmos que trabajan para ti. Segmentación quirúrgica y creatividades que detienen el scroll.',
+    title: 'Meta Ads',
+    description: 'Fusionamos ciencia, datos y creatividad para expandir el potencial de tu marca',
     planet: '/planetas/universaArtboard 23.png',
-    tag: 'ROI FOCUSED',
-    bullets: ['Facebook Ads scaling', 'Conversion Pixels', 'Retargeting Loops', 'Creative Strategy'],
-    icon: Zap
   },
   {
-    id: 'architecture',
-    title: 'Web Architecture',
-    description: 'Ingeniería web de vanguardia. Sitios ultra-rápidos optimizados para convertir cada visitante.',
-    planet: '/planetas/universaArtboard 22.png',
-    tag: 'HIGH PERFORMANCE',
-    bullets: ['Next.js Ecosystem', 'Serverless Speed', 'UX Optimization', 'Mobile First'],
-    icon: Globe
-  },
-  {
-    id: 'branding',
+    id: 'graphic',
     title: 'Graphic Design',
-    description: 'Identidad visual de élite que posiciona tu marca en lo más alto del universo.',
+    description: 'Fusionamos ciencia, datos y creatividad para expandir el potencial de tu marca',
     planet: '/planetas/universaArtboard 24.png',
-    tag: 'ELITE BRANDING',
-    bullets: ['Visual Identity', '3D Motion Design', 'Brand Storytelling', 'Social Content'],
-    icon: Palette
   }
 ];
 
@@ -418,82 +406,141 @@ export default function UniversalLanding() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-48 px-8 lg:px-24 relative">
-         <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
-               <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit mb-12">
-                  <div className="text-[#2ddc80] font-black text-[10px] uppercase tracking-[0.4em] mb-6 flex items-center gap-4">
-                    NUESTROS DOMINIOS
-                    <div className="h-[1px] w-8 bg-[#2ddc80]/30" />
-                  </div>
-                  <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white leading-[0.9] mb-8">
-                    Ecosistemas <br /> Integrados.
+      <section id="services" className="py-48 px-6 lg:px-24 relative overflow-hidden">
+         
+         {/* Faint green grid overlay */}
+         <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_70%,transparent_100%)]">
+           <div className="absolute inset-0 grid grid-cols-4 md:grid-cols-8 gap-6 p-6">
+             {Array.from({ length: 48 }).map((_, i) => (
+               <div key={i} className="border border-[#2ddc80] rounded-[2.5rem] aspect-square w-full" />
+             ))}
+           </div>
+         </div>
+
+         {/* Floating Rocks */}
+         <motion.div 
+           animate={{ 
+             y: [0, -12, 0],
+             rotate: [0, 10, 0]
+           }}
+           transition={{ 
+             duration: 7,
+             repeat: Infinity,
+             ease: "easeInOut"
+           }}
+           className="absolute -left-6 bottom-16 w-32 h-32 md:w-40 md:h-40 pointer-events-none z-10 opacity-70"
+         >
+           <Image src="/planetas/roca-13.png" alt="Space Rock" fill className="object-contain" />
+         </motion.div>
+
+         <motion.div 
+           animate={{ 
+             y: [0, 10, 0],
+             rotate: [0, -10, 0]
+           }}
+           transition={{ 
+             duration: 8,
+             repeat: Infinity,
+             ease: "easeInOut"
+           }}
+           className="absolute left-[45%] top-8 w-16 h-16 pointer-events-none z-10 opacity-70"
+         >
+           <Image src="/planetas/roca-14.png" alt="Space Rock" fill className="object-contain" />
+         </motion.div>
+
+         <motion.div 
+           animate={{ 
+             y: [0, -15, 0],
+             rotate: [0, 8, -8, 0]
+           }}
+           transition={{ 
+             duration: 9,
+             repeat: Infinity,
+             ease: "easeInOut"
+           }}
+           className="absolute left-[38%] -bottom-16 w-36 h-36 pointer-events-none z-10 opacity-75"
+         >
+           <Image src="/planetas/roca-15.png" alt="Space Rock" fill className="object-contain" />
+         </motion.div>
+
+         <motion.div 
+           animate={{ 
+             y: [0, 8, 0],
+             rotate: [0, 12, 0]
+           }}
+           transition={{ 
+             duration: 6.5,
+             repeat: Infinity,
+             ease: "easeInOut"
+           }}
+           className="absolute right-[20%] -bottom-10 w-24 h-24 pointer-events-none z-10 opacity-70"
+         >
+           <Image src="/planetas/roca-16.png" alt="Space Rock" fill className="object-contain" />
+         </motion.div>
+
+         {/* Green Ambient Glow behind cards */}
+         <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-[80%] h-[300px] bg-[#2ddc80]/10 blur-[150px] rounded-full pointer-events-none z-0" />
+         <div className="absolute top-[20%] -left-[10%] w-[350px] h-[350px] bg-purple-500/5 blur-[120px] rounded-full pointer-events-none z-0" />
+
+         <div className="max-w-7xl mx-auto relative z-10">
+            {/* Header row */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-20 text-left">
+               <div className="space-y-4">
+                  <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white leading-none">
+                     We build your whole ecosystem
                   </h2>
-                  <p className="text-white/40 text-lg font-medium leading-relaxed max-w-sm">
-                    Fusionamos ciencia de datos y creatividad de élite para expandir tu marca en el infinito digital.
+                  <p className="text-white/60 text-base md:text-lg font-medium leading-relaxed max-w-xl">
+                     Fusionamos ciencia, datos y creatividad para expandir el potencial de tu marca
                   </p>
                </div>
+               <Link 
+                 href="https://wa.me/17863024923" 
+                 className="px-8 py-4 bg-white text-black font-extrabold text-xs md:text-sm uppercase tracking-wider rounded-full shadow-xl hover:scale-105 transition-transform duration-300 flex-shrink-0"
+               >
+                 Habla con un especialista
+               </Link>
+            </div>
 
-               <div className="lg:col-span-8 flex flex-col gap-10">
-                  {SERVICES.map((service, idx) => (
-                    <motion.div
-                      key={service.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.1 }}
-                      className="group relative bg-[#0e131f]/70 backdrop-blur-md rounded-[2.5rem] p-12 md:p-16 border-[2.5px] border-transparent overflow-hidden flex flex-col"
-                      style={{
-                        maskImage: 'linear-gradient(to bottom, transparent, black)',
-                        WebkitMaskImage: 'linear-gradient(to bottom, transparent 20%, black 100%)',
-                        borderColor: 'rgba(45, 220, 128, 0.4)'
-                      }}
-                    >
-                      <div className="absolute inset-0 z-0 opacity-[0.25] pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/carbon-fibre.png')" }} />
-                      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-20 bg-[#2ddc80]/10 blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            {/* Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+               {SERVICES.map((service, idx) => (
+                  <motion.div
+                    key={service.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1, duration: 0.6 }}
+                    className="relative bg-white rounded-[3rem] p-8 pt-12 flex flex-col h-[520px] shadow-2xl transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_20px_50px_rgba(45,220,128,0.25)] overflow-hidden group"
+                  >
+                     {/* Content */}
+                     <div className="space-y-4 text-center">
+                        <h3 className="text-2xl md:text-3xl font-black tracking-tight text-[#0e131f]">
+                           {service.title}
+                        </h3>
+                        <p className="text-black/60 text-xs md:text-sm font-semibold leading-relaxed px-2">
+                           {service.description}
+                        </p>
+                     </div>
 
-                      <div className="relative z-10">
-                         <div className="flex justify-between items-start mb-12">
-                            <div className="w-12 h-12 rounded-xl bg-[#2ddc80]/10 flex items-center justify-center border border-[#2ddc80]/20 group-hover:scale-110 transition-transform">
-                               <service.icon className="w-6 h-6 text-[#2ddc80]" strokeWidth={2.5} />
-                            </div>
-                            <div className="px-4 py-2 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full flex items-center gap-2 group-hover:border-[#2ddc80]/30 transition-colors">
-                               <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] animate-pulse" />
-                               <span className="text-white font-black text-[9px] uppercase tracking-widest">{service.tag}</span>
-                            </div>
-                         </div>
-
-                         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                            <div className="space-y-6">
-                               <h3 className="text-3xl md:text-4xl font-black tracking-tight text-white group-hover:text-[#2ddc80] transition-colors leading-none">
-                                 {service.title}
-                               </h3>
-                               <p className="text-white/60 text-base md:text-lg font-medium leading-relaxed">
-                                 {service.description}
-                               </p>
-                               <ul className="space-y-3">
-                                  {service.bullets.map((b) => (
-                                    <li key={b} className="flex items-center gap-3 text-white/40 text-sm font-medium group-hover:text-white/80 transition-colors">
-                                      <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80]" />
-                                      {b}
-                                    </li>
-                                  ))}
-                               </ul>
-                            </div>
-                            <div className="relative aspect-square opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 mix-blend-screen">
-                               <Image src={service.planet} alt={service.title} fill className="object-contain" />
-                            </div>
-                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
-               </div>
+                     {/* Planet Visual sitting at bottom edge, cut in half */}
+                     <div className="relative w-full h-[240px] mt-auto flex justify-center items-end">
+                        <div className="absolute -bottom-[15%] w-[260px] h-[260px] md:w-[280px] md:h-[280px] group-hover:scale-105 transition-transform duration-700 pointer-events-none">
+                           <Image 
+                             src={service.planet} 
+                             alt={service.title} 
+                             fill 
+                             className="object-contain object-bottom"
+                           />
+                        </div>
+                     </div>
+                  </motion.div>
+               ))}
             </div>
          </div>
       </section>
 
       {/* Portfolio Section */}
-      <section id="portfolio" className="py-48 bg-[#0b0f19] overflow-hidden">
+      <section id="portfolio" className="py-48 bg-transparent overflow-hidden">
         <div className="max-w-7xl mx-auto px-8 lg:px-24 mb-32">
            <div className="flex flex-col md:flex-row justify-between items-end gap-10">
               <div className="space-y-6">
