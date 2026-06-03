@@ -386,6 +386,7 @@ export default function UniversalLanding() {
             alt="Floor" 
             fill
             priority
+            unoptimized
             className="object-cover object-bottom"
           />
           {/* Subtle gradient to blend the bottom edge with next section */}
