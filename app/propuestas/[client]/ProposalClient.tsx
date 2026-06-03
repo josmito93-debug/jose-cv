@@ -25,6 +25,7 @@ interface ProposalData {
   summary: string;
   cta: string;
   hideRelated?: boolean;
+  paymentSplit?: string;
 }
 
 export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug: string }) {
@@ -101,6 +102,7 @@ export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug
           clientSlug={clientSlug}
           lang={proposal.lang}
           ctaText={proposal.ctaText}
+          paymentSplit={proposal.paymentSplit}
         />
       </div>
     </main>

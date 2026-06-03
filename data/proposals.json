@@ -1,130 +1,139 @@
 {
   "roxe": {
     "client": "ROXE",
-    "status": "Esperando por respuesta de propuesta",
-    "title": "DESARROLLO WEB ECOMMERCE",
+    "status": "Propuesta de Ecosistema E-Commerce & Contenido",
+    "title": "DESARROLLO E-COMMERCE PREMIUM + PRODUCCIÓN DE CONTENIDO",
     "phases": [
       {
         "id": 1,
-        "name": "DESARROLLO ESTRATÉGICO DEL ECOMMERCE",
-        "investment": 750,
+        "name": "DESARROLLO E-COMMERCE DE ALTA CONVERSIÓN",
+        "investment": 1500,
+        "originalInvestment": 2500,
         "items": [
           {
-            "title": "Arquitectura del sitio",
-            "description": "Estructura optimizada para buscadores y motores de IA.",
+            "title": "E-Commerce Core, Checkout & Pagos",
+            "description": "Infraestructura de ventas digital robusta conectada a pasarelas líderes del mercado con experiencia mobile-first sin fricción. Incluye un descuento exclusivo de $1,000 por contratación en paquete junto con la producción de contenido.",
+            "icon": "globe",
             "bullets": [
-              "Home (Optimizada para conversión)",
-              "Shop (Categorías estratégicas)",
-              "Página de producto (CRO avanzado)",
-              "About, Contact & FAQ",
-              "Sitemap.xml & Robots.txt"
+              "Carrito de compras interactivo de alta velocidad",
+              "Conexión e integración con Stripe o Square",
+              "Métodos express: Apple Pay, Google Pay",
+              "Financiamiento integrado: Klarna & Afterpay",
+              "Página de Quicklinks profesional integrada en tu propio dominio",
+              "Cambio de idiomas automático adaptado a cada visitante"
             ],
-            "tag": "/tags/SEO and google.png"
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
           },
           {
-            "title": "Navegación Inteligente",
-            "description": "Menú dinámico que mejora la experiencia del usuario.",
+            "title": "Experiencia de Compra CRO & Catálogo",
+            "description": "Diseño UX/UI avanzado optimizado para maximizar el valor medio del ticket y facilitar la navegación.",
+            "icon": "palette",
             "bullets": [
-              "Mega menú desplegable",
-              "Jerarquía por tipo de producto",
-              "Acceso rápido a subcategorías",
-              "Destacados (Best Sellers)"
+              "Mega menú y catálogo con filtros y buscador A-Z rápido",
+              "Landing page independiente de alto impacto para cada producto",
+              "Página de producto premium con ingredientes y demostraciones de uso",
+              "Módulo de Up-sales: Ofertas estratégicas sugeridas al comprar para subir el ticket promedio (aumenta el valor de orden promedio)",
+              "Sección y página dedicada para testimonios y Reviews reales",
+              "Base de datos dinámica para administración sencilla"
             ],
-            "tag": "/tags/WEb desiing and UI.png"
+            "tag": "panenka-design",
+            "tagImage": "/tags/WEb desiing and UI.png"
           },
           {
-            "title": "Base de Datos Dinámica",
-            "description": "Gestión de productos simplificada y escalable.",
+            "title": "Google SEO & Optimización de Búsqueda IA",
+            "description": "Posicionamiento de vanguardia diseñado para dominar los motores de búsqueda tradicionales e Inteligencia Artificial, asegurando que tu marca sea la primera opción de tus clientes.",
+            "icon": "globe",
             "bullets": [
-              "Panel de administración intuitivo",
-              "Gestión de inventario y stock",
-              "Modificación de precios en tiempo real",
-              "Subida de imágenes optimizadas"
+              "Optimización para ChatGPT Search, Perplexity & Google SGE (Search Generative Experience)",
+              "Datos Estructurados (Schema Markup) para que Google entienda tus productos al instante",
+              "Optimización SEO local e indexación semántica de alta relevancia",
+              "Core Web Vitals optimizados para un posicionamiento orgánico rápido y estable"
             ],
-            "tag": "/tags/WEb desiing and UI.png"
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
           },
           {
-             "title": "Optimización SEO + IA",
-             "description": "Preparado para el futuro de las búsquedas.",
-             "bullets": [
-               "ChatGPT & Perplexity Optimizados",
-               "Google SGE (Search Generative Experience)",
-               "Datos estructurados (Schema Markup)"
-             ],
-             "tag": "/tags/SEO and google.png"
-          },
-          {
-             "title": "Copywriting Persuasivo",
-             "description": "Diseñado bajo principios de psicología del consumidor.",
-             "bullets": [
-               "Headlines de alto impacto",
-               "Secciones de beneficios",
-               "Microcopy (CTAs estratégicos)"
-             ],
-             "tag": "/tags/WEb desiing and UI.png"
-          },
-          {
-             "title": "Hero Section Animado",
-             "description": "Captura atención en los primeros 3 segundos.",
-             "bullets": [
-               "Animación custom (No plantilla)",
-               "Motion sutil orientado a conversión",
-               "Diferenciador clave visual"
-             ],
-             "tag": "/tags/WEb desiing and UI.png"
-          },
-          {
-             "title": "ROXE Blog Estratégico",
-             "description": "Motor de adquisición orgánica y autoridad.",
-             "bullets": [
-               " Topic clusters SEO-friendly",
-               "Generación de Authority Backlinks",
-               "Estrategia de contenido Linkable"
-             ],
-             "tag": "/tags/SEO and google.png"
+            "title": "Blog Estratégico ROXE (Motor de Adquisición)",
+            "description": "Tu principal canal de atracción orgánica sin pagar publicidad de por vida, atrayendo tráfico cualificado y posicionándote como autoridad del nicho.",
+            "icon": "activity",
+            "bullets": [
+              "Topic Clusters: Estructuración de temas que demuestra a Google que eres un experto en el sector",
+              "Indexación Activa: Google premia e indexa más rápido las webs con contenido nuevo y recurrente",
+              "Generador de Authority Backlinks: Creación de contenido 'enlazable' para que otros blogs apunten a ti",
+              "Conversión de Tráfico: Cada artículo actúa como un embudo de ventas silencioso hacia tus productos"
+            ],
+            "tag": "panenka-journey",
+            "tagImage": "/tags/SEO and google.png"
           }
         ]
       },
       {
         "id": 2,
-        "name": "INTEGRACIÓN DE SISTEMA DE PAGOS",
-        "investment": 450,
+        "name": "PRODUCCIÓN DE CONTENIDO (5 PRODUCTOS)",
+        "investment": 500,
+        "originalInvestment": 1000,
         "items": [
           {
-            "title": "Pasarela de Pago Profesional",
-            "description": "Seguridad y simplicidad en el checkout.",
+            "title": "Tracking, Marketing & Automatizaciones",
+            "description": "Herramientas clave para rastrear conversiones y recuperar clientes en piloto automático.",
+            "icon": "activity",
             "bullets": [
-              "Integración segura (Stripe/PayPal)",
-              "Flujo de pago optimizado",
-              "Confianza visual para el cliente"
+              "Meta Pixel & Google Tag Manager integrados para trackear ventas",
+              "Secuencias automáticas de email para Carrito Abandonado",
+              "Formulario de captación y flujo inicial de Newsletter",
+              "Optimización SEO integral preparada para Google SGE e Inteligencia Artificial"
             ],
-            "tag": "/tags/WEb desiing and UI.png"
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
           },
           {
-            "title": "Métodos de Pago Avanzados",
-            "description": "Aumenta la tasa de conversión.",
+            "title": "Producción Fotográfica Premium (30 Fotos)",
+            "description": "Sesión de fotos profesional dedicada para tus 5 productos clave. El costo por producto se reduce a solo $100 gracias a la realización de la sesión en bloque de toda la marca en un mismo día.",
+            "icon": "palette",
             "bullets": [
-              "Apple Pay & Google Pay",
-              "Klarna (Buy Now Pay Later)",
-              "Afterpay"
+              "3 fotos de producto en diferentes ángulos por producto (15 fotos)",
+              "1 foto del producto en uso por una modelo por producto (5 fotos)",
+              "1 foto detalle del producto aplicado en la cara/labios por producto (5 fotos)",
+              "5 fotos estilo Review de testimonios de producto (5 fotos)",
+              "Ahorro de $150+ y costos de modelo por producto"
             ],
-            "tag": "/tags/WEb desiing and UI.png"
+            "tag": "panenka-design",
+            "tagImage": "/tags/Graphic desing.png"
           },
           {
-            "title": "Automatización de Emails",
-            "description": "Mejora la experiencia post-compra.",
+            "title": "Producción de Video & UGC (15 Videos)",
+            "description": "Creación de 15 piezas de video dinámicas optimizadas para Meta/TikTok Ads y contenido orgánico. Ahorras el 50% al centralizar la logística de modelos y locación en una sola jornada intensiva, reduciendo el costo operativo a solo $49 por producto.",
+            "icon": "video",
             "bullets": [
-              "Confirmaciones inteligentes",
-              "Recibos profesionales",
-              "Base para remarketing"
+              "1 video UGC de un modelo usando el producto por producto (5 videos)",
+              "2 videos promocionales de alta conversión por producto (10 videos)",
+              "Costo operativo de producción de solo $49 por producto",
+              "Total acumulado: 45 piezas de contenido premium (30 fotos + 15 videos)"
             ],
-            "tag": "/tags/WEb desiing and UI.png"
+            "tag": "panenka-video",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "BONUS GRATIS: Instagram Optimization",
+            "description": "Lanzamiento integral potenciando tu canal de adquisición principal en redes sociales sin costo adicional.",
+            "icon": "users",
+            "bullets": [
+              "Optimización completa de biografía y foto de perfil",
+              "Creación y publicación de los primeros 15 posts iniciales",
+              "Diseño de Highlights (Historias destacadas) con iconos e identidad custom",
+              "Valor real estimado en $450 USD — Completamente GRATIS"
+            ],
+            "tag": "roxe-instagram",
+            "tagImage": "/tags/Graphic desing.png"
           }
         ]
       }
     ],
-    "summary": "Esto no es diseño web. Esto es infraestructura de ventas digital.",
-    "cta": "https://wa.me/17863024923"
+    "summary": "Tu web no es un gasto, es tu infraestructura de ventas digital. Con un desarrollo valorado en $2,500 rebajado a $1,500, y una producción de 45 piezas de contenido premium valorada en $1,000 rebajada a $500, ahorras más de $1,500 en total. Además, optimizamos tu Instagram de forma 100% gratuita para garantizar un lanzamiento exitoso.",
+    "cta": "https://wa.me/17863024923",
+    "hideRelated": true,
+    "paymentSplit": "50/50"
   },
   "roxe-branding": {
     "client": "ROXE",

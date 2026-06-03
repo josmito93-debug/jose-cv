@@ -5,27 +5,33 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Wallet, CheckCircle2, PlayCircle, Loader2, CreditCard } from 'lucide-react';
 
 interface PricingSummaryProps {
-  phases: Array<{ name: string; investment: number }>;
+  phases: Array<{ name: string; investment: number; originalInvestment?: number }>;
   cta: string;
   clientSlug?: string;
   lang?: 'en' | 'es';
   ctaText?: string;
+  paymentSplit?: string;
 }
 
-export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', ctaText }: PricingSummaryProps) {
+export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', ctaText, paymentSplit }: PricingSummaryProps) {
   const [isPaying, setIsPaying] = React.useState(false);
   const [showZelle, setShowZelle] = React.useState(false);
+
+  const total = phases.reduce((acc, curr) => acc + curr.investment, 0);
+  const originalTotal = phases.reduce((acc, curr) => acc + ((curr as any).originalInvestment || curr.investment), 0);
+  const totalSavings = originalTotal - total;
 
   const handlePayDeposit = async () => {
     if (!clientSlug) return;
     setIsPaying(true);
     try {
+      const depositAmount = paymentSplit === '50/50' ? total / 2 : phases[0].investment;
       const res = await fetch('/api/payment/stripe/one-time', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           clientId: clientSlug,
-          amount: phases[0].investment,
+          amount: depositAmount,
           description: `Deposit for ${phases[0].name}`
         })
       });
@@ -41,24 +47,48 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
       setIsPaying(false);
     }
   };
-
-  const total = phases.reduce((acc, curr) => acc + curr.investment, 0);
   
-  const milestones = phases.map((phase, i) => {
-    const isFirst = i === 0;
-    const isLast = i === phases.length - 1;
-    return {
-      title: isFirst 
-        ? (lang === 'en' ? (phases.length === 1 ? "Full Project Investment" : "Project Deposit") : "Reserva de Proyecto")
-        : (isLast ? (lang === 'en' ? "Final Delivery" : "Entrega Final") : phase.name),
-      description: isFirst 
-        ? (lang === 'en' ? "Full 100% payment for the production and delivery of all high-end assets." : "Iniciamos con el pago inicial para el desarrollo de activos.") 
-        : (lang === 'en' ? "Final balance for project completion and full asset delivery." : "Saldo para la entrega final de todos los activos."),
-      amount: phase.investment,
-      icon: isFirst ? <PlayCircle className="w-5 h-5" /> : <CheckCircle2 className="w-5 h-5" />,
-      status: isFirst ? (lang === 'en' ? "START" : "INICIO") : (lang === 'en' ? "COMPLETION" : "FINALIZACIÓN")
-    };
-  });
+  const milestones = React.useMemo(() => {
+    if (paymentSplit === '50/50') {
+      const half = total / 2;
+      return [
+        {
+          title: lang === 'en' ? "Project Deposit (50%)" : "Reserva de Proyecto (50%)",
+          description: lang === 'en' 
+            ? "50% upfront payment to secure booking and initiate strategic development." 
+            : "Pago inicial del 50% para reservar el proyecto e iniciar el desarrollo estratégico.",
+          amount: half,
+          icon: <PlayCircle className="w-5 h-5" />,
+          status: lang === 'en' ? "START" : "INICIO"
+        },
+        {
+          title: lang === 'en' ? "Final Delivery (50%)" : "Entrega Final (50%)",
+          description: lang === 'en' 
+            ? "Remaining 50% balance upon final review, delivery, and launch." 
+            : "Saldo del 50% restante al momento de la entrega final y lanzamiento.",
+          amount: half,
+          icon: <CheckCircle2 className="w-5 h-5" />,
+          status: lang === 'en' ? "COMPLETION" : "FINALIZACIÓN"
+        }
+      ];
+    }
+
+    return phases.map((phase, i) => {
+      const isFirst = i === 0;
+      const isLast = i === phases.length - 1;
+      return {
+        title: isFirst 
+          ? (lang === 'en' ? (phases.length === 1 ? "Full Project Investment" : "Project Deposit") : "Reserva de Proyecto")
+          : (isLast ? (lang === 'en' ? "Final Delivery" : "Entrega Final") : phase.name),
+        description: isFirst 
+          ? (lang === 'en' ? "Full 100% payment for the production and delivery of all high-end assets." : "Iniciamos con el pago inicial para el desarrollo de activos.") 
+          : (lang === 'en' ? "Final balance for project completion and full asset delivery." : "Saldo para la entrega final de todos los activos."),
+        amount: phase.investment,
+        icon: isFirst ? <PlayCircle className="w-5 h-5" /> : <CheckCircle2 className="w-5 h-5" />,
+        status: isFirst ? (lang === 'en' ? "START" : "INICIO") : (lang === 'en' ? "COMPLETION" : "FINALIZACIÓN")
+      };
+    });
+  }, [phases, total, paymentSplit, lang]);
 
   return (
     <section className="py-32 md:py-48 px-6 relative overflow-hidden">
@@ -103,14 +133,31 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
                   <span className="text-white/40 font-bold uppercase tracking-widest text-xs">
                     {lang === 'en' ? 'Phase' : 'Fase'} 0{i+1}: {phase.name}
                   </span>
-                  <span className="text-white font-black text-xl">${phase.investment.toLocaleString()}</span>
+                  <div className="flex items-baseline gap-2">
+                    {(phase as any).originalInvestment && (
+                      <span className="text-white/30 line-through text-sm font-bold">
+                        ${(phase as any).originalInvestment.toLocaleString()}
+                      </span>
+                    )}
+                    <span className="text-white font-black text-xl">${phase.investment.toLocaleString()}</span>
+                  </div>
                 </div>
               ))}
               <div className="flex justify-between items-end pt-4">
                 <span className="text-white font-black uppercase tracking-[0.2em] text-sm">
                   {lang === 'en' ? 'TOTAL ACCUMULATED' : 'TOTAL ACUMULADO'}
                 </span>
-                <span className="text-[#2ddc80] font-black text-4xl tracking-tighter">${total.toLocaleString()}</span>
+                <div className="flex flex-col items-end">
+                  {totalSavings > 0 && (
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-white/30 line-through text-sm font-bold">${originalTotal.toLocaleString()}</span>
+                      <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-wider bg-[#2ddc80]/15 px-2 py-0.5 rounded border border-[#2ddc80]/20">
+                        {lang === 'en' ? `Save $${totalSavings.toLocaleString()}` : `Ahorras $${totalSavings.toLocaleString()}`}
+                      </span>
+                    </div>
+                  )}
+                  <span className="text-[#2ddc80] font-black text-4xl tracking-tighter">${total.toLocaleString()}</span>
+                </div>
               </div>
             </motion.div>
 
@@ -126,9 +173,11 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
                   <Loader2 className="w-6 h-6 animate-spin" />
                 ) : (
                   <>
-                    {phases.length === 1 
-                      ? (lang === 'en' ? `Pay $${phases[0].investment.toLocaleString()} USD with Stripe` : `Pagar $${phases[0].investment.toLocaleString()} USD con Stripe`)
-                      : (lang === 'en' ? `Pay Project Deposit ($${phases[0].investment.toLocaleString()})` : `Pagar Reserva ($${phases[0].investment.toLocaleString()})`)
+                    {paymentSplit === '50/50'
+                      ? (lang === 'en' ? `Pay Project Deposit ($${(total/2).toLocaleString()})` : `Pagar Reserva ($${(total/2).toLocaleString()})`)
+                      : (phases.length === 1 
+                          ? (lang === 'en' ? `Pay $${phases[0].investment.toLocaleString()} USD with Stripe` : `Pagar $${phases[0].investment.toLocaleString()} USD con Stripe`)
+                          : (lang === 'en' ? `Pay Project Deposit ($${phases[0].investment.toLocaleString()})` : `Pagar Reserva ($${phases[0].investment.toLocaleString()})`))
                     }
                     <CreditCard className="w-6 h-6" strokeWidth={3} />
                   </>

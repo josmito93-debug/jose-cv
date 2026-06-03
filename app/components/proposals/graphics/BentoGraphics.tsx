@@ -1224,3 +1224,141 @@ export function BentoN8nFlow() {
     </div>
   );
 }
+
+export function BentoInstagram() {
+  const [followers, setFollowers] = React.useState(9800);
+  
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setFollowers(prev => {
+        if (prev >= 10482) {
+          clearInterval(timer);
+          return 10482;
+        }
+        return prev + Math.floor(Math.random() * 80) + 20;
+      });
+    }, 40);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="w-full max-w-[320px] h-[450px] md:h-[500px] bg-[#090d16] border border-white/10 rounded-3xl relative overflow-hidden p-6 shadow-2xl flex flex-col justify-between group mx-auto my-4">
+      {/* Background radial glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,220,128,0.1)_0%,transparent_60%)] pointer-events-none" />
+      
+      {/* Phone Header Mockup */}
+      <div className="flex justify-between items-center pb-4 border-b border-white/5 relative z-10">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[12px] font-black text-white/90 tracking-tight">roxe.beauty</span>
+          {/* Verified Badge */}
+          <div className="w-3.5 h-3.5 rounded-full bg-[#2ddc80] flex items-center justify-center">
+            <svg className="w-2 h-2 text-[#090d16]" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+            </svg>
+          </div>
+        </div>
+        <div className="flex gap-1.5">
+          <div className="w-2 h-2 rounded-full bg-white/10" />
+          <div className="w-2 h-2 rounded-full bg-white/10" />
+          <div className="w-2 h-2 rounded-full bg-white/10" />
+        </div>
+      </div>
+
+      {/* Profile Info Row */}
+      <div className="flex items-center gap-6 mt-4 relative z-10">
+        {/* Profile Picture with IG Gradient Ring */}
+        <div className="relative flex-shrink-0">
+          <div className="w-16 h-16 rounded-full p-[2.5px] bg-gradient-to-tr from-[#2ddc80] via-[#3b82f6] to-[#ec4899] shadow-lg">
+            <div className="w-full h-full rounded-full bg-[#090d16] flex items-center justify-center overflow-hidden border border-black/40">
+              {/* Lips/Face SVG */}
+              <svg className="w-8 h-8 text-[#2ddc80]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21c-2.45 0-4.9-1.04-6.42-3.12-.3-.42-.23-1 .19-1.31s1-.23 1.31.19c1.19 1.63 3.12 2.44 4.92 2.44s3.73-.81 4.92-2.44c.3-.42.89-.5 1.31-.19s.5.89.19 1.31C16.9 19.96 14.45 21 12 21zm-6-8c0-.55.45-1 1-1h10c.55 0 1 .45 1 1 0 .28-.11.53-.3.71-.18.18-.43.29-.7.29H7c-.55 0-1-.45-1-1zm6-6C6.55 7 2 9.5 2 12.5c0 1 .45 1.5 1.5 1.5h17c1.05 0 1.5-.5 1.5-1.5C22 9.5 17.45 7 12 7z" />
+              </svg>
+            </div>
+          </div>
+          {/* Active green dot */}
+          <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#2ddc80] border-2 border-[#090d16] rounded-full animate-pulse shadow-[0_0_8px_#2ddc80]" />
+        </div>
+
+        {/* Stats Grid */}
+        <div className="flex-1 flex justify-between text-center">
+          <div className="flex flex-col">
+            <span className="text-[12px] font-black text-white">15</span>
+            <span className="text-[7px] text-white/40 uppercase tracking-widest font-black">Posts</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[12px] font-black text-[#2ddc80] tracking-tight">
+              {followers.toLocaleString()}
+            </span>
+            <span className="text-[7px] text-white/40 uppercase tracking-widest font-black">Seguidores</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[12px] font-black text-white">250</span>
+            <span className="text-[7px] text-white/40 uppercase tracking-widest font-black">Seguidos</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Bio Text */}
+      <div className="mt-4 text-left relative z-10">
+        <h4 className="text-[11px] font-black text-white uppercase tracking-wider">ROXE Beauty</h4>
+        <p className="text-[8px] text-white/40 font-black tracking-wide mt-0.5">Cosmetics & Lip Care</p>
+        <p className="text-[9px] text-white/80 leading-relaxed font-medium mt-2 max-w-[28ch]">
+          ✨ Cosmética de alto rendimiento<br/>
+          🧪 Ingredientes Clínicos & Premium<br/>
+          📦 Envíos gratis en compras +$50
+        </p>
+        {/* Link */}
+        <div className="flex items-center gap-1 mt-2">
+          <svg className="w-3 h-3 text-[#2ddc80]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+          </svg>
+          <span className="text-[9px] text-[#2ddc80] font-black hover:underline tracking-tight">roxe.beauty/shop</span>
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="grid grid-cols-2 gap-3 mt-4 relative z-10">
+        <div className="h-7 bg-[#2ddc80] rounded-lg flex items-center justify-center border border-[#2ddc80]/20">
+          <span className="text-[8px] font-black text-[#090d16] uppercase tracking-wider">Optimizado</span>
+        </div>
+        <div className="h-7 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center">
+          <span className="text-[8px] font-black text-white/80 uppercase tracking-wider">Mensaje</span>
+        </div>
+      </div>
+
+      {/* Highlights Stories Row */}
+      <div className="flex justify-between items-center mt-5 py-2 border-y border-white/5 relative z-10 gap-2">
+        {[
+          { name: 'Shop 🛒', emoji: '🛍️' },
+          { name: 'Reviews ⭐', emoji: '⭐' },
+          { name: 'UGC 🎬', emoji: '🎬' },
+          { name: 'Ings 🧪', emoji: '🧪' }
+        ].map((hl, i) => (
+          <div key={i} className="flex flex-col items-center gap-1 flex-shrink-0">
+            <div className="w-8 h-8 rounded-full p-[1.5px] bg-white/10 border border-white/5 flex items-center justify-center group-hover:border-[#2ddc80]/30 transition-colors duration-500">
+              <div className="w-full h-full rounded-full bg-[#090d16] flex items-center justify-center text-[11px]">
+                {hl.emoji}
+              </div>
+            </div>
+            <span className="text-[6px] font-black text-white/40 uppercase tracking-widest">{hl.name}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Simulated Post Grid */}
+      <div className="grid grid-cols-3 gap-2 mt-4 relative z-10 flex-1 min-h-[80px]">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="aspect-square bg-white/5 border border-white/5 rounded-lg relative overflow-hidden group/post">
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#2ddc80]/20 to-transparent opacity-40 group-hover/post:opacity-80 transition-opacity" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <svg className="w-4 h-4 text-white/20 group-hover/post:text-[#2ddc80]/50 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

@@ -24,7 +24,8 @@ export type GraphicId =
   | 'milex-booking'
   | 'milex-payments'
   | 'milex-notifications'
-  | 'n8n-flow';
+  | 'n8n-flow'
+  | 'roxe-instagram';
 
 interface GraphicResolverProps {
   id: GraphicId | string;
@@ -74,6 +75,8 @@ export default function GraphicResolver({ id }: GraphicResolverProps) {
       return <Bento.BentoMilexNotifications />;
     case 'n8n-flow':
       return <Bento.BentoN8nFlow />;
+    case 'roxe-instagram':
+      return <Bento.BentoInstagram />;
     default:
       return null;
   }

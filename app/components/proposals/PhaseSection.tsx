@@ -23,6 +23,7 @@ interface PhaseProps {
     id: number;
     name: string;
     investment: number;
+    originalInvestment?: number;
     items: PhaseItem[];
   };
   lang?: 'en' | 'es';
@@ -80,9 +81,16 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
               <span className="text-[#0e131f] text-[10px] font-black uppercase tracking-widest opacity-60">
                 {lang === 'en' ? 'Investment' : 'Inversión'}
               </span>
-              <span className="text-[#0e131f] text-2xl md:text-3xl font-black tracking-tight">
-                ${phase.investment.toLocaleString()}
-              </span>
+              <div className="flex items-baseline gap-2">
+                {phase.originalInvestment && (
+                  <span className="text-[#0e131f]/50 line-through text-sm font-bold">
+                    ${phase.originalInvestment.toLocaleString()}
+                  </span>
+                )}
+                <span className="text-[#0e131f] text-2xl md:text-3xl font-black tracking-tight">
+                  ${phase.investment.toLocaleString()}
+                </span>
+              </div>
             </motion.div>
           </div>
 
@@ -90,6 +98,7 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
           <div className="lg:col-span-8 flex flex-col gap-6 md:gap-8">
             {phase.items.map((item, index) => {
               const IconComponent = (item.icon && IconMap[item.icon]) || Check;
+              const tagImg = (item.tag && item.tag.startsWith('/tags/')) ? item.tag : item.tagImage;
               
               return (
                 <motion.div
@@ -104,17 +113,18 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                   <div className="absolute inset-0 z-0 opacity-[0.25] bg-[url('/images/texture.png')] bg-repeat bg-[length:50px_50px] pointer-events-none" />
 
                   {/* Absolute Status Tag - Image or Text Label */}
-                  {(item.tagImage || item.tagLabel) && (
-                    <div className="absolute top-6 right-6 md:top-10 md:right-10 z-30">
-                      {item.tagImage ? (
+                  {(tagImg || item.tagLabel) && (
+                    <div className="absolute top-6 right-6 md:top-10 md:right-10 z-30 flex flex-col items-end gap-2">
+                      {tagImg && (
                         <div className="relative group/tag">
                           <img 
-                            src={item.tagImage} 
-                            alt={item.tagLabel || ""} 
-                            className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-[0_0_15px_rgba(45,220,128,0.3)] group-hover/tag:scale-110 transition-transform duration-500"
+                            src={tagImg} 
+                            alt="" 
+                            className="w-32 h-32 md:w-36 md:h-36 object-contain drop-shadow-[0_0_15px_rgba(45,220,128,0.3)] group-hover/tag:scale-110 transition-transform duration-500"
                           />
                         </div>
-                      ) : (
+                      )}
+                      {item.tagLabel && (
                         <div className="px-3 py-1.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full flex items-center gap-2 group-hover:border-[#2ddc80]/30 transition-colors">
                           <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] animate-pulse shadow-[0_0_8px_#2ddc80]" />
                           <span className="text-white font-black text-[9px] uppercase tracking-[0.2em]">
@@ -160,12 +170,22 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
 
                       {item.bullets && (
                         <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4 mt-2">
-                          {item.bullets.map((bullet, idx) => (
-                            <li key={idx} className="flex items-center gap-3 text-white/50 text-sm md:text-base font-medium group-hover:text-white/80 transition-colors">
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] shadow-[0_0_8px_#2ddc80]" />
-                              {bullet}
-                            </li>
-                          ))}
+                          {item.bullets.map((bullet, idx) => {
+                            const isHighlight = bullet.toLowerCase().includes("total acumulado");
+                            return (
+                              <li 
+                                key={idx} 
+                                className={`flex items-center gap-3 text-sm md:text-base font-medium group-hover:text-white/80 transition-colors ${
+                                  isHighlight 
+                                    ? 'text-white font-black text-base md:text-xl md:col-span-2 bg-[#2ddc80]/15 border border-[#2ddc80]/30 p-6 rounded-2xl mt-4 shadow-[0_10px_30px_rgba(45,220,128,0.15)]' 
+                                    : 'text-white/50'
+                                }`}
+                              >
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#2ddc80] shadow-[0_0_8px_#2ddc80]" />
+                                {bullet}
+                              </li>
+                            );
+                          })}
                         </ul>
                       )}
                     </div>
@@ -186,7 +206,7 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                   )}
 
                   {/* Full-width Graphics Block (Legacy / Special Tags) */}
-                  {(item.tag || (item.ctaText && item.ctaLink)) && !item.image && (
+                  {(((item.tag && !item.tag.startsWith('/tags/')) || (item.ctaText && item.ctaLink)) && !item.image) && (
                     <div className="relative z-20 w-full mt-auto border-t border-white/5 bg-white/[0.01] flex flex-col items-center">
                       {item.ctaLink ? (
                         <a 
@@ -195,7 +215,7 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                           rel="noopener noreferrer"
                           className="w-full flex flex-col items-center group/link"
                         >
-                          {item.tag && (
+                          {item.tag && !item.tag.startsWith('/tags/') && (
                             <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover/link:scale-[1.01]">
                               {item.tag.startsWith('/') ? (
                                 <img 
@@ -212,7 +232,7 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                           )}
                         </a>
                       ) : (
-                        item.tag && (
+                        item.tag && !item.tag.startsWith('/tags/') && (
                           <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover:scale-[1.01]">
                             {item.tag.startsWith('/') ? (
                               <img 
