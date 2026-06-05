@@ -1,13 +1,14 @@
 {
   "roxe": {
     "client": "ROXE",
-    "status": "Propuesta de Ecosistema E-Commerce & Contenido",
+    "status": "Propuesta & Contrato Digital",
     "title": "DESARROLLO E-COMMERCE PREMIUM + PRODUCCIÓN DE CONTENIDO",
+    "isContract": true,
     "phases": [
       {
         "id": 1,
         "name": "DESARROLLO E-COMMERCE DE ALTA CONVERSIÓN",
-        "investment": 1500,
+        "investment": 1150,
         "originalInvestment": 2500,
         "items": [
           {
@@ -71,7 +72,7 @@
       {
         "id": 2,
         "name": "PRODUCCIÓN DE CONTENIDO (5 PRODUCTOS)",
-        "investment": 500,
+        "investment": 350,
         "originalInvestment": 1000,
         "items": [
           {
@@ -130,10 +131,22 @@
         ]
       }
     ],
-    "summary": "Tu web no es un gasto, es tu infraestructura de ventas digital. Con un desarrollo valorado en $2,500 rebajado a $1,500, y una producción de 45 piezas de contenido premium valorada en $1,000 rebajada a $500, ahorras más de $1,500 en total. Además, optimizamos tu Instagram de forma 100% gratuita para garantizar un lanzamiento exitoso.",
+    "summary": "Desarrollo de e-commerce de alta gama y producción de contenido estratégico para ROXE. Infraestructura digital optimizada para ventas con derechos de propiedad exclusiva del cliente y pagos estructurados de mutuo acuerdo.",
     "cta": "https://wa.me/17863024923",
     "hideRelated": true,
-    "paymentSplit": "50/50"
+    "paymentSplit": "350/400/750",
+    "contractTerms": {
+      "payments": [
+        { "name": "Primer Pago (Reserva / Inicio)", "amount": 350 },
+        { "name": "Segundo Pago (Desarrollo Intermedio)", "amount": 400 },
+        { "name": "Tercer Pago (Entrega Final y Lanzamiento)", "amount": 750 }
+      ],
+      "clauses": [
+        "PROPIEDAD DE CONTENIDOS Y CÓDIGO: Todo el contenido desarrollado (diseño web, código fuente, fotos de producto, videos UGC, copys, artes e integraciones) pertenece en su totalidad y de forma exclusiva al CLIENTE (ROXE) una vez liquidados los montos del proyecto.",
+        "CUMPLIMIENTO DE TIEMPOS: Ambas partes se comprometen a respetar estrictamente el calendario de entregas de materiales, revisiones, y el cronograma de pagos acordado.",
+        "CALENDARIO DE PAGOS: Los pagos se realizarán en 3 cuotas: un primer pago de inicio de $350 USD, un segundo pago de desarrollo de $400 USD y un pago de liquidación de $750 USD al momento de la entrega final del proyecto."
+      ]
+    }
   },
   "roxe-branding": {
     "client": "ROXE",
@@ -149,7 +162,7 @@
             "title": "Desarrollo del ADN de Marca",
             "description": "Definición de propósito, visión, valores y personalidad de marca.",
             "bullets": [
-              "Propósito, Visión y Misión estratégica",
+              "Propósito, Visión and Misión estratégica",
               "Arquetipo psicológico y tono verbal",
               "Público objetivo y Propuesta Única de Valor",
               "Posicionamiento estratégico en el mercado"

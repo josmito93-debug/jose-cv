@@ -11,9 +11,13 @@ interface PricingSummaryProps {
   lang?: 'en' | 'es';
   ctaText?: string;
   paymentSplit?: string;
+  contractTerms?: {
+    payments: Array<{ name: string; amount: number }>;
+    clauses: string[];
+  };
 }
 
-export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', ctaText, paymentSplit }: PricingSummaryProps) {
+export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', ctaText, paymentSplit, contractTerms }: PricingSummaryProps) {
   const [isPaying, setIsPaying] = React.useState(false);
   const [showZelle, setShowZelle] = React.useState(false);
 
@@ -25,7 +29,9 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
     if (!clientSlug) return;
     setIsPaying(true);
     try {
-      const depositAmount = paymentSplit === '50/50' ? total / 2 : phases[0].investment;
+      const depositAmount = contractTerms && contractTerms.payments 
+        ? contractTerms.payments[0].amount 
+        : (paymentSplit === '50/50' ? total / 2 : phases[0].investment);
       const res = await fetch('/api/payment/stripe/one-time', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,6 +55,24 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
   };
   
   const milestones = React.useMemo(() => {
+    if (contractTerms && contractTerms.payments) {
+      return contractTerms.payments.map((p, i) => {
+        const isFirst = i === 0;
+        const isLast = i === contractTerms.payments.length - 1;
+        return {
+          title: p.name,
+          description: i === 0 
+            ? (lang === 'en' ? "Initial deposit to secure project and start design/development." : "Primer pago de reserva para iniciar el proyecto.")
+            : i === 1 
+              ? (lang === 'en' ? "Mid-project milestone payment." : "Segundo pago correspondiente a avance de desarrollo.")
+              : (lang === 'en' ? "Final payment upon project delivery and launch." : "Pago de liquidación final al momento de entrega."),
+          amount: p.amount,
+          icon: isFirst ? <PlayCircle className="w-5 h-5" /> : (isLast ? <CheckCircle2 className="w-5 h-5" /> : <Wallet className="w-5 h-5" />),
+          status: isFirst ? (lang === 'en' ? "START" : "INICIO") : (isLast ? (lang === 'en' ? "COMPLETION" : "FINALIZACIÓN") : (lang === 'en' ? "MILESTONE" : "PROGRESO"))
+        };
+      });
+    }
+
     if (paymentSplit === '50/50') {
       const half = total / 2;
       return [
@@ -88,7 +112,7 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
         status: isFirst ? (lang === 'en' ? "START" : "INICIO") : (lang === 'en' ? "COMPLETION" : "FINALIZACIÓN")
       };
     });
-  }, [phases, total, paymentSplit, lang]);
+  }, [phases, total, paymentSplit, lang, contractTerms]);
 
   return (
     <section className="py-32 md:py-48 px-6 relative overflow-hidden">

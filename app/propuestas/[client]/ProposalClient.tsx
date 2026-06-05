@@ -9,6 +9,7 @@ import PhaseSection from '@/app/components/proposals/PhaseSection';
 import PricingSummary from '@/app/components/proposals/PricingSummary';
 import SpaceRocks from '@/app/components/proposals/SpaceRocks';
 import RelatedProjects from '@/app/components/proposals/RelatedProjects';
+import ContractSection from '@/app/components/proposals/ContractSection';
 
 interface ProposalData {
   client: string;
@@ -16,6 +17,7 @@ interface ProposalData {
   title: string;
   lang?: 'en' | 'es';
   ctaText?: string;
+  isContract?: boolean;
   phases: Array<{
     id: number;
     name: string;
@@ -26,6 +28,10 @@ interface ProposalData {
   cta: string;
   hideRelated?: boolean;
   paymentSplit?: string;
+  contractTerms?: {
+    payments: Array<{ name: string; amount: number }>;
+    clauses: string[];
+  };
 }
 
 export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug: string }) {
@@ -103,7 +109,17 @@ export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug
           lang={proposal.lang}
           ctaText={proposal.ctaText}
           paymentSplit={proposal.paymentSplit}
+          contractTerms={proposal.contractTerms}
         />
+
+        {proposal.isContract && (
+          <ContractSection
+            clientName={proposal.client}
+            clientSlug={clientSlug}
+            phases={proposal.phases}
+            contractTerms={proposal.contractTerms}
+          />
+        )}
       </div>
     </main>
   );
