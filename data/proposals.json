@@ -1091,5 +1091,91 @@
     "ctaText": "Contactar por WhatsApp",
     "hideRelated": true,
     "hideStripe": true
+  },
+  "studio_horizondigital": {
+    "client": "Horizon Digital Studio",
+    "status": "Propuesta de Negocio",
+    "title": "PLATAFORMA WEB & SISTEMA DE RESERVAS",
+    "phases": [
+      {
+        "id": 1,
+        "name": "DISEÑO WEB & POSICIONAMIENTO SEO",
+        "investment": 350,
+        "items": [
+          {
+            "title": "Sitio Web Premium & Dominio",
+            "description": "Desarrollo web corporativo de alta gama adaptado a la identidad de Horizon Digital Studio para podcast y estudio fotográfico.",
+            "icon": "globe",
+            "bullets": [
+              "Diseño inmersivo, mobile-first y de carga ultra-rápida",
+              "Conexión e integración con dominio propio personalizado",
+              "Página de inicio optimizada para retención y conversión visual"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Estrategia Local SEO Nashville",
+            "description": "Estructuración y optimización de contenido orientada a dominar los motores de búsqueda locales.",
+            "icon": "activity",
+            "bullets": [
+              "Posicionamiento local para 'estudio de podcast en Nashville'",
+              "Indexación para términos de 'estudio fotográfico' y 'booking de video'",
+              "Estructura técnica de metadatos SEO y sitemap automatizado"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "SISTEMA DE RESERVAS & AUTOMATIZACIONES",
+        "investment": 400,
+        "items": [
+          {
+            "title": "Booking Web App para Set & Estudio",
+            "description": "Sistema interactivo y en tiempo real que permite agendar sesiones en el set de grabación y estudio de fotografía.",
+            "icon": "shield",
+            "bullets": [
+              "Calendario de reservas interactivo con prevención de solapamientos",
+              "Emails automáticos de confirmación instantánea tras reservar",
+              "Recordatorio automático enviado por correo 30 minutos antes de la reserva"
+            ],
+            "tag": "milex-booking",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Thank You Page & Colector de Reviews",
+            "description": "Una experiencia post-reserva diseñada para fidelizar y colectar testimonios valiosos de los clientes.",
+            "icon": "users",
+            "bullets": [
+              "Redirección a Thank You Page interactiva al completar el booking",
+              "Flujo integrado para colectar opiniones y reseñas de cinco estrellas",
+              "Medición de satisfacción de cliente al finalizar la experiencia"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Data, Analytics & Customer Journey",
+            "description": "Conexión técnica avanzada para rastrear interacciones y habilitar campañas de remarketing efectivas.",
+            "icon": "activity",
+            "bullets": [
+              "Integración de Google Analytics para medir comportamiento",
+              "Setup de Facebook Pixel para remarketing y audiencias personalizadas",
+              "Monitoreo del Customer Journey completo por todo el embudo de reservas"
+            ],
+            "tag": "coyo-data",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Plataforma digital integrada con sistema de reservas para el estudio de grabación y podcast de Horizon Digital. Incluye SEO local enfocado en Nashville, flujos automatizados de email, analytics avanzado para remarketing y pasarela de pago estructurada al 50/50.",
+    "cta": "https://wa.me/17863024923",
+    "ctaText": "Contactar por WhatsApp",
+    "paymentSplit": "50/50",
+    "hideRelated": true
   }
 }
