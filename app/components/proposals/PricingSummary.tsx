@@ -15,9 +15,10 @@ interface PricingSummaryProps {
     payments: Array<{ name: string; amount: number }>;
     clauses: string[];
   };
+  hideStripe?: boolean;
 }
 
-export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', ctaText, paymentSplit, contractTerms }: PricingSummaryProps) {
+export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', ctaText, paymentSplit, contractTerms, hideStripe }: PricingSummaryProps) {
   const [isPaying, setIsPaying] = React.useState(false);
   const [showZelle, setShowZelle] = React.useState(false);
 
@@ -193,29 +194,31 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
             </motion.div>
 
             <div className="flex flex-col gap-4 w-full">
-              <motion.button
-                onClick={handlePayDeposit}
-                disabled={isPaying}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full inline-flex items-center justify-center gap-4 bg-white text-[#0e131f] px-12 py-6 rounded-[1.5rem] md:rounded-[2rem] font-black text-xl uppercase tracking-tighter shadow-[0_20px_40px_-15px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.2)] transition-all disabled:opacity-50"
-              >
-                {isPaying ? (
-                  <Loader2 className="w-6 h-6 animate-spin" />
-                ) : (
-                  <>
-                    {contractTerms && contractTerms.payments
-                      ? (lang === 'en' ? `Pay Project Deposit ($${depositAmount.toLocaleString()})` : `Pagar Reserva ($${depositAmount.toLocaleString()})`)
-                      : (paymentSplit === '50/50'
-                          ? (lang === 'en' ? `Pay Project Deposit ($${depositAmount.toLocaleString()})` : `Pagar Reserva ($${depositAmount.toLocaleString()})`)
-                          : (phases.length === 1 
-                              ? (lang === 'en' ? `Pay $${phases[0].investment.toLocaleString()} USD with Stripe` : `Pagar $${phases[0].investment.toLocaleString()} USD con Stripe`)
-                              : (lang === 'en' ? `Pay Project Deposit ($${depositAmount.toLocaleString()})` : `Pagar Reserva ($${depositAmount.toLocaleString()})`)))
-                    }
-                    <CreditCard className="w-6 h-6" strokeWidth={3} />
-                  </>
-                )}
-              </motion.button>
+              {!hideStripe && (
+                <motion.button
+                  onClick={handlePayDeposit}
+                  disabled={isPaying}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full inline-flex items-center justify-center gap-4 bg-white text-[#0e131f] px-12 py-6 rounded-[1.5rem] md:rounded-[2rem] font-black text-xl uppercase tracking-tighter shadow-[0_20px_40px_-15px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.2)] transition-all disabled:opacity-50"
+                >
+                  {isPaying ? (
+                    <Loader2 className="w-6 h-6 animate-spin" />
+                  ) : (
+                    <>
+                      {contractTerms && contractTerms.payments
+                        ? (lang === 'en' ? `Pay Project Deposit ($${depositAmount.toLocaleString()})` : `Pagar Reserva ($${depositAmount.toLocaleString()})`)
+                        : (paymentSplit === '50/50'
+                            ? (lang === 'en' ? `Pay Project Deposit ($${depositAmount.toLocaleString()})` : `Pagar Reserva ($${depositAmount.toLocaleString()})`)
+                            : (phases.length === 1 
+                                ? (lang === 'en' ? `Pay $${phases[0].investment.toLocaleString()} USD with Stripe` : `Pagar $${phases[0].investment.toLocaleString()} USD con Stripe`)
+                                : (lang === 'en' ? `Pay Project Deposit ($${depositAmount.toLocaleString()})` : `Pagar Reserva ($${depositAmount.toLocaleString()})`)))
+                      }
+                      <CreditCard className="w-6 h-6" strokeWidth={3} />
+                    </>
+                  )}
+                </motion.button>
+              )}
 
               <motion.a
                 href={cta}
@@ -227,43 +230,45 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
                 <ArrowRight className="w-5 h-5" strokeWidth={3} />
               </motion.a>
 
-              <div className="mt-4 pt-4 border-t border-white/5 w-full">
-                <button 
-                  onClick={() => setShowZelle(!showZelle)}
-                  className="w-full flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#673ab7] flex items-center justify-center text-white text-[10px] font-black italic">Z</div>
-                    <span className="text-white/60 text-[10px] font-black uppercase tracking-widest">Pagar con Zelle</span>
-                  </div>
-                  <ArrowRight className={`w-4 h-4 text-white/20 group-hover:text-white/60 transition-all ${showZelle ? 'rotate-90' : ''}`} />
-                </button>
+              {!hideStripe && (
+                <div className="mt-4 pt-4 border-t border-white/5 w-full">
+                  <button 
+                    onClick={() => setShowZelle(!showZelle)}
+                    className="w-full flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-[#673ab7] flex items-center justify-center text-white text-[10px] font-black italic">Z</div>
+                      <span className="text-white/60 text-[10px] font-black uppercase tracking-widest">Pagar con Zelle</span>
+                    </div>
+                    <ArrowRight className={`w-4 h-4 text-white/20 group-hover:text-white/60 transition-all ${showZelle ? 'rotate-90' : ''}`} />
+                  </button>
 
-                <AnimatePresence>
-                  {showZelle && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="mt-4 p-6 bg-[#673ab7]/10 border border-[#673ab7]/30 rounded-2xl space-y-4">
-                        <div className="space-y-1">
-                          <p className="text-[10px] font-black text-[#673ab7] uppercase tracking-widest">Account Name</p>
-                          <p className="text-white font-black text-sm uppercase">universa Lab Media</p>
+                  <AnimatePresence>
+                    {showZelle && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-4 p-6 bg-[#673ab7]/10 border border-[#673ab7]/30 rounded-2xl space-y-4">
+                          <div className="space-y-1">
+                            <p className="text-[10px] font-black text-[#673ab7] uppercase tracking-widest">Account Name</p>
+                            <p className="text-white font-black text-sm uppercase">universa Lab Media</p>
+                          </div>
+                          <div className="space-y-1">
+                            <p className="text-[10px] font-black text-[#673ab7] uppercase tracking-widest">Zelle Email / Phone</p>
+                            <p className="text-white font-black text-xl tracking-tight">7863040124</p>
+                          </div>
+                          <p className="text-[10px] text-white/40 font-medium leading-relaxed">
+                            Una vez realizado el pago, envía el comprobante por WhatsApp para activar tu proyecto.
+                          </p>
                         </div>
-                        <div className="space-y-1">
-                          <p className="text-[10px] font-black text-[#673ab7] uppercase tracking-widest">Zelle Email / Phone</p>
-                          <p className="text-white font-black text-xl tracking-tight">7863040124</p>
-                        </div>
-                        <p className="text-[10px] text-white/40 font-medium leading-relaxed">
-                          Una vez realizado el pago, envía el comprobante por WhatsApp para activar tu proyecto.
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
             </div>
           </div>
 

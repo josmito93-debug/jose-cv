@@ -27,6 +27,7 @@ interface ProposalData {
   summary: string;
   cta: string;
   hideRelated?: boolean;
+  hideStripe?: boolean;
   paymentSplit?: string;
   contractTerms?: {
     payments: Array<{ name: string; amount: number }>;
@@ -110,6 +111,7 @@ export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug
           ctaText={proposal.ctaText}
           paymentSplit={proposal.paymentSplit}
           contractTerms={proposal.contractTerms}
+          hideStripe={proposal.hideStripe}
         />
 
         {proposal.isContract && (

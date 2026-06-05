@@ -999,5 +999,97 @@
     "summary": "Capta a los miles de turistas y fanáticos que visitan Miami para los juegos del Mundial 2026. Esta campaña posiciona a 305 Transfers como el servicio de transporte premium ideal para sus traslados al Hard Rock Stadium, aeropuertos y paseos turísticos. Propuesta comercial de un solo pago de $175 USD procesado de manera segura a través de Stripe o Zelle.",
     "cta": "https://wa.me/17863024923",
     "hideRelated": true
+  },
+  "brographics": {
+    "client": "BroGraphics",
+    "status": "Propuesta de Ecosistema Digital",
+    "title": "DESARROLLO WEB & ECOSISTEMA MULTIMEDIA",
+    "phases": [
+      {
+        "id": 1,
+        "name": "FASE 1: LANDING PAGE (QUICK LINKS)",
+        "investment": 250,
+        "items": [
+          {
+            "title": "Landing Page Interactiva (Quick Links)",
+            "description": "Una página de aterrizaje mobile-first estilo Linktree altamente optimizada para redirigir tráfico a tus canales principales.",
+            "icon": "globe",
+            "bullets": [
+              "Estructura limpia con animaciones atractivas y fluidas",
+              "Conexión y configuración de dominio personalizado",
+              "Integración del Pixel de Facebook para medir conversiones",
+              "Botones de acción interactivos con micro-transiciones"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "FASE 2: PLATAFORMA WEB BROFEST",
+        "investment": 800,
+        "items": [
+          {
+            "title": "One-Pager Dinámico BroFest",
+            "description": "Un sitio web de una sola página de alto impacto visual diseñado para el lanzamiento y promoción de eventos.",
+            "icon": "zap",
+            "bullets": [
+              "Banner interactivo y dinámico que cambia según el evento activo",
+              "Sección histórica con fechas anteriores y resumen de eventos pasados",
+              "Diseño cool, moderno y profesional con animaciones avanzadas",
+              "Optimización de velocidad y compatibilidad en todos los dispositivos"
+            ],
+            "tag": "coyo-events",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "FASE 3: PLATAFORMA BROTALENT",
+        "investment": 1000,
+        "items": [
+          {
+            "title": "Showcase & Creators Hub",
+            "description": "Un portal web interactivo más extenso y detallado dedicado a la exposición de talentos.",
+            "icon": "users",
+            "bullets": [
+              "Exposición de portafolios para fotógrafos y creadores de contenido",
+              "Sección especial para pilotos y corredores de Moto2 / MotoGP",
+              "Galerías y reproductores multimedia optimizados para carga ultra-rápida",
+              "Formularios de contacto y contratación directa para talentos"
+            ],
+            "tag": "milex-portfolio",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "FASE 4: ECOSISTEMA DIGITAL BROSTUDIO",
+        "investment": 1300,
+        "items": [
+          {
+            "title": "BroStudio Hub",
+            "description": "La central del ecosistema digital de BroGraphics para la integración de servicios multimedia y operativos.",
+            "icon": "activity",
+            "bullets": [
+              "Estrategia e integración de creación de contenido constante",
+              "Optimización de publicidad (Ads) y flujos de adquisición",
+              "Logística del flujo de trabajo fotográfico y edición de video a gran escala",
+              "Administración centralizada de activos de marca y campañas"
+            ],
+            "tag": "panenka-video",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Desarrollo de ecosistema digital integral para BroGraphics. Incluye landing page con quick links, plataforma de eventos BroFest, portal BroTalent y central de servicios BroStudio. Soluciones de alto impacto visual sin botones de pago directo.",
+    "cta": "https://wa.me/17863024923",
+    "ctaText": "Contactar por WhatsApp",
+    "hideRelated": true,
+    "hideStripe": true
   }
 }
