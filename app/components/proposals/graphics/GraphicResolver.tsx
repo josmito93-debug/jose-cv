@@ -1,7 +1,30 @@
 'use client';
 
 import React from 'react';
-import * as Bento from './BentoGraphics';
+import dynamic from 'next/dynamic';
+
+// Dynamic imports for all BentoGraphics components to reduce initial bundle size
+const BentoVideo = dynamic(() => import('./BentoGraphics').then(m => m.BentoVideo), { ssr: false });
+const BentoWeb = dynamic(() => import('./BentoGraphics').then(m => m.BentoWeb), { ssr: false });
+const BentoFuego = dynamic(() => import('./BentoGraphics').then(m => m.BentoFuego), { ssr: false });
+const BentoAdvantage = dynamic(() => import('./BentoGraphics').then(m => m.BentoAdvantage), { ssr: false });
+const BentoJourney = dynamic(() => import('./BentoGraphics').then(m => m.BentoJourney), { ssr: false });
+const BentoTracking = dynamic(() => import('./BentoGraphics').then(m => m.BentoTracking), { ssr: false });
+const BentoAds = dynamic(() => import('./BentoGraphics').then(m => m.BentoAds), { ssr: false });
+const BentoDesign = dynamic(() => import('./BentoGraphics').then(m => m.BentoDesign), { ssr: false });
+const BentoEcosystem = dynamic(() => import('./BentoGraphics').then(m => m.BentoEcosystem), { ssr: false });
+const BentoQR = dynamic(() => import('./BentoGraphics').then(m => m.BentoQR), { ssr: false });
+const BentoDataTracking = dynamic(() => import('./BentoGraphics').then(m => m.BentoDataTracking), { ssr: false });
+const BentoClover = dynamic(() => import('./BentoGraphics').then(m => m.BentoClover), { ssr: false });
+const BentoEvents = dynamic(() => import('./BentoGraphics').then(m => m.BentoEvents), { ssr: false });
+const BentoComparison = dynamic(() => import('./BentoGraphics').then(m => m.BentoComparison), { ssr: false });
+const BentoMilexPortfolio = dynamic(() => import('./BentoGraphics').then(m => m.BentoMilexPortfolio), { ssr: false });
+const BentoMilexServices = dynamic(() => import('./BentoGraphics').then(m => m.BentoMilexServices), { ssr: false });
+const BentoMilexBooking = dynamic(() => import('./BentoGraphics').then(m => m.BentoMilexBooking), { ssr: false });
+const BentoMilexPayments = dynamic(() => import('./BentoGraphics').then(m => m.BentoMilexPayments), { ssr: false });
+const BentoMilexNotifications = dynamic(() => import('./BentoGraphics').then(m => m.BentoMilexNotifications), { ssr: false });
+const BentoN8nFlow = dynamic(() => import('./BentoGraphics').then(m => m.BentoN8nFlow), { ssr: false });
+const BentoInstagram = dynamic(() => import('./BentoGraphics').then(m => m.BentoInstagram), { ssr: false });
 
 export type GraphicId = 
   | 'panenka-video'
@@ -34,49 +57,49 @@ interface GraphicResolverProps {
 export default function GraphicResolver({ id }: GraphicResolverProps) {
   switch (id) {
     case 'panenka-video':
-      return <Bento.BentoVideo />;
+      return <BentoVideo />;
     case 'panenka-web':
-      return <Bento.BentoWeb />;
+      return <BentoWeb />;
     case 'fuego-web':
-      return <Bento.BentoFuego />;
+      return <BentoFuego />;
     case 'panenka-advantage':
-      return <Bento.BentoAdvantage />;
+      return <BentoAdvantage />;
     case 'panenka-journey':
-      return <Bento.BentoJourney />;
+      return <BentoJourney />;
     case 'panenka-tracking':
-      return <Bento.BentoTracking />;
+      return <BentoTracking />;
     case 'panenka-ads':
-      return <Bento.BentoAds />;
+      return <BentoAds />;
     case 'panenka-design':
-      return <Bento.BentoDesign />;
+      return <BentoDesign />;
     case 'coyo-ecosystem':
-      return <Bento.BentoEcosystem />;
+      return <BentoEcosystem />;
     case 'coyo-qr':
-      return <Bento.BentoQR />;
+      return <BentoQR />;
     case 'coyo-data':
-      return <Bento.BentoDataTracking />;
+      return <BentoDataTracking />;
     case 'coyo-clover':
-      return <Bento.BentoClover />;
+      return <BentoClover />;
     case 'coyo-content':
-      return <Bento.BentoVideo />; // Reusing the high-end video graphic for coyo-content
+      return <BentoVideo />; // Reusing the high-end video graphic for coyo-content
     case 'coyo-events':
-      return <Bento.BentoEvents />;
+      return <BentoEvents />;
     case 'coyo-comparison':
-      return <Bento.BentoComparison />;
+      return <BentoComparison />;
     case 'milex-portfolio':
-      return <Bento.BentoMilexPortfolio />;
+      return <BentoMilexPortfolio />;
     case 'milex-services':
-      return <Bento.BentoMilexServices />;
+      return <BentoMilexServices />;
     case 'milex-booking':
-      return <Bento.BentoMilexBooking />;
+      return <BentoMilexBooking />;
     case 'milex-payments':
-      return <Bento.BentoMilexPayments />;
+      return <BentoMilexPayments />;
     case 'milex-notifications':
-      return <Bento.BentoMilexNotifications />;
+      return <BentoMilexNotifications />;
     case 'n8n-flow':
-      return <Bento.BentoN8nFlow />;
+      return <BentoN8nFlow />;
     case 'roxe-instagram':
-      return <Bento.BentoInstagram />;
+      return <BentoInstagram />;
     default:
       return null;
   }

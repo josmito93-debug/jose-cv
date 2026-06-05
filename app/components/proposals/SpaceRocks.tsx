@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 const ROCKS = [
@@ -35,15 +36,15 @@ export default function SpaceRocks() {
             top: rock.top,
             left: rock.left,
             right: rock.right,
-            width: rock.size,
-            height: 'auto',
           }}
           className="filter drop-shadow-[0_0_25px_rgba(45,220,128,0.15)]"
         >
-          <img 
+          <Image 
             src={rock.src} 
             alt="" 
-            className="w-full h-full object-contain"
+            width={rock.size}
+            height={rock.size}
+            className="object-contain"
           />
         </motion.div>
       ))}

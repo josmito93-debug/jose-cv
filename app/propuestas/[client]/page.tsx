@@ -7,6 +7,12 @@ type Props = {
   params: Promise<{ client: string }>;
 };
 
+export async function generateStaticParams() {
+  return Object.keys(proposalsData).map((client) => ({
+    client: client.toLowerCase(),
+  }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { client } = await params;
   const clientSlug = client.toLowerCase();
@@ -37,3 +43,4 @@ export default async function Page({ params }: Props) {
   const { client } = await params;
   return <ProposalClient clientSlug={client} />;
 }
+

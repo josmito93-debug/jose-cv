@@ -3,13 +3,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import proposalsData from '@/data/proposals.json';
+import dynamic from 'next/dynamic';
 import UniversalProposalNav from '@/app/components/proposals/UniversalProposalNav';
 import ProposalHero from '@/app/components/proposals/ProposalHero';
 import PhaseSection from '@/app/components/proposals/PhaseSection';
 import PricingSummary from '@/app/components/proposals/PricingSummary';
-import SpaceRocks from '@/app/components/proposals/SpaceRocks';
-import RelatedProjects from '@/app/components/proposals/RelatedProjects';
-import ContractSection from '@/app/components/proposals/ContractSection';
+
+const SpaceRocks = dynamic(() => import('@/app/components/proposals/SpaceRocks'), { ssr: false });
+const RelatedProjects = dynamic(() => import('@/app/components/proposals/RelatedProjects'), { ssr: false });
+const ContractSection = dynamic(() => import('@/app/components/proposals/ContractSection'), { ssr: false });
+
 
 interface ProposalData {
   client: string;

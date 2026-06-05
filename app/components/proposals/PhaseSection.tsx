@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Check, Video, Globe, ShieldCheck, Users, Activity, Megaphone, Palette, LucideIcon } from 'lucide-react';
 import GraphicResolver from './graphics/GraphicResolver';
@@ -116,11 +117,13 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                   {(tagImg || item.tagLabel) && (
                     <div className="absolute top-6 right-6 md:top-10 md:right-10 z-30 flex flex-col items-end gap-2">
                       {tagImg && (
-                        <div className="relative group/tag">
-                          <img 
+                        <div className="relative group/tag w-32 h-32 md:w-36 md:h-36">
+                          <Image 
                             src={tagImg} 
                             alt="" 
-                            className="w-32 h-32 md:w-36 md:h-36 object-contain drop-shadow-[0_0_15px_rgba(45,220,128,0.3)] group-hover/tag:scale-110 transition-transform duration-500"
+                            fill
+                            sizes="(max-width: 768px) 128px, 144px"
+                            className="object-contain drop-shadow-[0_0_15px_rgba(45,220,128,0.3)] group-hover/tag:scale-110 transition-transform duration-500"
                           />
                         </div>
                       )}
@@ -195,9 +198,11 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                   {item.image && (
                     <div className="relative z-20 px-10 md:px-14 pb-14">
                       <div className="relative rounded-2xl overflow-hidden border border-white/5 bg-black/40 group-hover:border-[#2ddc80]/20 transition-all duration-500 shadow-2xl">
-                        <img 
+                        <Image 
                           src={item.image} 
                           alt={item.title}
+                          width={800}
+                          height={500}
                           className="w-full h-auto object-cover opacity-80 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-700"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
@@ -218,9 +223,11 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                           {item.tag && !item.tag.startsWith('/tags/') && (
                             <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover/link:scale-[1.01]">
                               {item.tag.startsWith('/') ? (
-                                <img 
+                                <Image 
                                   src={item.tag} 
                                   alt="" 
+                                  width={512}
+                                  height={256}
                                   className="w-full max-w-lg h-auto object-contain opacity-60 group-hover/link:opacity-100 transition-all duration-500"
                                 />
                               ) : (
@@ -235,9 +242,11 @@ export default function PhaseSection({ phase, lang = 'es' }: PhaseProps) {
                         item.tag && !item.tag.startsWith('/tags/') && (
                           <div className="w-full flex justify-center items-center py-12 md:py-20 px-10 md:px-14 transition-transform duration-500 group-hover:scale-[1.01]">
                             {item.tag.startsWith('/') ? (
-                              <img 
+                              <Image 
                                 src={item.tag} 
                                 alt="" 
+                                width={512}
+                                height={256}
                                 className="w-full max-w-lg h-auto object-contain opacity-60 group-hover:opacity-100 transition-all duration-500"
                               />
                             ) : (
