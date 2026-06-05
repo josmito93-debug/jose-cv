@@ -23,7 +23,7 @@ export default function ProposalHero({ client, status, title, summary, lang = 'e
             x: [0, 30, 0]
           }}
           transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[10%] -right-[5%] w-[600px] md:w-[800px] h-[600px] md:h-[800px] bg-[#2ddc80]/10 blur-[100px] md:blur-[120px] rounded-full"
+          className="absolute -top-[10%] -right-[5%] w-[600px] md:w-[800px] h-[600px] md:h-[800px] rounded-full bg-[radial-gradient(circle,rgba(45,220,128,0.1)_0%,transparent_70%)]"
         />
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/carbon-fibre.png')" }} />
       </div>

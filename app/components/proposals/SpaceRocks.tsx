@@ -37,7 +37,7 @@ export default function SpaceRocks() {
             left: rock.left,
             right: rock.right,
           }}
-          className="filter drop-shadow-[0_0_25px_rgba(45,220,128,0.15)]"
+          className=""
         >
           <Image 
             src={rock.src} 

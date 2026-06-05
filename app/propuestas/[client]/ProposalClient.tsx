@@ -63,7 +63,7 @@ export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug
             scale: [1, 1.1, 0.9, 1]
           }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[10%] -left-[5%] w-[500px] h-[500px] bg-[#2ddc80]/15 blur-[120px] rounded-full"
+          className="absolute -top-[10%] -left-[5%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(45,220,128,0.15)_0%,transparent_70%)]"
         />
         <motion.div 
           animate={{ 
@@ -72,7 +72,7 @@ export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug
             scale: [1, 0.8, 1.1, 1]
           }}
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[40%] -right-[10%] w-[700px] h-[700px] bg-[#2ddc80]/10 blur-[150px] rounded-full"
+          className="absolute top-[40%] -right-[10%] w-[700px] h-[700px] rounded-full bg-[radial-gradient(circle,rgba(45,220,128,0.1)_0%,transparent_70%)]"
         />
         <motion.div 
           animate={{ 
@@ -80,7 +80,7 @@ export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug
             y: [0, -50, 100, 0]
           }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-[-10%] left-[15%] w-[450px] h-[450px] bg-[#2ddc80]/15 blur-[130px] rounded-full"
+          className="absolute bottom-[-10%] left-[15%] w-[450px] h-[450px] rounded-full bg-[radial-gradient(circle,rgba(45,220,128,0.15)_0%,transparent_70%)]"
         />
       </div>
 
