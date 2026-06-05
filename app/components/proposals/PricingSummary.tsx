@@ -25,20 +25,27 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
   const originalTotal = phases.reduce((acc, curr) => acc + ((curr as any).originalInvestment || curr.investment), 0);
   const totalSavings = originalTotal - total;
 
+  const depositAmount = React.useMemo(() => {
+    if (contractTerms && contractTerms.payments && contractTerms.payments.length > 0) {
+      return contractTerms.payments[0].amount;
+    }
+    if (paymentSplit === '50/50') {
+      return total / 2;
+    }
+    return phases[0]?.investment || 0;
+  }, [contractTerms, paymentSplit, total, phases]);
+
   const handlePayDeposit = async () => {
     if (!clientSlug) return;
     setIsPaying(true);
     try {
-      const depositAmount = contractTerms && contractTerms.payments 
-        ? contractTerms.payments[0].amount 
-        : (paymentSplit === '50/50' ? total / 2 : phases[0].investment);
       const res = await fetch('/api/payment/stripe/one-time', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           clientId: clientSlug,
           amount: depositAmount,
-          description: `Deposit for ${phases[0].name}`
+          description: `Deposit for ${phases[0]?.name || 'Project'}`
         })
       });
       const data = await res.json();
@@ -197,11 +204,13 @@ export default function PricingSummary({ phases, cta, clientSlug, lang = 'es', c
                   <Loader2 className="w-6 h-6 animate-spin" />
                 ) : (
                   <>
-                    {paymentSplit === '50/50'
-                      ? (lang === 'en' ? `Pay Project Deposit ($${(total/2).toLocaleString()})` : `Pagar Reserva ($${(total/2).toLocaleString()})`)
-                      : (phases.length === 1 
-                          ? (lang === 'en' ? `Pay $${phases[0].investment.toLocaleString()} USD with Stripe` : `Pagar $${phases[0].investment.toLocaleString()} USD con Stripe`)
-                          : (lang === 'en' ? `Pay Project Deposit ($${phases[0].investment.toLocaleString()})` : `Pagar Reserva ($${phases[0].investment.toLocaleString()})`))
+                    {contractTerms && contractTerms.payments
+                      ? (lang === 'en' ? `Pay Project Deposit ($${depositAmount.toLocaleString()})` : `Pagar Reserva ($${depositAmount.toLocaleString()})`)
+                      : (paymentSplit === '50/50'
+                          ? (lang === 'en' ? `Pay Project Deposit ($${depositAmount.toLocaleString()})` : `Pagar Reserva ($${depositAmount.toLocaleString()})`)
+                          : (phases.length === 1 
+                              ? (lang === 'en' ? `Pay $${phases[0].investment.toLocaleString()} USD with Stripe` : `Pagar $${phases[0].investment.toLocaleString()} USD con Stripe`)
+                              : (lang === 'en' ? `Pay Project Deposit ($${depositAmount.toLocaleString()})` : `Pagar Reserva ($${depositAmount.toLocaleString()})`)))
                     }
                     <CreditCard className="w-6 h-6" strokeWidth={3} />
                   </>
