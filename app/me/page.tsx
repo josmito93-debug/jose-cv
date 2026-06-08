@@ -60,6 +60,12 @@ export default function MePage() {
   ];
 
   const fullstackProjects = [
+    { title: 'Doral Fashion Week Magazine', subtitle: 'Revista digital de moda', url: 'https://www.doralfashionweekmagazine.com', domain: 'doralfashionweekmagazine.com' },
+    { title: '305 Transfers', subtitle: 'Servicio de traslados en Miami', url: 'https://www.305transfers.com', domain: '305transfers.com' },
+    { title: 'Vector Industrial Solutions', subtitle: 'Soluciones industriales corporativas', url: 'https://www.vectorindustrialsolucions.com', domain: 'vectorindustrialsolucions.com' },
+    { title: 'Innovatech Bio', subtitle: 'Plataforma de biotecnología', url: 'https://www.innovatechbio.com', domain: 'innovatechbio.com' },
+    { title: 'Marthi Art', subtitle: 'Portafolio artístico creativo', url: 'https://www.marthiart.com', domain: 'marthiart.com' },
+    { title: 'Idol Fashion — The Elite Lab', subtitle: 'Plataforma de moda de alta gama', url: 'https://www.idolfashiontheelitelab.com', domain: 'idolfashiontheelitelab.com' },
     { title: 'Plustextil.com', subtitle: 'SEO & posicionamiento B2B industrial', url: 'https://plustextil.com', domain: 'plustextil.com' },
     { title: 'Frigorificoloiro.com', subtitle: 'Lead gen en refrigeración local', url: 'https://www.frigorificoloiro.com', domain: 'frigorificoloiro.com' },
     { title: 'Refrigeración JF Milenio', subtitle: 'App técnica con 1,072+ productos', url: 'https://refrigeracinjfmileniowebsite.vercel.app/ecosistema', domain: 'refrigeracinjfmileniowebsite.vercel.app' },
