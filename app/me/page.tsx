@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Terminal,
@@ -42,6 +42,31 @@ export default function MePage() {
     tools: ['Vercel', 'n8n', 'Docker', 'Git', 'Airtable', 'GoHighLevel'],
     languages: ['Español (Nativo)', 'Inglés (Avanzado)'],
   };
+
+  const webflowProjects = [
+    { title: 'Doral Fashion Week', subtitle: 'Plataforma editorial de moda', url: 'https://doral-fasgion-week-magazine.webflow.io/', domain: 'doral-fasgion-week-magazine.webflow.io' },
+    { title: 'Xclusive Rental', subtitle: 'Renta de autos de lujo en Miami', url: 'https://xclusiverental.webflow.io', domain: 'xclusiverental.webflow.io' },
+    { title: 'Adventure Rental', subtitle: 'Jet Ski Rental en Austin, TX', url: 'https://adventurerental-9e1bee5f1021b4e162fddca.webflow.io', domain: 'adventurerental-9e1bee5f1021b4e162fddca.webflow.io' },
+    { title: 'Rusty CBD', subtitle: 'E-commerce de productos CBD', url: 'https://rustycbd.webflow.io', domain: 'rustycbd.webflow.io' },
+    { title: 'Mustache Barbershop', subtitle: 'Barbería premium', url: 'https://www.mustachebarbershop.com/', domain: 'mustachebarbershop.com' },
+    { title: 'C&J Professional Cleaning', subtitle: 'Servicios de limpieza profesional', url: 'https://c-j-professional-cleaning.webflow.io', domain: 'c-j-professional-cleaning.webflow.io' },
+    { title: 'Elemnt Builders', subtitle: 'Empresa de construcción corporativa', url: 'https://universas-exceptional-site-08ec65.webflow.io', domain: 'universas-exceptional-site-08ec65.webflow.io' },
+    { title: 'Exumas Wedding', subtitle: 'Bodas de lujo en Las Bahamas', url: 'https://exumaswedding.webflow.io', domain: 'exumaswedding.webflow.io' },
+    { title: 'INFIT DJ Course', subtitle: 'E-learning para DJs', url: 'https://infitevent.webflow.io', domain: 'infitevent.webflow.io' },
+    { title: 'Trimo Cargo', subtitle: 'Logística y envíos internacionales', url: 'https://trimo-cargo-6aceb60865ea9521a79a006acc4.webflow.io', domain: 'trimo-cargo-6aceb60865ea9521a79a006acc4.webflow.io' },
+    { title: 'KIIERO Music', subtitle: 'Plataforma musical + Branding', url: 'https://kiiero-music-8854cd25dc3932f2197412350d.webflow.io', domain: 'kiiero-music-8854cd25dc3932f2197412350d.webflow.io' },
+    { title: 'Lucho FBA Academy', subtitle: 'Coaching de Amazon FBA', url: 'https://lucho-fba-f7970e78fb5f1813ba9e379e680da.webflow.io', domain: 'lucho-fba-f7970e78fb5f1813ba9e379e680da.webflow.io' },
+    { title: 'Golden Dream Travel', subtitle: 'Plataforma de viajes premium', url: 'https://golden-dream-travel.webflow.io/', domain: 'golden-dream-travel.webflow.io' },
+  ];
+
+  const fullstackProjects = [
+    { title: 'Plustextil.com', subtitle: 'SEO & posicionamiento B2B industrial', url: 'https://plustextil.com', domain: 'plustextil.com' },
+    { title: 'Frigorificoloiro.com', subtitle: 'Lead gen en refrigeración local', url: 'https://www.frigorificoloiro.com', domain: 'frigorificoloiro.com' },
+    { title: 'Refrigeración JF Milenio', subtitle: 'App técnica con 1,072+ productos', url: 'https://refrigeracinjfmileniowebsite.vercel.app/ecosistema', domain: 'refrigeracinjfmileniowebsite.vercel.app' },
+    { title: 'Nations League 7', subtitle: 'Dashboard deportivo interactivo', url: 'https://nationsleague7-c2ku.vercel.app', domain: 'nationsleague7-c2ku.vercel.app' },
+    { title: '58Films', subtitle: 'Portafolio creativo de cineasta', url: 'https://www.58films.tv', domain: '58films.tv' },
+    { title: 'ATTOMCollector', subtitle: 'Sistema de recopilación con IA', url: '/collector', domain: 'universaagency.com' },
+  ];
 
   const techLogos = [
     { name: 'n8n', icon: 'n8n', color: 'EA4B71' },
@@ -355,6 +380,11 @@ export default function MePage() {
         </section>
 
         {/* ══════════════════════════════════════════
+            PORTAFOLIO
+        ══════════════════════════════════════════ */}
+        <PortfolioSection webflow={webflowProjects} fullstack={fullstackProjects} />
+
+        {/* ══════════════════════════════════════════
             FORMACIÓN + VISIÓN ESTRATÉGICA
         ══════════════════════════════════════════ */}
         <section className="py-24 md:py-48 px-6 relative overflow-hidden">
@@ -505,3 +535,143 @@ function Divider() {
     <div className="w-full max-w-7xl mx-auto h-[1px] bg-white/5 mt-32 md:mt-48 shadow-[0_-10px_30px_rgba(45,220,128,0.05)]" />
   );
 }
+
+/* ── Portfolio Section ── */
+type Project = { title: string; subtitle: string; url: string; domain: string };
+
+function PortfolioSection({ webflow, fullstack }: { webflow: Project[]; fullstack: Project[] }) {
+  const [tab, setTab] = useState<'webflow' | 'fullstack'>('webflow');
+  const projects = tab === 'webflow' ? webflow : fullstack;
+
+  return (
+    <section className="py-24 md:py-48 px-6 relative overflow-hidden">
+      {/* Background aura */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full z-0 pointer-events-none opacity-20">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(45,220,128,0.15)_0%,transparent_70%)]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+
+        {/* Header row */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-20">
+          <div>
+            <ProposalLabel text="Proyectos" />
+            <SectionTitle text="Portafolio" />
+          </div>
+
+          {/* Tab switcher */}
+          <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md border border-white/10 p-1.5 rounded-full w-fit">
+            {(['webflow', 'fullstack'] as const).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
+                  tab === t
+                    ? 'bg-[#2ddc80] text-[#0e131f] shadow-lg shadow-[#2ddc80]/20'
+                    : 'text-white/40 hover:text-white'
+                }`}
+              >
+                {t === 'webflow' ? '⬡ Webflow' : '⚙ Full Stack'}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Count pill */}
+        <div className="flex items-center gap-3 mb-10">
+          <div className="h-[1px] w-8 bg-[#2ddc80]/30" />
+          <span className="text-white/30 text-[10px] font-black uppercase tracking-widest">
+            {projects.length} {tab === 'webflow' ? 'sitios en Webflow' : 'proyectos Full Stack'}
+          </span>
+        </div>
+
+        {/* Grid */}
+        <motion.div
+          key={tab}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
+        >
+          {projects.map((project, idx) => (
+            <ProjectCard key={idx} project={project} index={idx} />
+          ))}
+        </motion.div>
+
+      </div>
+
+      <Divider />
+    </section>
+  );
+}
+
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const screenshotUrl = `https://image.thum.io/get/width/1200/crop/700/${project.url}`;
+  const faviconUrl = `https://www.google.com/s2/favicons?domain=${project.domain}&sz=64`;
+
+  return (
+    <motion.a
+      href={project.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.04 }}
+      className="group relative rounded-[2rem] overflow-hidden bg-[#0e131f]/70 border border-white/8 hover:border-[#2ddc80]/30 transition-all duration-500 flex flex-col cursor-pointer"
+    >
+      {/* Screenshot */}
+      <div className="relative aspect-video overflow-hidden bg-white/5">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={screenshotUrl}
+          alt={project.title}
+          className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+          loading="lazy"
+        />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0e131f] via-[#0e131f]/20 to-transparent" />
+
+        {/* Favicon / logo — top-right */}
+        <div className="absolute top-4 right-4 w-9 h-9 rounded-xl bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center overflow-hidden shadow-lg">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={faviconUrl} alt="" className="w-5 h-5 object-contain" />
+        </div>
+
+        {/* Arrow on hover */}
+        <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="flex items-center gap-1.5 bg-[#2ddc80] text-[#0e131f] px-3 py-1.5 rounded-full">
+            <span className="text-[9px] font-black uppercase tracking-widest">Ver sitio</span>
+            <ArrowUpRight className="w-3 h-3" />
+          </div>
+        </div>
+      </div>
+
+      {/* Info */}
+      <div className="relative p-6 flex flex-col gap-1">
+        {/* Texture */}
+        <div
+          className="absolute inset-0 z-0 opacity-[0.15] bg-repeat bg-[length:50px_50px] pointer-events-none"
+          style={{ backgroundImage: "url('/images/texture.png')" }}
+        />
+        {/* Luxury bottom border */}
+        <div
+          className="absolute inset-0 rounded-b-[2rem] border-[2px] border-transparent pointer-events-none"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 100%)',
+            borderColor: 'rgba(45, 220, 128, 0.4)',
+          }}
+        />
+        <h4 className="text-white font-black text-lg tracking-tight group-hover:text-[#2ddc80] transition-colors relative z-10 leading-tight">
+          {project.title}
+        </h4>
+        <p className="text-white/40 text-[11px] font-bold uppercase tracking-widest relative z-10">
+          {project.subtitle}
+        </p>
+        {/* Bottom hover glow */}
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-2/3 h-6 bg-[#2ddc80]/10 blur-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      </div>
+    </motion.a>
+  );
+}
+
