@@ -624,7 +624,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.04 }}
-      className="group relative rounded-[2rem] overflow-hidden bg-[#0e131f]/70 border border-white/8 hover:border-[#2ddc80]/30 transition-all duration-500 flex flex-col cursor-pointer"
+      className="group relative rounded-[5px] overflow-hidden bg-[#0e131f]/70 border border-white/8 hover:border-[#2ddc80]/30 transition-all duration-500 flex flex-col cursor-pointer"
     >
       {/* Screenshot */}
       <div className="relative aspect-video overflow-hidden bg-white/5">
@@ -662,7 +662,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         />
         {/* Luxury bottom border */}
         <div
-          className="absolute inset-0 rounded-b-[2rem] border-[2px] border-transparent pointer-events-none"
+          className="absolute inset-0 rounded-b-[5px] border-[2px] border-transparent pointer-events-none"
           style={{
             WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 100%)',
             borderColor: 'rgba(45, 220, 128, 0.4)',
