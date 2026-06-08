@@ -153,7 +153,7 @@ export default function MePage() {
                   className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter text-white leading-[0.9] uppercase"
                 >
                   {personal.name.split(' ')[0]}&nbsp;<br />
-                  <span className="text-white/15">{personal.name.split(' ')[1]}</span>
+                  {personal.name.split(' ')[1]}
                 </motion.h1>
 
                 <motion.p

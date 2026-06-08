@@ -69,6 +69,16 @@ export const siteData = {
         ]
       },
       {
+        title: "Creative Director",
+        company: "BAMC Incubator",
+        date: "2023 – 2024",
+        desc: [
+          "Led creative direction for an entrepreneurial incubator, shaping brand identity and visual communication.",
+          "Designed strategic content and campaign frameworks for incubated startups.",
+          "Aligned creative output with business development goals across multiple verticals."
+        ]
+      },
+      {
         title: "Digital Strategy Consultant",
         company: "Plustextil (Venezuela)",
         date: "2023",
@@ -76,6 +86,16 @@ export const siteData = {
           "Designed SEO-driven positioning strategy for a B2B industrial company.",
           "Built content systems aligned with high-intent corporate buyers.",
           "Structured long-term inbound acquisition through organic channels."
+        ]
+      },
+      {
+        title: "Facebook Ads Designer & Campaign Strategist",
+        company: "Switch Agency",
+        date: "2019 – 2020",
+        desc: [
+          "Designed high-impact Facebook Ads creatives for performance-driven campaigns.",
+          "Structured and managed paid social campaign architecture across multiple client accounts.",
+          "Optimized ad sets and creative formats to maximize ROAS and engagement."
         ]
       },
       {
@@ -302,6 +322,16 @@ export const siteData = {
         ]
       },
       {
+        title: "Director Creativo",
+        company: "BAMC Incubator",
+        date: "2023 – 2024",
+        desc: [
+          "Lideré la dirección creativa de una incubadora de emprendimiento, moldeando identidad de marca y comunicación visual.",
+          "Diseñé marcos de contenido estratégico y campañas para startups incubadas.",
+          "Alineé la producción creativa con los objetivos de desarrollo de negocio en múltiples verticales."
+        ]
+      },
+      {
         title: "Consultor de Estrategia Digital",
         company: "Plustextil (Venezuela)",
         date: "2023",
@@ -309,6 +339,16 @@ export const siteData = {
           "Diseñé posicionamiento SEO B2B para empresa de materiales industriales.",
           "Estructuré la arquitectura del sitio para resolver intenciones de búsqueda.",
           "Generé sistemas de contenido apoyando la adquisición orgánica de leads."
+        ]
+      },
+      {
+        title: "Diseñador de Facebook Ads y Estrategia de Campañas",
+        company: "Switch Agency",
+        date: "2019 – 2020",
+        desc: [
+          "Diseñé creativos de alto impacto para campañas de Facebook Ads orientadas a performance.",
+          "Estructuré y gestioné la arquitectura de campañas de paid social para múltiples clientes.",
+          "Optimicé conjuntos de anuncios y formatos creativos para maximizar ROAS y engagement."
         ]
       },
       {
