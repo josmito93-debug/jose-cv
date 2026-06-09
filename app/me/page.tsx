@@ -33,7 +33,7 @@ export default function MePage() {
     location: 'Miami, FL',
     email: 'jose@universa.agency',
     github: 'https://github.com/josmito93',
-    linkedin: 'https://linkedin.com/in/jose-figueroa',
+    linkedin: 'https://www.linkedin.com/in/jose-figueroa-5153551bb/',
   };
 
   const technicalSkills = {
