@@ -227,13 +227,13 @@ export default function MePage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.4 }}
-                  className="relative w-full max-w-sm lg:max-w-full aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl"
+                  className="relative w-full max-w-sm lg:max-w-full aspect-[4/5] rounded-[8px] overflow-hidden border border-white/10 shadow-2xl"
                 >
                   <Image src="/profile.png" alt={personal.name} fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0e131f]/80 via-transparent to-transparent" />
                   {/* Luxury bottom glow border */}
                   <div
-                    className="absolute inset-0 rounded-[2.5rem] border-[2.5px] border-transparent pointer-events-none"
+                    className="absolute inset-0 rounded-[8px] border-[2.5px] border-transparent pointer-events-none"
                     style={{
                       WebkitMaskImage: 'linear-gradient(to bottom, transparent 20%, black 100%)',
                       borderColor: 'rgba(45, 220, 128, 0.5)',
@@ -246,7 +246,7 @@ export default function MePage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.55 }}
-                  className="relative group bg-white/5 backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-[2rem] w-full overflow-hidden shadow-2xl"
+                  className="relative group bg-white/5 backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-[8px] w-full overflow-hidden shadow-2xl"
                 >
                   <div className="absolute -bottom-1/2 -right-1/2 w-48 h-48 bg-[#2ddc80]/20 blur-[60px] rounded-full group-hover:bg-[#2ddc80]/30 transition-colors" />
                   <span className="text-[#2ddc80] text-[10px] uppercase tracking-widest font-black mb-2 relative z-10 block">
@@ -299,7 +299,7 @@ export default function MePage() {
               <div className="lg:col-span-4 flex flex-col items-start lg:sticky lg:top-32 h-fit">
                 <ProposalLabel text="Ingeniería" />
                 <SectionTitle text="Stack Técnico" />
-                <div className="bg-[#2ddc80] px-6 py-4 rounded-2xl flex flex-col gap-1 items-start shadow-lg shadow-[#2ddc80]/10 mt-2">
+                <div className="bg-[#2ddc80] px-6 py-4 rounded-[8px] flex flex-col gap-1 items-start shadow-lg shadow-[#2ddc80]/10 mt-2">
                   <span className="text-[#0e131f] text-[10px] font-black uppercase tracking-widest opacity-60">Área</span>
                   <span className="text-[#0e131f] text-2xl font-black tracking-tight">Fullstack + AI</span>
                 </div>
@@ -347,7 +347,7 @@ export default function MePage() {
               <div className="lg:col-span-4 flex flex-col items-start lg:sticky lg:top-32 h-fit">
                 <ProposalLabel text="Trayectoria" />
                 <SectionTitle text="Experiencia" />
-                <div className="bg-[#2ddc80] px-6 py-4 rounded-2xl flex flex-col gap-1 items-start shadow-lg shadow-[#2ddc80]/10 mt-2">
+                <div className="bg-[#2ddc80] px-6 py-4 rounded-[8px] flex flex-col gap-1 items-start shadow-lg shadow-[#2ddc80]/10 mt-2">
                   <span className="text-[#0e131f] text-[10px] font-black uppercase tracking-widest opacity-60">Años activo</span>
                   <span className="text-[#0e131f] text-2xl font-black tracking-tight">2022 – Present</span>
                 </div>
@@ -425,7 +425,7 @@ export default function MePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 }}
-                  className="relative group overflow-hidden rounded-[2.5rem] bg-[#2ddc80] p-10 md:p-14 shadow-2xl shadow-[#2ddc80]/20"
+                  className="relative group overflow-hidden rounded-[8px] bg-[#2ddc80] p-10 md:p-14 shadow-2xl shadow-[#2ddc80]/20"
                 >
                   <div className="absolute -top-1/2 -right-1/4 w-96 h-96 bg-white/10 blur-[80px] rounded-full pointer-events-none" />
                   <p className="text-[#2ddc80]/60 text-[10px] font-black uppercase tracking-widest mb-4 relative z-10">Visión Estratégica</p>
@@ -513,7 +513,7 @@ function LuxuryCard({ children, delay = 0 }: { children: React.ReactNode; delay?
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay }}
-      className="group relative bg-[#0e131f]/70 backdrop-blur-md rounded-[2.5rem] transition-all duration-500 overflow-hidden flex flex-col p-10 md:p-14"
+      className="group relative bg-[#0e131f]/70 backdrop-blur-md rounded-[8px] transition-all duration-500 overflow-hidden flex flex-col p-10 md:p-14"
     >
       {/* Texture overlay */}
       <div
@@ -522,7 +522,7 @@ function LuxuryCard({ children, delay = 0 }: { children: React.ReactNode; delay?
       />
       {/* Luxury gradient border */}
       <div
-        className="absolute inset-0 rounded-[2.5rem] border-[2.5px] border-transparent transition-all duration-500 z-10 pointer-events-none"
+        className="absolute inset-0 rounded-[8px] border-[2.5px] border-transparent transition-all duration-500 z-10 pointer-events-none"
         style={{
           WebkitMaskImage: 'linear-gradient(to bottom, transparent 20%, black 100%)',
           borderColor: 'rgba(45, 220, 128, 0.5)',
@@ -624,7 +624,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.04 }}
-      className="group relative rounded-[5px] overflow-hidden bg-[#0e131f]/70 border border-white/8 hover:border-[#2ddc80]/30 transition-all duration-500 flex flex-col cursor-pointer"
+      className="group relative rounded-[8px] overflow-hidden bg-[#0e131f]/70 border border-white/8 hover:border-[#2ddc80]/30 transition-all duration-500 flex flex-col cursor-pointer"
     >
       {/* Screenshot */}
       <div className="relative aspect-video overflow-hidden bg-white/5">
@@ -662,7 +662,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         />
         {/* Luxury bottom border */}
         <div
-          className="absolute inset-0 rounded-b-[5px] border-[2px] border-transparent pointer-events-none"
+          className="absolute inset-0 rounded-b-[8px] border-[2px] border-transparent pointer-events-none"
           style={{
             WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 100%)',
             borderColor: 'rgba(45, 220, 128, 0.4)',
