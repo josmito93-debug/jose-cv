@@ -1177,5 +1177,111 @@
     "ctaText": "Contactar por WhatsApp",
     "paymentSplit": "50/50",
     "hideRelated": true
+  },
+  "anleidy": {
+    "client": "Anleidy Alejandra Santiago Terán",
+    "status": "Estrategia Farmasi 2026",
+    "title": "Estrategia Meta Ads & Embudo de Ventas Acelerado",
+    "lang": "es",
+    "ctaText": "Aceptar Propuesta",
+    "phases": [
+      {
+        "id": 1,
+        "name": "VIDEO GANADOR, CREATIVOS Y SCRIPT",
+        "investment": 100,
+        "items": [
+          {
+            "title": "Producción de Guion (Script) Persuasivo",
+            "description": "Redacción de guiones con ganchos de atención (hooks) diseñados específicamente para el público de belleza y cuidado personal de Farmasi, enfocados tanto en la venta directa como en el reclutamiento de nuevas socias de negocio.",
+            "icon": "palette",
+            "bullets": [
+              "Estructura AIDA (Atención, Interés, Deseo, Acción)",
+              "Llamados a la acción claros y directos",
+              "Enfoque en beneficios de productos estrella y oportunidad de negocio"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Video Ganador & Variaciones de Creativos",
+            "description": "Edición y optimización del video publicitario principal (el 'video ganador') y diseño de creativos gráficos complementarios de alto impacto visual listos para frenar el scroll en redes sociales.",
+            "icon": "video",
+            "bullets": [
+              "1 video publicitario principal optimizado para Reels/Stories (9:16)",
+              "Creativos gráficos complementarios en formato cuadrado (1:1) y vertical (9:16)",
+              "Edición dinámica con subtítulos interactivos y música de tendencia"
+            ],
+            "tag": "panenka-video",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "EMBUDO DE VENTAS Y CONEXIÓN DE PIXEL",
+        "investment": 100,
+        "items": [
+          {
+            "title": "Embudo de Ventas de Alta Conversión (CRO)",
+            "description": "Estructura de landing page optimizada para capturar información de prospectos y guiarlos sin fricción a la compra o registro de Farmasi, eliminando distracciones.",
+            "icon": "globe",
+            "bullets": [
+              "Diseño de Landing Page responsiva y mobile-first",
+              "Integración de formulario para captación de leads cualificados",
+              "Redirección estratégica a tu enlace directo de Farmasi o WhatsApp"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Infraestructura Técnica de Tracking (Meta Pixel)",
+            "description": "Instalación y configuración completa del Meta Pixel y la API de Conversiones en tu embudo para rastrear visitas, clics e intenciones de compra.",
+            "icon": "activity",
+            "bullets": [
+              "Conexión del Pixel con Meta Ads Manager",
+              "Medición de eventos clave (Ver contenido, Registro completo, WhatsApp Click)",
+              "Configuración base para iniciar campañas de retargeting"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "MONTAJE Y LANZAMIENTO DE CAMPAÑAS",
+        "investment": 50,
+        "originalInvestment": 100,
+        "items": [
+          {
+            "title": "Configuración y Montaje de Campañas en Meta Ads",
+            "description": "Configuración técnica de tus campañas dentro de Meta Ads Manager, segmentando al público ideal interesado en belleza, maquillaje, cuidado de la piel y emprendimiento en casa.",
+            "icon": "megaphone",
+            "bullets": [
+              "Segmentación detallada por intereses (beauty influencers, cosméticos, cuidado personal)",
+              "Campañas enfocadas en generación de clientes potenciales y mensajes directos",
+              "Descuento especial del 50% de Friends & Family aplicado a esta fase"
+            ],
+            "tag": "panenka-ads",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Optimización y Entrega de la Estructura de Ads",
+            "description": "Ajuste fino de presupuestos y audiencias durante el lanzamiento para asegurar la correcta distribución de la publicidad y la optimización de tu retorno de inversión.",
+            "icon": "shield",
+            "bullets": [
+              "Optimización de presupuesto de campaña (CBO o ABO)",
+              "Puesta en marcha e inicio de la circulación de anuncios",
+              "Entrega de la infraestructura publicitaria 100% configurada"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Propuesta estratégica de marketing digital para impulsar el negocio de Farmasi de Anleidy Alejandra Santiago Terán. Desarrollamos tus creativos de video y guiones persuasivos, creamos un embudo de conversión para capturar prospectos conectando el Meta Pixel para medir cada visita, y configuramos y lanzamos tu campaña en Meta Ads con una bonificación especial de $50 USD (Descuento Friends & Family).",
+    "cta": "https://wa.me/17863024923",
+    "hideRelated": true
   }
 }
