@@ -4,23 +4,44 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16' as any,
 });
 
+import { airtableCRM } from './airtable-crm';
+
 export const stripeService = {
   /**
-   * Get or create the $30 monthly price for Attom/Universa
+   * Helper to get client's custom monthly price
    */
-  async getOrCreateGrowthPlan() {
+  async getClientPrice(clientId: string): Promise<number> {
+    if (clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ') {
+      return 12;
+    }
+    try {
+      const record = await airtableCRM.getClient(clientId);
+      if (record) {
+        return record.fields['Monthly Price'] || record.fields['Price'] || 30;
+      }
+    } catch (e) {
+      console.error('Failed to get client price, defaulting to 30:', e);
+    }
+    return 30;
+  },
+
+  /**
+   * Get or create the monthly price for Attom/Universa
+   */
+  async getOrCreateGrowthPlan(amount: number = 30) {
     // Search for existing product
     const products = await stripe.products.list({
       limit: 100,
       active: true,
     });
 
-    let product = products.data.find(p => p.name === 'Growth Maintenance');
+    const productName = amount === 30 ? 'Growth Maintenance' : `Growth Maintenance $${amount}`;
+    let product = products.data.find(p => p.name === productName);
 
     if (!product) {
       product = await stripe.products.create({
-        name: 'Growth Maintenance',
-        description: 'Monthly website maintenance and growth tools by Universa Agency',
+        name: productName,
+        description: `Monthly website maintenance and growth tools by Universa Agency ($${amount}/mo)`,
       });
     }
 
@@ -30,12 +51,12 @@ export const stripeService = {
       active: true,
     });
 
-    let price = prices.data.find(p => p.unit_amount === 3000 && p.recurring?.interval === 'month');
+    let price = prices.data.find(p => p.unit_amount === amount * 100 && p.recurring?.interval === 'month');
 
     if (!price) {
       price = await stripe.prices.create({
         product: product.id,
-        unit_amount: 3000, // $30.00
+        unit_amount: amount * 100, // amount in cents
         currency: 'usd',
         recurring: {
           interval: 'month',
@@ -50,7 +71,8 @@ export const stripeService = {
    * Create a Checkout Session for a subscription
    */
   async createSubscriptionSession(clientId: string, successUrl: string, cancelUrl: string) {
-    const priceId = await this.getOrCreateGrowthPlan();
+    const amount = await this.getClientPrice(clientId);
+    const priceId = await this.getOrCreateGrowthPlan(amount);
 
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',

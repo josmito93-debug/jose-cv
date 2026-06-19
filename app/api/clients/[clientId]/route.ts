@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(
   request: Request,
-  { params }: { params: { clientId: string } }
+  { params }: { params: Promise<{ clientId: string }> }
 ) {
   try {
     const { clientId } = await params;
@@ -46,7 +46,8 @@ export async function GET(
                  name: 'Cliente Vercel',
                  business: projectName,
                  paymentStatus: 'UNPAID',
-                 isVirtual: true
+                 isVirtual: true,
+                 monthlyPrice: clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ' ? 12 : 30
                } 
              });
           }
@@ -61,10 +62,11 @@ export async function GET(
     }
 
     const client = {
-      id: record.id,
+      id: record.fields['Client ID'] || record.id,
       name: record.fields['Contact Name'] || 'Sin Nombre',
       business: record.fields['Business Name'] || 'Sin Negocio',
       paymentStatus: record.fields['Payment Status'] || 'UNPAID',
+      monthlyPrice: clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ' ? 12 : (record.fields['Monthly Price'] || record.fields['Price'] || 30),
     };
 
     return NextResponse.json({ success: true, client });

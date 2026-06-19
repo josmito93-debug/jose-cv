@@ -29,6 +29,7 @@ export default function PaymentPage() {
   const status = searchParams.get('status');
 
   const [client, setClient] = useState<any>(null);
+  const price = client?.monthlyPrice || 30;
   const [loading, setLoading] = useState(true);
   const [paid, setPaid] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -70,7 +71,7 @@ export default function PaymentPage() {
   }, [clientUrlId]);
 
   useEffect(() => {
-    if (!client || paid || paymentTab !== 'paypal') return;
+    if (!client || paid || paymentTab !== 'paypal' || price !== 30) return;
 
     const scriptId = 'paypal-js-script';
     let script = document.getElementById(scriptId) as HTMLScriptElement;
@@ -117,7 +118,7 @@ export default function PaymentPage() {
     return () => {
       /* Do not aggressively remove script to allow switching tabs back and forth smoothly */
     };
-  }, [client, paid, paymentTab, PAYPAL_CLIENT_ID]);
+  }, [client, paid, paymentTab, PAYPAL_CLIENT_ID, price]);
   const handleStripeSubmit = async () => {
     setIsSubmittingStripe(true);
     try {
@@ -189,7 +190,7 @@ export default function PaymentPage() {
            <Zap className="w-12 h-12 text-red-500 mx-auto mb-6 opacity-50" />
            <h1 className="text-2xl font-black text-white mb-2 uppercase">Link Invalid</h1>
            <p className="text-zinc-500 text-sm">{error}</p>
-        </div>
+         </div>
       </div>
     );
   }
@@ -232,7 +233,7 @@ export default function PaymentPage() {
                       </div>
                       <div className="text-right">
                           <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Mensual</p>
-                          <p className="text-3xl font-black text-white">$30<span className="text-sm font-bold text-zinc-600 underline decoration-indigo-500">.00</span></p>
+                          <p className="text-3xl font-black text-white">${price}<span className="text-sm font-bold text-zinc-600 underline decoration-indigo-500">.00</span></p>
                       </div>
                   </div>
 
@@ -248,12 +249,14 @@ export default function PaymentPage() {
                          >
                             Tarjeta
                          </button>
-                         <button 
-                            onClick={() => setPaymentTab('paypal')}
-                            className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${paymentTab === 'paypal' ? 'bg-indigo-600 text-white shadow-lg' : 'text-zinc-500 hover:text-white'}`}
-                         >
-                            PayPal
-                         </button>
+                         {price === 30 && (
+                           <button 
+                              onClick={() => setPaymentTab('paypal')}
+                              className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${paymentTab === 'paypal' ? 'bg-indigo-600 text-white shadow-lg' : 'text-zinc-500 hover:text-white'}`}
+                           >
+                              PayPal
+                           </button>
+                         )}
                          <button 
                             onClick={() => setPaymentTab('pagomovil')}
                             className={`flex-1 py-3 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all ${paymentTab === 'pagomovil' ? 'bg-emerald-600 text-white shadow-lg' : 'text-zinc-500 hover:text-white'}`}
@@ -275,7 +278,7 @@ export default function PaymentPage() {
                                 </div>
                               </div>
                               <p className="text-xs text-zinc-400 leading-relaxed">
-                                Serás redirigido al portal seguro de Stripe para configurar tu suscripción mensual de <span className="text-white font-bold">$30.00</span>.
+                                Serás redirigido al portal seguro de Stripe para configurar tu suscripción mensual de <span className="text-white font-bold">${price}.00</span>.
                               </p>
                            </div>
                            <button 
@@ -305,7 +308,7 @@ export default function PaymentPage() {
                       {paymentTab === 'pagomovil' && (
                         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-6 animate-in slide-in-from-right-4 fade-in duration-300">
                            <div className="space-y-4">
-                              <p className="text-xs text-zinc-400 font-medium">Transfiere el equivalente a $30 a los siguientes datos:</p>
+                              <p className="text-xs text-zinc-400 font-medium">Transfiere el equivalente a ${price} a los siguientes datos:</p>
                               <ul className="space-y-3">
                                 <li className="flex justify-between items-center p-3 bg-black/40 rounded-xl border border-white/5">
                                    <span className="text-xs text-zinc-500 font-bold uppercase">Banco</span>
