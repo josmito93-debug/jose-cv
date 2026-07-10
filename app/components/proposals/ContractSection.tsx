@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, ShieldAlert, Award, PenTool, CheckCircle, RotateCcw, AlertTriangle, Key, PlayCircle } from 'lucide-react';
+import { FileText, ShieldAlert, Award, PenTool, CheckCircle, RotateCcw, AlertTriangle, PlayCircle, Download } from 'lucide-react';
 
 interface ContractSectionProps {
   clientName: string;
@@ -17,6 +17,8 @@ interface ContractSectionProps {
 export default function ContractSection({ clientName, clientSlug, phases, contractTerms }: ContractSectionProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [companyName, setCompanyName] = useState('');
   const [isSigned, setIsSigned] = useState(false);
   const [sigDetails, setSigDetails] = useState<any>(null);
   const [signatureMode, setSignatureMode] = useState<'type' | 'draw'>('type');
@@ -24,6 +26,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
   const [agreed, setAgreed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const isDrawingRef = useRef(false);
@@ -37,6 +40,8 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
       setSigDetails(parsed);
       setName(parsed.name);
       setEmail(parsed.email);
+      setPhone(parsed.phone || '');
+      setCompanyName(parsed.companyName || '');
     }
   }, [clientSlug]);
 
@@ -118,12 +123,13 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
 
     if (!name.trim()) return setError('Por favor introduce tu nombre completo.');
     if (!email.trim() || !email.includes('@')) return setError('Por favor introduce un correo electrónico válido.');
+    if (!phone.trim()) return setError('Por favor introduce tu número de teléfono.');
+    if (!companyName.trim()) return setError('Por favor introduce el nombre de la empresa.');
     if (!agreed) return setError('Debes aceptar las cláusulas y condiciones.');
 
     let signatureData = '';
     if (signatureMode === 'draw') {
       if (canvasRef.current) {
-        // Simple check to make sure they actually drew something (not empty canvas)
         signatureData = canvasRef.current.toDataURL();
       }
     } else {
@@ -142,6 +148,8 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
           clientSlug,
           name,
           email,
+          phone,
+          companyName,
           signatureData,
           signedAt
         })
@@ -153,6 +161,8 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
           id: data.signature.id,
           name,
           email,
+          phone,
+          companyName,
           signedAt,
           signatureData,
           mode: signatureMode
@@ -171,11 +181,209 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
   };
 
   const clauses = contractTerms?.clauses || [
-    "PROPIEDAD DE CONTENIDOS Y CÓDIGO: Todo el contenido y código fuente desarrollado pertenece al CLIENTE una vez liquidados los montos acordados.",
-    "CUMPLIMIENTO DE TIEMPOS: Ambas partes se comprometen a respetar los tiempos de entrega y pagos establecidos."
+    "POLÍTICA DE NO DEVOLUCIÓN DE DINERO (NO REFUNDS): Dadas la naturaleza de los servicios de consultoría, diseño, producción de creativos, desarrollo técnico y configuración publicitaria (donde se comprometen horas de trabajo profesional y recursos técnicos de forma inmediata), bajo ninguna circunstancia se realizarán devoluciones de dinero una vez iniciado el proyecto o realizado cualquier pago de reserva.",
+    "PLAZOS DE ENTREGA Y REQUERIMIENTOS: Los plazos de entrega pactados comenzarán a correr únicamente a partir del día hábil siguiente a la recepción total por parte de la Agencia de todos los insumos, accesos, contraseñas, información y materiales requeridos al CLIENTE. Los retrasos por parte del CLIENTE suspenderán automáticamente los plazos de entrega de la Agencia.",
+    "RONDAS DE REVISIÓN Y CAMBIOS: Se incluyen un máximo de 2 (dos) rondas de revisiones/correcciones por fase sobre los entregables presentados. Cualquier modificación posterior al cierre de una fase o que modifique el alcance original acordado se cotizará por separado (tarifa del 20% del valor de la fase por ronda adicional de corrección).",
+    "PROPIEDAD DE CONTENIDOS Y ACTIVOS: Todo el contenido y activos digitales desarrollados (sitios web, códigos, videos UGC, copys, artes e integraciones) pertenecerán en su totalidad y de forma exclusiva al CLIENTE una vez se haya liquidado el 100% de los pagos acordados en este acuerdo comercial."
   ];
 
   const total = phases.reduce((acc, curr) => acc + curr.investment, 0);
+
+  const generatePDF = async () => {
+    if (!sigDetails) return;
+    setIsGeneratingPDF(true);
+
+    try {
+      const jspdfModule = await import('jspdf');
+      const jsPDF = jspdfModule.jsPDF || jspdfModule.default || jspdfModule;
+      
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'letter'
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      let y = 20;
+
+      // Draw Top Tech/Modern Border Accent
+      pdf.setFillColor(14, 19, 31); // Dark background
+      pdf.rect(0, 0, pdfWidth, 40, 'F');
+      
+      pdf.setFillColor(45, 220, 128); // Emerald line accent
+      pdf.rect(0, 38, pdfWidth, 2, 'F');
+
+      // Title & Branding inside the header
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(10);
+      pdf.text("UNIVERSA AGENCY", 20, 18);
+      
+      pdf.setFontSize(16);
+      pdf.text("CONTRATO DE PRESTACIÓN DE SERVICIOS", 20, 28);
+      
+      y = 55;
+
+      // Metadata Section
+      pdf.setTextColor(14, 19, 31);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(11);
+      pdf.text("1. PARTES CONTRATANTES", 20, y);
+      y += 8;
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(10);
+      
+      // Client Data Grid Layout
+      pdf.text(`Cliente / Firmante: ${sigDetails.name}`, 20, y);
+      pdf.text(`Empresa: ${sigDetails.companyName}`, 110, y);
+      y += 6;
+      pdf.text(`Correo Electrónico: ${sigDetails.email}`, 20, y);
+      pdf.text(`Teléfono: ${sigDetails.phone}`, 110, y);
+      y += 6;
+      pdf.text(`Fecha de Firma: ${new Date(sigDetails.signedAt).toLocaleString()}`, 20, y);
+      pdf.text(`ID Acuerdo: ${sigDetails.id}`, 110, y);
+      y += 12;
+
+      // Object & Investment Section
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(11);
+      pdf.text("2. SERVICIOS Y PRESUPUESTO ACORDADO", 20, y);
+      y += 8;
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(10);
+      pdf.text(`Se acuerda la prestación de servicios detallada en la propuesta de ${clientName} por las siguientes fases:`, 20, y);
+      y += 8;
+
+      // Phase List table-like view
+      phases.forEach((phase, i) => {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(`Fase 0${i + 1}: ${phase.name}`, 25, y);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(`$${phase.investment.toLocaleString()} USD`, 160, y, { align: 'right' });
+        y += 6;
+      });
+
+      pdf.setDrawColor(220, 220, 220);
+      pdf.line(20, y, pdfWidth - 20, y);
+      y += 6;
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.text("TOTAL INVERSIÓN ACUMULADA:", 20, y);
+      pdf.setTextColor(45, 220, 128);
+      pdf.text(`$${total.toLocaleString()} USD`, 160, y, { align: 'right' });
+      pdf.setTextColor(14, 19, 31);
+      y += 14;
+
+      // Terms & Clauses Section
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(11);
+      pdf.text("3. TÉRMINOS Y CLÁUSULAS LEGALES DE PRESTACIÓN", 20, y);
+      y += 8;
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(9);
+      
+      const maxTextWidth = pdfWidth - 40;
+
+      clauses.forEach((clause) => {
+        const titlePart = clause.split(':')[0] + ":";
+        const contentPart = clause.split(':')[1] || '';
+        
+        pdf.setFont('helvetica', 'bold');
+        const formattedTitle = pdf.splitTextToSize(titlePart, maxTextWidth);
+        
+        // Check page break before rendering
+        const lineCount = formattedTitle.length + 3;
+        if (y + (lineCount * 5) > pdfHeight - 25) {
+          pdf.addPage();
+          y = 25;
+        }
+
+        pdf.text(formattedTitle, 20, y);
+        y += (formattedTitle.length * 4.5);
+
+        pdf.setFont('helvetica', 'normal');
+        const formattedContent = pdf.splitTextToSize(contentPart.trim(), maxTextWidth);
+        pdf.text(formattedContent, 20, y);
+        y += (formattedContent.length * 4.5) + 5;
+      });
+
+      y += 5;
+
+      // Signatures Footer area
+      if (y + 40 > pdfHeight - 20) {
+        pdf.addPage();
+        y = 25;
+      }
+
+      pdf.setDrawColor(200, 200, 200);
+      pdf.line(20, y, pdfWidth - 20, y);
+      y += 10;
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(10);
+      pdf.text("FIRMAS DE CONFORMIDAD", 20, y);
+      y += 10;
+
+      // Representative and Client Side by Side
+      const signY = y;
+      
+      // Left side: Agency representative
+      pdf.text("UNIVERSA AGENCY S.A.", 20, signY);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(8.5);
+      pdf.text("Firma de Representación Autorizada", 20, signY + 5);
+      pdf.setFont('times', 'italic');
+      pdf.setFontSize(16);
+      pdf.text("Universa Lab", 25, signY + 18);
+      pdf.setDrawColor(150, 150, 150);
+      pdf.line(20, signY + 22, 85, signY + 22);
+
+      // Right side: Client signature
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(10);
+      pdf.text("EL CLIENTE (CONTRATANTE)", 110, signY);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(8.5);
+      pdf.text(`Nombre: ${sigDetails.name}`, 110, signY + 5);
+      pdf.text(`Cargo/Empresa: ${sigDetails.companyName}`, 110, signY + 9);
+      
+      if (sigDetails.mode === 'draw') {
+        try {
+          pdf.addImage(sigDetails.signatureData, 'PNG', 110, signY + 11, 60, 15);
+        } catch (imgErr) {
+          pdf.setFont('times', 'italic');
+          pdf.setFontSize(16);
+          pdf.text(sigDetails.name, 115, signY + 18);
+        }
+      } else {
+        pdf.setFont('times', 'italic');
+        pdf.setFontSize(18);
+        pdf.text(sigDetails.signatureData, 115, signY + 18);
+      }
+      
+      pdf.line(110, signY + 22, 175, signY + 22);
+
+      // Footer notice
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(7.5);
+      pdf.setTextColor(150, 150, 150);
+      pdf.text(`Este documento fue firmado digitalmente bajo el código de seguridad única ${sigDetails.id}.`, 20, pdfHeight - 12);
+      pdf.text("Universa Agency LLC © 2026. Todos los derechos reservados.", pdfWidth - 20, pdfHeight - 12, { align: 'right' });
+
+      // Save PDF
+      pdf.save(`${clientSlug}_contrato_firmado.pdf`);
+    } catch (err) {
+      console.error("Error generating PDF:", err);
+      alert("Ocurrió un error al generar el PDF.");
+    } finally {
+      setIsGeneratingPDF(false);
+    }
+  };
 
   return (
     <section className="py-24 px-6 relative overflow-hidden bg-gradient-to-t from-[#090d16] to-[#0e131f] border-t border-white/5">
@@ -193,7 +401,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
             Contrato de Servicios
           </h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
-            Por favor, revisa las condiciones comerciales del proyecto y firma digitalmente para formalizar el inicio de los trabajos.
+            Por favor, ingresa los datos correspondientes, revisa las condiciones comerciales y firma digitalmente para formalizar la propuesta.
           </p>
         </div>
 
@@ -279,13 +487,37 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Nombre Completo</label>
+                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Nombre Completo del Firmante</label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Ej. Ivonne Roxe"
+                    className="w-full bg-white/5 border border-white/10 focus:border-[#2ddc80]/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-white/20 font-bold"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Nombre de la Empresa</label>
+                  <input
+                    type="text"
+                    required
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                    placeholder="Ej. Roxe LLC"
+                    className="w-full bg-white/5 border border-white/10 focus:border-[#2ddc80]/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-white/20 font-bold"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Número de Teléfono</label>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Ej. +1 (786) 123-4567"
                     className="w-full bg-white/5 border border-white/10 focus:border-[#2ddc80]/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-white/20 font-bold"
                   />
                 </div>
@@ -416,7 +648,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
 
               {/* Signature display block */}
               {sigDetails && (
-                <div className="bg-[#0e131f]/60 backdrop-blur-xl border border-white/5 rounded-2xl p-6 max-w-md mx-auto space-y-4 text-left">
+                <div className="bg-[#0e131f]/60 backdrop-blur-xl border border-white/5 rounded-2xl p-6 max-w-md mx-auto space-y-4 text-left mb-8">
                   <div className="flex justify-between text-xs border-b border-white/5 pb-2">
                     <span className="text-white/40 uppercase font-bold">Código de Firma</span>
                     <code className="text-[#2ddc80] font-mono font-bold select-all">{sigDetails.id}</code>
@@ -424,6 +656,14 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
                   <div className="flex justify-between text-xs border-b border-white/5 pb-2">
                     <span className="text-white/40 uppercase font-bold">Firmante</span>
                     <span className="text-white font-bold uppercase">{sigDetails.name}</span>
+                  </div>
+                  <div className="flex justify-between text-xs border-b border-white/5 pb-2">
+                    <span className="text-white/40 uppercase font-bold">Empresa</span>
+                    <span className="text-white font-bold uppercase">{sigDetails.companyName}</span>
+                  </div>
+                  <div className="flex justify-between text-xs border-b border-white/5 pb-2">
+                    <span className="text-white/40 uppercase font-bold">Teléfono</span>
+                    <span className="text-white font-bold">{sigDetails.phone}</span>
                   </div>
                   <div className="flex justify-between text-xs border-b border-white/5 pb-2">
                     <span className="text-white/40 uppercase font-bold">Email</span>
@@ -447,6 +687,17 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
                   </div>
                 </div>
               )}
+
+              {/* Action buttons */}
+              <button
+                type="button"
+                onClick={generatePDF}
+                disabled={isGeneratingPDF}
+                className="inline-flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-[#0e131f] font-black text-sm uppercase tracking-wider px-8 py-4 rounded-xl transition-all disabled:opacity-50 shadow-lg"
+              >
+                {isGeneratingPDF ? 'Generando PDF...' : 'Descargar Contrato (PDF)'}
+                <Download className="w-4 h-4" />
+              </button>
             </motion.div>
           )}
         </AnimatePresence>

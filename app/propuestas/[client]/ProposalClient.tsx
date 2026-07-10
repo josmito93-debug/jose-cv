@@ -13,7 +13,6 @@ const SpaceRocks = dynamic(() => import('@/app/components/proposals/SpaceRocks')
 const RelatedProjects = dynamic(() => import('@/app/components/proposals/RelatedProjects'), { ssr: false });
 const ContractSection = dynamic(() => import('@/app/components/proposals/ContractSection'), { ssr: false });
 
-
 interface ProposalData {
   client: string;
   status?: string;
@@ -117,14 +116,12 @@ export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug
           hideStripe={proposal.hideStripe}
         />
 
-        {proposal.isContract && (
-          <ContractSection
-            clientName={proposal.client}
-            clientSlug={clientSlug}
-            phases={proposal.phases}
-            contractTerms={proposal.contractTerms}
-          />
-        )}
+        <ContractSection
+          clientName={proposal.client}
+          clientSlug={clientSlug}
+          phases={proposal.phases}
+          contractTerms={proposal.contractTerms}
+        />
       </div>
     </main>
   );

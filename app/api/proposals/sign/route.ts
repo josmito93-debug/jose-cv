@@ -5,10 +5,10 @@ import path from 'path';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { clientSlug, name, email, signatureData, signedAt } = body;
+    const { clientSlug, name, email, phone, companyName, signatureData, signedAt } = body;
 
     if (!clientSlug || !name || !email) {
-      return NextResponse.json({ error: 'Faltan campos obligatorios' }, { status: 400 });
+      return NextResponse.json({ error: 'Faltan campos obligatorios (Nombre, Email o Identificador)' }, { status: 400 });
     }
 
     const signaturesDir = path.join(process.cwd(), 'data');
@@ -34,6 +34,8 @@ export async function POST(request: NextRequest) {
       clientSlug,
       name,
       email,
+      phone: phone || '',
+      companyName: companyName || '',
       signatureData, // Base64 signature image or typed name
       signedAt: signedAt || new Date().toISOString(),
     };
