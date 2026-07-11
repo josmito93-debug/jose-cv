@@ -175,7 +175,7 @@ async function main() {
   pdf.setFontSize(8.5);
   pdf.text("Firma de Representación Autorizada", 20, signY + 5);
   
-  // Written digital signature for Representative (No overlapping)
+  // Written digital signature for Representative
   pdf.setFont('times', 'italic');
   pdf.setFontSize(22);
   pdf.setTextColor(15, 80, 200); // Blue cursive ink
@@ -195,7 +195,7 @@ async function main() {
   pdf.text("Nombre: Paula Garcia", 110, signY + 5);
   pdf.text("Cargo/Empresa: Garage STREET FOOD", 110, signY + 9);
   
-  // Written digital signature for Paula Garcia (No overlapping)
+  // Written digital signature for Paula Garcia
   pdf.setFont('times', 'italic');
   pdf.setFontSize(22);
   pdf.setTextColor(45, 220, 128); // Emerald cursive ink
@@ -221,83 +221,75 @@ async function main() {
   console.log("PDF guardado localmente en el directorio raíz.");
 
   // 2. Generate Base64 for Email
-  const pdfOutput = pdf.output('datauristring'); // data:application/pdf;filename=generated.pdf;base64,.....
+  const pdfOutput = pdf.output('datauristring');
   const base64Data = pdfOutput.split(',')[1];
 
-  console.log("PDF firmado generado con éxito en Base64. Enviando correo por Resend...");
+  console.log("Enviando correos...");
 
-  try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        from: 'Acuerdos Universa <onboarding@resend.dev>',
-        to: ['info@universaagency.com'], // ONLY the verified Resend owner email
-        subject: '✍️ Propuesta Firmada: Paula Garcia (Garage STREET FOOD)',
-        html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-            <h2 style="color: #0e131f; border-bottom: 2px solid #2ddc80; padding-bottom: 10px;">Nuevo Contrato Firmado (Respaldo)</h2>
-            <p>Se adjunta el contrato digital formalizado por <strong>Paula Garcia</strong> para la propuesta de <strong>Garage STREET FOOD</strong> con fecha de efectividad al 18 de Julio de 2026.</p>
-            
-            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-              <tr style="background-color: #f9f9f9;">
-                <td style="padding: 10px; font-weight: bold; width: 35%;">Cliente / Firmante:</td>
-                <td style="padding: 10px;">Paula Garcia</td>
-              </tr>
-              <tr>
-                <td style="padding: 10px; font-weight: bold;">Empresa:</td>
-                <td style="padding: 10px;">Garage STREET FOOD</td>
-              </tr>
-              <tr style="background-color: #f9f9f9;">
-                <td style="padding: 10px; font-weight: bold;">Email:</td>
-                <td style="padding: 10px;">paulagarciab05@gmail.com</td>
-              </tr>
-              <tr>
-                <td style="padding: 10px; font-weight: bold;">ID de Acuerdo:</td>
-                <td style="padding: 10px;"><code>${agreementId}</code></td>
-              </tr>
-              <tr style="background-color: #f9f9f9;">
-                <td style="padding: 10px; font-weight: bold;">Fecha del Contrato:</td>
-                <td style="padding: 10px;"><strong>18 de Julio, 2026 (Firmado)</strong></td>
-              </tr>
-              <tr>
-                <td style="padding: 10px; font-weight: bold;">Inversión Total:</td>
-                <td style="padding: 10px; font-weight: bold; color: #2ddc80;">$1,400 USD (Pago Único al Finalizar)</td>
-              </tr>
-            </table>
-
-            <div style="margin-top: 30px; padding: 15px; background-color: #e8fdf4; border: 1px solid #2ddc80; border-radius: 8px;">
-              <p style="margin: 0; color: #0e131f; font-size: 13px;">
-                <strong>Nota de Protección Legal:</strong> Este contrato contiene la cláusula explícita de <strong>No Reembolso (No Refunds)</strong> bajo cualquier circunstancia y ha sido firmado de conformidad mediante firma digitalizada escrita cursiva. El PDF original firmado se encuentra adjunto a este correo.
-              </p>
+  // Try using different 'from' addresses to see if they verified their custom domain
+  const trySend = async (fromAddress, toAddress) => {
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: fromAddress,
+          to: [toAddress],
+          subject: '✍️ Contrato Firmado: Paula Garcia (Garage STREET FOOD)',
+          html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+              <h2 style="color: #0e131f; border-bottom: 2px solid #2ddc80; padding-bottom: 10px;">Contrato Digital Firmado</h2>
+              <p>Se adjunta el contrato digital formalizado por <strong>Paula Garcia</strong> para la propuesta de <strong>Garage STREET FOOD</strong> con fecha de efectividad al 18 de Julio de 2026.</p>
+              
+              <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <tr>
+                  <td style="padding: 10px; font-weight: bold; width: 35%;">Cliente / Firmante:</td>
+                  <td style="padding: 10px;">Paula Garcia</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; font-weight: bold;">Empresa:</td>
+                  <td style="padding: 10px;">Garage STREET FOOD</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; font-weight: bold;">ID de Acuerdo:</td>
+                  <td style="padding: 10px;"><code>${agreementId}</code></td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; font-weight: bold;">Inversión Total:</td>
+                  <td style="padding: 10px; font-weight: bold; color: #2ddc80;">$1,400 USD (Pago Único al Finalizar)</td>
+                </tr>
+              </table>
+              <p>El PDF original firmado se encuentra adjunto.</p>
             </div>
-
-            <p style="font-size: 11px; color: #999; margin-top: 30px; text-align: center;">
-              Universa Agency LLC © 2026. Todos los derechos reservados.
-            </p>
-          </div>
-        `,
-        attachments: [
-          {
-            content: base64Data,
-            filename: 'garage_street_food_contrato_firmado.pdf'
-          }
-        ]
-      })
-    });
-
-    const resData = await response.json();
-    if (response.ok) {
-      console.log("¡Correo enviado con éxito por Resend!", resData);
-    } else {
-      console.error("Error de la API de Resend:", resData);
+          `,
+          attachments: [
+            {
+              content: base64Data,
+              filename: 'garage_street_food_contrato_firmado.pdf'
+            }
+          ]
+        })
+      });
+      const data = await response.json();
+      return { ok: response.ok, from: fromAddress, to: toAddress, data };
+    } catch (e) {
+      return { ok: false, error: e.message };
     }
-  } catch (err) {
-    console.error("Error en la conexión con la API de Resend:", err.message);
-  }
+  };
+
+  // 1. Send test to owner email via onboarding (guaranteed to work)
+  const r1 = await trySend('Acuerdos Universa <onboarding@resend.dev>', 'info@universaagency.com');
+  console.log("Envío onboarding -> info@universaagency.com:", r1);
+
+  // 2. Try sending using custom domain from jose@universa.agency to other emails
+  const r2 = await trySend('Universa Agency <jose@universa.agency>', 'paulagarciab05@gmail.com');
+  console.log("Envío jose@universa.agency -> paulagarciab05@gmail.com:", r2);
+  
+  const r3 = await trySend('Universa Agency <jose@universa.agency>', 'josefigueroa.marketing@gmail.com');
+  console.log("Envío jose@universa.agency -> josefigueroa.marketing@gmail.com:", r3);
 }
 
 main();
