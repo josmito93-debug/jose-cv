@@ -1283,5 +1283,135 @@
     "summary": "Propuesta estratégica de marketing digital para impulsar el negocio de Farmasi de Anleidy Alejandra Santiago Terán. Desarrollamos tus creativos de video y guiones persuasivos, creamos un embudo de conversión para capturar prospectos conectando el Meta Pixel para medir cada visita, y configuramos y lanzamos tu campaña en Meta Ads con una bonificación especial de $50 USD (Descuento Friends & Family).",
     "cta": "https://wa.me/17863024923",
     "hideRelated": true
+  },
+  "master-tire": {
+    "client": "Master Tire Integral Services LLC",
+    "status": "Propuesta de Desarrollo Web App & SEO",
+    "title": "WEB APP DE ASISTENCIA VIAL + SEO LOCAL DOMINATION",
+    "lang": "es",
+    "ctaText": "Aceptar Propuesta",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "BRAND DNA & IDENTIDAD GRÁFICA (BRAND BOOK)",
+        "investment": 200,
+        "items": [
+          {
+            "title": "Desarrollo de Identidad Visual y Brand Book",
+            "description": "Diseño de logotipo profesional, paleta de colores corporativos, tipografías oficiales y manual de uso de marca (Brand Guidelines) para garantizar coherencia en todos los canales.",
+            "icon": "palette",
+            "bullets": [
+              "Logotipo principal y variantes adaptables (Digital/Redes)",
+              "Definición de paleta de colores y tipografía de marca",
+              "Manual de Marca digital completo (Brand Book) para futuras aplicaciones"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "DISEÑO Y DESARROLLO DE WEB APP DE ASISTENCIA VIAL",
+        "investment": 800,
+        "items": [
+          {
+            "title": "Geolocalización GPS y Formulario de Solicitud",
+            "description": "Módulo interactivo que permite al cliente compartir su ubicación en tiempo real para el envío de auxilio vial inmediato.",
+            "icon": "globe",
+            "bullets": [
+              "Geolocalización en vivo vía GPS de dispositivo móvil",
+              "Formulario de diagnóstico (talla del caucho, repuesto disponible o cambio completo)",
+              "Filtro de precaución de seguridad (indicador de autopista o zona de riesgo)"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Rastreador de Asistencia y Trazado de Ruta",
+            "description": "Monitoreo progresivo del avance de la ayuda para reducir la fricción psicológica de la espera.",
+            "icon": "activity",
+            "bullets": [
+              "Cálculo automático de la ruta óptima de llegada del técnico",
+              "Medición de distancia y tiempo estimado de llegada (ETA)",
+              "Mapeo interactivo del avance de la asistencia en tiempo real"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Pasarelas de Pago e Integración Core",
+            "description": "Configuración de múltiples métodos de pago integrados de acuerdo a la infraestructura del cliente.",
+            "icon": "palette",
+            "bullets": [
+              "Integración con Stripe para recepción de pagos con tarjetas de débito/crédito",
+              "Configuración nativa de Apple Pay para transacciones desde móvil",
+              "Conectividad opcional con Square u otra pasarela de elección"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Conexión de Dominio, Hosting & Infraestructura",
+            "description": "Configuración técnica para la correcta puesta en marcha del portal bajo su marca propia.",
+            "icon": "shield",
+            "bullets": [
+              "Conexión y vinculación de dominio propio",
+              "Certificados de seguridad SSL permanentes (HTTPS)",
+              "Capacidad técnica de agregar nuevas locaciones y ajustar precios en el panel"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "MANTENIMIENTO, HOSTING & SEO DOMINATION",
+        "investment": 30,
+        "items": [
+          {
+            "title": "Posicionamiento SEO Local en Google",
+            "description": "Optimización integral para búsquedas orgánicas clave, asegurando que la empresa sea la opción número uno en la zona.",
+            "icon": "globe",
+            "bullets": [
+              "Estrategia de posicionamiento en Google Maps para servicios viales rápidos",
+              "Indexación técnica adaptada a buscadores tradicionales e Inteligencia Artificial",
+              "Optimización de palabras clave relevantes para maximizar la atracción de tráfico"
+            ],
+            "tag": "panenka-journey",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Soporte Técnico y Mantenimiento Recurrente",
+            "description": "Garantía mensual de estabilidad, monitoreo de servidores y soporte técnico continuo.",
+            "icon": "activity",
+            "bullets": [
+              "Hosting de alto rendimiento en la infraestructura serverless de Universa",
+              "Monitoreo constante contra caídas de sistema",
+              "Soporte mensual por $30 USD mensuales"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Propuesta y contrato digital de desarrollo de marca (Brand Book), plataforma Web App interactiva de asistencia vial y SEO local para Master Tire Integral Services LLC (Maydiel Díaz Rojas). Desarrollamos toda su identidad corporativa, módulo de geolocalización, rastreo en vivo de la asistencia con trazado de ruta óptima (ETA), pasarelas de pago y posicionamiento local en Google por una inversión de $1,000 USD y hosting mensual de $30 USD.",
+    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20aprobar%20la%20propuesta%20de%20Master%20Tire",
+    "hideRelated": true,
+    "paymentSplit": "500/500",
+    "contractTerms": {
+      "payments": [
+        { "name": "Primer Pago (Reserva / Inicio)", "amount": 500 },
+        { "name": "Segundo Pago (Lanzamiento y Entrega Final)", "amount": 500 }
+      ],
+      "clauses": [
+        "PROPIEDAD DE MARCA Y CONTENIDOS: Los derechos de uso y explotación sobre el Brand Book, logotipos y Web App pertenecerán en su totalidad a MASTER TIRE INTEGRAL SERVICES LLC una vez liquidada la totalidad de la inversión de $1,000 USD.",
+        "HOSTING Y MANTENIMIENTO: El hosting y soporte técnico tiene un costo mensual recurrente de $30 USD, garantizando la estabilidad de la plataforma y el mantenimiento de las integraciones.",
+        "CRONOGRAMA DE TRABAJO: Ambas partes acuerdan cumplir con los plazos previstos de entrega de materiales y revisiones técnicas para garantizar un óptimo lanzamiento del proyecto."
+      ]
+    }
   }
 }
