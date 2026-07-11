@@ -168,28 +168,25 @@ async function main() {
   // Signatures
   const signY = y;
   
-  // Left side: Agency representative
+  // Left side: Agency representative details
+  pdf.setTextColor(14, 19, 31);
   pdf.text("UNIVERSA AGENCY S.A.", 20, signY);
   pdf.setFont('helvetica', 'normal');
   pdf.setFontSize(8.5);
   pdf.text("Firma de Representación Autorizada", 20, signY + 5);
   
-  // Drawn signature for Representative (moved down to prevent overlap)
-  pdf.setDrawColor(15, 80, 200); // Blue ink
-  pdf.setLineWidth(0.6);
-  pdf.line(22, signY + 32, 28, signY + 24);
-  pdf.line(28, signY + 24, 32, signY + 36);
-  pdf.line(32, signY + 36, 38, signY + 29);
-  pdf.line(38, signY + 29, 43, signY + 32);
-  pdf.line(43, signY + 32, 50, signY + 26);
-  pdf.line(50, signY + 26, 56, signY + 35);
-  pdf.line(20, signY + 35, 80, signY + 34);
+  // Written digital signature for Representative (No overlapping)
+  pdf.setFont('times', 'italic');
+  pdf.setFontSize(22);
+  pdf.setTextColor(15, 80, 200); // Blue cursive ink
+  pdf.text("Universa Lab", 24, signY + 25);
 
   pdf.setDrawColor(150, 150, 150);
   pdf.setLineWidth(0.25);
-  pdf.line(20, signY + 38, 85, signY + 38);
+  pdf.line(20, signY + 28, 85, signY + 28);
 
-  // Right side: Client signature
+  // Right side: Client signature details
+  pdf.setTextColor(14, 19, 31);
   pdf.setFont('helvetica', 'bold');
   pdf.setFontSize(10);
   pdf.text("EL CLIENTE (CONTRATANTE)", 110, signY);
@@ -198,26 +195,18 @@ async function main() {
   pdf.text("Nombre: Paula Garcia", 110, signY + 5);
   pdf.text("Cargo/Empresa: Garage STREET FOOD", 110, signY + 9);
   
-  // Simulated hand-drawn signature for Paula Garcia (moved down to prevent overlap)
-  pdf.setDrawColor(45, 220, 128); // Emerald ink
-  pdf.setLineWidth(0.6);
-  // Continuous loops representing signature
-  pdf.line(115, signY + 31, 120, signY + 22);
-  pdf.line(120, signY + 22, 123, signY + 36);
-  pdf.line(123, signY + 36, 128, signY + 28);
-  pdf.line(128, signY + 28, 131, signY + 32);
-  pdf.line(131, signY + 32, 135, signY + 26);
-  pdf.line(135, signY + 26, 139, signY + 34);
-  pdf.line(139, signY + 34, 144, signY + 30);
-  pdf.line(144, signY + 30, 149, signY + 32);
-  pdf.line(149, signY + 32, 154, signY + 27);
-  pdf.line(154, signY + 27, 159, signY + 34);
-  pdf.line(159, signY + 34, 168, signY + 29);
-  pdf.line(112, signY + 34, 172, signY + 33);
+  // Written digital signature for Paula Garcia (No overlapping)
+  pdf.setFont('times', 'italic');
+  pdf.setFontSize(22);
+  pdf.setTextColor(45, 220, 128); // Emerald cursive ink
+  pdf.text("Paula Garcia", 114, signY + 25);
 
   pdf.setDrawColor(150, 150, 150);
   pdf.setLineWidth(0.25);
-  pdf.line(110, signY + 38, 175, signY + 38);
+  pdf.line(110, signY + 28, 175, signY + 28);
+
+  // Reset text color
+  pdf.setTextColor(14, 19, 31);
 
   // Footer notice
   pdf.setFont('helvetica', 'normal');
@@ -282,7 +271,7 @@ async function main() {
 
             <div style="margin-top: 30px; padding: 15px; background-color: #e8fdf4; border: 1px solid #2ddc80; border-radius: 8px;">
               <p style="margin: 0; color: #0e131f; font-size: 13px;">
-                <strong>Nota de Protección Legal:</strong> Este contrato contiene la cláusula explícita de <strong>No Reembolso (No Refunds)</strong> bajo cualquier circunstancia y ha sido firmado de conformidad mediante firma digitalizada trazada (sin tipografías de texto). El PDF original firmado se encuentra adjunto a este correo.
+                <strong>Nota de Protección Legal:</strong> Este contrato contiene la cláusula explícita de <strong>No Reembolso (No Refunds)</strong> bajo cualquier circunstancia y ha sido firmado de conformidad mediante firma digitalizada escrita cursiva. El PDF original firmado se encuentra adjunto a este correo.
               </p>
             </div>
 
