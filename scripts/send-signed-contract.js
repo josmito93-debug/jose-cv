@@ -226,7 +226,12 @@ async function main() {
   pdf.text(`Este documento fue firmado digitalmente bajo el código de seguridad única ${agreementId}.`, 20, pdfHeight - 12);
   pdf.text("Universa Agency LLC © 2026. Todos los derechos reservados.", pdfWidth - 20, pdfHeight - 12, { align: 'right' });
 
-  // Generate buffer
+  // 1. Save PDF locally in the project root
+  const buffer = pdf.output('arraybuffer');
+  fs.writeFileSync(path.join(__dirname, '../garage_street_food_contrato_firmado.pdf'), Buffer.from(buffer));
+  console.log("PDF guardado localmente en el directorio raíz.");
+
+  // 2. Generate Base64 for Email
   const pdfOutput = pdf.output('datauristring'); // data:application/pdf;filename=generated.pdf;base64,.....
   const base64Data = pdfOutput.split(',')[1];
 
@@ -241,7 +246,7 @@ async function main() {
       },
       body: JSON.stringify({
         from: 'Acuerdos Universa <onboarding@resend.dev>',
-        to: ['info@universaagency.com'],
+        to: ['info@universaagency.com'], // ONLY the verified Resend owner email
         subject: '✍️ Propuesta Firmada: Paula Garcia (Garage STREET FOOD)',
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
