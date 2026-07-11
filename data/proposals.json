@@ -1413,5 +1413,81 @@
         "CRONOGRAMA DE TRABAJO: Ambas partes acuerdan cumplir con los plazos previstos de entrega de materiales y revisiones técnicas para garantizar un óptimo lanzamiento del proyecto."
       ]
     }
+  },
+  "garage": {
+    "client": "Paula Garcia",
+    "status": "Propuesta Aceptada y Firmada",
+    "title": "E-COMMERCE RESTAURANTE - GARAGE STREET FOOD",
+    "lang": "es",
+    "ctaText": "Propuesta Aceptada",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "DESARROLLO E-COMMERCE RESTAURANTE (STREET FOOD SYSTEM)",
+        "investment": 1000,
+        "items": [
+          {
+            "title": "Catálogo de Menú Digital y Carrito Acelerado",
+            "description": "Desarrollo de un menú interactivo visualmente atractivo adaptado a la estética urbana de Garage Street Food, optimizado para celulares.",
+            "icon": "globe",
+            "bullets": [
+              "Filtros rápidos por categorías (Hamburguesas, Entradas, Bebidas)",
+              "Modificadores de platos (salsas adicionales, término de carne, ingredientes extra)",
+              "Carrito de compras interactivo ultra-rápido para reducir la fricción"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Checkout Directo Sin Comisiones de Terceros",
+            "description": "Procesamiento de pedidos de forma directa bajo tu propio control y dominio, sin pagar comisiones a plataformas intermediarias.",
+            "icon": "palette",
+            "bullets": [
+              "Configuración de pasarela de pago Stripe (tarjetas de crédito/débito)",
+              "Enrutamiento de pedidos detallados directamente a tu WhatsApp operativo",
+              "Base de datos de clientes propia para futuras campañas de retargeting"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "INTEGRACIÓN DE TRACKING & MARKETING DATA",
+        "investment": 200,
+        "items": [
+          {
+            "title": "Meta Pixel & Analytics Setup",
+            "description": "Instalación del Pixel de Meta para registrar el comportamiento de los usuarios (visitas al menú, adición al carrito, clics en pedir).",
+            "icon": "activity",
+            "bullets": [
+              "Instalación de Meta Pixel y API de Conversiones",
+              "Medición de eventos de conversión para campañas publicitarias",
+              "Configuración básica de remarketing en Facebook/Instagram"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Propuesta y contrato digital de desarrollo de e-commerce de comida urbana para Garage Street Food (Paula Garcia). Sistema de pedidos directos autoadministrable, sin comisiones externas, integrado con Meta Pixel para optimización de campañas y pasarela de pagos.",
+    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20detalles%20de%20la%20propuesta%20de%20Garage%20Street%20Food",
+    "hideRelated": true,
+    "paymentSplit": "600/600",
+    "contractTerms": {
+      "payments": [
+        { "name": "Primer Pago (Reserva / Inicio)", "amount": 600 },
+        { "name": "Segundo Pago (Lanzamiento y Entrega Final)", "amount": 600 }
+      ],
+      "clauses": [
+        "POLÍTICA DE NO DEVOLUCIÓN DE DINERO (NO REFUNDS): Dadas la naturaleza de los servicios de consultoría, diseño, producción de creativos, desarrollo técnico y configuración publicitaria (donde se comprometen horas de trabajo profesional y recursos técnicos de forma inmediata), bajo ninguna circunstancia se realizarán devoluciones de dinero una vez iniciado el proyecto o realizado cualquier pago de reserva.",
+        "PLAZOS DE ENTREGA Y REQUERIMIENTOS: Los plazos de entrega pactados comenzarán a correr únicamente a partir del día hábil siguiente a la recepción total por parte de la Agencia de todos los insumos, accesos, contraseñas, información y materiales requeridos al CLIENTE. Los retrasos por parte del CLIENTE suspenderán automáticamente los plazos de entrega de la Agencia.",
+        "RONDAS DE REVISIÓN Y CAMBIOS: Se incluyen un máximo de 2 (dos) rondas de revisiones/correcciones por fase sobre los entregables presentados. Cualquier modificación posterior al cierre de una fase o que modifique el alcance original acordado se cotizará por separado (tarifa del 20% del valor de la fase por ronda adicional de corrección).",
+        "PROPIEDAD DE CONTENIDOS Y ACTIVOS: Todo el contenido y activos digitales desarrollados (sitios web, códigos, videos UGC, copys, artes e integraciones) pertenecerán en su totalidad y de forma exclusiva al CLIENTE una vez se haya liquidado el 100% de los pagos acordados en este acuerdo comercial."
+      ]
+    }
   }
 }
