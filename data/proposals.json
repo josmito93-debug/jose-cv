@@ -1424,8 +1424,8 @@
     "phases": [
       {
         "id": 1,
-        "name": "DESARROLLO E-COMMERCE RESTAURANTE (STREET FOOD SYSTEM)",
-        "investment": 1200,
+        "name": "DESARROLLO E-COMMERCE RESTAURANTE & MARKETING DATA",
+        "investment": 1400,
         "items": [
           {
             "title": "Catálogo de Menú Digital y Carrito Acelerado",
@@ -1450,14 +1450,7 @@
             ],
             "tag": "panenka-design",
             "tagImage": "/tags/Graphic desing.png"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "name": "INTEGRACIÓN DE TRACKING & MARKETING DATA",
-        "investment": 200,
-        "items": [
+          },
           {
             "title": "Meta Pixel & Analytics Setup",
             "description": "Instalación del Pixel de Meta para registrar el comportamiento de los usuarios (visitas al menú, adición al carrito, clics en pedir).",
@@ -1476,7 +1469,7 @@
     "summary": "Propuesta y contrato digital de desarrollo de e-commerce de comida urbana para Garage Street Food (Paula Garcia). Sistema de pedidos directos autoadministrable, sin comisiones externas, integrado con Meta Pixel para optimización de campañas y pasarela de pagos por una inversión única de $1,400 USD al finalizar el proyecto.",
     "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20detalles%20de%20la%20propuesta%20de%20Garage%20Street%20Food",
     "hideRelated": true,
-    "paymentSplit": "0/1400",
+    "paymentSplit": "1400",
     "contractTerms": {
       "payments": [
         { "name": "Pago único al finalizar y entregar el proyecto", "amount": 1400 }

@@ -89,8 +89,7 @@ async function main() {
 
   // Phases
   const phases = [
-    { name: "DESARROLLO E-COMMERCE RESTAURANTE (STREET FOOD SYSTEM)", investment: 1200 },
-    { name: "INTEGRACIÓN DE TRACKING & MARKETING DATA", investment: 200 }
+    { name: "DESARROLLO E-COMMERCE RESTAURANTE & MARKETING DATA", investment: 1400 }
   ];
 
   phases.forEach((phase, i) => {
@@ -152,7 +151,7 @@ async function main() {
 
   y += 5;
 
-  if (y + 40 > pdfHeight - 20) {
+  if (y + 50 > pdfHeight - 20) {
     pdf.addPage();
     y = 25;
   }
@@ -175,20 +174,20 @@ async function main() {
   pdf.setFontSize(8.5);
   pdf.text("Firma de Representación Autorizada", 20, signY + 5);
   
-  // Drawn signature for Representative
+  // Drawn signature for Representative (moved down to prevent overlap)
   pdf.setDrawColor(15, 80, 200); // Blue ink
   pdf.setLineWidth(0.6);
-  pdf.line(22, signY + 17, 28, signY + 9);
-  pdf.line(28, signY + 9, 32, signY + 21);
-  pdf.line(32, signY + 21, 38, signY + 14);
-  pdf.line(38, signY + 14, 43, signY + 17);
-  pdf.line(43, signY + 17, 50, signY + 11);
-  pdf.line(50, signY + 11, 56, signY + 20);
-  pdf.line(20, signY + 20, 80, signY + 19);
+  pdf.line(22, signY + 32, 28, signY + 24);
+  pdf.line(28, signY + 24, 32, signY + 36);
+  pdf.line(32, signY + 36, 38, signY + 29);
+  pdf.line(38, signY + 29, 43, signY + 32);
+  pdf.line(43, signY + 32, 50, signY + 26);
+  pdf.line(50, signY + 26, 56, signY + 35);
+  pdf.line(20, signY + 35, 80, signY + 34);
 
   pdf.setDrawColor(150, 150, 150);
   pdf.setLineWidth(0.25);
-  pdf.line(20, signY + 22, 85, signY + 22);
+  pdf.line(20, signY + 38, 85, signY + 38);
 
   // Right side: Client signature
   pdf.setFont('helvetica', 'bold');
@@ -199,26 +198,26 @@ async function main() {
   pdf.text("Nombre: Paula Garcia", 110, signY + 5);
   pdf.text("Cargo/Empresa: Garage STREET FOOD", 110, signY + 9);
   
-  // Simulated hand-drawn signature for Paula Garcia
+  // Simulated hand-drawn signature for Paula Garcia (moved down to prevent overlap)
   pdf.setDrawColor(45, 220, 128); // Emerald ink
   pdf.setLineWidth(0.6);
   // Continuous loops representing signature
-  pdf.line(115, signY + 16, 120, signY + 7);
-  pdf.line(120, signY + 7, 123, signY + 21);
-  pdf.line(123, signY + 21, 128, signY + 13);
-  pdf.line(128, signY + 13, 131, signY + 17);
-  pdf.line(131, signY + 17, 135, signY + 11);
-  pdf.line(135, signY + 11, 139, signY + 19);
-  pdf.line(139, signY + 19, 144, signY + 15);
-  pdf.line(144, signY + 15, 149, signY + 17);
-  pdf.line(149, signY + 17, 154, signY + 12);
-  pdf.line(154, signY + 12, 159, signY + 19);
-  pdf.line(159, signY + 19, 168, signY + 14);
-  pdf.line(112, signY + 19, 172, signY + 18);
+  pdf.line(115, signY + 31, 120, signY + 22);
+  pdf.line(120, signY + 22, 123, signY + 36);
+  pdf.line(123, signY + 36, 128, signY + 28);
+  pdf.line(128, signY + 28, 131, signY + 32);
+  pdf.line(131, signY + 32, 135, signY + 26);
+  pdf.line(135, signY + 26, 139, signY + 34);
+  pdf.line(139, signY + 34, 144, signY + 30);
+  pdf.line(144, signY + 30, 149, signY + 32);
+  pdf.line(149, signY + 32, 154, signY + 27);
+  pdf.line(154, signY + 27, 159, signY + 34);
+  pdf.line(159, signY + 34, 168, signY + 29);
+  pdf.line(112, signY + 34, 172, signY + 33);
 
   pdf.setDrawColor(150, 150, 150);
   pdf.setLineWidth(0.25);
-  pdf.line(110, signY + 22, 175, signY + 22);
+  pdf.line(110, signY + 38, 175, signY + 38);
 
   // Footer notice
   pdf.setFont('helvetica', 'normal');
