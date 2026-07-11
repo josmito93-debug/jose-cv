@@ -215,19 +215,19 @@ async function main() {
   pdf.text(`Este documento fue firmado digitalmente bajo el código de seguridad única ${agreementId}.`, 20, pdfHeight - 12);
   pdf.text("Universa Agency LLC © 2026. Todos los derechos reservados.", pdfWidth - 20, pdfHeight - 12, { align: 'right' });
 
-  // 1. Save PDF locally in the project root
+  // 1. Save PDF locally
   const buffer = pdf.output('arraybuffer');
   fs.writeFileSync(path.join(__dirname, '../garage_street_food_contrato_firmado.pdf'), Buffer.from(buffer));
-  console.log("PDF guardado localmente en el directorio raíz.");
+  console.log("PDF guardado localmente.");
 
   // 2. Generate Base64 for Email
   const pdfOutput = pdf.output('datauristring');
   const base64Data = pdfOutput.split(',')[1];
 
-  console.log("Enviando correos...");
+  console.log("Enviando correos desde el dominio verificado @universaagency.com...");
 
-  // Try using different 'from' addresses to see if they verified their custom domain
-  const trySend = async (fromAddress, toAddress) => {
+  // Send from info@universaagency.com (which is verified on their Resend)
+  const sendEmail = async (toAddress) => {
     try {
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -236,7 +236,7 @@ async function main() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          from: fromAddress,
+          from: 'Universa Agency <info@universaagency.com>',
           to: [toAddress],
           subject: '✍️ Contrato Firmado: Paula Garcia (Garage STREET FOOD)',
           html: `
@@ -245,7 +245,7 @@ async function main() {
               <p>Se adjunta el contrato digital formalizado por <strong>Paula Garcia</strong> para la propuesta de <strong>Garage STREET FOOD</strong> con fecha de efectividad al 18 de Julio de 2026.</p>
               
               <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-                <tr>
+                <tr style="background-color: #f9f9f9;">
                   <td style="padding: 10px; font-weight: bold; width: 35%;">Cliente / Firmante:</td>
                   <td style="padding: 10px;">Paula Garcia</td>
                 </tr>
@@ -253,16 +253,33 @@ async function main() {
                   <td style="padding: 10px; font-weight: bold;">Empresa:</td>
                   <td style="padding: 10px;">Garage STREET FOOD</td>
                 </tr>
+                <tr style="background-color: #f9f9f9;">
+                  <td style="padding: 10px; font-weight: bold;">Email:</td>
+                  <td style="padding: 10px;">paulagarciab05@gmail.com</td>
+                </tr>
                 <tr>
                   <td style="padding: 10px; font-weight: bold;">ID de Acuerdo:</td>
                   <td style="padding: 10px;"><code>${agreementId}</code></td>
+                </tr>
+                <tr style="background-color: #f9f9f9;">
+                  <td style="padding: 10px; font-weight: bold;">Fecha del Contrato:</td>
+                  <td style="padding: 10px;"><strong>18 de Julio, 2026</strong></td>
                 </tr>
                 <tr>
                   <td style="padding: 10px; font-weight: bold;">Inversión Total:</td>
                   <td style="padding: 10px; font-weight: bold; color: #2ddc80;">$1,400 USD (Pago Único al Finalizar)</td>
                 </tr>
               </table>
-              <p>El PDF original firmado se encuentra adjunto.</p>
+
+              <div style="margin-top: 30px; padding: 15px; background-color: #e8fdf4; border: 1px solid #2ddc80; border-radius: 8px;">
+                <p style="margin: 0; color: #0e131f; font-size: 13px;">
+                  <strong>Nota de Protección Legal:</strong> Este contrato contiene la cláusula explícita de <strong>No Reembolso (No Refunds)</strong> bajo cualquier circunstancia y ha sido firmado de conformidad mediante firma digitalizada escrita cursiva. El PDF original firmado se encuentra adjunto a este correo.
+                </p>
+              </div>
+
+              <p style="font-size: 11px; color: #999; margin-top: 30px; text-align: center;">
+                Universa Agency LLC © 2026. Todos los derechos reservados.
+              </p>
             </div>
           `,
           attachments: [
@@ -274,22 +291,18 @@ async function main() {
         })
       });
       const data = await response.json();
-      return { ok: response.ok, from: fromAddress, to: toAddress, data };
+      return { ok: response.ok, to: toAddress, data };
     } catch (e) {
       return { ok: false, error: e.message };
     }
   };
 
-  // 1. Send test to owner email via onboarding (guaranteed to work)
-  const r1 = await trySend('Acuerdos Universa <onboarding@resend.dev>', 'info@universaagency.com');
-  console.log("Envío onboarding -> info@universaagency.com:", r1);
-
-  // 2. Try sending using custom domain from jose@universa.agency to other emails
-  const r2 = await trySend('Universa Agency <jose@universa.agency>', 'paulagarciab05@gmail.com');
-  console.log("Envío jose@universa.agency -> paulagarciab05@gmail.com:", r2);
+  const results = [];
+  results.push(await sendEmail('info@universaagency.com'));
+  results.push(await sendEmail('paulagarciab05@gmail.com'));
+  results.push(await sendEmail('josefigueroa.marketing@gmail.com'));
   
-  const r3 = await trySend('Universa Agency <jose@universa.agency>', 'josefigueroa.marketing@gmail.com');
-  console.log("Envío jose@universa.agency -> josefigueroa.marketing@gmail.com:", r3);
+  console.log("Resultados de envíos:", results);
 }
 
 main();
