@@ -9,7 +9,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log("Iniciando envío de correo de confirmación de entrega a la clienta...");
+  console.log("Iniciando envío de correo de confirmación de entrega a info@universaagency.com...");
 
   try {
     const response = await fetch('https://api.resend.com/emails', {
@@ -20,9 +20,8 @@ async function main() {
       },
       body: JSON.stringify({
         from: 'Universa Agency <info@universaagency.com>',
-        to: ['paulagarciab05@gmail.com'],
-        cc: ['info@universaagency.com', 'josefigueroa.marketing@gmail.com'],
-        subject: '🚀 Entrega de Proyecto: Garage STREET FOOD',
+        to: ['info@universaagency.com', 'josefigueroa.marketing@gmail.com'],
+        subject: '🚀 Confirmación de Entrega de Proyecto: Garage STREET FOOD',
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background-color: #0e131f; color: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);">
             
@@ -34,8 +33,8 @@ async function main() {
 
             <!-- Intro -->
             <div style="font-size: 15px; line-height: 1.6; color: rgba(255, 255, 255, 0.8); margin-bottom: 25px;">
-              <p>Hola <strong>Paula Garcia</strong>,</p>
-              <p>Nos complace informarte que hemos finalizado con éxito el desarrollo, la integración de datos y la puesta en marcha de la plataforma digital para tu restaurante <strong>Garage STREET FOOD</strong>.</p>
+              <p>Estimado equipo de <strong>Universa Agency</strong> / <strong>Paula Garcia</strong>,</p>
+              <p>Confirmamos formalmente que el desarrollo, la integración de datos y la puesta en marcha de la plataforma digital para el restaurante <strong>Garage STREET FOOD</strong> ha finalizado exitosamente.</p>
             </div>
 
             <!-- RED FLAG DELIVERY CONFIRMATION -->
@@ -76,9 +75,9 @@ async function main() {
 
     const resData = await response.json();
     if (response.ok) {
-      console.log("¡Correo de entrega enviado con éxito a la clienta!", resData);
+      console.log("¡Correo de entrega enviado con éxito a la agencia!", resData);
     } else {
-      console.error("Error de la API de Resend al enviar a la clienta:", resData);
+      console.error("Error de la API de Resend al enviar a la agencia:", resData);
     }
   } catch (err) {
     console.error("Error en la conexión con la API de Resend:", err.message);
