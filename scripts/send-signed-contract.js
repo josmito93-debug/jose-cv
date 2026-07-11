@@ -224,9 +224,8 @@ async function main() {
   const pdfOutput = pdf.output('datauristring');
   const base64Data = pdfOutput.split(',')[1];
 
-  console.log("Enviando correos desde el dominio verificado @universaagency.com...");
+  console.log("Enviando correos únicamente al dueño de la agencia...");
 
-  // Send from info@universaagency.com (which is verified on their Resend)
   const sendEmail = async (toAddress) => {
     try {
       const response = await fetch('https://api.resend.com/emails', {
@@ -241,7 +240,7 @@ async function main() {
           subject: '✍️ Contrato Firmado: Paula Garcia (Garage STREET FOOD)',
           html: `
             <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-              <h2 style="color: #0e131f; border-bottom: 2px solid #2ddc80; padding-bottom: 10px;">Contrato Digital Firmado</h2>
+              <h2 style="color: #0e131f; border-bottom: 2px solid #2ddc80; padding-bottom: 10px;">Contrato Digital Firmado (Respaldo)</h2>
               <p>Se adjunta el contrato digital formalizado por <strong>Paula Garcia</strong> para la propuesta de <strong>Garage STREET FOOD</strong> con fecha de efectividad al 18 de Julio de 2026.</p>
               
               <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
@@ -299,7 +298,6 @@ async function main() {
 
   const results = [];
   results.push(await sendEmail('info@universaagency.com'));
-  results.push(await sendEmail('paulagarciab05@gmail.com'));
   results.push(await sendEmail('josefigueroa.marketing@gmail.com'));
   
   console.log("Resultados de envíos:", results);
