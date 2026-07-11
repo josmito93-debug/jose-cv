@@ -1425,7 +1425,7 @@
       {
         "id": 1,
         "name": "DESARROLLO E-COMMERCE RESTAURANTE (STREET FOOD SYSTEM)",
-        "investment": 1000,
+        "investment": 1200,
         "items": [
           {
             "title": "Catálogo de Menú Digital y Carrito Acelerado",
@@ -1473,14 +1473,13 @@
         ]
       }
     ],
-    "summary": "Propuesta y contrato digital de desarrollo de e-commerce de comida urbana para Garage Street Food (Paula Garcia). Sistema de pedidos directos autoadministrable, sin comisiones externas, integrado con Meta Pixel para optimización de campañas y pasarela de pagos.",
+    "summary": "Propuesta y contrato digital de desarrollo de e-commerce de comida urbana para Garage Street Food (Paula Garcia). Sistema de pedidos directos autoadministrable, sin comisiones externas, integrado con Meta Pixel para optimización de campañas y pasarela de pagos por una inversión única de $1,400 USD al finalizar el proyecto.",
     "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20detalles%20de%20la%20propuesta%20de%20Garage%20Street%20Food",
     "hideRelated": true,
-    "paymentSplit": "600/600",
+    "paymentSplit": "0/1400",
     "contractTerms": {
       "payments": [
-        { "name": "Primer Pago (Reserva / Inicio)", "amount": 600 },
-        { "name": "Segundo Pago (Lanzamiento y Entrega Final)", "amount": 600 }
+        { "name": "Pago único al finalizar y entregar el proyecto", "amount": 1400 }
       ],
       "clauses": [
         "POLÍTICA DE NO DEVOLUCIÓN DE DINERO (NO REFUNDS): Dadas la naturaleza de los servicios de consultoría, diseño, producción de creativos, desarrollo técnico y configuración publicitaria (donde se comprometen horas de trabajo profesional y recursos técnicos de forma inmediata), bajo ninguna circunstancia se realizarán devoluciones de dinero una vez iniciado el proyecto o realizado cualquier pago de reserva.",

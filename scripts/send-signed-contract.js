@@ -89,7 +89,7 @@ async function main() {
 
   // Phases
   const phases = [
-    { name: "DESARROLLO E-COMMERCE RESTAURANTE (STREET FOOD SYSTEM)", investment: 1000 },
+    { name: "DESARROLLO E-COMMERCE RESTAURANTE (STREET FOOD SYSTEM)", investment: 1200 },
     { name: "INTEGRACIÓN DE TRACKING & MARKETING DATA", investment: 200 }
   ];
 
@@ -108,7 +108,7 @@ async function main() {
   pdf.setFont('helvetica', 'bold');
   pdf.text("TOTAL INVERSIÓN ACUMULADA:", 20, y);
   pdf.setTextColor(45, 220, 128);
-  pdf.text("$1,200 USD", 160, y, { align: 'right' });
+  pdf.text("$1,400 USD", 160, y, { align: 'right' });
   pdf.setTextColor(14, 19, 31);
   y += 14;
 
@@ -174,10 +174,20 @@ async function main() {
   pdf.setFont('helvetica', 'normal');
   pdf.setFontSize(8.5);
   pdf.text("Firma de Representación Autorizada", 20, signY + 5);
-  pdf.setFont('times', 'italic');
-  pdf.setFontSize(16);
-  pdf.text("Universa Lab", 25, signY + 18);
+  
+  // Drawn signature for Representative
+  pdf.setDrawColor(15, 80, 200); // Blue ink
+  pdf.setLineWidth(0.6);
+  pdf.line(22, signY + 17, 28, signY + 9);
+  pdf.line(28, signY + 9, 32, signY + 21);
+  pdf.line(32, signY + 21, 38, signY + 14);
+  pdf.line(38, signY + 14, 43, signY + 17);
+  pdf.line(43, signY + 17, 50, signY + 11);
+  pdf.line(50, signY + 11, 56, signY + 20);
+  pdf.line(20, signY + 20, 80, signY + 19);
+
   pdf.setDrawColor(150, 150, 150);
+  pdf.setLineWidth(0.25);
   pdf.line(20, signY + 22, 85, signY + 22);
 
   // Right side: Client signature
@@ -189,10 +199,25 @@ async function main() {
   pdf.text("Nombre: Paula Garcia", 110, signY + 5);
   pdf.text("Cargo/Empresa: Garage STREET FOOD", 110, signY + 9);
   
-  // Render Paula Garcia signature in a stylized cursive font
-  pdf.setFont('times', 'italic');
-  pdf.setFontSize(18);
-  pdf.text("Paula Garcia", 115, signY + 18);
+  // Simulated hand-drawn signature for Paula Garcia
+  pdf.setDrawColor(45, 220, 128); // Emerald ink
+  pdf.setLineWidth(0.6);
+  // Continuous loops representing signature
+  pdf.line(115, signY + 16, 120, signY + 7);
+  pdf.line(120, signY + 7, 123, signY + 21);
+  pdf.line(123, signY + 21, 128, signY + 13);
+  pdf.line(128, signY + 13, 131, signY + 17);
+  pdf.line(131, signY + 17, 135, signY + 11);
+  pdf.line(135, signY + 11, 139, signY + 19);
+  pdf.line(139, signY + 19, 144, signY + 15);
+  pdf.line(144, signY + 15, 149, signY + 17);
+  pdf.line(149, signY + 17, 154, signY + 12);
+  pdf.line(154, signY + 12, 159, signY + 19);
+  pdf.line(159, signY + 19, 168, signY + 14);
+  pdf.line(112, signY + 19, 172, signY + 18);
+
+  pdf.setDrawColor(150, 150, 150);
+  pdf.setLineWidth(0.25);
   pdf.line(110, signY + 22, 175, signY + 22);
 
   // Footer notice
@@ -247,13 +272,13 @@ async function main() {
               </tr>
               <tr>
                 <td style="padding: 10px; font-weight: bold;">Inversión Total:</td>
-                <td style="padding: 10px; font-weight: bold; color: #2ddc80;">$1,200 USD (50/50 Split)</td>
+                <td style="padding: 10px; font-weight: bold; color: #2ddc80;">$1,400 USD (Pago Único al Finalizar)</td>
               </tr>
             </table>
 
             <div style="margin-top: 30px; padding: 15px; background-color: #e8fdf4; border: 1px solid #2ddc80; border-radius: 8px;">
               <p style="margin: 0; color: #0e131f; font-size: 13px;">
-                <strong>Nota de Protección Legal:</strong> Este contrato contiene la cláusula explícita de <strong>No Reembolso (No Refunds)</strong> bajo cualquier circunstancia y ha sido firmado de conformidad. El PDF original firmado se encuentra adjunto a este correo.
+                <strong>Nota de Protección Legal:</strong> Este contrato contiene la cláusula explícita de <strong>No Reembolso (No Refunds)</strong> bajo cualquier circunstancia y ha sido firmado de conformidad mediante firma digitalizada trazada (sin tipografías de texto). El PDF original firmado se encuentra adjunto a este correo.
               </p>
             </div>
 
