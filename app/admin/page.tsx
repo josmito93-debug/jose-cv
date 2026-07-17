@@ -638,8 +638,80 @@ export default function UnifiedAdminVercel() {
           </div>
         </div>
 
-        {/* Right Column: Autonomous Agents */}
+        {/* Right Column: Growth Metrics & Agents */}
         <div className="xl:col-span-4 space-y-6">
+          
+          {/* Growth Metrics Card (Glassmorphic with Corner border glow lines) */}
+          <div className="relative bg-[#0C0C0E] border border-white/5 rounded-3xl p-6 md:p-8 overflow-hidden">
+            {/* White corner glow lines */}
+            <div className="absolute -top-[1.5px] -right-[1.5px] w-12 h-12 border-t-2 border-r-2 border-white rounded-tr-[24px] pointer-events-none" />
+            <div className="absolute -bottom-[1.5px] -left-[1.5px] w-12 h-12 border-b-2 border-l-2 border-white rounded-bl-[24px] pointer-events-none" />
+            
+            <div className="flex items-start justify-between mb-6">
+              <div>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-3xl font-black tracking-tight text-white">${stats.monthlyRevenue}</span>
+                  <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">MRR</span>
+                </div>
+                <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1 mt-1">
+                  <span>▲</span> +140% THIS MONTH
+                </span>
+              </div>
+              
+              {/* Circular Progress Ring */}
+              <div className="relative w-11 h-11 flex items-center justify-center">
+                <svg className="w-full h-full transform -rotate-90">
+                  <circle cx="22" cy="22" r="18" className="stroke-white/5 fill-none" strokeWidth="2.5" />
+                  <circle cx="22" cy="22" r="18" className="stroke-emerald-400 fill-none" strokeWidth="2.5" strokeDasharray="113" strokeDashoffset={113 * (1 - 0.24)} strokeLinecap="round" />
+                </svg>
+                <span className="absolute text-[8px] font-black text-white">24%</span>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between text-[9px] font-bold text-zinc-500 uppercase tracking-widest border-b border-white/5 pb-2">
+                <span>PLAN PROGRESS</span>
+                <span className="text-white">GOAL $300</span>
+              </div>
+              
+              {/* Sleek Bar Chart */}
+              <div className="flex items-end justify-between h-20 px-2 pt-2">
+                {[
+                  { label: 'J', val: 0 },
+                  { label: 'F', val: 0 },
+                  { label: 'M', val: 0 },
+                  { label: 'A', val: 12 },
+                  { label: 'M', val: 12 },
+                  { label: 'J', val: 42 },
+                  { label: 'J', val: 72 }
+                ].map((item, idx) => {
+                  const maxVal = 72;
+                  const pct = maxVal > 0 ? (item.val / maxVal) * 100 : 0;
+                  const isCurrent = idx === 6;
+                  return (
+                    <div key={idx} className="flex flex-col items-center gap-2 group cursor-pointer" title={`$${item.val}`}>
+                      <div className="w-3.5 h-16 bg-white/[0.02] border border-white/5 rounded-t-sm relative flex items-end overflow-hidden">
+                        <div 
+                          className={`w-full rounded-t-sm transition-all duration-500 ${isCurrent ? 'bg-gradient-to-t from-emerald-500 to-teal-400' : 'bg-gradient-to-t from-zinc-800 to-zinc-700'}`} 
+                          style={{ height: `${pct}%` }} 
+                        />
+                        {isCurrent && (
+                          <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.15)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.15)_50%,rgba(255,255,255,0.15)_75%,transparent_75%,transparent)] bg-[length:8px_8px] pointer-events-none opacity-40 rounded-t-sm" />
+                        )}
+                      </div>
+                      <span className={`text-[8px] font-black tracking-widest ${isCurrent ? 'text-emerald-400' : 'text-zinc-500'}`}>{item.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              
+              <div className="flex items-center gap-2 text-[9px] font-black text-zinc-500 uppercase tracking-widest pt-2 border-t border-white/5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>+ $24 / MONTH AVERAGE GROWTH</span>
+              </div>
+            </div>
+          </div>
+
           <div className="bg-[#0C0C0E] border border-white/5 rounded-2xl p-6 md:p-8">
              <div className="flex items-center justify-between mb-8">
                 <h3 className="text-sm font-black uppercase tracking-widest text-zinc-500 italic">Active Agents</h3>
