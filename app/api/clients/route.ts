@@ -14,7 +14,7 @@ export async function GET() {
       name: record.fields['Contact Name'] || 'Sin Nombre',
       business: record.fields['Business Name'] || 'Sin Negocio',
       paymentStatus: record.fields['Payment Status'] || 'UNPAID',
-      monthlyPrice: Number(record.fields['Monthly Price'] || record.fields['Price'] || 30),
+      monthlyPrice: Number(record.fields['Payment Amount'] || 30),
       info: {
         clientId: record.fields['Client ID'],
         businessName: record.fields['Business Name'],

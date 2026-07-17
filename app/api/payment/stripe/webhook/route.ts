@@ -89,7 +89,8 @@ export async function POST(request: Request) {
           'Payment Status': 'PAID',
           'Payment Method': 'STRIPE',
           'Payment Reference': subscriptionId,
-          'Next Due Date': nextDueDate.toISOString().split('T')[0]
+          'Next Due Date': nextDueDate.toISOString().split('T')[0],
+          'Payment Amount': session.amount_total ? session.amount_total / 100 : 30
         };
 
         // If the record didn't have contact name or email, fill it in from Stripe
