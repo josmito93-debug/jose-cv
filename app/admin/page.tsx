@@ -21,8 +21,125 @@ import {
   Cpu,
   FileText,
   CreditCard,
-  AlertCircle
+  AlertCircle,
+  Copy,
+  X,
+  Link2
 } from 'lucide-react';
+function ensureString(val: any): string {
+  if (!val) return '';
+  if (Array.isArray(val)) {
+    return val.length > 0 ? String(val[0]) : '';
+  }
+  return String(val);
+}
+
+const COMMON_STOPWORDS = new Set([
+  'main', 'app', 'website', 'web', 'site', 'project', 'client', 'code', 
+  'design', 'hub', 'draft', 'test', 'brand', 'presentation', 'digital', 
+  'express', 'sequence', 'solutions', 'services', 'store', 'shop', 'group',
+  'sin', 'nombre', 'negocio', 'owner', 'unknown', 'fashion', 'week', 
+  'magazine', 'food', 'street', 'eats', 'agency', 'hero', 'platform', 'fit',
+  'alliance', 'guardian', 'engine', 'delivery', 'amigo', 'market', 'art'
+]);
+
+function matchClientAndProject(client: any, project: any): boolean {
+  const busLower = String(client.business || '').toLowerCase();
+  const projLower = String(project.name || '').toLowerCase();
+  
+  // 1. Direct equal match
+  if (busLower === projLower) return true;
+  
+  // 2. Clean match (no spaces or special chars) - exact comparison
+  const busClean = busLower.replace(/[^a-z0-9]/g, '');
+  const projClean = projLower.replace(/[^a-z0-9]/g, '');
+  if (busClean && projClean && busClean === projClean) return true;
+  
+  // 3. Substring match, but only if distinctive (not a stopword)
+  const isStopword = (str: string) => {
+    const stops = ['main', 'app', 'website', 'web', 'site', 'code', 'design', 'brand', 'presentation'];
+    return stops.some(s => str.includes(s) || s.includes(str));
+  };
+  
+  if (!isStopword(busLower) && !isStopword(projLower)) {
+    if (busLower.includes(projLower) || projLower.includes(busLower)) return true;
+    if (busClean && projClean && (busClean.includes(projClean) || projClean.includes(busClean))) return true;
+  }
+  
+  // 4. Word overlap of distinctive words
+  const busWords = busLower.split(/[\s-_]+/).filter((w: string) => w.length > 3 && !COMMON_STOPWORDS.has(w));
+  const projWords = projLower.split(/[\s-_]+/).filter((w: string) => w.length > 3 && !COMMON_STOPWORDS.has(w));
+  
+  const hasSharedWord = busWords.some((w: string) => 
+    projWords.some((pw: string) => pw === w)
+  );
+  if (hasSharedWord) return true;
+  
+  // 5. Domain Alias matching
+  const aliases = project.targets?.production?.alias || [];
+  for (const alias of aliases) {
+    const aliasClean = alias.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (busClean && aliasClean && busClean === aliasClean) return true;
+    
+    const aliasWords = alias.toLowerCase().split(/[\s.-]+/).filter((w: string) => w.length > 3 && !COMMON_STOPWORDS.has(w));
+    const hasSharedAliasWord = busWords.some((w: string) =>
+      aliasWords.some((aw: string) => aw === w)
+    );
+    if (hasSharedAliasWord) return true;
+  }
+  
+  return false;
+}
+
+function cleanProjectName(name: string): string {
+  if (!name) return '';
+  
+  // 1. Remove common suffixes/prefixes/keywords
+  let cleaned = name
+    .replace(/-main$/, '')
+    .replace(/-app$/, '')
+    .replace(/-website$/, '')
+    .replace(/-web$/, '')
+    .replace(/-site$/, '')
+    .replace(/-code$/, '')
+    .replace(/-design$/, '')
+    .replace(/-presentation$/, '')
+    .replace(/-brand-dna$/, '')
+    .replace(/-digital$/, '');
+    
+  // 2. Remove random hashes (like -ws8x, -h2vo, -mx4y, -c2ku, etc. at the end)
+  cleaned = cleaned.replace(/-[a-z0-9]{4}$/i, '');
+
+  // 3. Replace hyphens and underscores with spaces
+  cleaned = cleaned.replace(/[-_]+/g, ' ');
+
+  // 4. Capitalize each word
+  return cleaned
+    .split(' ')
+    .map(word => {
+      if (!word) return '';
+      if (['cv', 'seo', 'pm', 'pm2', 'db'].includes(word.toLowerCase())) {
+        return word.toUpperCase();
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(' ');
+}
+
+const getFaviconUrl = (url: string) => {
+  if (!url) return null;
+  try {
+    const domain = new URL(url).hostname;
+    return `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
+  } catch (e) {
+    try {
+      const domain = url.replace(/https?:\/\//, '').split('/')[0];
+      return `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
+    } catch {
+      return null;
+    }
+  }
+};
 
 export default function UnifiedAdminVercel() {
   const router = useRouter();
@@ -33,14 +150,26 @@ export default function UnifiedAdminVercel() {
     totalClients: 0,
     activeProjects: 0,
     monthlyRevenue: 0,
-    pendingPayments: 0
+    pendingPayments: 0,
+    paidPayments: 0
   });
+  const [filterStatus, setFilterStatus] = useState<'ALL' | 'LIVE' | 'PENDING_PAYMENT' | 'PAID'>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
+  const [paymentModal, setPaymentModal] = useState<{ visible: boolean; business: string; url: string; copied: boolean } | null>(null);
+  const [loadingInvoice, setLoadingInvoice] = useState<string | null>(null);
 
-  const filteredClients = clients.filter(client => 
-    client.business?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    client.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredClients = clients.filter(client => {
+    const matchesSearch = String(client.business || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      String(client.name || '').toLowerCase().includes(searchQuery.toLowerCase());
+    
+    if (!matchesSearch) return false;
+
+    if (filterStatus === 'LIVE') return client.status === 'DEPLOYED';
+    if (filterStatus === 'PENDING_PAYMENT') return client.paymentStatus !== 'PAID';
+    if (filterStatus === 'PAID') return client.paymentStatus === 'PAID';
+
+    return true;
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,19 +187,29 @@ export default function UnifiedAdminVercel() {
         if (vercelData.success && vercelData.projects) {
           // 1. Start with Vercel projects as the base
           unifiedClients = vercelData.projects.map((project: any) => {
-            // Find corresponding Airtable data if exists
-            const atClient = clientsData.clients?.find((c: any) => 
-               c.business?.toLowerCase().includes(project.name.toLowerCase()) ||
-               project.name.toLowerCase().includes(c.business?.toLowerCase())
-            );
+            // Find corresponding Airtable data if exists using our matching function
+            const atClient = clientsData.clients?.find((c: any) => matchClientAndProject(c, project));
+
+            // Find the best URL from production aliases (prefer custom domains over vercel.app)
+            let bestUrl = '';
+            const aliases = project.targets?.production?.alias || [];
+            if (aliases.length > 0) {
+              const customDomain = aliases.find((a: string) => !a.includes('vercel.app'));
+              bestUrl = customDomain ? `https://${customDomain}` : `https://${aliases[0]}`;
+            } else if (project.targets?.production?.url) {
+              bestUrl = `https://${project.targets.production.url}`;
+            } else {
+              bestUrl = project.link || '';
+            }
 
             return {
               id: atClient?.info?.clientId || project.id,
-              name: atClient?.name || 'Unknown Owner',
-              business: project.name,
+              name: ensureString(atClient?.name) || 'Unknown Owner',
+              business: ensureString(project.brandName || atClient?.business || cleanProjectName(project.name)),
+              rawProjectName: project.name,
               status: 'DEPLOYED',
-              paymentStatus: atClient?.paymentStatus || 'UNPAID',
-              vercelUrl: project.targets?.production?.url || project.link || '',
+              paymentStatus: ensureString(atClient?.paymentStatus) || 'UNPAID',
+              vercelUrl: bestUrl,
               lastDeploy: project.updatedAt,
               isVercelMaster: true,
               atData: atClient || null
@@ -78,13 +217,17 @@ export default function UnifiedAdminVercel() {
           });
 
           // 2. Add Airtable clients that AREN'T in Vercel yet
-          const vercelProjectNames = new Set(vercelData.projects.map((p: any) => p.name.toLowerCase()));
-          const extraClients = (clientsData.clients || []).filter((c: any) => 
-            !vercelProjectNames.has(c.business?.toLowerCase())
-          );
+          const extraClients = (clientsData.clients || []).filter((c: any) => {
+            // Check if this Airtable client was already matched to a Vercel project
+            const wasMatched = vercelData.projects.some((p: any) => matchClientAndProject(c, p));
+            return !wasMatched;
+          });
 
           unifiedClients = [...unifiedClients, ...extraClients.map((c: any) => ({
             ...c,
+            name: ensureString(c.name) || 'Unknown Owner',
+            business: ensureString(c.business) || 'Sin Negocio',
+            paymentStatus: ensureString(c.paymentStatus) || 'UNPAID',
             isVercelMaster: false,
             status: 'PENDING'
           }))];
@@ -92,11 +235,14 @@ export default function UnifiedAdminVercel() {
           setClients(unifiedClients);
           setVercelProjects(vercelData.projects);
           
+          const paidCount = unifiedClients.filter((c: any) => c.paymentStatus === 'PAID').length;
+          const pendingCount = unifiedClients.filter((c: any) => c.paymentStatus !== 'PAID').length;
           setStats({
             totalClients: unifiedClients.length,
             activeProjects: vercelData.projects.length,
-            monthlyRevenue: unifiedClients.filter((c: any) => c.paymentStatus === 'PAID').length * 30,
-            pendingPayments: unifiedClients.filter((c: any) => c.paymentStatus !== 'PAID').length
+            monthlyRevenue: paidCount * 30,
+            pendingPayments: pendingCount,
+            paidPayments: paidCount
           });
         }
       } catch (error) {
@@ -109,6 +255,7 @@ export default function UnifiedAdminVercel() {
   }, []);
 
   const generateInvoice = async (client: any) => {
+     setLoadingInvoice(client.id);
      try {
        const res = await fetch('/api/billing/invoice', {
          method: 'POST',
@@ -117,39 +264,32 @@ export default function UnifiedAdminVercel() {
        });
        const data = await res.json();
         if (data.success) {
-          // Robust clipboard copy with fallback
-          const copyToClipboard = (text: string) => {
-            if (navigator.clipboard && window.isSecureContext) {
-              return navigator.clipboard.writeText(text);
-            } else {
-              const textArea = document.createElement("textarea");
-              textArea.value = text;
-              textArea.style.position = "fixed";
-              textArea.style.left = "-999999px";
-              textArea.style.top = "-999999px";
-              document.body.appendChild(textArea);
-              textArea.focus();
-              textArea.select();
-              return new Promise<void>((res, rej) => {
-                document.execCommand('copy') ? res() : rej();
-                textArea.remove();
-              });
-            }
-          };
-
-          try {
-            await copyToClipboard(data.paymentUrl);
-            alert(`LINK GENERATED & COPIED: ${client.business} ($30/mo)\nURL: ${data.paymentUrl}`);
-          } catch (e) {
-            alert(`LINK GENERATED (Could not copy to clipboard):\nURL: ${data.paymentUrl}`);
-          }
+          setPaymentModal({ visible: true, business: client.business, url: data.paymentUrl, copied: false });
         } else {
-          alert(`Failed to generate invoice: ${data.error || 'Unknown error'}`);
+          alert(`Error: ${data.error || 'No se pudo generar el link'}`);
         }
      } catch (err: any) {
-       console.error('Failed to generate link:', err);
-       alert(`Error generating invoice: ${err.message}`);
+       alert(`Error: ${err.message}`);
+     } finally {
+       setLoadingInvoice(null);
      }
+  };
+
+  const copyPaymentLink = async () => {
+    if (!paymentModal) return;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(paymentModal.url);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = paymentModal.url;
+        ta.style.position = 'fixed'; ta.style.left = '-9999px';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        document.execCommand('copy'); ta.remove();
+      }
+      setPaymentModal(prev => prev ? { ...prev, copied: true } : null);
+      setTimeout(() => setPaymentModal(prev => prev ? { ...prev, copied: false } : null), 2500);
+    } catch {}
   };
 
   const handleCommandAgent = () => {
@@ -157,7 +297,7 @@ export default function UnifiedAdminVercel() {
   };
 
   const getVercelStatus = (client: any) => {
-     const project = vercelProjects.find(p => p.name.toLowerCase().includes(client.business.toLowerCase()));
+     const project = vercelProjects.find(p => String(p.name || '').toLowerCase().includes(String(client.business || '').toLowerCase()));
      return project ? { live: true, url: project.targets?.production?.url } : { live: false };
   };
 
@@ -187,21 +327,135 @@ export default function UnifiedAdminVercel() {
         </div>
       </div>
 
-      {/* KPI Cards - Stakent High Density */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <ModernStatCard label="Total Clients" value={stats.totalClients.toString()} subValue="Active base" icon={<Users className="w-4 h-4" />} color="indigo" />
-        <ModernStatCard label="Live on Vercel" value={stats.activeProjects.toString()} subValue="Real-time check" icon={<Globe className="w-4 h-4" />} color="emerald" />
-        <ModernStatCard label="Pending Payments" value={stats.pendingPayments.toString()} subValue="Requires Action" icon={<AlertCircle className="w-4 h-4" />} color="amber" />
-        <ModernStatCard label="Billing Cycle" value="30d" subValue="Next: April 15" icon={<CreditCard className="w-4 h-4" />} color="purple" />
-      </div>
+      {/* ===== PAYMENT LINK MODAL ===== */}
+      <AnimatePresence>
+        {paymentModal?.visible && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setPaymentModal(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', damping: 25 }}
+              className="bg-[#0e0e10] border border-white/10 rounded-3xl p-8 w-full max-w-lg shadow-2xl"
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                    <Link2 className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Link de Pago Generado</p>
+                    <h3 className="text-sm font-black tracking-tight text-white">{paymentModal.business}</h3>
+                  </div>
+                </div>
+                <button onClick={() => setPaymentModal(null)} className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-zinc-500 hover:text-white">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
 
+              {/* Price Tag */}
+              <div className="mb-6 p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl flex items-center justify-between">
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-emerald-400/60 mb-0.5">Monto Mensual</p>
+                  <p className="text-3xl font-black tracking-tighter text-emerald-400">$30<span className="text-sm font-bold text-emerald-400/50">/mes</span></p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-zinc-600 mb-0.5">Concepto</p>
+                  <p className="text-[10px] font-bold text-zinc-400">Hosting + Mantenimiento Web</p>
+                </div>
+              </div>
+
+              {/* URL Box */}
+              <div className="mb-4">
+                <p className="text-[9px] font-black uppercase tracking-widest text-zinc-500 mb-2">Enlace de Pago</p>
+                <div className="flex items-center gap-2 p-3 bg-black/50 border border-white/10 rounded-xl">
+                  <p className="text-[10px] font-mono text-zinc-300 flex-1 truncate">{paymentModal.url}</p>
+                </div>
+              </div>
+
+              {/* Copy Button */}
+              <button
+                onClick={copyPaymentLink}
+                className={`w-full py-4 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all ${
+                  paymentModal.copied
+                    ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
+                    : 'bg-white text-black hover:bg-zinc-100'
+                }`}
+              >
+                {paymentModal.copied ? (
+                  <><CheckCircle2 className="w-4 h-4" /> ¡Copiado al Portapapeles!</>
+                ) : (
+                  <><Copy className="w-4 h-4" /> Copiar Link de Pago</>
+                )}
+              </button>
+              <p className="text-center text-[9px] text-zinc-600 mt-3 font-bold uppercase tracking-widest">
+                Pega este link en WhatsApp, email o donde prefieras
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>      {/* KPI Cards - Stakent High Density */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <ModernStatCard 
+          label="Total Clients" 
+          value={stats.totalClients.toString()} 
+          subValue="Active base" 
+          icon={<Users className="w-4 h-4" />} 
+          color="indigo" 
+          onClick={() => setFilterStatus('ALL')}
+          isActive={filterStatus === 'ALL'}
+        />
+        <ModernStatCard 
+          label="Live on Vercel" 
+          value={stats.activeProjects.toString()} 
+          subValue="Real-time check" 
+          icon={<Globe className="w-4 h-4" />} 
+          color="emerald" 
+          onClick={() => setFilterStatus('LIVE')}
+          isActive={filterStatus === 'LIVE'}
+        />
+        <ModernStatCard 
+          label="Pending Payments" 
+          value={stats.pendingPayments.toString()} 
+          subValue="Requires Action" 
+          icon={<AlertCircle className="w-4 h-4" />} 
+          color="amber" 
+          onClick={() => setFilterStatus('PENDING_PAYMENT')}
+          isActive={filterStatus === 'PENDING_PAYMENT'}
+        />
+        <ModernStatCard 
+          label="Paid Payments" 
+          value={stats.paidPayments.toString()} 
+          subValue="Successful collections" 
+          icon={<CheckCircle2 className="w-4 h-4" />} 
+          color="purple" 
+          onClick={() => setFilterStatus('PAID')}
+          isActive={filterStatus === 'PAID'}
+        />
+      </div>
       {/* Main Content Layout - Split View */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
         
         {/* Left Column: Client Inventory (Stakent List View) */}
-        <div className="xl:col-span-8 bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] overflow-hidden">
+        <div className="xl:col-span-8 bg-[#0C0C0E] border border-white/5 rounded-2xl overflow-hidden">
           <div className="p-8 border-b border-white/5 flex items-center justify-between bg-[#111113]/50">
-             <h3 className="text-sm font-black uppercase tracking-widest italic">Inventory & Billing Module</h3>
+             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                <h3 className="text-sm font-black uppercase tracking-widest italic">Inventory & Billing Module</h3>
+                {filterStatus !== 'ALL' && (
+                  <span className="px-2 py-0.5 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[8px] font-black uppercase tracking-wider rounded-md inline-flex items-center gap-1.5 self-start">
+                    {filterStatus === 'LIVE' ? 'LIVE ON VERCEL' : filterStatus === 'PENDING_PAYMENT' ? 'PENDING PAYMENTS' : 'PAID PAYMENTS'}
+                    <button onClick={() => setFilterStatus('ALL')} className="hover:text-white transition-colors text-[10px]">✕</button>
+                  </span>
+                )}
+             </div>
              <div className="flex items-center gap-4">
                 <div className="relative">
                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-700" />
@@ -217,14 +471,14 @@ export default function UnifiedAdminVercel() {
              </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[700px] lg:min-w-0">
+          <div className="overflow-x-auto sm:overflow-visible">
+            <table className="w-full text-left border-collapse min-w-0">
               <thead>
                 <tr className="border-b border-white/5">
-                  <th className="p-4 md:p-6 text-[10px] font-black uppercase tracking-widest text-zinc-600">Client / Vision</th>
+                  <th className="p-3 md:p-6 text-[10px] font-black uppercase tracking-widest text-zinc-600">Client / Vision</th>
                   <th className="hidden sm:table-cell p-4 md:p-6 text-[10px] font-black uppercase tracking-widest text-zinc-600 text-center">Vercel Sync</th>
-                  <th className="p-4 md:p-6 text-[10px] font-black uppercase tracking-widest text-zinc-600 text-center">Payment</th>
-                  <th className="p-4 md:p-6 text-[10px] font-black uppercase tracking-widest text-zinc-600 text-right">Action</th>
+                  <th className="hidden sm:table-cell p-4 md:p-6 text-[10px] font-black uppercase tracking-widest text-zinc-600 text-center">Payment</th>
+                  <th className="p-3 md:p-6 text-[10px] font-black uppercase tracking-widest text-zinc-600 text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -237,21 +491,59 @@ export default function UnifiedAdminVercel() {
                     const isDeployed = client.status === 'DEPLOYED';
                     return (
                       <tr key={client.id} className="group hover:bg-white/[0.02] transition-colors">
-                        <td className="p-4 md:p-6">
-                          <div className="flex items-center gap-3 md:gap-4">
-                             <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-white/5 border border-white/10 flex items-center justify-center font-black text-[10px] md:text-xs shrink-0">
-                                {client.business.charAt(0)}
+                        <td className="p-3 md:p-6">
+                          <div className="flex items-center gap-2.5 md:gap-4">
+                             <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0 relative">
+                                {client.vercelUrl ? (
+                                  <img 
+                                    src={getFaviconUrl(client.vercelUrl) || ''} 
+                                    alt="" 
+                                    className="w-5 h-5 object-contain"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                      const fallback = e.currentTarget.parentElement?.querySelector('.fallback-txt') as HTMLElement;
+                                      if (fallback) fallback.style.display = 'flex';
+                                    }}
+                                  />
+                                ) : null}
+                                <span 
+                                  className="fallback-txt font-black text-[10px] md:text-xs uppercase absolute inset-0 items-center justify-center" 
+                                  style={{ display: client.vercelUrl ? 'none' : 'flex' }}
+                                >
+                                  {(client.business || 'P').charAt(0)}
+                                </span>
                              </div>
-                             <div className="min-w-0">
-                                 <p className="text-sm font-black tracking-tight truncate flex items-center gap-2">
-                                  {client.business}
-                                  {client.name === 'Pendiente (Attom Link)' && (
-                                    <span className="px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 text-[7px] font-black uppercase rounded border border-indigo-500/30">Lead Ingest</span>
-                                  )}
-                                </p>
-                                <p className="text-[9px] md:text-[10px] font-bold text-zinc-600 uppercase tracking-widest truncate">
-                                  {client.name === 'Pendiente (Attom Link)' ? 'BOT COLLECTION' : (client.isVercelMaster ? 'Vercel' : 'Airtable')} / {client.name}
-                                </p>
+                             <div className="min-w-0 flex-1">
+                                 <div className="flex flex-wrap items-center gap-1.5">
+                                   <p className="text-xs md:text-sm font-black tracking-tight text-white truncate max-w-[120px] xs:max-w-[150px] sm:max-w-none">
+                                    {client.business}
+                                   </p>
+                                   {client.name === 'Pendiente (Attom Link)' && (
+                                     <span className="px-1 py-0.5 bg-indigo-500/20 text-indigo-400 text-[6px] font-black uppercase rounded border border-indigo-500/30">Lead Ingest</span>
+                                   )}
+                                   {/* Mobile-only status tags */}
+                                   <span className={`sm:hidden px-1.5 py-0.5 rounded text-[6px] font-black uppercase tracking-wider ${
+                                     client.paymentStatus === 'PAID' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                                   }`}>
+                                     {client.paymentStatus}
+                                   </span>
+                                   <span className={`sm:hidden px-1.5 py-0.5 rounded text-[6px] font-black uppercase tracking-wider ${
+                                     isDeployed ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20'
+                                   }`}>
+                                     {isDeployed ? 'LIVE' : 'PENDING'}
+                                   </span>
+                                 </div>
+                                 <p className="text-[8px] md:text-[9px] font-bold text-zinc-600 uppercase tracking-widest truncate flex items-center gap-1.5 flex-wrap mt-0.5">
+                                   <span className="text-zinc-500 font-mono text-[7px] bg-white/5 px-1 py-0.5 rounded border border-white/5">
+                                     {client.rawProjectName || 'Airtable Node'}
+                                   </span>
+                                   {client.name && client.name !== 'Unknown Owner' && client.name !== 'Sin Nombre' && (
+                                     <>
+                                       <span className="text-zinc-700 font-black">·</span>
+                                       <span className="text-indigo-400 font-black">{client.name}</span>
+                                     </>
+                                   )}
+                                 </p>
                              </div>
                           </div>
                         </td>
@@ -263,23 +555,32 @@ export default function UnifiedAdminVercel() {
                               <span className="hidden md:inline">{isDeployed ? 'Live' : 'Pending'}</span>
                            </div>
                         </td>
-                        <td className="p-4 md:p-6 text-center">
+                        <td className="hidden sm:table-cell p-4 md:p-6 text-center">
                            <div className={`inline-flex items-center gap-2 px-2 md:px-3 py-1 rounded-full border text-[7px] md:text-[8px] font-black uppercase tracking-widest ${
                              client.paymentStatus === 'PAID' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
                            }`}>
                               {client.paymentStatus === 'PAID' ? 'PAID' : 'UNPAID'}
                            </div>
                         </td>
-                        <td className="p-4 md:p-6 text-right">
-                           <div className="flex items-center justify-end gap-2 md:gap-3">
-                             {client.paymentStatus !== 'PAID' && (
-                               <button 
-                                 onClick={() => generateInvoice(client)}
-                                 className="flex px-4 py-2 bg-white/5 border border-white/5 rounded-lg text-[9px] font-black uppercase tracking-widest text-indigo-400 hover:bg-indigo-500 hover:text-white transition-all items-center gap-2"
-                               >
-                                  <FileText className="w-3 h-3" /> <span className="hidden lg:inline">Invoice</span>
-                               </button>
-                             )}
+                        <td className="p-3 md:p-6 text-right">
+                           <div className="flex items-center justify-end gap-1.5 md:gap-3 flex-nowrap">
+                             <button 
+                               onClick={() => generateInvoice(client)}
+                               disabled={loadingInvoice === client.id}
+                               className={`flex p-2 md:px-4 md:py-2 border rounded-lg text-[9px] font-black uppercase tracking-widest transition-all items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 ${
+                                 client.paymentStatus === 'PAID'
+                                   ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white'
+                                   : 'bg-white/5 border-white/5 text-indigo-400 hover:bg-indigo-500 hover:text-white'
+                               }`}
+                               title={client.paymentStatus === 'PAID' ? 'Reenviar Link de Pago' : 'Generar Link de Pago'}
+                             >
+                               {loadingInvoice === client.id ? (
+                                 <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                               ) : (
+                                 <Link2 className="w-3.5 h-3.5" />
+                               )}
+                               <span className="hidden lg:inline">{client.paymentStatus === 'PAID' ? 'Reenviar' : 'Link $30'}</span>
+                             </button>
                              {client.vercelUrl && (
                                <a href={client.vercelUrl} target="_blank" className="p-2 md:p-2.5 bg-white/5 rounded-lg md:rounded-xl border border-white/5 text-zinc-500 hover:text-white transition-all shrink-0">
                                   <ExternalLink className="w-3.5 h-3.5" />
@@ -307,7 +608,7 @@ export default function UnifiedAdminVercel() {
 
         {/* Right Column: Autonomous Agents */}
         <div className="xl:col-span-4 space-y-6">
-          <div className="bg-[#0C0C0E] border border-white/5 rounded-[2.5rem] p-8">
+          <div className="bg-[#0C0C0E] border border-white/5 rounded-2xl p-6 md:p-8">
              <div className="flex items-center justify-between mb-8">
                 <h3 className="text-sm font-black uppercase tracking-widest text-zinc-500 italic">Active Agents</h3>
                 <div className="flex items-center gap-2">
@@ -399,7 +700,7 @@ export default function UnifiedAdminVercel() {
   );
 }
 
-function ModernStatCard({ label, value, subValue, icon, color }: { label: string; value: string; subValue: string; icon: React.ReactNode; color: string }) {
+function ModernStatCard({ label, value, subValue, icon, color, onClick, isActive }: { label: string; value: string; subValue: string; icon: React.ReactNode; color: string; onClick?: () => void; isActive?: boolean }) {
   const colorMap: any = {
     indigo: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
     emerald: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
@@ -408,16 +709,25 @@ function ModernStatCard({ label, value, subValue, icon, color }: { label: string
   };
 
   return (
-    <div className="bg-[#0C0C0E] border border-white/5 rounded-[2rem] p-8 group hover:border-white/10 transition-all">
-      <div className="flex items-center justify-between mb-8">
-        <div className={`p-3 rounded-xl ${colorMap[color]}`}>{icon}</div>
-        <div className={`p-1.5 rounded-full ${colorMap[color]} animate-pulse`} />
+    <div 
+      onClick={onClick}
+      className={`bg-[#0C0C0E] border rounded-xl md:rounded-2xl p-5 md:p-8 group transition-all flex flex-col justify-between min-h-[135px] md:min-h-0 select-none ${
+        onClick ? 'cursor-pointer active:scale-[0.98]' : ''
+      } ${
+        isActive 
+          ? 'border-indigo-500/40 bg-indigo-500/[0.02]' 
+          : 'border-white/5 hover:border-white/10 hover:bg-white/[0.01]'
+      }`}
+    >
+      <div className="flex items-center justify-between mb-4 md:mb-8">
+        <div className={`p-2 md:p-3 rounded-lg md:rounded-xl ${colorMap[color]}`}>{icon}</div>
+        <div className={`p-1.5 rounded-full ${colorMap[color]} ${isActive ? 'animate-ping' : 'animate-pulse'}`} />
       </div>
       <div>
-         <p className="text-[9px] font-black uppercase tracking-widest text-zinc-600 mb-1">{label}</p>
-         <div className="flex items-end gap-2">
-            <h4 className="text-3xl font-black tracking-tighter">{value}</h4>
-            <p className="text-[9px] font-bold text-zinc-700 mb-1">{subValue}</p>
+         <p className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-zinc-600 mb-0.5 md:mb-1">{label}</p>
+         <div className="flex items-end gap-1.5 md:gap-2">
+            <h4 className="text-lg md:text-3xl font-black tracking-tighter leading-none">{value}</h4>
+            <p className="text-[8px] md:text-[9px] font-bold text-zinc-700 truncate leading-none mb-0.5">{subValue}</p>
          </div>
       </div>
     </div>
