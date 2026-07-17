@@ -20,6 +20,19 @@ export async function POST(request: Request) {
   }
 
   // Handle the event
+  const isV2 = (event as any).object === 'v2.core.event';
+
+  if (isV2) {
+    console.log(`[Stripe V2 Webhook] Received Thin Event: ${(event as any).type} (ID: ${(event as any).id})`);
+    console.log(`[Stripe V2 Webhook] Related Object:`, JSON.stringify((event as any).related_object, null, 2));
+
+    // Handle specific V2 events if needed
+    // if (event.type === 'v1.billing.meter.error_report_triggered') { ... }
+
+    return NextResponse.json({ received: true, version: 'v2', eventId: (event as any).id });
+  }
+
+  // Handle standard V1 events
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as any;
     const clientId = session.metadata?.clientId;
