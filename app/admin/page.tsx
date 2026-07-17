@@ -238,19 +238,43 @@ export default function UnifiedAdminVercel() {
           setVercelProjects(vercelData.projects);
           
           const paidClients = unifiedClients.filter((c: any) => c.paymentStatus === 'PAID');
-          const paidCount = paidClients.length;
           const pendingCount = unifiedClients.filter((c: any) => c.paymentStatus !== 'PAID').length;
           
-          const totalRevenue = paidClients.reduce((sum: number, c: any) => {
-            return sum + (c.monthlyPrice || 30);
-          }, 0);
+          // De-duplicate paid subscriptions by email or name to represent real Stripe subscriptions
+          const seenPaidEmails = new Set<string>();
+          const seenPaidNames = new Set<string>();
+          let uniquePaidCount = 0;
+          let totalRevenue = 0;
+
+          paidClients.forEach((c: any) => {
+            const email = (c.info?.email || c.atData?.info?.email || c.email || '').toLowerCase().trim();
+            const name = (c.name || c.atData?.name || '').toLowerCase().trim();
+            const price = c.monthlyPrice || 30;
+
+            if (email) {
+              if (!seenPaidEmails.has(email)) {
+                seenPaidEmails.add(email);
+                uniquePaidCount++;
+                totalRevenue += price;
+              }
+            } else if (name) {
+              if (!seenPaidNames.has(name)) {
+                seenPaidNames.add(name);
+                uniquePaidCount++;
+                totalRevenue += price;
+              }
+            } else {
+              uniquePaidCount++;
+              totalRevenue += price;
+            }
+          });
 
           setStats({
             totalClients: unifiedClients.length,
             activeProjects: vercelData.projects.length,
             monthlyRevenue: totalRevenue,
             pendingPayments: pendingCount,
-            paidPayments: paidCount
+            paidPayments: uniquePaidCount
           });
         }
       } catch (error) {
