@@ -123,6 +123,29 @@ export class AirtableCRM {
   }
 
   /**
+   * Get client by Email from Airtable (Fallback)
+   */
+  async getClientByEmail(email: string): Promise<any> {
+    try {
+      const records = await this.base(this.tableName)
+        .select({
+          filterByFormula: `LOWER({Email}) = '${email.toLowerCase()}'`,
+          maxRecords: 1,
+        })
+        .firstPage();
+
+      if (records.length > 0) {
+        return records[0];
+      }
+
+      return null;
+    } catch (error) {
+      logger.error('Failed to get client by email from Airtable', error);
+      throw error;
+    }
+  }
+
+  /**
    * Update specific fields in Airtable
    */
   async updateFields(recordId: string, fields: any): Promise<void> {

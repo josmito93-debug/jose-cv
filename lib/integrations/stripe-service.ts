@@ -124,6 +124,13 @@ export const stripeService = {
   },
 
   /**
+   * Retrieve a customer
+   */
+  async retrieveCustomer(customerId: string) {
+    return await stripe.customers.retrieve(customerId);
+  },
+
+  /**
    * Verify signature for webhooks
    */
   constructEvent(body: string, sig: string, secret: string) {
