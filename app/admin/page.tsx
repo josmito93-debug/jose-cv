@@ -209,6 +209,7 @@ export default function UnifiedAdminVercel() {
               rawProjectName: project.name,
               status: 'DEPLOYED',
               paymentStatus: ensureString(atClient?.paymentStatus) || 'UNPAID',
+              monthlyPrice: atClient?.monthlyPrice || 30,
               vercelUrl: bestUrl,
               lastDeploy: project.updatedAt,
               isVercelMaster: true,
@@ -228,6 +229,7 @@ export default function UnifiedAdminVercel() {
             name: ensureString(c.name) || 'Unknown Owner',
             business: ensureString(c.business) || 'Sin Negocio',
             paymentStatus: ensureString(c.paymentStatus) || 'UNPAID',
+            monthlyPrice: c.monthlyPrice || 30,
             isVercelMaster: false,
             status: 'PENDING'
           }))];
@@ -235,12 +237,18 @@ export default function UnifiedAdminVercel() {
           setClients(unifiedClients);
           setVercelProjects(vercelData.projects);
           
-          const paidCount = unifiedClients.filter((c: any) => c.paymentStatus === 'PAID').length;
+          const paidClients = unifiedClients.filter((c: any) => c.paymentStatus === 'PAID');
+          const paidCount = paidClients.length;
           const pendingCount = unifiedClients.filter((c: any) => c.paymentStatus !== 'PAID').length;
+          
+          const totalRevenue = paidClients.reduce((sum: number, c: any) => {
+            return sum + (c.monthlyPrice || 30);
+          }, 0);
+
           setStats({
             totalClients: unifiedClients.length,
             activeProjects: vercelData.projects.length,
-            monthlyRevenue: paidCount * 30,
+            monthlyRevenue: totalRevenue,
             pendingPayments: pendingCount,
             paidPayments: paidCount
           });
@@ -432,10 +440,10 @@ export default function UnifiedAdminVercel() {
           isActive={filterStatus === 'PENDING_PAYMENT'}
         />
         <ModernStatCard 
-          label="Paid Payments" 
-          value={stats.paidPayments.toString()} 
-          subValue="Successful collections" 
-          icon={<CheckCircle2 className="w-4 h-4" />} 
+          label="Monthly MRR" 
+          value={`$${stats.monthlyRevenue.toLocaleString()}`} 
+          subValue={`${stats.paidPayments} active plans`} 
+          icon={<CreditCard className="w-4 h-4" />} 
           color="purple" 
           onClick={() => setFilterStatus('PAID')}
           isActive={filterStatus === 'PAID'}
