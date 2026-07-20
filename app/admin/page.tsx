@@ -158,11 +158,32 @@ export default function UnifiedAdminVercel() {
   const [paymentModal, setPaymentModal] = useState<{ visible: boolean; business: string; url: string; copied: boolean } | null>(null);
   const [loadingInvoice, setLoadingInvoice] = useState<string | null>(null);
 
+  const normalizeStr = (str: any) => 
+    String(str || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+
   const filteredClients = clients.filter(client => {
-    const matchesSearch = String(client.business || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-      String(client.name || '').toLowerCase().includes(searchQuery.toLowerCase());
-    
-    if (!matchesSearch) return false;
+    const q = normalizeStr(searchQuery.trim());
+    if (q) {
+      const business = normalizeStr(client.business);
+      const name = normalizeStr(client.name);
+      const rawProjectName = normalizeStr(client.rawProjectName);
+      const vercelUrl = normalizeStr(client.vercelUrl);
+      const clientId = normalizeStr(client.id);
+      const email = normalizeStr(client.info?.email);
+
+      const matchesSearch = 
+        business.includes(q) ||
+        name.includes(q) ||
+        rawProjectName.includes(q) ||
+        vercelUrl.includes(q) ||
+        clientId.includes(q) ||
+        email.includes(q);
+
+      if (!matchesSearch) return false;
+    }
 
     if (filterStatus === 'LIVE') return client.status === 'DEPLOYED';
     if (filterStatus === 'PENDING_PAYMENT') return client.paymentStatus !== 'PAID';
@@ -488,18 +509,27 @@ export default function UnifiedAdminVercel() {
                   </span>
                 )}
              </div>
-             <div className="flex items-center gap-4">
-                <div className="relative">
-                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-700" />
+             <div className="flex items-center gap-3">
+                <div className="relative flex-1 sm:w-auto">
+                   <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />
                    <input 
                       type="text" 
-                      placeholder="Search clients..." 
+                      placeholder="Buscar cliente, marca o dominio..." 
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="bg-white/5 border border-white/5 rounded-xl py-2 pl-10 pr-4 text-[10px] font-bold w-48 focus:outline-none focus:border-white/10" 
+                      className="bg-white/5 border border-white/10 rounded-xl py-2 pl-9 pr-8 text-xs font-medium w-36 xs:w-48 sm:w-64 focus:outline-none focus:border-indigo-500/50 focus:bg-white/10 text-white placeholder:text-zinc-500 transition-all" 
                     />
+                    {searchQuery && (
+                      <button 
+                        onClick={() => setSearchQuery('')}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white text-xs p-1"
+                        title="Limpiar búsqueda"
+                      >
+                        ✕
+                      </button>
+                    )}
                 </div>
-                <Filter className="w-4 h-4 text-zinc-700 hover:text-white transition-colors cursor-pointer" />
+                <Filter className="w-4 h-4 text-zinc-600 hover:text-white transition-colors cursor-pointer shrink-0" />
              </div>
           </div>
 
