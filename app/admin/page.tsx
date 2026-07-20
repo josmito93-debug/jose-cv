@@ -162,25 +162,30 @@ export default function UnifiedAdminVercel() {
     String(str || '')
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[-_./]/g, ' ')
       .toLowerCase();
 
   const filteredClients = clients.filter(client => {
-    const q = normalizeStr(searchQuery.trim());
-    if (q) {
-      const business = normalizeStr(client.business);
-      const name = normalizeStr(client.name);
-      const rawProjectName = normalizeStr(client.rawProjectName);
-      const vercelUrl = normalizeStr(client.vercelUrl);
-      const clientId = normalizeStr(client.id);
-      const email = normalizeStr(client.info?.email);
+    const rawQuery = searchQuery.trim();
+    if (rawQuery) {
+      const queryTokens = normalizeStr(rawQuery).split(/\s+/).filter(Boolean);
+      
+      const aggregateSearchableText = normalizeStr([
+        client.business,
+        client.name,
+        client.rawProjectName,
+        client.vercelUrl,
+        client.id,
+        client.paymentStatus,
+        client.status,
+        client.info?.email,
+        client.info?.phone,
+        client.info?.contactName,
+        client.info?.businessName
+      ].join(' '));
 
-      const matchesSearch = 
-        business.includes(q) ||
-        name.includes(q) ||
-        rawProjectName.includes(q) ||
-        vercelUrl.includes(q) ||
-        clientId.includes(q) ||
-        email.includes(q);
+      // Precision match: EVERY query word must match somewhere in the client's aggregate text
+      const matchesSearch = queryTokens.every(token => aggregateSearchableText.includes(token));
 
       if (!matchesSearch) return false;
     }
