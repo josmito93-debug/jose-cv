@@ -252,26 +252,31 @@ export default function BellakeoLandPage() {
 
             {/* Hero Section */}
             <div className="relative rounded-3xl overflow-hidden border border-white/5 bg-black/60 backdrop-blur-2xl mb-12 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-              {/* Main Visual Image Banner */}
-              <div className="relative w-full h-[300px] md:h-[500px] flex items-center justify-center overflow-hidden">
-                {/* Blurred background counterpart */}
-                <div className="absolute inset-0 scale-110 blur-xl opacity-35">
-                  <Image
-                    src="/bellakeo_land_hero.jpg"
-                    alt=""
-                    fill
-                    className="object-cover"
-                  />
+              {/* Main Visual Video Banner */}
+              <div className="relative w-full h-[450px] md:h-[500px] flex items-center justify-center overflow-hidden bg-black/40">
+                {/* Blurred background counterpart video */}
+                <div className="absolute inset-0 scale-110 blur-xl opacity-40">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                  >
+                    <source src="/bellakeo_bg.mp4" type="video/mp4" />
+                  </video>
                 </div>
-                {/* Contained focused main graphic */}
-                <div className="relative w-full h-full flex items-center justify-center p-4">
-                  <Image
-                    src="/bellakeo_land_hero.jpg"
-                    alt="BELLakeo LAND Hero Event Logo"
-                    fill
-                    className="object-contain opacity-95"
-                    priority
-                  />
+                {/* Contained focused main video */}
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover md:object-contain opacity-95"
+                  >
+                    <source src="/bellakeo_bg.mp4" type="video/mp4" />
+                  </video>
                 </div>
                 {/* Dark vignette gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-black/10" />
