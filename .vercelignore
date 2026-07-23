@@ -26,6 +26,13 @@ textura
 font
 logo
 docs
-dist
+/api/
+/python_bot/
 *.pyc
 __pycache__
+
+# Large media files
+*.mov
+*copy.mp4
+hero section universa
+*.pdf
