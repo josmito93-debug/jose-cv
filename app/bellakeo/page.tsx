@@ -18,7 +18,7 @@ const TICKET_TYPES: TicketType[] = [
   {
     id: 'general',
     name: 'General Admission',
-    price: 50,
+    price: 25,
     description: 'Acceso general al evento. Disfruta de la mejor fiesta futurista.',
     includes: [
       'Entrada al evento',
@@ -28,22 +28,6 @@ const TICKET_TYPES: TicketType[] = [
     ],
     icon: <Ticket className="w-5 h-5" />,
     color: 'border-indigo-500/20 text-indigo-400',
-  },
-  {
-    id: 'vip',
-    name: 'VIP Experience',
-    price: 120,
-    description: 'Acceso exclusivo al VIP lounge con vista preferencial al escenario.',
-    includes: [
-      'Entrada VIP (Fast Line)',
-      'Zona VIP exclusiva',
-      'Acceso preferencial',
-      'Bar VIP premium y lounge',
-      'Mejor ubicación cerca al Stage'
-    ],
-    badge: 'Más popular',
-    icon: <Sparkles className="w-5 h-5" />,
-    color: 'border-purple-500/20 text-purple-400',
   },
   {
     id: 'table',
