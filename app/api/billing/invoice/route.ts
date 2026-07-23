@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     }
 
     // The payment link for the client to subscribe to Universa Agency
-    const paymentUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://jose-cv.vercel.app'}/pay/${clientId}`;
+    const paymentUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://universaagency.com'}/pay/${clientId}`;
     
     return NextResponse.json({ 
       success: true, 

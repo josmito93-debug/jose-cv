@@ -292,7 +292,7 @@ export default function BellakeoLandPage() {
                       <span className="w-1.5 h-1.5 bg-zinc-700 rounded-full" />
                       <span className="flex items-center gap-1.5 uppercase">
                         <Calendar className="w-4 h-4 text-indigo-400" />
-                        Miércoles, 7 Agosto
+                        Viernes, 7 Agosto
                       </span>
                       <span className="w-1.5 h-1.5 bg-zinc-700 rounded-full" />
                       <span className="flex items-center gap-1.5 uppercase">

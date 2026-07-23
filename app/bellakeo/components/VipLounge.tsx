@@ -128,7 +128,7 @@ export const VipLounge: React.FC<VipLoungeProps> = ({ onEnter }) => {
             <Calendar className="w-5 h-5 text-indigo-400" />
             <div className="text-left">
               <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Fecha</p>
-              <p className="text-xs font-bold text-white uppercase">7 de Agosto</p>
+              <p className="text-xs font-bold text-white uppercase">Viernes, 7 Agosto</p>
             </div>
           </div>
           <div className="flex items-center justify-center gap-3">
