@@ -10,6 +10,7 @@ import { CartSummary } from './components/CartSummary';
 import { CheckoutForm } from './components/CheckoutForm';
 import { PaymentModal } from './components/PaymentModal';
 import { VipLounge } from './components/VipLounge';
+import { SponsorsMarquee } from './components/SponsorsMarquee';
 import { Ticket, Calendar, MapPin, Clock, ShieldCheck, ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 
@@ -334,6 +335,9 @@ export default function BellakeoLandPage() {
             {/* Phase Conditionally Rendered Blocks */}
             {phase === 'TICKET_SHOP' ? (
               <div className="space-y-12">
+                {/* Infinite sponsors marquee */}
+                <SponsorsMarquee />
+
                 <div>
                   <div className="text-center mb-8">
                     <span className="text-[10px] font-black tracking-[0.3em] uppercase text-indigo-400">PASO 1 DE 2</span>
