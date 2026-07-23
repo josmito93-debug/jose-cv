@@ -3,7 +3,7 @@ import { stripeService } from '@/lib/integrations/stripe-service';
 
 export async function POST(request: Request) {
   try {
-    const { clientId, amount, description } = await request.json();
+    const { clientId, amount, description, successUrl, cancelUrl } = await request.json();
 
     if (!clientId || !amount) {
       return NextResponse.json({ success: false, error: 'Missing clientId or amount' }, { status: 400 });
@@ -17,8 +17,8 @@ export async function POST(request: Request) {
       clientId,
       amount,
       description || 'Project Deposit',
-      `${baseUrl}/propuestas/${clientId}?status=success`,
-      `${baseUrl}/propuestas/${clientId}?status=cancel`
+      successUrl || `${baseUrl}/propuestas/${clientId}?status=success`,
+      cancelUrl || `${baseUrl}/propuestas/${clientId}?status=cancel`
     );
 
     return NextResponse.json({ success: true, url: checkoutUrl });
