@@ -284,9 +284,14 @@ export default function BellakeoLandPage() {
                     <span className="inline-block px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black tracking-widest uppercase rounded-full mb-3 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
                       7 DE AGOSTO · FIESTA FUTURISTA
                     </span>
-                    <h1 className="text-3xl md:text-5xl font-black text-white uppercase tracking-wider mb-2 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                      BELLakeo LAND
-                    </h1>
+                    <div className="relative w-[180px] h-[55px] md:w-[240px] md:h-[72px] mb-2 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                      <Image
+                        src="/bellakeo_logo.png"
+                        alt="BELLakeo LAND"
+                        fill
+                        className="object-contain object-left"
+                      />
+                    </div>
                     
                     {/* Meta details list */}
                     <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-400 font-bold mt-4">

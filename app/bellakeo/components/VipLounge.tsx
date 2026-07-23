@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Clock, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
+import Image from 'next/image';
 
 interface VipLoungeProps {
   onEnter: () => void;
@@ -81,14 +82,22 @@ export const VipLounge: React.FC<VipLoungeProps> = ({ onEnter }) => {
           <span className="h-px w-8 bg-indigo-500/30" />
         </div>
 
-        <motion.h1 
-          initial={{ letterSpacing: '0.1em' }}
-          animate={{ letterSpacing: '0.25em' }}
-          transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-          className="text-4xl md:text-6xl font-black text-white mb-4 uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-indigo-400 filter drop-shadow-[0_0_20px_rgba(99,102,241,0.2)]"
-        >
-          BELLakeo LAND
-        </motion.h1>
+        <div className="flex justify-center mb-6">
+          <motion.div
+            initial={{ scale: 0.85, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="relative w-[280px] h-[210px] md:w-[380px] md:h-[285px] filter drop-shadow-[0_0_30px_rgba(99,102,241,0.35)]"
+          >
+            <Image
+              src="/bellakeo_logo.png"
+              alt="BELLakeo LAND"
+              fill
+              className="object-contain"
+              priority
+            />
+          </motion.div>
+        </div>
 
         <p className="text-zinc-400 text-sm md:text-base max-w-lg mx-auto font-medium mb-12">
           Adéntrate en la fiesta futurista más exclusiva de Memphis. Una fusión de tecnología, sonido inmersivo de alta fidelidad y espectáculos visuales holográficos.
