@@ -202,16 +202,23 @@ export default function BellakeoLandPage() {
 
   const totalTicketsSelected = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
 
-  if (phase === 'LOUNGE') {
-    return (
-      <div className="bg-[#050505] min-h-screen text-white font-sans overflow-x-hidden">
-        <VipLounge onEnter={() => setPhase('TICKET_SHOP')} />
-      </div>
-    );
-  }
-
   return (
-    <div className="bg-[#050505] min-h-screen text-white font-sans overflow-x-hidden relative">
+    <div className="relative min-h-screen text-white font-sans overflow-x-hidden bg-[#050505]">
+      {/* Background Video */}
+      <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-25 filter brightness-[0.35] saturate-[0.85]"
+        >
+          <source src="/bellakeo_bg.mp4" type="video/mp4" />
+        </video>
+        {/* Overlay to dim video and ensure readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/85 to-[#050505]" />
+      </div>
+
       {/* Decorative Glow Overlays */}
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[100px] pointer-events-none" />
@@ -221,170 +228,176 @@ export default function BellakeoLandPage() {
         {isSubmitting && <PaymentModal isOpen={isSubmitting} />}
       </AnimatePresence>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
-        
-        {/* Header Back Link */}
-        <div className="mb-6 flex justify-between items-center">
-          <button
-            onClick={() => setPhase(phase === 'CHECKOUT' ? 'TICKET_SHOP' : 'LOUNGE')}
-            className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-xs font-black uppercase tracking-wider bg-white/[0.02] border border-white/5 px-4 py-2 rounded-xl"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Atrás
-          </button>
+      <div className="relative z-10">
+        {phase === 'LOUNGE' ? (
+          <VipLounge onEnter={() => setPhase('TICKET_SHOP')} />
+        ) : (
+          <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+            
+            {/* Header Back Link */}
+            <div className="mb-6 flex justify-between items-center">
+              <button
+                onClick={() => setPhase(phase === 'CHECKOUT' ? 'TICKET_SHOP' : 'LOUNGE')}
+                className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-xs font-black uppercase tracking-wider bg-white/[0.02] border border-white/5 px-4 py-2 rounded-xl"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Atrás
+              </button>
 
-          <div className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
-            Tickets Disponibles
-          </div>
-        </div>
-
-        {/* Hero Section */}
-        <div className="relative rounded-3xl overflow-hidden border border-white/5 bg-black/60 backdrop-blur-2xl mb-12 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-          {/* Main Visual Image Banner */}
-          <div className="relative w-full h-[300px] md:h-[500px] flex items-center justify-center overflow-hidden">
-            {/* Blurred background counterpart */}
-            <div className="absolute inset-0 scale-110 blur-xl opacity-35">
-              <Image
-                src="/bellakeo_land_hero.jpg"
-                alt=""
-                fill
-                className="object-cover"
-              />
+              <div className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
+                Tickets Disponibles
+              </div>
             </div>
-            {/* Contained focused main graphic */}
-            <div className="relative w-full h-full flex items-center justify-center p-4">
-              <Image
-                src="/bellakeo_land_hero.jpg"
-                alt="BELLakeo LAND Hero Event Logo"
-                fill
-                className="object-contain opacity-95"
-                priority
-              />
-            </div>
-            {/* Dark vignette gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-black/10" />
-          </div>
 
-          {/* Event description floating cards */}
-          <div className="p-6 md:p-8 relative -mt-16 md:-mt-24 z-10">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <div>
-                <span className="inline-block px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black tracking-widest uppercase rounded-full mb-3 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
-                  7 DE AGOSTO · FIESTA FUTURISTA
-                </span>
-                <h1 className="text-3xl md:text-5xl font-black text-white uppercase tracking-wider mb-2 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                  BELLakeo LAND
-                </h1>
-                
-                {/* Meta details list */}
-                <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-400 font-bold mt-4">
-                  <span className="flex items-center gap-1.5 uppercase">
-                    <MapPin className="w-4 h-4 text-indigo-400" />
-                    Blue Hookah, Memphis
-                  </span>
-                  <span className="w-1.5 h-1.5 bg-zinc-700 rounded-full" />
-                  <span className="flex items-center gap-1.5 uppercase">
-                    <Calendar className="w-4 h-4 text-indigo-400" />
-                    Miércoles, 7 Agosto
-                  </span>
-                  <span className="w-1.5 h-1.5 bg-zinc-700 rounded-full" />
-                  <span className="flex items-center gap-1.5 uppercase">
-                    <Clock className="w-4 h-4 text-indigo-400" />
-                    8:00 PM - 5:00 AM
-                  </span>
+            {/* Hero Section */}
+            <div className="relative rounded-3xl overflow-hidden border border-white/5 bg-black/60 backdrop-blur-2xl mb-12 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+              {/* Main Visual Image Banner */}
+              <div className="relative w-full h-[300px] md:h-[500px] flex items-center justify-center overflow-hidden">
+                {/* Blurred background counterpart */}
+                <div className="absolute inset-0 scale-110 blur-xl opacity-35">
+                  <Image
+                    src="/bellakeo_land_hero.jpg"
+                    alt=""
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                {/* Contained focused main graphic */}
+                <div className="relative w-full h-full flex items-center justify-center p-4">
+                  <Image
+                    src="/bellakeo_land_hero.jpg"
+                    alt="BELLakeo LAND Hero Event Logo"
+                    fill
+                    className="object-contain opacity-95"
+                    priority
+                  />
+                </div>
+                {/* Dark vignette gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-black/10" />
+              </div>
+
+              {/* Event description floating cards */}
+              <div className="p-6 md:p-8 relative -mt-16 md:-mt-24 z-10">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                  <div>
+                    <span className="inline-block px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black tracking-widest uppercase rounded-full mb-3 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+                      7 DE AGOSTO · FIESTA FUTURISTA
+                    </span>
+                    <h1 className="text-3xl md:text-5xl font-black text-white uppercase tracking-wider mb-2 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                      BELLakeo LAND
+                    </h1>
+                    
+                    {/* Meta details list */}
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-400 font-bold mt-4">
+                      <span className="flex items-center gap-1.5 uppercase">
+                        <MapPin className="w-4 h-4 text-indigo-400" />
+                        Blue Hookah, Memphis
+                      </span>
+                      <span className="w-1.5 h-1.5 bg-zinc-700 rounded-full" />
+                      <span className="flex items-center gap-1.5 uppercase">
+                        <Calendar className="w-4 h-4 text-indigo-400" />
+                        Miércoles, 7 Agosto
+                      </span>
+                      <span className="w-1.5 h-1.5 bg-zinc-700 rounded-full" />
+                      <span className="flex items-center gap-1.5 uppercase">
+                        <Clock className="w-4 h-4 text-indigo-400" />
+                        8:00 PM - 5:00 AM
+                      </span>
+                    </div>
+                  </div>
+
+                  {phase === 'TICKET_SHOP' && (
+                    <button
+                      onClick={handleCheckoutTransition}
+                      disabled={totalTicketsSelected === 0}
+                      className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 disabled:opacity-50 text-white text-xs font-black tracking-wider uppercase rounded-xl transition-all shadow-[0_0_25px_rgba(99,102,241,0.4)] flex items-center gap-2 cursor-pointer"
+                    >
+                      Comprar Tickets
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
               </div>
-
-              {phase === 'TICKET_SHOP' && (
-                <button
-                  onClick={handleCheckoutTransition}
-                  disabled={totalTicketsSelected === 0}
-                  className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 disabled:opacity-50 text-white text-xs font-black tracking-wider uppercase rounded-xl transition-all shadow-[0_0_25px_rgba(99,102,241,0.4)] flex items-center gap-2 cursor-pointer"
-                >
-                  Comprar Tickets
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              )}
             </div>
-          </div>
-        </div>
 
-        {/* Phase Conditionally Rendered Blocks */}
-        {phase === 'TICKET_SHOP' ? (
-          <div className="space-y-12">
-            <div>
-              <div className="text-center mb-8">
-                <span className="text-[10px] font-black tracking-[0.3em] uppercase text-indigo-400">PASO 1 DE 2</span>
-                <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider mt-1">Elige tu Experiencia</h2>
-                <div className="w-12 h-0.5 bg-indigo-500 mx-auto mt-3" />
+            {/* Phase Conditionally Rendered Blocks */}
+            {phase === 'TICKET_SHOP' ? (
+              <div className="space-y-12">
+                <div>
+                  <div className="text-center mb-8">
+                    <span className="text-[10px] font-black tracking-[0.3em] uppercase text-indigo-400">PASO 1 DE 2</span>
+                    <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider mt-1">Elige tu Experiencia</h2>
+                    <div className="w-12 h-0.5 bg-indigo-500 mx-auto mt-3" />
+                  </div>
+
+                  {/* Selector grid of experience cards */}
+                  <TicketSelector
+                    tickets={TICKET_TYPES}
+                    selectedTicketId={selectedTicketId}
+                    onSelect={handleSelectTicket}
+                  />
+                </div>
+
+                {/* Sticky/Responsive display summary and cart */}
+                {totalTicketsSelected > 0 && (
+                  <div className="max-w-md mx-auto">
+                    <CartSummary
+                      cart={cart}
+                      tickets={TICKET_TYPES}
+                      onUpdateQuantity={handleUpdateQuantity}
+                      onCheckout={handleCheckoutTransition}
+                      isSubmitting={isSubmitting}
+                    />
+                  </div>
+                )}
               </div>
+            ) : (
+              <div>
+                <div className="text-center mb-10">
+                  <span className="text-[10px] font-black tracking-[0.3em] uppercase text-indigo-400">PASO 2 DE 2</span>
+                  <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider mt-1">Completa tu Registro</h2>
+                  <div className="w-12 h-0.5 bg-indigo-500 mx-auto mt-3" />
+                </div>
 
-              {/* Selector grid of experience cards */}
-              <TicketSelector
-                tickets={TICKET_TYPES}
-                selectedTicketId={selectedTicketId}
-                onSelect={handleSelectTicket}
-              />
-            </div>
+                {/* Checkout columns layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  <div className="lg:col-span-8">
+                    <CheckoutForm
+                      formData={formData}
+                      onChange={setFormData}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handleFinalCheckout();
+                      }}
+                      errors={errors}
+                    />
+                  </div>
 
-            {/* Sticky/Responsive display summary and cart */}
-            {totalTicketsSelected > 0 && (
-              <div className="max-w-md mx-auto">
-                <CartSummary
-                  cart={cart}
-                  tickets={TICKET_TYPES}
-                  onUpdateQuantity={handleUpdateQuantity}
-                  onCheckout={handleCheckoutTransition}
-                  isSubmitting={isSubmitting}
-                />
+                  <div className="lg:col-span-4">
+                    <CartSummary
+                      cart={cart}
+                      tickets={TICKET_TYPES}
+                      onUpdateQuantity={handleUpdateQuantity}
+                      onCheckout={handleFinalCheckout}
+                      isSubmitting={isSubmitting}
+                    />
+                  </div>
+                </div>
               </div>
             )}
-          </div>
-        ) : (
-          <div>
-            <div className="text-center mb-10">
-              <span className="text-[10px] font-black tracking-[0.3em] uppercase text-indigo-400">PASO 2 DE 2</span>
-              <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider mt-1">Completa tu Registro</h2>
-              <div className="w-12 h-0.5 bg-indigo-500 mx-auto mt-3" />
-            </div>
 
-            {/* Checkout columns layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              <div className="lg:col-span-8">
-                <CheckoutForm
-                  formData={formData}
-                  onChange={setFormData}
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleFinalCheckout();
-                  }}
-                  errors={errors}
-                />
-              </div>
-
-              <div className="lg:col-span-4">
-                <CartSummary
-                  cart={cart}
-                  tickets={TICKET_TYPES}
-                  onUpdateQuantity={handleUpdateQuantity}
-                  onCheckout={handleFinalCheckout}
-                  isSubmitting={isSubmitting}
-                />
+            {/* Footer info lockup */}
+            <div className="mt-16 text-center border-t border-white/5 pt-8 text-zinc-500 text-[10px] font-bold uppercase tracking-wider space-y-2">
+              <p>© 2026 BELLakeo LAND. Todos los derechos reservados.</p>
+              <div className="flex items-center justify-center gap-1.5 text-zinc-600">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Transacciones protegidas mediante Stripe Payments</span>
               </div>
             </div>
+
           </div>
         )}
-
-        {/* Footer info lockup */}
-        <div className="mt-16 text-center border-t border-white/5 pt-8 text-zinc-500 text-[10px] font-bold uppercase tracking-wider space-y-2">
-          <p>© 2026 BELLakeo LAND. Todos los derechos reservados.</p>
-          <div className="flex items-center justify-center gap-1.5 text-zinc-600">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Transacciones protegidas mediante Stripe Payments</span>
-          </div>
-        </div>
-
       </div>
 
       {/* Floating Bottom Bar (Sticky on Mobile screens) */}
@@ -410,7 +423,6 @@ export default function BellakeoLandPage() {
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 }
