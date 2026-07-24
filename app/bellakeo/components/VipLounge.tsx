@@ -77,7 +77,7 @@ export const VipLounge: React.FC<VipLoungeProps> = ({ onEnter }) => {
         <div className="flex items-center justify-center gap-2 mb-6">
           <span className="h-px w-8 bg-indigo-500/30" />
           <span className="text-[10px] font-black tracking-[0.3em] uppercase text-indigo-400">
-            VIP ACCESS LOUNGE
+            PRESALE ACCESS LOUNGE
           </span>
           <span className="h-px w-8 bg-indigo-500/30" />
         </div>

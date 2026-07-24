@@ -131,7 +131,7 @@ const ConfirmationContent: React.FC = () => {
 
   const ticketItems = Object.entries(tickets).filter(([_, qty]) => qty > 0);
   const ticketDescriptions = ticketItems
-    .map(([id, qty]) => `${id === 'general' ? 'General Pass' : id === 'vip' ? 'VIP Access' : 'VIP Table'} (x${qty})`)
+    .map(([id, qty]) => `${id === 'table' ? 'VIP Table' : 'General Pass'} (x${qty})`)
     .join(', ');
 
   const totalAttendees = Object.values(tickets).reduce((sum, q) => sum + q, 0);
@@ -193,7 +193,7 @@ const ConfirmationContent: React.FC = () => {
                 <h3 className="text-sm font-black uppercase tracking-wider text-white">BELLakeo LAND</h3>
               </div>
               <div className="px-2 py-1 rounded bg-white/5 border border-white/10 text-[8px] font-black tracking-widest uppercase text-zinc-400">
-                VIP ACCESS
+                {ticketItems[0] ? (ticketItems[0][0] === 'table' ? 'VIP TABLE' : 'GENERAL PASS') : 'PASS'}
               </div>
             </div>
 
@@ -207,7 +207,7 @@ const ConfirmationContent: React.FC = () => {
                 <div>
                   <p className="text-[8px] font-black uppercase text-zinc-500 tracking-wider">TIPO TICKET</p>
                   <p className="text-xs font-black uppercase text-white tracking-tight mt-0.5 line-clamp-1">
-                    {ticketItems[0] ? (ticketItems[0][0] === 'general' ? 'General Admission' : ticketItems[0][0] === 'vip' ? 'VIP Access' : 'VIP Table') : 'Pass'}
+                    {ticketItems[0] ? (ticketItems[0][0] === 'table' ? 'VIP Table' : 'General Admission') : 'Pass'}
                   </p>
                 </div>
               </div>
