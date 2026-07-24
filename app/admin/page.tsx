@@ -309,7 +309,12 @@ export default function UnifiedAdminVercel() {
         setLoading(false);
       }
     };
+
     fetchData();
+
+    // Poll for updates in real time every 10 seconds
+    const interval = setInterval(fetchData, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   const generateInvoice = async (client: any) => {
