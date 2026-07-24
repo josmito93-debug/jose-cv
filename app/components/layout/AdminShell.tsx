@@ -122,7 +122,7 @@ export default function AdminShell({ children }: ShellProps) {
 
       {/* Main Content Viewport */}
       <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
-        <header className="h-20 shrink-0 border-b border-white/5 flex items-center justify-between px-10 bg-[#0C0C0E]/50 backdrop-blur-xl z-40">
+        <header className="h-20 shrink-0 border-b border-white/5 flex items-center justify-between px-4 lg:px-10 bg-[#0C0C0E]/50 backdrop-blur-xl z-40">
           <div className="flex items-center gap-4">
              <div className="lg:hidden p-2 bg-white/5 rounded-lg cursor-pointer" onClick={() => setIsMobileMenuOpen(true)}>
                 <Menu className="w-5 h-5" />
@@ -150,8 +150,8 @@ export default function AdminShell({ children }: ShellProps) {
             </div>
           </div>
         </header>
-
-        <section className="flex-1 overflow-y-auto p-10 relative scrollbar-hide">
+ 
+        <section className="flex-1 overflow-y-auto p-3 md:p-10 relative scrollbar-hide">
            {children}
         </section>
       </main>

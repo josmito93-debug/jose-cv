@@ -3,10 +3,6 @@
   "version": 2,
   "rewrites": [
     {
-      "source": "/api/trading/(.*)",
-      "destination": "/api/main.py"
-    },
-    {
       "source": "/dashboard/(.*)",
       "destination": "/dashboard/index.html"
     },

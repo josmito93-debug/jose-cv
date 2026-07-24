@@ -14,6 +14,16 @@ interface ContractSectionProps {
   };
 }
 
+const loadImage = (url: string): Promise<HTMLImageElement> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = (e) => reject(e);
+    img.src = url;
+  });
+};
+
 export default function ContractSection({ clientName, clientSlug, phases, contractTerms }: ContractSectionProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -117,6 +127,207 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
     }
   };
 
+  const clauses = contractTerms?.clauses || [
+    "POLÍTICA DE NO DEVOLUCIÓN DE DINERO (NO REFUNDS): Dadas la naturaleza de los servicios de consultoría, diseño, producción de creativos, desarrollo técnico y configuración publicitaria (donde se comprometen horas de trabajo profesional y recursos técnicos de forma inmediata), bajo ninguna circunstancia se realizarán devoluciones de dinero una vez iniciado el proyecto o realizado cualquier pago de reserva.",
+    "PLAZOS DE ENTREGA Y REQUERIMIENTOS: Los plazos de entrega pactados comenzarán a correr únicamente a partir del día hábil siguiente a la recepción total por parte de la Agencia de todos los insumos, accesos, contraseñas, información y materiales requeridos al CLIENTE. Los retrasos por parte del CLIENTE suspenderán automáticamente los plazos de entrega de la Agencia.",
+    "RONDAS DE REVISIÓN Y CAMBIOS: Se incluyen un máximo de 2 (dos) rondas de revisiones/correcciones por fase sobre los entregables presentados. Cualquier modificación posterior al cierre de una fase o que modifique el alcance original acordado se cotizará por separado (tarifa del 20% del valor de la fase por ronda adicional de corrección).",
+    "PROPIEDAD DE CONTENIDOS Y ACTIVOS: Todo el contenido y activos digitales desarrollados (sitios web, códigos, videos UGC, copys, artes e integraciones) pertenecerán en su totalidad y de forma exclusiva al CLIENTE una vez se haya liquidado el 100% de los pagos acordados en este acuerdo comercial."
+  ];
+
+  const total = phases.reduce((acc, curr) => acc + curr.investment, 0);
+
+  const generatePDFContent = (pdf: any, sigObj: any, logoImg?: any) => {
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    
+    let y = 20;
+
+    // Draw Top Tech/Modern Border Accent (Dark Blue Banner)
+    pdf.setFillColor(14, 19, 31); // Dark background
+    pdf.rect(0, 0, pdfWidth, 40, 'F');
+    
+    pdf.setFillColor(45, 220, 128); // Emerald line accent
+    pdf.rect(0, 38, pdfWidth, 1.5, 'F');
+
+    // Title & Branding inside the header
+    if (logoImg) {
+      try {
+        pdf.addImage(logoImg, 'PNG', 20, 9, 35, 8.5);
+      } catch (e) {
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(11);
+        pdf.text("UNIVERSA AGENCY", 20, 18);
+      }
+    } else {
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(11);
+      pdf.text("UNIVERSA AGENCY", 20, 18);
+    }
+    
+    pdf.setFontSize(15);
+    pdf.setTextColor(255, 255, 255); // White text
+    pdf.text("CONTRATO DE PRESTACIÓN DE SERVICIOS", 20, 28);
+    
+    y = 55;
+
+    // Metadata Section
+    pdf.setTextColor(14, 19, 31);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(11);
+    pdf.text("1. PARTES CONTRATANTES", 20, y);
+    y += 8;
+
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(10);
+    
+    // Client Data Grid Layout
+    pdf.text(`Cliente / Firmante: ${sigObj.name}`, 20, y);
+    pdf.text(`Empresa: ${sigObj.companyName}`, 110, y);
+    y += 6;
+    pdf.text(`Correo Electrónico: ${sigObj.email}`, 20, y);
+    pdf.text(`Teléfono: ${sigObj.phone}`, 110, y);
+    y += 6;
+    pdf.text(`Fecha de Firma: ${new Date(sigObj.signedAt).toLocaleString()}`, 20, y);
+    pdf.text(`ID Acuerdo: ${sigObj.id}`, 110, y);
+    y += 12;
+
+    // Object & Investment Section
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(11);
+    pdf.text("2. SERVICIOS Y PRESUPUESTO ACORDADO", 20, y);
+    y += 8;
+
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(10);
+    pdf.text(`Se acuerda la prestación de servicios detallada en la propuesta de ${clientName} por las siguientes fases:`, 20, y);
+    y += 8;
+
+    // Phase List table-like view
+    phases.forEach((phase, i) => {
+      pdf.setFont('helvetica', 'bold');
+      pdf.text(`Fase 0${i + 1}: ${phase.name}`, 25, y);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`$${phase.investment.toLocaleString()} USD`, 160, y, { align: 'right' });
+      y += 6;
+    });
+
+    pdf.setDrawColor(220, 220, 220);
+    pdf.line(20, y, pdfWidth - 20, y);
+    y += 6;
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.text("TOTAL INVERSIÓN ACUMULADA:", 20, y);
+    pdf.setTextColor(45, 220, 128);
+    pdf.text(`$${total.toLocaleString()} USD`, 160, y, { align: 'right' });
+    pdf.setTextColor(14, 19, 31);
+    y += 14;
+
+    // Terms & Clauses Section
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(11);
+    pdf.text("3. TÉRMINOS Y CLÁUSULAS LEGALES DE PRESTACIÓN", 20, y);
+    y += 8;
+
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(9);
+    
+    const maxTextWidth = pdfWidth - 40;
+
+    clauses.forEach((clause) => {
+      const titlePart = clause.split(':')[0] + ":";
+      const contentPart = clause.split(':')[1] || '';
+      
+      pdf.setFont('helvetica', 'bold');
+      const formattedTitle = pdf.splitTextToSize(titlePart, maxTextWidth);
+      
+      // Check page break before rendering
+      const lineCount = formattedTitle.length + 3;
+      if (y + (lineCount * 5) > pdfHeight - 25) {
+        pdf.addPage();
+        y = 25;
+      }
+
+      pdf.text(formattedTitle, 20, y);
+      y += (formattedTitle.length * 4.5);
+
+      pdf.setFont('helvetica', 'normal');
+      const formattedContent = pdf.splitTextToSize(contentPart.trim(), maxTextWidth);
+      pdf.text(formattedContent, 20, y);
+      y += (formattedContent.length * 4.5) + 5;
+    });
+
+    y += 5;
+
+    // Signatures Footer area
+    if (y + 40 > pdfHeight - 20) {
+      pdf.addPage();
+      y = 25;
+    }
+
+    pdf.setDrawColor(200, 200, 200);
+    pdf.line(20, y, pdfWidth - 20, y);
+    y += 10;
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(10);
+    pdf.text("FIRMAS DE CONFORMIDAD", 20, y);
+    y += 10;
+
+    // Representative and Client Side by Side
+    const signY = y;
+    
+    // Left side: Agency representative
+    pdf.text("UNIVERSA AGENCY S.A.", 20, signY);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8.5);
+    pdf.text("Firma de Representación Autorizada", 20, signY + 5);
+    pdf.setFont('times', 'italic');
+    pdf.setFontSize(16);
+    pdf.text("Universa Lab", 25, signY + 18);
+    pdf.setDrawColor(150, 150, 150);
+    pdf.line(20, signY + 22, 85, signY + 22);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8.5);
+    pdf.text(`Fecha: ${new Date(sigObj.signedAt).toLocaleDateString()}`, 20, signY + 26);
+
+    // Right side: Client signature
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(10);
+    pdf.text("EL CLIENTE (CONTRATANTE)", 110, signY);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8.5);
+    pdf.text(`Nombre: ${sigObj.name}`, 110, signY + 5);
+    pdf.text(`Cargo/Empresa: ${sigObj.companyName}`, 110, signY + 9);
+    
+    if (sigObj.mode === 'draw') {
+      try {
+        pdf.addImage(sigObj.signatureData, 'PNG', 110, signY + 11, 60, 15);
+      } catch (imgErr) {
+        pdf.setFont('times', 'italic');
+        pdf.setFontSize(16);
+        pdf.text(sigObj.name, 115, signY + 18);
+      }
+    } else {
+      pdf.setFont('times', 'italic');
+      pdf.setFontSize(18);
+      pdf.text(sigObj.signatureData, 115, signY + 18);
+    }
+    
+    pdf.line(110, signY + 22, 175, signY + 22);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8.5);
+    pdf.text(`Fecha: ${new Date(sigObj.signedAt).toLocaleDateString()}`, 110, signY + 26);
+
+    // Footer notice
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(7.5);
+    pdf.setTextColor(150, 150, 150);
+    pdf.text(`Este documento fue firmado digitalmente bajo el código de seguridad única ${sigObj.id}.`, 20, pdfHeight - 12);
+    pdf.text("Universa Agency LLC © 2026. Todos los derechos reservados.", pdfWidth - 20, pdfHeight - 12, { align: 'right' });
+  };
+
   const handleSign = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -141,6 +352,44 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
 
     try {
       const signedAt = new Date().toISOString();
+      const sigId = `sig_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      const tempSigObj = {
+        id: sigId,
+        name,
+        email,
+        phone,
+        companyName,
+        signedAt,
+        signatureData,
+        mode: signatureMode
+      };
+
+      // Load logo image dynamically
+      let logoImg: HTMLImageElement | null = null;
+      try {
+        logoImg = await loadImage('/images/universa_logo.png');
+      } catch (imgErr) {
+        console.error("Failed to load logo image for signature PDF:", imgErr);
+      }
+
+      // Generate PDF base64 for Resend email attachment
+      let pdfBase64 = '';
+      try {
+        const jspdfModule = await import('jspdf');
+        const jsPDF = jspdfModule.jsPDF || jspdfModule.default || jspdfModule;
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'letter'
+        });
+        generatePDFContent(pdf, tempSigObj, logoImg);
+        const pdfDataUri = pdf.output('datauristring');
+        pdfBase64 = pdfDataUri.split(',')[1] || '';
+      } catch (pdfErr) {
+        console.error("Error generating PDF base64 for email:", pdfErr);
+      }
+
       const res = await fetch('/api/proposals/sign', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -151,14 +400,16 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
           phone,
           companyName,
           signatureData,
-          signedAt
+          signedAt,
+          sigId,
+          pdfBase64
         })
       });
 
       const data = await res.json();
       if (data.success) {
         const sigObj = {
-          id: data.signature.id,
+          id: sigId,
           name,
           email,
           phone,
@@ -180,15 +431,6 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
     }
   };
 
-  const clauses = contractTerms?.clauses || [
-    "POLÍTICA DE NO DEVOLUCIÓN DE DINERO (NO REFUNDS): Dadas la naturaleza de los servicios de consultoría, diseño, producción de creativos, desarrollo técnico y configuración publicitaria (donde se comprometen horas de trabajo profesional y recursos técnicos de forma inmediata), bajo ninguna circunstancia se realizarán devoluciones de dinero una vez iniciado el proyecto o realizado cualquier pago de reserva.",
-    "PLAZOS DE ENTREGA Y REQUERIMIENTOS: Los plazos de entrega pactados comenzarán a correr únicamente a partir del día hábil siguiente a la recepción total por parte de la Agencia de todos los insumos, accesos, contraseñas, información y materiales requeridos al CLIENTE. Los retrasos por parte del CLIENTE suspenderán automáticamente los plazos de entrega de la Agencia.",
-    "RONDAS DE REVISIÓN Y CAMBIOS: Se incluyen un máximo de 2 (dos) rondas de revisiones/correcciones por fase sobre los entregables presentados. Cualquier modificación posterior al cierre de una fase o que modifique el alcance original acordado se cotizará por separado (tarifa del 20% del valor de la fase por ronda adicional de corrección).",
-    "PROPIEDAD DE CONTENIDOS Y ACTIVOS: Todo el contenido y activos digitales desarrollados (sitios web, códigos, videos UGC, copys, artes e integraciones) pertenecerán en su totalidad y de forma exclusiva al CLIENTE una vez se haya liquidado el 100% de los pagos acordados en este acuerdo comercial."
-  ];
-
-  const total = phases.reduce((acc, curr) => acc + curr.investment, 0);
-
   const generatePDF = async () => {
     if (!sigDetails) return;
     setIsGeneratingPDF(true);
@@ -203,179 +445,14 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
         format: 'letter'
       });
 
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      
-      let y = 20;
-
-      // Draw Top Tech/Modern Border Accent
-      pdf.setFillColor(14, 19, 31); // Dark background
-      pdf.rect(0, 0, pdfWidth, 40, 'F');
-      
-      pdf.setFillColor(45, 220, 128); // Emerald line accent
-      pdf.rect(0, 38, pdfWidth, 2, 'F');
-
-      // Title & Branding inside the header
-      pdf.setTextColor(255, 255, 255);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(10);
-      pdf.text("UNIVERSA AGENCY", 20, 18);
-      
-      pdf.setFontSize(16);
-      pdf.text("CONTRATO DE PRESTACIÓN DE SERVICIOS", 20, 28);
-      
-      y = 55;
-
-      // Metadata Section
-      pdf.setTextColor(14, 19, 31);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(11);
-      pdf.text("1. PARTES CONTRATANTES", 20, y);
-      y += 8;
-
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      
-      // Client Data Grid Layout
-      pdf.text(`Cliente / Firmante: ${sigDetails.name}`, 20, y);
-      pdf.text(`Empresa: ${sigDetails.companyName}`, 110, y);
-      y += 6;
-      pdf.text(`Correo Electrónico: ${sigDetails.email}`, 20, y);
-      pdf.text(`Teléfono: ${sigDetails.phone}`, 110, y);
-      y += 6;
-      pdf.text(`Fecha de Firma: ${new Date(sigDetails.signedAt).toLocaleString()}`, 20, y);
-      pdf.text(`ID Acuerdo: ${sigDetails.id}`, 110, y);
-      y += 12;
-
-      // Object & Investment Section
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(11);
-      pdf.text("2. SERVICIOS Y PRESUPUESTO ACORDADO", 20, y);
-      y += 8;
-
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text(`Se acuerda la prestación de servicios detallada en la propuesta de ${clientName} por las siguientes fases:`, 20, y);
-      y += 8;
-
-      // Phase List table-like view
-      phases.forEach((phase, i) => {
-        pdf.setFont('helvetica', 'bold');
-        pdf.text(`Fase 0${i + 1}: ${phase.name}`, 25, y);
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(`$${phase.investment.toLocaleString()} USD`, 160, y, { align: 'right' });
-        y += 6;
-      });
-
-      pdf.setDrawColor(220, 220, 220);
-      pdf.line(20, y, pdfWidth - 20, y);
-      y += 6;
-
-      pdf.setFont('helvetica', 'bold');
-      pdf.text("TOTAL INVERSIÓN ACUMULADA:", 20, y);
-      pdf.setTextColor(45, 220, 128);
-      pdf.text(`$${total.toLocaleString()} USD`, 160, y, { align: 'right' });
-      pdf.setTextColor(14, 19, 31);
-      y += 14;
-
-      // Terms & Clauses Section
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(11);
-      pdf.text("3. TÉRMINOS Y CLÁUSULAS LEGALES DE PRESTACIÓN", 20, y);
-      y += 8;
-
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(9);
-      
-      const maxTextWidth = pdfWidth - 40;
-
-      clauses.forEach((clause) => {
-        const titlePart = clause.split(':')[0] + ":";
-        const contentPart = clause.split(':')[1] || '';
-        
-        pdf.setFont('helvetica', 'bold');
-        const formattedTitle = pdf.splitTextToSize(titlePart, maxTextWidth);
-        
-        // Check page break before rendering
-        const lineCount = formattedTitle.length + 3;
-        if (y + (lineCount * 5) > pdfHeight - 25) {
-          pdf.addPage();
-          y = 25;
-        }
-
-        pdf.text(formattedTitle, 20, y);
-        y += (formattedTitle.length * 4.5);
-
-        pdf.setFont('helvetica', 'normal');
-        const formattedContent = pdf.splitTextToSize(contentPart.trim(), maxTextWidth);
-        pdf.text(formattedContent, 20, y);
-        y += (formattedContent.length * 4.5) + 5;
-      });
-
-      y += 5;
-
-      // Signatures Footer area
-      if (y + 40 > pdfHeight - 20) {
-        pdf.addPage();
-        y = 25;
+      let logoImg: HTMLImageElement | null = null;
+      try {
+        logoImg = await loadImage('/images/universa_logo.png');
+      } catch (imgErr) {
+        console.error("Failed to load logo image for direct download PDF:", imgErr);
       }
 
-      pdf.setDrawColor(200, 200, 200);
-      pdf.line(20, y, pdfWidth - 20, y);
-      y += 10;
-
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(10);
-      pdf.text("FIRMAS DE CONFORMIDAD", 20, y);
-      y += 10;
-
-      // Representative and Client Side by Side
-      const signY = y;
-      
-      // Left side: Agency representative
-      pdf.text("UNIVERSA AGENCY S.A.", 20, signY);
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(8.5);
-      pdf.text("Firma de Representación Autorizada", 20, signY + 5);
-      pdf.setFont('times', 'italic');
-      pdf.setFontSize(16);
-      pdf.text("Universa Lab", 25, signY + 18);
-      pdf.setDrawColor(150, 150, 150);
-      pdf.line(20, signY + 22, 85, signY + 22);
-
-      // Right side: Client signature
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(10);
-      pdf.text("EL CLIENTE (CONTRATANTE)", 110, signY);
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(8.5);
-      pdf.text(`Nombre: ${sigDetails.name}`, 110, signY + 5);
-      pdf.text(`Cargo/Empresa: ${sigDetails.companyName}`, 110, signY + 9);
-      
-      if (sigDetails.mode === 'draw') {
-        try {
-          pdf.addImage(sigDetails.signatureData, 'PNG', 110, signY + 11, 60, 15);
-        } catch (imgErr) {
-          pdf.setFont('times', 'italic');
-          pdf.setFontSize(16);
-          pdf.text(sigDetails.name, 115, signY + 18);
-        }
-      } else {
-        pdf.setFont('times', 'italic');
-        pdf.setFontSize(18);
-        pdf.text(sigDetails.signatureData, 115, signY + 18);
-      }
-      
-      pdf.line(110, signY + 22, 175, signY + 22);
-
-      // Footer notice
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(7.5);
-      pdf.setTextColor(150, 150, 150);
-      pdf.text(`Este documento fue firmado digitalmente bajo el código de seguridad única ${sigDetails.id}.`, 20, pdfHeight - 12);
-      pdf.text("Universa Agency LLC © 2026. Todos los derechos reservados.", pdfWidth - 20, pdfHeight - 12, { align: 'right' });
-
-      // Save PDF
+      generatePDFContent(pdf, sigDetails, logoImg);
       pdf.save(`${clientSlug}_contrato_firmado.pdf`);
     } catch (err) {
       console.error("Error generating PDF:", err);

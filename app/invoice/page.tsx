@@ -224,7 +224,7 @@ export default function InvoicePage() {
   };
 
   // Load Preset Templates
-  const loadTemplate = (type: 'cups-pitillo' | 'cups-tapa' | 'cups' | 'growth' | 'web') => {
+  const loadTemplate = (type: 'cups-pitillo' | 'cups-tapa' | 'cups' | 'hosting' | 'growth' | 'web') => {
     if (type === 'cups-pitillo') {
       setClientName('Chocolat Deli café');
       setClientEmail('contacto@chocolatdelicafe.com');
@@ -279,6 +279,28 @@ export default function InvoicePage() {
       setTaxPercent(0);
       setDiscountPercent(0);
       triggerAlert('Cargada cotización de Vasos para Chocolat Deli café.');
+    } else if (type === 'hosting') {
+      setClientName('');
+      setClientEmail('');
+      setClientPhone('');
+      setClientAddress('');
+      setItems([
+        { 
+          id: '1', 
+          description: 'Hosting Web Premium — Infraestructura en Vercel/Serverless (universaagency.com)', 
+          qty: 1, 
+          price: 15.00 
+        },
+        { 
+          id: '2', 
+          description: 'Mantenimiento Mensual — Actualizaciones de Contenido, Monitoreo, Soporte Técnico y Estabilidad del Sitio', 
+          qty: 1, 
+          price: 15.00 
+        }
+      ]);
+      setTaxPercent(0);
+      setDiscountPercent(0);
+      triggerAlert('Cargada plantilla Hosting + Mantenimiento ($30/mes).');
     } else if (type === 'growth') {
       setClientName('Cliente de Growth');
       setClientEmail('contacto@empresa.com');
@@ -597,35 +619,45 @@ export default function InvoicePage() {
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-[#2ddc80] mb-4 flex items-center gap-2">
                 <Sparkles className="w-3.5 h-3.5" /> Acceso Rápido / Plantillas
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
-                <button
-                  onClick={() => loadTemplate('cups-pitillo')}
-                  className="px-4 py-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/30 rounded-xl transition-all text-[11px] font-black uppercase tracking-wider text-left flex flex-col gap-1"
-                >
-                  <span className="text-[#2ddc80] text-[9px]">MAMA ROSA PINTO</span>
-                  <span>🥛 Con Pitillo (300 ud)</span>
-                </button>
-                <button
-                  onClick={() => loadTemplate('cups-tapa')}
-                  className="px-4 py-3 bg-teal-500/10 border border-teal-500/20 text-teal-300 hover:bg-teal-500/20 hover:border-teal-500/30 rounded-xl transition-all text-[11px] font-black uppercase tracking-wider text-left flex flex-col gap-1"
-                >
-                  <span className="text-teal-400 text-[9px]">MAMA ROSA PINTO</span>
-                  <span>🥛 Sin Pitillo (300 ud)</span>
-                </button>
-                <button
-                  onClick={() => loadTemplate('growth')}
-                  className="px-4 py-3 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/15 rounded-xl transition-all text-[11px] font-black uppercase tracking-wider text-left flex flex-col gap-1"
-                >
-                  <span className="text-zinc-500 text-[9px]">SUSCRIPCIÓN</span>
-                  <span>⚡ Growth Maintenance ($30)</span>
-                </button>
-                <button
-                  onClick={() => loadTemplate('web')}
-                  className="px-4 py-3 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/15 rounded-xl transition-all text-[11px] font-black uppercase tracking-wider text-left flex flex-col gap-1"
-                >
-                  <span className="text-zinc-500 text-[9px]">PAQUETE CORPORATIVO</span>
-                  <span>🌐 Web Dev & SEO</span>
-                </button>
+              <div className="space-y-3">
+                {/* HOSTING ROW - Primary / Most Used */}
+                <div className="grid grid-cols-1 gap-3">
+                  <button
+                    onClick={() => loadTemplate('hosting')}
+                    className="px-5 py-4 bg-[#2ddc80]/10 border border-[#2ddc80]/30 text-[#2ddc80] hover:bg-[#2ddc80]/20 hover:border-[#2ddc80]/50 rounded-xl transition-all text-left flex items-center justify-between group"
+                  >
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[#2ddc80]/60 text-[9px] font-black uppercase tracking-widest">RECURRENTE MENSUAL ★ MÁS USADO</span>
+                      <span className="text-sm font-black uppercase tracking-wide">🌐 Hosting + Mantenimiento Web — $30/mes</span>
+                      <span className="text-[10px] text-[#2ddc80]/50 font-bold">Hosting $15 + Mantenimiento $15 · universaagency.com</span>
+                    </div>
+                    <span className="text-2xl font-black text-[#2ddc80] opacity-70 group-hover:opacity-100 transition-opacity">$30</span>
+                  </button>
+                </div>
+                {/* OTHER TEMPLATES ROW */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+                  <button
+                    onClick={() => loadTemplate('growth')}
+                    className="px-4 py-3 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/15 rounded-xl transition-all text-[11px] font-black uppercase tracking-wider text-left flex flex-col gap-1"
+                  >
+                    <span className="text-zinc-500 text-[9px]">SUSCRIPCIÓN</span>
+                    <span>⚡ Growth Maintenance ($30)</span>
+                  </button>
+                  <button
+                    onClick={() => loadTemplate('web')}
+                    className="px-4 py-3 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/15 rounded-xl transition-all text-[11px] font-black uppercase tracking-wider text-left flex flex-col gap-1"
+                  >
+                    <span className="text-zinc-500 text-[9px]">PAQUETE CORPORATIVO</span>
+                    <span>🌐 Web Dev & SEO</span>
+                  </button>
+                  <button
+                    onClick={() => loadTemplate('cups-pitillo')}
+                    className="px-4 py-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/30 rounded-xl transition-all text-[11px] font-black uppercase tracking-wider text-left flex flex-col gap-1"
+                  >
+                    <span className="text-[#2ddc80] text-[9px]">MAMA ROSA PINTO</span>
+                    <span>🥛 Vasos Personalizados</span>
+                  </button>
+                </div>
               </div>
             </div>
 
