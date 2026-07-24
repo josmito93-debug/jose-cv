@@ -16,44 +16,40 @@ import Image from 'next/image';
 
 const TICKET_TYPES: TicketType[] = [
   {
-    id: 'general',
-    name: 'General Admission',
-    price: 20,
-    description: 'Segunda Pre-venta activa. (Primera pre-venta $15 AGOTADA)',
+    id: 'preventa1',
+    name: 'Primera Pre-venta',
+    price: 15,
+    description: 'Primera pre-venta oficial (AGOTADA).',
     includes: [
       'Entrada al evento (Acceso General)',
-      'Primera Pre-venta ($15) - SOLD OUT ❌',
+      'Música en vivo (DJs Internacionales)',
+      'Robots LED & Laser Show'
+    ],
+    soldOut: true,
+    icon: <Ticket className="w-5 h-5" />,
+    color: 'border-red-500/20 text-red-400',
+  },
+  {
+    id: 'general',
+    name: 'Segunda Pre-venta',
+    price: 20,
+    description: 'Acceso general al evento. Disfruta de la mejor fiesta futurista.',
+    includes: [
+      'Entrada al evento (Acceso General)',
       'Música en vivo (DJs Internacionales)',
       'Robots LED & Laser Show'
     ],
     badge: 'Segunda Pre-venta',
     icon: <Ticket className="w-5 h-5" />,
     color: 'border-indigo-500/20 text-indigo-400',
-  },
-  {
-    id: 'table',
-    name: 'VIP Table',
-    price: 600,
-    description: 'Mesa reservada para grupo. Servicio de botella premium y atención vip.',
-    includes: [
-      'Mesa privada reservada (hasta 6 pers.)',
-      'Atención y mesero personalizado',
-      '1 Botella premium incluida + mixers',
-      'Área exclusiva elevada',
-      'Entradas express incluidas'
-    ],
-    badge: 'Luxury',
-    icon: <Ticket className="w-5 h-5 rotate-45" />,
-    color: 'border-pink-500/20 text-pink-400',
   }
 ];
 
 export default function BellakeoLandPage() {
   const [phase, setPhase] = useState<'LOUNGE' | 'TICKET_SHOP' | 'CHECKOUT'>('LOUNGE');
   const [cart, setCart] = useState<Record<string, number>>({
-    general: 0,
-    vip: 0,
-    table: 0
+    preventa1: 0,
+    general: 0
   });
 
   const [formData, setFormData] = useState({

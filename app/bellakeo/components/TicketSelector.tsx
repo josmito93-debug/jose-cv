@@ -28,7 +28,7 @@ export const TicketSelector: React.FC<TicketSelectorProps> = ({
   onSelect,
 }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto px-4 py-8">
+    <div className={`grid grid-cols-1 ${tickets.length <= 2 ? 'md:grid-cols-2 max-w-4xl' : 'md:grid-cols-3 max-w-6xl'} gap-6 w-full mx-auto px-4 py-8`}>
       {tickets.map((ticket, index) => {
         const isSelected = selectedTicketId === ticket.id;
         const isSoldOut = !!ticket.soldOut;
