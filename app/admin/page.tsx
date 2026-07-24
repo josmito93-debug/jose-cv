@@ -181,7 +181,13 @@ export default function UnifiedAdminVercel() {
         client.info?.email,
         client.info?.phone,
         client.info?.contactName,
-        client.info?.businessName
+        client.info?.businessName,
+        client.atData?.name,
+        client.atData?.business,
+        client.atData?.info?.email,
+        client.atData?.info?.phone,
+        client.atData?.info?.contactName,
+        client.atData?.info?.businessName
       ].join(' '));
 
       // Precision match: EVERY query word must match somewhere in the client's aggregate text
