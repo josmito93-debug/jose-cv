@@ -215,7 +215,7 @@ const ConfirmationContent: React.FC = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-[8px] font-black uppercase text-zinc-500 tracking-wider">FECHA</p>
-                  <p className="text-xs font-black uppercase text-white tracking-tight mt-0.5">AGOSTO 7, 2026</p>
+                  <p className="text-xs font-black uppercase text-white tracking-tight mt-0.5">VIERNES 7 AGOSTO</p>
                 </div>
                 <div>
                   <p className="text-[8px] font-black uppercase text-zinc-500 tracking-wider">UBICACIÓN</p>
@@ -226,8 +226,12 @@ const ConfirmationContent: React.FC = () => {
               {/* QR Code Segment */}
               <div className="pt-6 pb-2 flex flex-col items-center justify-center border-t border-white/5">
                 <div className="bg-white p-3 rounded-2xl shadow-[0_0_30px_rgba(99,102,241,0.2)] mb-3 relative group cursor-pointer" onClick={handleSimulateScan}>
-                  {/* Styled simulation QR */}
-                  <QrCode className="w-32 h-32 text-black" />
+                  {/* Real Dynamic QR Image containing scanning check-in link */}
+                  <img 
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`https://www.universaagency.com/bellakeo/scan?id=${clientId}`)}`} 
+                    alt="Acceso QR" 
+                    className="w-32 h-32 object-contain" 
+                  />
                   <div className="absolute inset-0 bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl">
                     <span className="text-[9px] font-black uppercase text-indigo-700 bg-white/95 px-2.5 py-1.5 rounded-lg shadow-sm">
                       Probar Escaneo
