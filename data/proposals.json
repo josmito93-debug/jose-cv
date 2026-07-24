@@ -1481,5 +1481,105 @@
         "PROPIEDAD DE CONTENIDOS Y ACTIVOS: Todo el contenido y activos digitales desarrollados (sitios web, códigos, videos UGC, copys, artes e integraciones) pertenecerán en su totalidad y de forma exclusiva al CLIENTE una vez se haya liquidado el 100% de los pagos acordados en este acuerdo comercial."
       ]
     }
+  },
+  "morgan-studios": {
+    "client": "Morgan Studios",
+    "status": "Propuesta Comercial",
+    "title": "DESARROLLO DE PLATAFORMA SAAS: PORTAL FOTOGRÁFICO Y SELECCIÓN DE FOTOS INTELIGENTE",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "FASE 1: INFRAESTRUCTURA CORE Y PORTAL CLIENTE",
+        "investment": 1200,
+        "items": [
+          {
+            "title": "Portal de Cliente Custom & Credenciales",
+            "description": "Panel privado para los clientes donde pueden iniciar sesión de forma segura. El fotógrafo puede crearles la cuenta y enviarles sus credenciales o permitir registro autónomo.",
+            "icon": "users",
+            "bullets": [
+              "Autenticación segura con login y contraseña",
+              "Subida directa de lotes de fotografías del cliente al fotógrafo",
+              "Roles de usuario independientes para proteger la privacidad de cada sesión",
+              "Modo oscuro premium con interfaz de alta velocidad y diseño minimalista"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Galería Interactiva & Selección Inteligente",
+            "description": "Una interfaz visualmente espectacular estilo SaaS para que el cliente navegue por su carrete, marque favoritas y preseleccione las fotos para edición.",
+            "icon": "palette",
+            "bullets": [
+              "Visualizador interactivo de fotos (Lightbox táctil de alta fidelidad)",
+              "Filtros de estado: Seleccionadas, Pendientes, Favoritas",
+              "Módulo de comentarios por foto para indicar notas específicas de edición",
+              "Contador dinámico del total de fotos seleccionadas vs límite contratado"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "FASE 2: PANEL DE CONTROL ADMIN & AUTOMATIZACIONES CLOUD",
+        "investment": 800,
+        "items": [
+          {
+            "title": "Admin Dashboard & Control de Lotes",
+            "description": "Panel administrativo para Morgan Studios donde puede ver todos los clientes, crear sesiones, subir las fotos crudas y ver la selección final en tiempo real.",
+            "icon": "activity",
+            "bullets": [
+              "Visualización y descarga masiva de las fotos preseleccionadas por cada cliente",
+              "Acceso rápido a comentarios y notas de edición de las imágenes",
+              "Control de estado de los proyectos (Subidas, En Selección, Editando, Entregadas)"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Sincronización Automática con Google Drive",
+            "description": "Automatización en la nube que crea carpetas automáticamente en el Google Drive profesional de Morgan al momento de la selección del cliente.",
+            "icon": "globe",
+            "bullets": [
+              "Creación automática de carpetas nombradas por cliente y fecha en Drive",
+              "Subida en segundo plano de las fotos preseleccionadas en alta resolución",
+              "Organización sin esfuerzo humano eliminando descargas y subidas manuales"
+            ],
+            "tag": "panenka-journey",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Módulo de Pagos Stripe (Monetización Directa)",
+            "description": "Integración de pasarela de pagos integrada directamente en el portal del cliente para rentabilizar más cada sesión.",
+            "icon": "activity",
+            "bullets": [
+              "Pago de la sesión o depósitos iniciales antes de liberar la galería",
+              "Compra de fotos adicionales: Si el cliente excede su paquete, el sistema le cobra automáticamente por foto extra seleccionada ($X/foto)",
+              "Aceptación de tarjetas de crédito y Apple Pay/Google Pay directamente"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Desarrollo de plataforma SaaS interactiva para Morgan Studios que automatiza la selección de fotografías, cuenta con paneles privados para clientes y administrador, sincronización directa con Google Drive profesional y pasarela de pagos integrada para monetización de fotos adicionales por una inversión total de $2,000 USD dividida en hitos de entrega.",
+    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20confirmar%20la%20propuesta%20de%20Morgan%20Studios",
+    "hideRelated": true,
+    "paymentSplit": "600/600/800",
+    "contractTerms": {
+      "payments": [
+        { "name": "Primer Hito: Reserva / Inicio de Proyecto", "amount": 600 },
+        { "name": "Segundo Hito: Lanzamiento de la Fase 1 (Portal Cliente)", "amount": 600 },
+        { "name": "Tercer Hito: Entrega de la Fase 2 (Admin, Drive y Pagos)", "amount": 800 }
+      ],
+      "clauses": [
+        "POLÍTICA DE NO DEVOLUCIÓN DE DINERO (NO REFUNDS): Dadas la naturaleza de los servicios de diseño personalizado, desarrollo técnico de software a medida e integraciones con APIs de terceros (Stripe y Google Drive), bajo ninguna circunstancia se realizarán devoluciones de dinero una vez iniciado el proyecto o realizado cualquier pago de reserva.",
+        "ACCESOS A PLATAFORMAS TERCERAS: El CLIENTE es responsable de proporcionar a la Agencia las credenciales y accesos necesarios de su Google Workspace profesional y su cuenta de Stripe para realizar las correspondientes pruebas e integraciones técnicas.",
+        "PROPIEDAD INTELECTUAL Y CÓDIGO: El código fuente desarrollado, los assets gráficos y el portal pertenecerán al CLIENTE de forma exclusiva tras liquidarse la totalidad de los pagos acordados."
+      ]
+    }
   }
 }
