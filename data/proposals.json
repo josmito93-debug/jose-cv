@@ -1578,10 +1578,11 @@
         { "name": "Pago Único de Reserva y Desarrollo Completo", "amount": 300 }
       ],
       "clauses": [
+        "TIEMPO DE ENTREGA: El proyecto completo se desarrollará, probará y entregará listo para producción en un plazo máximo de 2 (dos) semanas a partir del inicio del proyecto y recepción de accesos por parte de la Agencia.",
+        "PROPIEDAD DE ACTIVOS Y REPOSITORIOS: Todos los assets visuales, diseños de interfaz, código fuente, integraciones y repositorios de código asociados a esta plataforma pertenecerán en su totalidad y de forma exclusiva al CLIENTE una vez completado el pago de la inversión acordada.",
         "POLÍTICA DE NO DEVOLUCIÓN DE DINERO (NO REFUNDS): Dadas la naturaleza de los servicios de diseño personalizado, desarrollo técnico de software a medida e integraciones con APIs de terceros (Stripe, Google Calendar/Drive y base de datos Airtable), bajo ninguna circunstancia se realizarán devoluciones de dinero una vez iniciado el proyecto o realizado cualquier pago de reserva.",
         "ACCESOS A PLATAFORMAS TERCERAS: El CLIENTE es responsable de proporcionar a la Agencia las credenciales y accesos necesarios de su cuenta de Airtable, Google Workspace profesional y su cuenta de Stripe para realizar las correspondientes pruebas e integraciones técnicas.",
-        "NOTIFICACIONES DE WHATSAPP: Esta propuesta incluye la integración de flujos de WhatsApp dinámicos mediante enlaces web nativos. La automatización por API de envíos masivos mediante software tipo ZAPI o ZAU requiere que el CLIENTE asuma de forma independiente los costos de adquisición de licencias y líneas móviles asociadas.",
-        "PROPIEDAD INTELECTUAL Y CÓDIGO: El código fuente desarrollado, los assets gráficos y el portal pertenecerán al CLIENTE de forma exclusiva tras liquidarse la totalidad de los pagos acordados."
+        "NOTIFICACIONES DE WHATSAPP: Esta propuesta incluye la integración de flujos de WhatsApp dinámicos mediante enlaces web nativos. La automatización por API de envíos masivos mediante software tipo ZAPI o ZAU requiere que el CLIENTE asuma de forma independiente los costos de adquisición de licencias y líneas móviles asociadas."
       ]
     }
   }
