@@ -18,14 +18,15 @@ const TICKET_TYPES: TicketType[] = [
   {
     id: 'general',
     name: 'General Admission',
-    price: 25,
-    description: 'Acceso general al evento. Disfruta de la mejor fiesta futurista.',
+    price: 20,
+    description: 'Segunda Pre-venta activa. (Primera pre-venta $15 AGOTADA)',
     includes: [
-      'Entrada al evento',
-      'Acceso general',
+      'Entrada al evento (Acceso General)',
+      'Primera Pre-venta ($15) - SOLD OUT ❌',
       'Música en vivo (DJs Internacionales)',
       'Robots LED & Laser Show'
     ],
+    badge: 'Segunda Pre-venta',
     icon: <Ticket className="w-5 h-5" />,
     color: 'border-indigo-500/20 text-indigo-400',
   },
