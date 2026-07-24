@@ -96,7 +96,7 @@ async function sendTicketEmail(email: string, name: string, ticketsDescription: 
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'BELLakeo LAND <onboarding@resend.dev>',
+        from: 'BELLakeo LAND <tickets@universaagency.com>',
         to: email,
         subject: `Tus Entradas para BELLakeo LAND 🔥 - ${name}`,
         html: htmlContent

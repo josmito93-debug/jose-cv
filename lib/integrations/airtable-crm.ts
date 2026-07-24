@@ -81,6 +81,16 @@ export class AirtableCRM {
    */
   async getClient(clientId: string): Promise<any> {
     try {
+      // If it looks like an Airtable Record ID (starts with 'rec' and is 17 characters), fetch directly
+      if (clientId && clientId.startsWith('rec') && clientId.length === 17) {
+        try {
+          const record = await this.base(this.tableName).find(clientId);
+          if (record) return record;
+        } catch (e: any) {
+          logger.warn(`Direct Record ID look up failed for ${clientId}, falling back to Client ID formula search: ${e.message}`);
+        }
+      }
+
       const records = await this.base(this.tableName)
         .select({
           filterByFormula: `{Client ID} = '${clientId}'`,
