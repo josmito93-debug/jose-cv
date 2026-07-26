@@ -120,7 +120,7 @@ export async function POST(request: Request) {
     event = stripeService.constructEvent(
       body,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      (process.env.STRIPE_WEBHOOK_SECRET || '').trim()
     );
   } catch (err: any) {
     console.error('Webhook signature verification failed:', err.message);
