@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
 
 export async function GET() {
