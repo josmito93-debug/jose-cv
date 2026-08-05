@@ -1939,13 +1939,31 @@ body .step:hover {
 .logo__img { display: block; height: 40px; width: auto; }
 .footer .logo__img { height: 44px; }
 
-.hero__vplanet { position: absolute; pointer-events: none; }
-.hero__vplanet video { display: block; width: 100%; height: auto; }
+.hero__vplanet {
+  position: absolute;
+  pointer-events: none;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(closest-side, #000 76%, transparent 99%);
+  mask-image: radial-gradient(closest-side, #000 76%, transparent 99%);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.hero__vplanet video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 .hero__vplanet--top {
   width: clamp(380px, 42vw, 680px);
   left: 50%;
   top: 40px;
-  transform: translate(-50%, -46%);
+  transform: translate3d(-50%, -46%, 0);
   z-index: -1;
 }
 .hero__vplanet--right {
@@ -1958,14 +1976,8 @@ body .step:hover {
 }
 body.home-v2 .hero__vplanet--right { z-index: 1; }
 @media (max-width: 768px) {
-  .hero__vplanet--top { width: 320px; transform: translate(-50%, -42%); }
-  .hero__vplanet--right { width: 250px; right: -16%; bottom: 9%; }
-}
-
-/* v7.1 · máscara suave: funde el mp4 compuesto con el fondo (y viñetea el alfa) */
-.hero__vplanet video {
-  -webkit-mask-image: radial-gradient(closest-side, #000 76%, transparent 99%);
-  mask-image: radial-gradient(closest-side, #000 76%, transparent 99%);
+  .hero__vplanet--top { width: min(280px, 85vw); transform: translate3d(-50%, -42%, 0); }
+  .hero__vplanet--right { width: 200px; right: -12%; bottom: 9%; }
 }
 
 /* ============================================================
