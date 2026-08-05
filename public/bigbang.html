@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Big Bang™ — El origen de tu universo de marca | Universa</title>
+  <meta name="description" content="Big Bang™: la experiencia de descubrimiento de Universa. Siete fases para descubrir el ADN de tu marca y crear el mapa completo de tu universo." />
+  <link rel="preload" href="assets/fonts/visbycf-medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/visbycf-light.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/bigbang.css" />
+</head>
+<body class="bb-body" data-phase="0">
+
+  <!-- ===== Universo (fondo) ===== -->
+  <canvas id="bbCanvas" aria-hidden="true"></canvas>
+  <div class="bb-nebula bb-nebula--mint" data-at="2" aria-hidden="true"></div>
+  <div class="bb-nebula bb-nebula--violet" data-at="3" aria-hidden="true"></div>
+  <span class="bb-planet bb-planet--1" data-at="3" aria-hidden="true"></span>
+  <span class="bb-planet bb-planet--2" data-at="6" aria-hidden="true"></span>
+
+  <svg class="bb-orbitfx" data-at="5" viewBox="0 0 600 600" aria-hidden="true">
+    <circle class="bb-orbitfx__ring" cx="300" cy="300" r="272"/>
+    <circle class="bb-orbitfx__ring bb-orbitfx__ring--dash" cx="300" cy="300" r="216" data-at-inner="4"/>
+    <g class="bb-orbitfx__spin">
+      <line class="bb-orbitfx__tail" x1="484" y1="102" x2="502" y2="128"/>
+      <circle class="bb-orbitfx__comet" cx="502" cy="128" r="4"/>
+    </g>
+  </svg>
+
+  <svg class="bb-expandfx" data-at="7" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M50 8 L50 2" /><path d="M50 92 L50 98" />
+    <path d="M8 50 L2 50" /><path d="M92 50 L98 50" />
+  </svg>
+
+  <!-- ===== Shell ===== -->
+  <div class="bb-shell">
+    <header class="bb-top">
+      <a class="logo" href="index.html" aria-label="Universa — inicio"><img class="logo__img" src="assets/img/logo-universa.webp" alt="Universa" /></a>
+      <a class="bb-exit" href="index.html">← Volver al sitio</a>
+    </header>
+
+    <nav class="bb-progress" id="bbProgress" aria-label="Progreso del Big Bang" hidden>
+      <button class="bb-node" type="button" data-go="1" aria-label="Fase 1 · El Núcleo"></button><i class="bb-linkline"></i>
+      <button class="bb-node" type="button" data-go="2" aria-label="Fase 2 · ADN de Marca"></button><i class="bb-linkline"></i>
+      <button class="bb-node" type="button" data-go="3" aria-label="Fase 3 · El Universo"></button><i class="bb-linkline"></i>
+      <button class="bb-node" type="button" data-go="4" aria-label="Fase 4 · La Gravedad"></button><i class="bb-linkline"></i>
+      <button class="bb-node" type="button" data-go="5" aria-label="Fase 5 · La Órbita"></button><i class="bb-linkline"></i>
+      <button class="bb-node" type="button" data-go="6" aria-label="Fase 6 · Las Constelaciones"></button><i class="bb-linkline"></i>
+      <button class="bb-node" type="button" data-go="7" aria-label="Fase 7 · La Expansión"></button>
+    </nav>
+
+    <main class="bb-main">
+
+      <!-- ===== Fase 0 · Intro ===== -->
+      <section class="bb-view bb-intro is-in" data-view="0">
+        <p class="bb-intro__line" style="--d:.2s">Toda gran marca comenzó con una explosión.</p>
+        <p class="bb-intro__line bb-intro__line--dim" style="--d:.9s">Antes de construir tu universo,<br />necesitamos descubrir qué lo compone.</p>
+        <p class="bb-intro__line bb-intro__line--dim" style="--d:1.5s">Cada respuesta es una partícula.<br />Cada dato genera gravedad.</p>
+        <div class="bb-intro__cta" style="--d:2.1s">
+          <button class="btn btn--light bb-start" type="button" id="bbStart">Iniciar Big Bang</button>
+          <p class="bb-intro__micro">7 fases · ~10 minutos · el mapa completo de tu universo</p>
+        </div>
+      </section>
+
+      <!-- ===== Fase 1 · El Núcleo ===== -->
+      <section class="bb-view" data-view="1">
+        <div class="bb-panel">
+          <p class="bb-panel__eyebrow">Fase 01 · El Núcleo</p>
+          <h1 class="bb-panel__title">Toda estrella tiene un núcleo.<br />Toda empresa también.</h1>
+          <div class="field">
+            <label for="q-empresa">¿Cómo se llama tu empresa?</label>
+            <input id="q-empresa" data-k="empresa" type="text" placeholder="El nombre de tu estrella" />
+          </div>
+          <div class="field">
+            <label for="q-origen">¿Por qué nació? ¿Qué problema decidió resolver?</label>
+            <textarea id="q-origen" data-k="origen" rows="3" placeholder="La historia detrás de la creación…"></textarea>
+          </div>
+          <div class="field">
+            <label for="q-mision">¿Cuál es su misión? ¿Qué valores jamás negociarías?</label>
+            <textarea id="q-mision" data-k="mision" rows="3" placeholder="Lo que no se negocia…"></textarea>
+          </div>
+          <div class="bb-panel__nav">
+            <button class="btn btn--ghost btn--sm" type="button" data-prev="0">← Volver</button>
+            <button class="btn btn--light btn--sm" type="button" data-next="2">Continuar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Fase 2 · ADN de Marca ===== -->
+      <section class="bb-view" data-view="2">
+        <div class="bb-panel">
+          <p class="bb-panel__eyebrow">Fase 02 · ADN de Marca</p>
+          <h1 class="bb-panel__title">Si tu marca fuera<br />una persona…</h1>
+          <div class="field">
+            <label for="q-adn-edad">¿Qué edad tendría y cómo hablaría?</label>
+            <input id="q-adn-edad" data-k="adn_edad" type="text" placeholder="Ej.: 32 años, directa, sencilla, sin palabras innecesarias" />
+          </div>
+          <div class="field">
+            <label for="q-adn-pers">¿Qué personalidad tendría? ¿Qué le apasionaría?</label>
+            <textarea id="q-adn-pers" data-k="adn_personalidad" rows="3" placeholder="Curiosa, elegante, obsesionada con entender cómo funcionan las cosas…"></textarea>
+          </div>
+          <div class="field">
+            <label for="q-adn-pal">¿Qué palabras siempre usaría — y cuáles jamás?</label>
+            <textarea id="q-adn-pal" data-k="adn_palabras" rows="3" placeholder="Siempre: … / Jamás: …"></textarea>
+          </div>
+          <div class="bb-panel__nav">
+            <button class="btn btn--ghost btn--sm" type="button" data-prev="1">← Volver</button>
+            <button class="btn btn--light btn--sm" type="button" data-next="3">Continuar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Fase 3 · El Universo ===== -->
+      <section class="bb-view" data-view="3">
+        <div class="bb-panel">
+          <p class="bb-panel__eyebrow">Fase 03 · El Universo</p>
+          <h1 class="bb-panel__title">Toda galaxia tiene<br />otras galaxias cerca.</h1>
+          <div class="field">
+            <label for="q-comp">¿Quiénes son tus competidores?</label>
+            <input id="q-comp" data-k="competidores" type="text" placeholder="Las galaxias vecinas" />
+          </div>
+          <div class="field">
+            <label for="q-comp2">¿Qué hacen bien y qué hacen mal?</label>
+            <textarea id="q-comp2" data-k="comp_bienmal" rows="3" placeholder="Fortalezas, huecos, oportunidades…"></textarea>
+          </div>
+          <div class="field">
+            <label for="q-admiras">¿Qué marcas admiras y por qué?</label>
+            <textarea id="q-admiras" data-k="admiras" rows="3" placeholder="De cualquier industria…"></textarea>
+          </div>
+          <div class="bb-panel__nav">
+            <button class="btn btn--ghost btn--sm" type="button" data-prev="2">← Volver</button>
+            <button class="btn btn--light btn--sm" type="button" data-next="4">Continuar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Fase 4 · La Gravedad ===== -->
+      <section class="bb-view" data-view="4">
+        <div class="bb-panel">
+          <p class="bb-panel__eyebrow">Fase 04 · La Gravedad</p>
+          <h1 class="bb-panel__title">La gravedad mantiene unido el universo.<br />En tu empresa, la confianza.</h1>
+          <div class="field">
+            <label for="q-porque">¿Por qué deberían comprarte a ti?</label>
+            <textarea id="q-porque" data-k="porque_tu" rows="3" placeholder="Tu ventaja competitiva real…"></textarea>
+          </div>
+          <div class="field">
+            <label for="q-promesa">¿Qué prometes? ¿Qué experiencia recibe el cliente?</label>
+            <textarea id="q-promesa" data-k="promesa" rows="3" placeholder="Del primer contacto a la entrega…"></textarea>
+          </div>
+          <div class="field">
+            <label for="q-recompra">¿Por qué alguien volvería a comprarte?</label>
+            <textarea id="q-recompra" data-k="recompra" rows="2" placeholder="La fuerza que los mantiene en órbita…"></textarea>
+          </div>
+          <div class="bb-panel__nav">
+            <button class="btn btn--ghost btn--sm" type="button" data-prev="3">← Volver</button>
+            <button class="btn btn--light btn--sm" type="button" data-next="5">Continuar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Fase 5 · La Órbita ===== -->
+      <section class="bb-view" data-view="5">
+        <div class="bb-panel">
+          <p class="bb-panel__eyebrow">Fase 05 · La Órbita</p>
+          <h1 class="bb-panel__title">Toda marca tiene<br />un recorrido.</h1>
+          <div class="field">
+            <label for="q-descubre">¿Cómo te descubre un cliente hoy?</label>
+            <textarea id="q-descubre" data-k="descubre" rows="2" placeholder="Redes, referidos, Google, anuncios…"></textarea>
+          </div>
+          <div class="field">
+            <label for="q-frenos">¿Qué dudas aparecen y qué lo detiene antes de comprar?</label>
+            <textarea id="q-frenos" data-k="frenos" rows="3" placeholder="Objeciones, fricciones, miedos…"></textarea>
+          </div>
+          <div class="field">
+            <label for="q-post">¿Qué pasa después de la compra? ¿Cómo fidelizas?</label>
+            <textarea id="q-post" data-k="postventa" rows="3" placeholder="Seguimiento, recompra, comunidad…"></textarea>
+          </div>
+          <div class="bb-panel__nav">
+            <button class="btn btn--ghost btn--sm" type="button" data-prev="4">← Volver</button>
+            <button class="btn btn--light btn--sm" type="button" data-next="6">Continuar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Fase 6 · Las Constelaciones ===== -->
+      <section class="bb-view" data-view="6">
+        <div class="bb-panel">
+          <p class="bb-panel__eyebrow">Fase 06 · Las Constelaciones</p>
+          <h1 class="bb-panel__title">¿Dónde brilla<br />tu audiencia?</h1>
+          <div class="field">
+            <label id="lbl-canales">Selecciona tus canales</label>
+            <div class="chip-grid" role="group" aria-labelledby="lbl-canales" id="bbChips">
+              <button class="chip" type="button" data-chip="Instagram">Instagram</button>
+              <button class="chip" type="button" data-chip="TikTok">TikTok</button>
+              <button class="chip" type="button" data-chip="Facebook">Facebook</button>
+              <button class="chip" type="button" data-chip="Google">Google</button>
+              <button class="chip" type="button" data-chip="YouTube">YouTube</button>
+              <button class="chip" type="button" data-chip="LinkedIn">LinkedIn</button>
+              <button class="chip" type="button" data-chip="Email">Email</button>
+              <button class="chip" type="button" data-chip="WhatsApp">WhatsApp</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="q-ctop">¿Cuáles te funcionan mejor hoy?</label>
+            <input id="q-ctop" data-k="canales_top" type="text" placeholder="Tus constelaciones más brillantes" />
+          </div>
+          <div class="field">
+            <label for="q-cnunca">¿Cuáles nunca has utilizado?</label>
+            <input id="q-cnunca" data-k="canales_nunca" type="text" placeholder="Territorio inexplorado" />
+          </div>
+          <div class="bb-panel__nav">
+            <button class="btn btn--ghost btn--sm" type="button" data-prev="5">← Volver</button>
+            <button class="btn btn--light btn--sm" type="button" data-next="7">Continuar →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Fase 7 · La Expansión ===== -->
+      <section class="bb-view" data-view="7">
+        <div class="bb-panel">
+          <p class="bb-panel__eyebrow">Fase 07 · La Expansión</p>
+          <h1 class="bb-panel__title">Toda galaxia continúa expandiéndose.<br />Tu empresa debería hacer lo mismo.</h1>
+          <div class="field">
+            <label for="q-meta">¿Dónde quieres estar en un año? ¿Y en cinco?</label>
+            <textarea id="q-meta" data-k="meta_1_5" rows="3" placeholder="Objetivos, mercados, tamaño…"></textarea>
+          </div>
+          <div class="field">
+            <label for="q-exito">¿Cuál sería un éxito extraordinario?</label>
+            <textarea id="q-exito" data-k="exito" rows="2" placeholder="Sueña con datos…"></textarea>
+          </div>
+          <div class="bb-numrow">
+            <div class="field">
+              <label for="q-cli">Clientes / mes</label>
+              <input id="q-cli" data-k="num_clientes" type="text" inputmode="numeric" placeholder="Ej.: 40" />
+            </div>
+            <div class="field">
+              <label for="q-ticket">Ticket promedio</label>
+              <input id="q-ticket" data-k="num_ticket" type="text" inputmode="decimal" placeholder="Ej.: $120" />
+            </div>
+            <div class="field">
+              <label for="q-inv">Inversión actual en marketing</label>
+              <input id="q-inv" data-k="num_inversion" type="text" inputmode="decimal" placeholder="Ej.: $800 / mes" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="q-invertir">¿Cuánto estás dispuesto a invertir para crecer?</label>
+            <input id="q-invertir" data-k="invertir" type="text" placeholder="El combustible de la expansión" />
+          </div>
+          <div class="bb-panel__nav">
+            <button class="btn btn--ghost btn--sm" type="button" data-prev="6">← Volver</button>
+            <button class="btn btn--light btn--sm" type="button" data-next="8">Provocar el Big Bang →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Fase 8 · Tu universo ha nacido ===== -->
+      <section class="bb-view bb-final" data-view="8">
+        <p class="bb-final__eyebrow">Big Bang™ completado</p>
+        <h1 class="bb-final__title">Tu universo<br />ha nacido.</h1>
+        <p class="bb-final__sub">
+          Este es el origen del mapa de tu marca.<br />
+          Nosotros nos encargamos de la expansión.
+        </p>
+
+        <div class="bb-panel bb-panel--final">
+          <div class="bb-numrow bb-numrow--two">
+            <div class="field">
+              <label for="q-nombre">Tu nombre</label>
+              <input id="q-nombre" data-k="contacto_nombre" type="text" autocomplete="name" placeholder="¿Quién creó este universo?" />
+            </div>
+            <div class="field">
+              <label for="q-email">Tu email</label>
+              <input id="q-email" data-k="contacto_email" type="email" autocomplete="email" placeholder="tu@email.com" />
+            </div>
+          </div>
+          <div class="bb-final__actions">
+            <button class="btn btn--light" type="button" id="bbSend">Enviar mi Big Bang →</button>
+            <button class="btn btn--ghost" type="button" id="bbCopy">Copiar respuestas</button>
+          </div>
+          <p class="bb-final__feedback" id="bbFeedback" role="status"></p>
+          <p class="bbcta__micro">También puedes escribirnos directo: <a class="bb-final__mail" href="mailto:info@universaagency.com">info@universaagency.com</a></p>
+        </div>
+
+        <button class="bb-restart" type="button" id="bbRestart">Empezar de nuevo</button>
+      </section>
+
+    </main>
+  </div>
+
+  <noscript>
+    <p style="position:fixed;inset:auto 0 0;padding:14px;text-align:center;background:#04100b;color:#8cf5c6;">
+      La experiencia Big Bang™ necesita JavaScript. Escríbenos a info@universaagency.com.
+    </p>
+  </noscript>
+
+  <script src="js/bigbang.js" defer></script>
+</body>
+</html>
