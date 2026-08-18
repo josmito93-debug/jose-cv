@@ -5066,8 +5066,20 @@ body .step:hover {
 .logo__img { display: block; height: 40px; width: auto; }
 .footer .logo__img { height: 44px; }
 
-.hero__vplanet { position: absolute; pointer-events: none; mix-blend-mode: screen; }
-.hero__vplanet video { display: block; width: 100%; height: auto; }
+.hero__vplanet {
+  position: absolute;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  isolation: isolate;
+}
+.hero__vplanet video {
+  display: block;
+  width: 100%;
+  height: auto;
+  -webkit-transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
 .hero__vplanet--top {
   width: clamp(380px, 42vw, 680px);
   left: 50%;
@@ -5109,11 +5121,7 @@ body.home-v2 .hero__vplanet--right { z-index: 1; }
   }
 }
 
-/* v7.1 · máscara suave: funde el mp4 compuesto con el fondo (y viñetea el alfa) */
-.hero__vplanet video {
-  -webkit-mask-image: radial-gradient(closest-side, #000 76%, transparent 99%);
-  mask-image: radial-gradient(closest-side, #000 76%, transparent 99%);
-}
+/* v7.1 · sin máscara para evitar bugs de mezcla en WebKit (Safari) */
 
 /* ============================================================
    v8 · MEGAMENÚ PREMIUM — pantalla completa, escena propia
