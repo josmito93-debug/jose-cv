@@ -5068,20 +5068,8 @@ body .step:hover {
 .logo__img { display: block; height: 40px; width: auto; }
 .footer .logo__img { height: 44px; }
 
-.hero__vplanet {
-  position: absolute;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  isolation: isolate;
-}
-.hero__vplanet video {
-  display: block;
-  width: 100%;
-  height: auto;
-  -webkit-transform-style: preserve-3d;
-  -webkit-backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
-}
+.hero__vplanet { position: absolute; pointer-events: none; }
+.hero__vplanet video { display: block; width: 100%; height: auto; }
 .hero__vplanet--top {
   width: clamp(380px, 42vw, 680px);
   left: 50%;
