@@ -5086,9 +5086,29 @@ body .step:hover {
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
 }
 body.home-v2 .hero__vplanet--right { z-index: 1; }
+@media (max-width: 1024px) {
+  .hero__vplanet--top {
+    width: 320px;
+    top: 20px;
+    transform: translate(-50%, -35%);
+  }
+  .hero__vplanet--right {
+    width: 240px;
+    right: -10%;
+    bottom: 5%;
+  }
+}
 @media (max-width: 768px) {
-  .hero__vplanet--top { width: 320px; transform: translate(-50%, -42%); }
-  .hero__vplanet--right { width: 250px; right: -16%; bottom: 9%; }
+  .hero__vplanet--top {
+    width: 220px;
+    top: 10px;
+    transform: translate(-50%, -25%);
+  }
+  .hero__vplanet--right {
+    width: 160px;
+    right: -8%;
+    bottom: 2%;
+  }
 }
 
 /* v7.1 · máscara suave: funde el mp4 compuesto con el fondo (y viñetea el alfa) */
