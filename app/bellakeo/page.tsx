@@ -186,19 +186,9 @@ export default function BellakeoLandPage() {
 
   return (
     <div className="relative min-h-screen text-white font-sans overflow-x-hidden bg-[#050505]">
-      {/* Background Video */}
-      <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-25 filter brightness-[0.35] saturate-[0.85]"
-        >
-          <source src="/bellakeo_bg.mp4" type="video/mp4" />
-        </video>
-        {/* Overlay to dim video and ensure readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/85 to-[#050505]" />
+      {/* Background Video (Replaced with performant gradient/image) */}
+      <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none bg-[#050505]">
+        <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/10 via-black/85 to-[#050505]" />
       </div>
 
       {/* Decorative Glow Overlays */}
@@ -236,18 +226,9 @@ export default function BellakeoLandPage() {
             <div className="relative rounded-3xl overflow-hidden border border-white/5 bg-black/60 backdrop-blur-2xl mb-12 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
               {/* Main Visual Video Banner */}
               <div className="relative w-full h-[450px] md:h-[500px] flex items-center justify-center overflow-hidden bg-black/40">
-                {/* Blurred background counterpart video */}
-                <div className="absolute inset-0 scale-110 blur-xl opacity-40">
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  >
-                    <source src="/bellakeo_bg.mp4" type="video/mp4" />
-                  </video>
-                </div>
+                {/* Blurred background counterpart (Replaced video with static glow for performance) */}
+                <div className="absolute inset-0 bg-indigo-500/20 blur-3xl opacity-40"></div>
+                
                 {/* Contained focused main video */}
                 <div className="relative w-full h-full flex items-center justify-center">
                   <video
@@ -255,6 +236,7 @@ export default function BellakeoLandPage() {
                     loop
                     muted
                     playsInline
+                    poster="/bellakeo_land_hero.jpg"
                     className="w-full h-full object-cover md:object-contain opacity-95"
                   >
                     <source src="/bellakeo_bg.mp4" type="video/mp4" />

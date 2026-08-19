@@ -5,7 +5,7 @@ import path from 'path';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { clientSlug, name, email, phone, companyName, signatureData, signedAt } = body;
+    const { clientSlug, name, email, phone, companyName, signatureData, signedAt, pdfBase64 } = body;
 
     if (!clientSlug || !name || !email) {
       return NextResponse.json({ error: 'Faltan campos obligatorios (Nombre, Email o Identificador)' }, { status: 400 });
@@ -55,13 +55,15 @@ export async function POST(request: NextRequest) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            from: 'Acuerdos Universa <onboarding@resend.dev>',
-            to: ['jose@universa.agency', 'info@universa.agency'],
-            subject: `✍️ Propuesta Firmada: ${name} (${companyName})`,
+            from: 'Acuerdos Universa <tickets@universaagency.com>',
+            to: [email, 'jose@universa.agency', 'info@universa.agency'],
+            subject: `✍️ Contrato Formalizado: ${name} - ${companyName}`,
             html: `
               <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-                <h2 style="color: #0e131f; border-bottom: 2px solid #2ddc80; padding-bottom: 10px;">Nuevo Contrato Firmado</h2>
-                <p>Se ha formalizado digitalmente un nuevo acuerdo comercial a través del portal de propuestas de Universa.</p>
+                <h2 style="color: #0e131f; border-bottom: 2px solid #2ddc80; padding-bottom: 10px;">Contrato Firmado Exitosamente</h2>
+                <p>Estimado/a <strong>${name}</strong>,</p>
+                <p>Te confirmamos que el contrato correspondiente a la propuesta de servicios para <strong>${companyName}</strong> ha sido formalizado digitalmente de manera exitosa.</p>
+                <p>Adjunto a este correo encontrarás el documento contractual completo firmado en formato PDF para tu archivo y resguardo.</p>
                 
                 <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
                   <tr style="background-color: #f9f9f9;">
@@ -95,18 +97,26 @@ export async function POST(request: NextRequest) {
                 </table>
 
                 <div style="margin-top: 30px; padding: 20px; background-color: #f5f5f5; border-radius: 8px; text-align: center;">
-                  <span style="font-size: 11px; text-transform: uppercase; color: #666; display: block; margin-bottom: 10px;">Firma Registrada</span>
+                  <span style="font-size: 11px; text-transform: uppercase; color: #666; display: block; margin-bottom: 10px;">Firma Digital Registrada</span>
                   ${signatureData.startsWith('data:image') 
                     ? `<img src="${signatureData}" alt="Firma Digital" style="max-height: 80px; max-width: 100%;" />`
                     : `<span style="font-family: 'Georgia', serif; font-style: italic; font-size: 24px; color: #0e131f;">${signatureData}</span>`
                   }
                 </div>
                 
+                <p>Si tienes alguna consulta sobre los siguientes pasos de inicio del proyecto, no dudes en ponerte en contacto con nosotros.</p>
+                
                 <p style="font-size: 11px; color: #999; margin-top: 30px; text-align: center;">
-                  Este es un correo automático generado por el sistema de propuestas de Universa Agency.
+                  Este es un correo automático de conformidad contractual generado por Universa Agency.
                 </p>
               </div>
-            `
+            `,
+            attachments: pdfBase64 ? [
+              {
+                filename: `${clientSlug}_contrato_firmado.pdf`,
+                content: pdfBase64
+              }
+            ] : undefined
           })
         });
 

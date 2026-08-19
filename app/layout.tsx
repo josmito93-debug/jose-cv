@@ -6,6 +6,15 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.universaagency.com"),
   title: "Universa Agency - High Performance Digital Infrastructure",
   description: "Universa Agency professional workspace. Automated high-performance digital infrastructure and trading intelligence.",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon.png', type: 'image/png', sizes: '512x512' }
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png' }
+    ]
+  },
   openGraph: {
     images: ['/opengraph-image'],
   },

@@ -415,19 +415,10 @@ const ScanContent: React.FC = () => {
 export default function ScanTicketPage() {
   return (
     <div className="relative min-h-screen text-white font-sans overflow-x-hidden bg-[#050505] flex items-center justify-center p-4">
-      {/* Background Video */}
-      <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-20 filter brightness-[0.3] saturate-[0.8]"
-        >
-          <source src="/bellakeo_bg.mp4" type="video/mp4" />
-        </video>
+      {/* Background Video (Replaced for performance) */}
+      <div className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none bg-[#050505]">
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/85 to-[#050505]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/10 via-black/85 to-[#050505]" />
       </div>
 
       {/* Decorative Glows */}

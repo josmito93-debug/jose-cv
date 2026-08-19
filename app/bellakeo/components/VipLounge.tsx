@@ -61,12 +61,12 @@ export const VipLounge: React.FC<VipLoungeProps> = ({ onEnter }) => {
       <div className="absolute top-10 w-2 h-2 bg-indigo-400 rounded-full blur-xs opacity-50 animate-bounce" />
       <div className="absolute bottom-20 left-10 w-3 h-3 bg-purple-400 rounded-full blur-xs opacity-30 animate-pulse" />
 
-      {/* Main card panel */}
+      {/* Main card panel - max width set to strictly fit most screens without scroll */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative z-10 w-full max-w-4xl bg-black/40 backdrop-blur-2xl border border-white/5 rounded-3xl p-8 md:p-12 shadow-[0_0_80px_rgba(0,0,0,0.8)] overflow-hidden"
+        className="relative z-10 w-full max-w-[1920px] 2xl:max-w-7xl bg-black/40 backdrop-blur-2xl border border-white/5 rounded-3xl p-6 md:p-10 shadow-[0_0_80px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-12 mx-auto"
       >
         {/* Holographic border accent lines */}
         <div className="absolute top-0 left-0 w-20 h-px bg-indigo-500" />
@@ -74,88 +74,91 @@ export const VipLounge: React.FC<VipLoungeProps> = ({ onEnter }) => {
         <div className="absolute bottom-0 right-0 w-20 h-px bg-purple-500" />
         <div className="absolute bottom-0 right-0 w-px h-20 bg-purple-500" />
 
-        <div className="flex items-center justify-center gap-2 mb-6">
-          <span className="h-px w-8 bg-indigo-500/30" />
-          <span className="text-[10px] font-black tracking-[0.3em] uppercase text-indigo-400">
-            PRESALE ACCESS LOUNGE
-          </span>
-          <span className="h-px w-8 bg-indigo-500/30" />
-        </div>
+        {/* Left column: Logo and Text */}
+        <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left w-full">
+          <div className="flex items-center gap-2 mb-4 md:mb-6">
+            <span className="h-px w-8 bg-indigo-500/30" />
+            <span className="text-[10px] font-black tracking-[0.3em] uppercase text-indigo-400">
+              PRESALE ACCESS LOUNGE
+            </span>
+          </div>
 
-        <div className="flex justify-center mb-6">
           <motion.div
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="relative w-[280px] h-[210px] md:w-[380px] md:h-[285px] filter drop-shadow-[0_0_30px_rgba(99,102,241,0.35)]"
+            className="relative w-[240px] h-[180px] md:w-[340px] md:h-[240px] filter drop-shadow-[0_0_30px_rgba(99,102,241,0.35)] mb-4 md:mb-6"
           >
             <Image
               src="/bellakeo_logo.png"
               alt="BELLakeo LAND"
               fill
-              className="object-contain"
+              className="object-contain object-center md:object-left"
               priority
             />
           </motion.div>
+
+          <p className="text-zinc-400 text-xs md:text-sm max-w-md font-medium mb-6 md:mb-8">
+            Adéntrate en la fiesta futurista más exclusiva de Memphis. Una fusión de tecnología, sonido inmersivo de alta fidelidad y espectáculos visuales holográficos.
+          </p>
         </div>
 
-        <p className="text-zinc-400 text-sm md:text-base max-w-lg mx-auto font-medium mb-12">
-          Adéntrate en la fiesta futurista más exclusiva de Memphis. Una fusión de tecnología, sonido inmersivo de alta fidelidad y espectáculos visuales holográficos.
-        </p>
+        {/* Right column: Details, Timer and Button */}
+        <div className="flex-1 flex flex-col items-center md:items-end w-full">
+          {/* Countdown Timer */}
+          <div className="grid grid-cols-4 gap-2 md:gap-4 w-full max-w-md mb-8 md:mb-10">
+            {[
+              { value: timeLeft.days, label: 'Días' },
+              { value: timeLeft.hours, label: 'Horas' },
+              { value: timeLeft.minutes, label: 'Minutos' },
+              { value: timeLeft.seconds, label: 'Segundos' },
+            ].map((item, idx) => (
+              <div key={idx} className="flex flex-col bg-white/[0.02] border border-white/5 rounded-xl p-3 backdrop-blur-md items-center">
+                <span className="text-xl md:text-3xl font-black text-white tracking-tighter">
+                  {String(item.value).padStart(2, '0')}
+                </span>
+                <span className="text-[9px] font-black uppercase text-zinc-500 tracking-wider mt-1">
+                  {item.label}
+                </span>
+              </div>
+            ))}
+          </div>
 
-        {/* Countdown Timer */}
-        <div className="grid grid-cols-4 gap-4 max-w-lg mx-auto mb-12">
-          {[
-            { value: timeLeft.days, label: 'Días' },
-            { value: timeLeft.hours, label: 'Horas' },
-            { value: timeLeft.minutes, label: 'Minutos' },
-            { value: timeLeft.seconds, label: 'Segundos' },
-          ].map((item, idx) => (
-            <div key={idx} className="flex flex-col bg-white/[0.02] border border-white/5 rounded-xl p-3 md:p-4 backdrop-blur-md">
-              <span className="text-xl md:text-3xl font-black text-white tracking-tighter">
-                {String(item.value).padStart(2, '0')}
-              </span>
-              <span className="text-[9px] font-black uppercase text-zinc-500 tracking-wider mt-1">
-                {item.label}
-              </span>
+          {/* Event Quick Details */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-b border-white/5 py-6 mb-8 md:mb-10 w-full max-w-md">
+            <div className="flex items-center md:justify-end gap-3">
+              <Calendar className="w-4 h-4 text-indigo-400 shrink-0" />
+              <div className="text-left">
+                <p className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Fecha</p>
+                <p className="text-[10px] font-bold text-white uppercase line-clamp-1">Viernes, 7 Ago</p>
+              </div>
             </div>
-          ))}
+            <div className="flex items-center md:justify-end gap-3">
+              <MapPin className="w-4 h-4 text-indigo-400 shrink-0" />
+              <div className="text-left">
+                <p className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Lugar</p>
+                <p className="text-[10px] font-bold text-white uppercase line-clamp-1">Blue Hookah</p>
+              </div>
+            </div>
+            <div className="flex items-center md:justify-end gap-3">
+              <Clock className="w-4 h-4 text-indigo-400 shrink-0" />
+              <div className="text-left">
+                <p className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Horario</p>
+                <p className="text-[10px] font-bold text-white uppercase line-clamp-1">8:00 PM</p>
+              </div>
+            </div>
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(99, 102, 241, 0.4)' }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onEnter}
+            className="relative px-8 py-4 bg-white text-black font-black text-xs uppercase tracking-wider rounded-xl overflow-hidden shadow-lg flex items-center justify-center gap-3 w-full max-w-md transition-all"
+          >
+            <span>Acceder a la Experiencia</span>
+            <ArrowRight className="w-4 h-4 text-black" />
+          </motion.button>
         </div>
-
-        {/* Event Quick Details */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-b border-white/5 py-8 mb-12 max-w-2xl mx-auto">
-          <div className="flex items-center justify-center gap-3">
-            <Calendar className="w-5 h-5 text-indigo-400" />
-            <div className="text-left">
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Fecha</p>
-              <p className="text-xs font-bold text-white uppercase">Viernes, 7 Agosto</p>
-            </div>
-          </div>
-          <div className="flex items-center justify-center gap-3">
-            <MapPin className="w-5 h-5 text-indigo-400" />
-            <div className="text-left">
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Lugar</p>
-              <p className="text-xs font-bold text-white uppercase">Blue Hookah, Memphis</p>
-            </div>
-          </div>
-          <div className="flex items-center justify-center gap-3">
-            <Clock className="w-5 h-5 text-indigo-400" />
-            <div className="text-left">
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Horario</p>
-              <p className="text-xs font-bold text-white uppercase">8:00 PM - 5:00 AM</p>
-            </div>
-          </div>
-        </div>
-
-        <motion.button
-          whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(99, 102, 241, 0.4)' }}
-          whileTap={{ scale: 0.98 }}
-          onClick={onEnter}
-          className="relative px-8 py-4 bg-white text-black font-black text-xs uppercase tracking-wider rounded-xl overflow-hidden shadow-lg flex items-center gap-3 mx-auto transition-all"
-        >
-          <span>Acceder a la Experiencia</span>
-          <ArrowRight className="w-4 h-4 text-black" />
-        </motion.button>
       </motion.div>
     </div>
   );
