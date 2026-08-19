@@ -3123,6 +3123,74 @@ h1, h2, h3 {
   .acc__body { animation: none; }
 }
 
+
+/* Radio / Choice Chip groups */
+.chip-group-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--mint);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.chip-single-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.chip--radio.is-on {
+  border-color: #a78bff;
+  color: #a78bff;
+  background: rgba(167, 137, 255, 0.1);
+  box-shadow: 0 0 14px rgba(167, 137, 255, 0.25);
+}
+.bb-notice-box {
+  background: rgba(46, 229, 143, 0.04);
+  border: 1px dashed rgba(46, 229, 143, 0.25);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-top: 10px;
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.bb-success-card {
+  display: none;
+  background: linear-gradient(135deg, rgba(46, 229, 143, 0.12), rgba(167, 137, 255, 0.08));
+  border: 1px solid var(--neon);
+  border-radius: 16px;
+  padding: 28px 24px;
+  margin: 20px 0;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.bb-success-card.is-visible {
+  display: block;
+  animation: bbFadeIn 0.5s ease forwards;
+}
+@keyframes bbFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.bb-success-card h3 {
+  font-size: 1.4rem;
+  color: var(--text);
+  margin: 0 0 8px 0;
+}
+.bb-success-card p {
+  color: var(--mint);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+.btn.is-loading {
+  opacity: 0.7;
+  pointer-events: none;
+  cursor: wait;
+}
+
 </style>
   <style>
 /* ============================================================
@@ -6120,8 +6188,8 @@ body.home-v2 .proj-viewport {
       <button class="bb-node" type="button" data-go="2" aria-label="Fase 2 · ADN de Marca"></button><i class="bb-linkline"></i>
       <button class="bb-node" type="button" data-go="3" aria-label="Fase 3 · El Universo"></button><i class="bb-linkline"></i>
       <button class="bb-node" type="button" data-go="4" aria-label="Fase 4 · La Gravedad"></button><i class="bb-linkline"></i>
-      <button class="bb-node" type="button" data-go="5" aria-label="Fase 5 · La Órbita"></button><i class="bb-linkline"></i>
-      <button class="bb-node" type="button" data-go="6" aria-label="Fase 6 · Las Constelaciones"></button><i class="bb-linkline"></i>
+      <button class="bb-node" type="button" data-go="5" aria-label="Fase 5 · Branding & E-Commerce"></button><i class="bb-linkline"></i>
+      <button class="bb-node" type="button" data-go="6" aria-label="Fase 6 · Canales & Soluciones"></button><i class="bb-linkline"></i>
       <button class="bb-node" type="button" data-go="7" aria-label="Fase 7 · La Expansión"></button>
     </nav>
 
@@ -6134,7 +6202,7 @@ body.home-v2 .proj-viewport {
         <p class="bb-intro__line bb-intro__line--dim" style="--d:1.5s">Cada respuesta es una partícula.<br />Cada dato genera gravedad.</p>
         <div class="bb-intro__cta" style="--d:2.1s">
           <button class="btn btn--light bb-start" type="button" id="bbStart">Iniciar Big Bang</button>
-          <p class="bb-intro__micro">7 fases · ~10 minutos · el mapa completo de tu universo</p>
+          <p class="bb-intro__micro">7 fases · Diagnóstico completo · Transmisión directa al Growth Lab</p>
         </div>
       </section>
 
@@ -6144,11 +6212,15 @@ body.home-v2 .proj-viewport {
           <p class="bb-panel__eyebrow">Fase 01 · El Núcleo</p>
           <h1 class="bb-panel__title">Toda estrella tiene un núcleo.<br />Toda empresa también.</h1>
           <div class="field">
-            <label for="q-empresa">¿Cómo se llama tu empresa?</label>
-            <input id="q-empresa" data-k="empresa" type="text" placeholder="El nombre de tu estrella" />
+            <label for="q-empresa">¿Cómo se llama tu empresa o proyecto?</label>
+            <input id="q-empresa" data-k="empresa" type="text" placeholder="El nombre de tu estrella…" />
           </div>
           <div class="field">
-            <label for="q-origen">¿Por qué nació? ¿Qué problema decidió resolver?</label>
+            <label for="q-web">Sitio web actual o Instagram / Redes</label>
+            <input id="q-web" data-k="contacto_web" type="text" placeholder="Ej.: miempresa.com o @miempresa" />
+          </div>
+          <div class="field">
+            <label for="q-origen">¿Por qué nació? ¿Qué problema o necesidad decidió resolver?</label>
             <textarea id="q-origen" data-k="origen" rows="3" placeholder="La historia detrás de la creación…"></textarea>
           </div>
           <div class="field">
@@ -6169,15 +6241,15 @@ body.home-v2 .proj-viewport {
           <h1 class="bb-panel__title">Si tu marca fuera<br />una persona…</h1>
           <div class="field">
             <label for="q-adn-edad">¿Qué edad tendría y cómo hablaría?</label>
-            <input id="q-adn-edad" data-k="adn_edad" type="text" placeholder="Ej.: 32 años, directa, sencilla, sin palabras innecesarias" />
+            <input id="q-adn-edad" data-k="adn_edad" type="text" placeholder="Ej.: 30 años, directa, sofisticada, cercana, sin rodeos" />
           </div>
           <div class="field">
-            <label for="q-adn-pers">¿Qué personalidad tendría? ¿Qué le apasionaría?</label>
-            <textarea id="q-adn-pers" data-k="adn_personalidad" rows="3" placeholder="Curiosa, elegante, obsesionada con entender cómo funcionan las cosas…"></textarea>
+            <label for="q-adn-pers">¿Qué personalidad tendría? ¿Qué arquetipo o energía proyecta?</label>
+            <textarea id="q-adn-pers" data-k="adn_personalidad" rows="3" placeholder="Audaz, técnica, elegante, obsesionada con la perfección…"></textarea>
           </div>
           <div class="field">
             <label for="q-adn-pal">¿Qué palabras siempre usaría — y cuáles jamás?</label>
-            <textarea id="q-adn-pal" data-k="adn_palabras" rows="3" placeholder="Siempre: … / Jamás: …"></textarea>
+            <textarea id="q-adn-pal" data-k="adn_palabras" rows="3" placeholder="Siempre: Innovación, Precisión, Retorno / Jamás: Barato, Rápido, Básico…"></textarea>
           </div>
           <div class="bb-panel__nav">
             <button class="btn btn--ghost btn--sm" type="button" data-prev="1">← Volver</button>
@@ -6192,16 +6264,16 @@ body.home-v2 .proj-viewport {
           <p class="bb-panel__eyebrow">Fase 03 · El Universo</p>
           <h1 class="bb-panel__title">Toda galaxia tiene<br />otras galaxias cerca.</h1>
           <div class="field">
-            <label for="q-comp">¿Quiénes son tus competidores?</label>
-            <input id="q-comp" data-k="competidores" type="text" placeholder="Las galaxias vecinas" />
+            <label for="q-comp">¿Quiénes son tus competidores directos o indirectos?</label>
+            <input id="q-comp" data-k="competidores" type="text" placeholder="Marcas o empresas que compiten por tu audiencia" />
           </div>
           <div class="field">
-            <label for="q-comp2">¿Qué hacen bien y qué hacen mal?</label>
-            <textarea id="q-comp2" data-k="comp_bienmal" rows="3" placeholder="Fortalezas, huecos, oportunidades…"></textarea>
+            <label for="q-comp2">¿Qué hacen bien y qué oportunidades o vacíos ves en el mercado?</label>
+            <textarea id="q-comp2" data-k="comp_bienmal" rows="3" placeholder="Fortalezas de ellos, errores que cometen, huecos que podemos dominar…"></textarea>
           </div>
           <div class="field">
-            <label for="q-admiras">¿Qué marcas admiras y por qué?</label>
-            <textarea id="q-admiras" data-k="admiras" rows="3" placeholder="De cualquier industria…"></textarea>
+            <label for="q-admiras">¿Qué marcas admiras (de cualquier industria) y por qué?</label>
+            <textarea id="q-admiras" data-k="admiras" rows="3" placeholder="Ej.: Apple por su minimalismo, Nike por su narrativa, Stripe por su claridad…"></textarea>
           </div>
           <div class="bb-panel__nav">
             <button class="btn btn--ghost btn--sm" type="button" data-prev="2">← Volver</button>
@@ -6216,16 +6288,16 @@ body.home-v2 .proj-viewport {
           <p class="bb-panel__eyebrow">Fase 04 · La Gravedad</p>
           <h1 class="bb-panel__title">La gravedad mantiene unido el universo.<br />En tu empresa, la confianza.</h1>
           <div class="field">
-            <label for="q-porque">¿Por qué deberían comprarte a ti?</label>
-            <textarea id="q-porque" data-k="porque_tu" rows="3" placeholder="Tu ventaja competitiva real…"></textarea>
+            <label for="q-porque">¿Por qué deberían comprarte a ti y no a otra opción?</label>
+            <textarea id="q-porque" data-k="porque_tu" rows="3" placeholder="Tu diferenciador real o ventaja competitiva…"></textarea>
           </div>
           <div class="field">
-            <label for="q-promesa">¿Qué prometes? ¿Qué experiencia recibe el cliente?</label>
-            <textarea id="q-promesa" data-k="promesa" rows="3" placeholder="Del primer contacto a la entrega…"></textarea>
+            <label for="q-promesa">¿Cuál es tu promesa clave y qué experiencia recibe el cliente?</label>
+            <textarea id="q-promesa" data-k="promesa" rows="3" placeholder="Desde el primer clic hasta la entrega final…"></textarea>
           </div>
           <div class="field">
-            <label for="q-recompra">¿Por qué alguien volvería a comprarte?</label>
-            <textarea id="q-recompra" data-k="recompra" rows="2" placeholder="La fuerza que los mantiene en órbita…"></textarea>
+            <label for="q-recompra">¿Por qué alguien volvería a comprarte o recomendarte?</label>
+            <textarea id="q-recompra" data-k="recompra" rows="2" placeholder="La fuerza de retención que los mantiene en tu órbita…"></textarea>
           </div>
           <div class="bb-panel__nav">
             <button class="btn btn--ghost btn--sm" type="button" data-prev="3">← Volver</button>
@@ -6234,23 +6306,70 @@ body.home-v2 .proj-viewport {
         </div>
       </section>
 
-      <!-- ===== Fase 5 · La Órbita ===== -->
+      <!-- ===== Fase 5 · Branding, Identidad & E-Commerce ===== -->
       <section class="bb-view" data-view="5">
         <div class="bb-panel">
-          <p class="bb-panel__eyebrow">Fase 05 · La Órbita</p>
-          <h1 class="bb-panel__title">Toda marca tiene<br />un recorrido.</h1>
+          <p class="bb-panel__eyebrow">Fase 05 · Branding & E-Commerce</p>
+          <h1 class="bb-panel__title">La estética y la estructura<br />de tu universo.</h1>
+          
+          <!-- BRANDING -->
           <div class="field">
-            <label for="q-descubre">¿Cómo te descubre un cliente hoy?</label>
-            <textarea id="q-descubre" data-k="descubre" rows="2" placeholder="Redes, referidos, Google, anuncios…"></textarea>
+            <label class="chip-group-label">Estado actual de tu Branding / Identidad Visual</label>
+            <div class="chip-single-grid" data-group="branding_estado">
+              <button class="chip chip--radio" type="button" data-val="Partir desde cero">Partir desde cero</button>
+              <button class="chip chip--radio" type="button" data-val="Tengo logo básico">Tengo logo básico</button>
+              <button class="chip chip--radio" type="button" data-val="Rebranding total">Rebranding total</button>
+              <button class="chip chip--radio" type="button" data-val="Evolucionar manual actual">Evolucionar manual actual</button>
+            </div>
           </div>
+
           <div class="field">
-            <label for="q-frenos">¿Qué dudas aparecen y qué lo detiene antes de comprar?</label>
-            <textarea id="q-frenos" data-k="frenos" rows="3" placeholder="Objeciones, fricciones, miedos…"></textarea>
+            <label for="q-brand-colores">¿Qué paleta de colores, tonos o estilo visual te gustaría proyectar?</label>
+            <textarea id="q-brand-colores" data-k="branding_colores" rows="2" placeholder="Ej.: Verde menta/esmeralda y negro cósmico, minimalista, editorial, de alto impacto…"></textarea>
           </div>
+
           <div class="field">
-            <label for="q-post">¿Qué pasa después de la compra? ¿Cómo fidelizas?</label>
-            <textarea id="q-post" data-k="postventa" rows="3" placeholder="Seguimiento, recompra, comunidad…"></textarea>
+            <label for="q-brand-refs">Enlace a referencias visuales / Moodboard / Logo actual (Opcional)</label>
+            <input id="q-brand-refs" data-k="branding_referencias" type="text" placeholder="Link de Figma, Pinterest, Google Drive, Dropbox…" />
           </div>
+
+          <!-- E-COMMERCE SECTION -->
+          <div class="field" style="margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <label class="chip-group-label">¿Tu modelo de negocio incluye venta de productos (E-Commerce)?</label>
+            <div class="chip-single-grid" data-group="es_ecommerce" id="bbEcommerceChoice">
+              <button class="chip chip--radio" type="button" data-val="Sí, es E-Commerce">Sí, es E-Commerce</button>
+              <button class="chip chip--radio" type="button" data-val="Servicios Profesionales / B2B">Servicios Profesionales / B2B</button>
+              <button class="chip chip--radio" type="button" data-val="SaaS / Software / App">SaaS / Software / App</button>
+              <button class="chip chip--radio" type="button" data-val="Híbrido / Local Físico">Híbrido / Local Físico</button>
+            </div>
+          </div>
+
+          <!-- E-COMMERCE DETAILS (DYNAMIC) -->
+          <div id="bbEcomDetails" class="bb-notice-box" style="display: none;">
+            <p style="font-weight: 600; color: #a78bff; margin: 0 0 10px 0;">📦 Profundización de E-Commerce:</p>
+            
+            <div class="field" style="margin-bottom: 12px;">
+              <label class="chip-group-label" style="font-size: 0.8rem; color: #d6e2dc;">¿Cuántos productos / SKUs componen tu catálogo?</label>
+              <div class="chip-single-grid" data-group="num_productos">
+                <button class="chip chip--radio" type="button" data-val="1 - 10 productos estrella">1 - 10 productos estrella</button>
+                <button class="chip chip--radio" type="button" data-val="11 - 50 productos">11 - 50 productos</button>
+                <button class="chip chip--radio" type="button" data-val="51 - 200 productos">51 - 200 productos</button>
+                <button class="chip chip--radio" type="button" data-val="Más de 200 productos">Más de 200 productos</button>
+              </div>
+            </div>
+
+            <div class="bb-numrow bb-numrow--two" style="margin-bottom: 8px;">
+              <div class="field">
+                <label for="q-ecom-plat" style="font-size: 0.8rem;">Plataforma E-commerce</label>
+                <input id="q-ecom-plat" data-k="plataforma_ecommerce" type="text" placeholder="Shopify, WooCommerce, Custom, etc." />
+              </div>
+              <div class="field">
+                <label for="q-ecom-log" style="font-size: 0.8rem;">Logística y Envíos</label>
+                <input id="q-ecom-log" data-k="logistica_envios" type="text" placeholder="Nacional, Internacional, 3PL, etc." />
+              </div>
+            </div>
+          </div>
+
           <div class="bb-panel__nav">
             <button class="btn btn--ghost btn--sm" type="button" data-prev="4">← Volver</button>
             <button class="btn btn--light btn--sm" type="button" data-next="6">Continuar →</button>
@@ -6258,32 +6377,40 @@ body.home-v2 .proj-viewport {
         </div>
       </section>
 
-      <!-- ===== Fase 6 · Las Constelaciones ===== -->
+      <!-- ===== Fase 6 · Canales & Soluciones ===== -->
       <section class="bb-view" data-view="6">
         <div class="bb-panel">
           <p class="bb-panel__eyebrow">Fase 06 · Las Constelaciones</p>
           <h1 class="bb-panel__title">¿Dónde brilla<br />tu audiencia?</h1>
           <div class="field">
-            <label id="lbl-canales">Selecciona tus canales</label>
+            <label id="lbl-canales">Selecciona tus canales actuales o prioritarios</label>
             <div class="chip-grid" role="group" aria-labelledby="lbl-canales" id="bbChips">
               <button class="chip" type="button" data-chip="Instagram">Instagram</button>
               <button class="chip" type="button" data-chip="TikTok">TikTok</button>
               <button class="chip" type="button" data-chip="Facebook">Facebook</button>
-              <button class="chip" type="button" data-chip="Google">Google</button>
+              <button class="chip" type="button" data-chip="Google Ads / SEO">Google Ads / SEO</button>
               <button class="chip" type="button" data-chip="YouTube">YouTube</button>
               <button class="chip" type="button" data-chip="LinkedIn">LinkedIn</button>
-              <button class="chip" type="button" data-chip="Email">Email</button>
-              <button class="chip" type="button" data-chip="WhatsApp">WhatsApp</button>
+              <button class="chip" type="button" data-chip="Email Marketing">Email Marketing</button>
+              <button class="chip" type="button" data-chip="WhatsApp / Directo">WhatsApp / Directo</button>
             </div>
           </div>
           <div class="field">
             <label for="q-ctop">¿Cuáles te funcionan mejor hoy?</label>
-            <input id="q-ctop" data-k="canales_top" type="text" placeholder="Tus constelaciones más brillantes" />
+            <input id="q-ctop" data-k="canales_top" type="text" placeholder="Tus canales con mejor conversión…" />
           </div>
-          <div class="field">
-            <label for="q-cnunca">¿Cuáles nunca has utilizado?</label>
-            <input id="q-cnunca" data-k="canales_nunca" type="text" placeholder="Territorio inexplorado" />
+          
+          <div class="field" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <label class="chip-group-label">¿Qué solución de Universa necesitas con mayor urgencia?</label>
+            <div class="chip-single-grid" data-group="servicios_urgentes">
+              <button class="chip chip--radio" type="button" data-val="Diseño Web & E-Commerce">Diseño Web & E-Commerce</button>
+              <button class="chip chip--radio" type="button" data-val="Meta & TikTok Ads">Meta & TikTok Ads</button>
+              <button class="chip chip--radio" type="button" data-val="Google SEO & Ads">Google SEO & Ads</button>
+              <button class="chip chip--radio" type="button" data-val="Branding & Identidad">Branding & Identidad</button>
+              <button class="chip chip--radio" type="button" data-val="Growth Partner Integral">Growth Partner Integral</button>
+            </div>
           </div>
+
           <div class="bb-panel__nav">
             <button class="btn btn--ghost btn--sm" type="button" data-prev="5">← Volver</button>
             <button class="btn btn--light btn--sm" type="button" data-next="7">Continuar →</button>
@@ -6298,29 +6425,29 @@ body.home-v2 .proj-viewport {
           <h1 class="bb-panel__title">Toda galaxia continúa expandiéndose.<br />Tu empresa debería hacer lo mismo.</h1>
           <div class="field">
             <label for="q-meta">¿Dónde quieres estar en un año? ¿Y en cinco?</label>
-            <textarea id="q-meta" data-k="meta_1_5" rows="3" placeholder="Objetivos, mercados, tamaño…"></textarea>
+            <textarea id="q-meta" data-k="meta_1_5" rows="3" placeholder="Objetivos de facturación, nuevos mercados, posicionamiento…"></textarea>
           </div>
           <div class="field">
-            <label for="q-exito">¿Cuál sería un éxito extraordinario?</label>
-            <textarea id="q-exito" data-k="exito" rows="2" placeholder="Sueña con datos…"></textarea>
+            <label for="q-exito">¿Cuál sería un éxito extraordinario para ti?</label>
+            <textarea id="q-exito" data-k="exito" rows="2" placeholder="Sueña con datos y números medibles…"></textarea>
           </div>
           <div class="bb-numrow">
             <div class="field">
-              <label for="q-cli">Clientes / mes</label>
-              <input id="q-cli" data-k="num_clientes" type="text" inputmode="numeric" placeholder="Ej.: 40" />
+              <label for="q-cli">Clientes / ventas mes</label>
+              <input id="q-cli" data-k="num_clientes" type="text" placeholder="Ej.: 45" />
             </div>
             <div class="field">
               <label for="q-ticket">Ticket promedio</label>
-              <input id="q-ticket" data-k="num_ticket" type="text" inputmode="decimal" placeholder="Ej.: $120" />
+              <input id="q-ticket" data-k="num_ticket" type="text" placeholder="Ej.: $150 USD" />
             </div>
             <div class="field">
-              <label for="q-inv">Inversión actual en marketing</label>
-              <input id="q-inv" data-k="num_inversion" type="text" inputmode="decimal" placeholder="Ej.: $800 / mes" />
+              <label for="q-inv">Inversión actual mktg</label>
+              <input id="q-inv" data-k="num_inversion" type="text" placeholder="Ej.: $1,000 / mes" />
             </div>
           </div>
           <div class="field">
-            <label for="q-invertir">¿Cuánto estás dispuesto a invertir para crecer?</label>
-            <input id="q-invertir" data-k="invertir" type="text" placeholder="El combustible de la expansión" />
+            <label for="q-invertir">¿Cuánto estás dispuesto a invertir mensualmente para crecer?</label>
+            <input id="q-invertir" data-k="invertir" type="text" placeholder="El combustible para acelerar tu universo…" />
           </div>
           <div class="bb-panel__nav">
             <button class="btn btn--ghost btn--sm" type="button" data-prev="6">← Volver</button>
@@ -6329,35 +6456,48 @@ body.home-v2 .proj-viewport {
         </div>
       </section>
 
-      <!-- ===== Fase 8 · Tu universo ha nacido ===== -->
+      <!-- ===== Fase 8 · Tu universo ha nacido (Final & Transmisión) ===== -->
       <section class="bb-view bb-final" data-view="8">
         <p class="bb-final__eyebrow">Big Bang™ completado</p>
         <h1 class="bb-final__title">Tu universo<br />ha nacido.</h1>
         <p class="bb-final__sub">
-          Este es el origen del mapa de tu marca.<br />
-          Nosotros nos encargamos de la expansión.
+          Este es el mapa estratégico de tu marca.<br />
+          Nosotros nos encargamos de construir la expansión.
         </p>
 
         <div class="bb-panel bb-panel--final">
-          <div class="bb-numrow bb-numrow--two">
+          <div class="bb-numrow" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
             <div class="field">
-              <label for="q-nombre">Tu nombre</label>
-              <input id="q-nombre" data-k="contacto_nombre" type="text" autocomplete="name" placeholder="¿Quién creó este universo?" />
+              <label for="q-nombre">Tu nombre completo *</label>
+              <input id="q-nombre" data-k="contacto_nombre" type="text" autocomplete="name" placeholder="¿Quién lidera este universo?" required />
             </div>
             <div class="field">
-              <label for="q-email">Tu email</label>
-              <input id="q-email" data-k="contacto_email" type="email" autocomplete="email" placeholder="tu@email.com" />
+              <label for="q-email">Tu correo electrónico *</label>
+              <input id="q-email" data-k="contacto_email" type="email" autocomplete="email" placeholder="tu@empresa.com" required />
+            </div>
+            <div class="field">
+              <label for="q-tel">Teléfono / WhatsApp *</label>
+              <input id="q-tel" data-k="contacto_telefono" type="tel" autocomplete="tel" placeholder="+1 (555) 000-0000" required />
             </div>
           </div>
-          <div class="bb-final__actions">
-            <button class="btn btn--light" type="button" id="bbSend">Enviar mi Big Bang →</button>
+
+          <div class="bb-final__actions" style="margin-top: 20px;">
+            <button class="btn btn--light" type="button" id="bbSend" style="font-size: 1rem; padding: 14px 28px;">
+              🚀 Enviar y Transmitir Big Bang
+            </button>
             <button class="btn btn--ghost" type="button" id="bbCopy">Copiar respuestas</button>
           </div>
-          <p class="bb-final__feedback" id="bbFeedback" role="status"></p>
-          <p class="bbcta__micro">También puedes escribirnos directo: <a class="bb-final__mail" href="mailto:info@universaagency.com">info@universaagency.com</a></p>
+
+          <div id="bbSuccessCard" class="bb-success-card">
+            <h3>✨ ¡Transmisión Exitosa!</h3>
+            <p>Tu diagnóstico Big Bang ha sido enviado directamente a nuestro equipo directivo en <strong>info@universaagency.com</strong> y guardado en nuestra base de datos estratégica. Analizaremos tu universo y te contactaremos en menos de 24 horas.</p>
+          </div>
+
+          <p class="bb-final__feedback" id="bbFeedback" role="status" style="margin-top: 14px; min-height: 20px;"></p>
+          <p class="bbcta__micro">Canal directo: <a class="bb-final__mail" href="mailto:info@universaagency.com">info@universaagency.com</a> · WhatsApp: <a class="bb-final__mail" href="https://wa.me/17863769974">+1 (786) 376-9974</a></p>
         </div>
 
-        <button class="bb-restart" type="button" id="bbRestart">Empezar de nuevo</button>
+        <button class="bb-restart" type="button" id="bbRestart" style="margin-top: 30px;">Empezar de nuevo</button>
       </section>
 
     </main>
@@ -6371,9 +6511,7 @@ body.home-v2 .proj-viewport {
 
   <script>
 /* ============================================================
-   UNIVERSA — BIG BANG™ · motor
-   Canvas del universo (partícula → explosión → estrellas),
-   máquina de fases, progreso, chips, persistencia y envío.
+   UNIVERSA — BIG BANG™ · motor de diagnóstico y envío
    ============================================================ */
 (function () {
   'use strict';
@@ -6385,7 +6523,13 @@ body.home-v2 .proj-viewport {
   /* ---------- Estado ---------- */
   var PHASES = 8; /* 0 intro · 1..7 fases · 8 final */
   var STARS_AT = [0, 60, 110, 150, 180, 205, 235, 265, 300];
-  var state = { phase: 0, max: 0, answers: {}, canales: [] };
+  var state = { 
+    phase: 0, 
+    max: 0, 
+    answers: {}, 
+    canales: [],
+    singleChoices: {}
+  };
 
   var store = {
     get: function () {
@@ -6394,7 +6538,7 @@ body.home-v2 .proj-viewport {
     },
     set: function () {
       try { localStorage.setItem('universa-bigbang', JSON.stringify(state)); }
-      catch (e) { /* memoria solamente */ }
+      catch (e) {}
     },
     clear: function () {
       try { localStorage.removeItem('universa-bigbang'); } catch (e) {}
@@ -6461,7 +6605,6 @@ body.home-v2 .proj-viewport {
   var draw = function (t) {
     ctx.clearRect(0, 0, W, H);
 
-    /* Fase 0: una sola partícula esperando */
     if (state.phase === 0 && !exploded) {
       var p = reducedMotion ? 1 : (0.72 + 0.28 * Math.sin(t / 520));
       var cx = W / 2, cy = H * 0.5;
@@ -6479,7 +6622,6 @@ body.home-v2 .proj-viewport {
       ctx.fill();
     }
 
-    /* Estrellas */
     for (var i = 0; i < stars.length; i++) {
       var s = stars[i];
       var fade = Math.min(1, (t - s.born) / 1400);
@@ -6490,7 +6632,6 @@ body.home-v2 .proj-viewport {
       ctx.fill();
     }
 
-    /* Partículas de explosión */
     for (var k = burst.length - 1; k >= 0; k--) {
       var b = burst[k];
       b.x += b.vx; b.y += b.vy;
@@ -6511,12 +6652,7 @@ body.home-v2 .proj-viewport {
 
   window.addEventListener('resize', resize);
   resize();
-  if (!reducedMotion) {
-    requestAnimationFrame(loop);
-  } else {
-    /* estático: redibuja solo en cambios de fase */
-    draw(performance.now());
-  }
+  if (!reducedMotion) requestAnimationFrame(loop); else draw(performance.now());
 
   /* ---------- Vistas y progreso ---------- */
   var views = document.querySelectorAll('.bb-view');
@@ -6580,18 +6716,33 @@ body.home-v2 .proj-viewport {
     });
     store.set();
   };
+
   var hydrate = function () {
     document.querySelectorAll('[data-k]').forEach(function (el) {
       if (state.answers[el.dataset.k]) el.value = state.answers[el.dataset.k];
     });
+
     chips.forEach(function (c) {
       c.classList.toggle('is-on', state.canales.indexOf(c.dataset.chip) !== -1);
       c.setAttribute('aria-pressed', c.classList.contains('is-on') ? 'true' : 'false');
     });
+
+    document.querySelectorAll('.chip-single-grid').forEach(function (grid) {
+      var grpName = grid.dataset.group;
+      var currentVal = state.singleChoices[grpName];
+      if (currentVal) {
+        grid.querySelectorAll('.chip--radio').forEach(function (btn) {
+          var isMatch = btn.dataset.val === currentVal;
+          btn.classList.toggle('is-on', isMatch);
+        });
+      }
+    });
+
+    checkEcommerceVisibility();
   };
 
-  /* chips de canales */
-  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  /* Chips multi-selección (Canales) */
+  var chips = Array.prototype.slice.call(document.querySelectorAll('#bbChips .chip'));
   chips.forEach(function (c) {
     c.setAttribute('aria-pressed', 'false');
     c.addEventListener('click', function () {
@@ -6603,6 +6754,31 @@ body.home-v2 .proj-viewport {
       store.set();
     });
   });
+
+  /* Single-choice radio chips */
+  document.querySelectorAll('.chip-single-grid').forEach(function (grid) {
+    var grp = grid.dataset.group;
+    grid.querySelectorAll('.chip--radio').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        grid.querySelectorAll('.chip--radio').forEach(function (b) { b.classList.remove('is-on'); });
+        btn.classList.add('is-on');
+        state.singleChoices[grp] = btn.dataset.val;
+        store.set();
+        if (grp === 'es_ecommerce') checkEcommerceVisibility();
+      });
+    });
+  });
+
+  var checkEcommerceVisibility = function () {
+    var ecomBox = document.getElementById('bbEcomDetails');
+    if (!ecomBox) return;
+    var choice = state.singleChoices['es_ecommerce'];
+    if (choice === 'Sí, es E-Commerce' || choice === 'Híbrido / Local Físico') {
+      ecomBox.style.display = 'block';
+    } else {
+      ecomBox.style.display = 'none';
+    }
+  };
 
   /* ---------- Navegación ---------- */
   document.getElementById('bbStart').addEventListener('click', function () {
@@ -6621,12 +6797,14 @@ body.home-v2 .proj-viewport {
       setPhase(Number(btn.dataset.next));
     });
   });
+
   document.querySelectorAll('[data-prev]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       collect();
       setPhase(Number(btn.dataset.prev), { silent: true });
     });
   });
+
   nodes.forEach(function (n) {
     n.addEventListener('click', function () {
       var go = Number(n.dataset.go);
@@ -6634,71 +6812,186 @@ body.home-v2 .proj-viewport {
     });
   });
 
-  /* ---------- Compilación y envío ---------- */
+  /* ---------- Compilación de Respuestas ---------- */
   var LABELS = {
-    empresa: 'Empresa', origen: 'Por qué nació / problema', mision: 'Misión y valores',
-    adn_edad: 'Edad y forma de hablar', adn_personalidad: 'Personalidad', adn_palabras: 'Palabras siempre / jamás',
-    competidores: 'Competidores', comp_bienmal: 'Qué hacen bien / mal', admiras: 'Marcas que admira',
-    porque_tu: 'Por qué comprarle', promesa: 'Promesa y experiencia', recompra: 'Por qué volverían',
-    descubre: 'Cómo lo descubren', frenos: 'Dudas y frenos', postventa: 'Postventa y fidelización',
-    canales_top: 'Canales que mejor funcionan', canales_nunca: 'Canales sin usar',
-    meta_1_5: 'Meta a 1 y 5 años', exito: 'Éxito extraordinario',
-    num_clientes: 'Clientes / mes', num_ticket: 'Ticket promedio', num_inversion: 'Inversión actual',
-    invertir: 'Dispuesto a invertir',
-    contacto_nombre: 'Nombre', contacto_email: 'Email'
+    empresa: 'Empresa / Marca', contacto_web: 'Sitio Web / Redes', origen: 'Origen y Problema', mision: 'Misión y Valores',
+    adn_edad: 'Edad y Tono de voz', adn_personalidad: 'Personalidad de Marca', adn_palabras: 'Palabras siempre / jamás',
+    competidores: 'Competidores', comp_bienmal: 'Análisis de Competencia', admiras: 'Marcas que admira',
+    porque_tu: 'Ventaja Competitiva', promesa: 'Promesa y Experiencia', recompra: 'Factor de Recompra',
+    branding_colores: 'Paleta de Colores & Estilo', branding_referencias: 'Link Referencias / Logo',
+    plataforma_ecommerce: 'Plataforma E-Commerce', logistica_envios: 'Logística y Envíos',
+    canales_top: 'Canales con mejor rendimiento',
+    meta_1_5: 'Metas a 1 y 5 años', exito: 'Visión de Éxito',
+    num_clientes: 'Clientes / mes', num_ticket: 'Ticket promedio', num_inversion: 'Inversión actual en marketing',
+    invertir: 'Presupuesto para crecer',
+    contacto_nombre: 'Nombre de contacto', contacto_email: 'Email de contacto', contacto_telefono: 'Teléfono / WhatsApp'
   };
-  var GROUPS = [
-    ['Fase 01 · El Núcleo', ['empresa', 'origen', 'mision']],
-    ['Fase 02 · ADN de Marca', ['adn_edad', 'adn_personalidad', 'adn_palabras']],
-    ['Fase 03 · El Universo', ['competidores', 'comp_bienmal', 'admiras']],
-    ['Fase 04 · La Gravedad', ['porque_tu', 'promesa', 'recompra']],
-    ['Fase 05 · La Órbita', ['descubre', 'frenos', 'postventa']],
-    ['Fase 06 · Las Constelaciones', ['canales_top', 'canales_nunca']],
-    ['Fase 07 · La Expansión', ['meta_1_5', 'exito', 'num_clientes', 'num_ticket', 'num_inversion', 'invertir']],
-    ['Contacto', ['contacto_nombre', 'contacto_email']]
-  ];
 
-  var compile = function () {
+  var getPayload = function () {
     collect();
-    var out = ['BIG BANG\u2122 \u2014 ' + (state.answers.empresa || 'Nueva marca'), ''];
-    GROUPS.forEach(function (g) {
-      var lines = [];
-      g[1].forEach(function (k) {
-        if (state.answers[k]) lines.push('\u2022 ' + LABELS[k] + ': ' + state.answers[k]);
-      });
-      if (g[0] === 'Fase 06 · Las Constelaciones' && state.canales.length) {
-        lines.unshift('\u2022 Canales: ' + state.canales.join(', '));
-      }
-      if (lines.length) out.push(g[0], lines.join('\n'), '');
-    });
-    return out.join('\n');
+    return {
+      empresa: state.answers.empresa || '',
+      contacto_web: state.answers.contacto_web || '',
+      origen: state.answers.origen || '',
+      mision: state.answers.mision || '',
+      adn_edad: state.answers.adn_edad || '',
+      adn_personalidad: state.answers.adn_personalidad || '',
+      adn_palabras: state.answers.adn_palabras || '',
+      competidores: state.answers.competidores || '',
+      comp_bienmal: state.answers.comp_bienmal || '',
+      admiras: state.answers.admiras || '',
+      porque_tu: state.answers.porque_tu || '',
+      promesa: state.answers.promesa || '',
+      recompra: state.answers.recompra || '',
+      branding_estado: state.singleChoices.branding_estado || '',
+      branding_colores: state.answers.branding_colores || '',
+      branding_referencias: state.answers.branding_referencias || '',
+      es_ecommerce: state.singleChoices.es_ecommerce || '',
+      num_productos: state.singleChoices.num_productos || '',
+      plataforma_ecommerce: state.answers.plataforma_ecommerce || '',
+      logistica_envios: state.answers.logistica_envios || '',
+      canales: state.canales || [],
+      canales_top: state.answers.canales_top || '',
+      servicios_urgentes: state.singleChoices.servicios_urgentes || '',
+      meta_1_5: state.answers.meta_1_5 || '',
+      exito: state.answers.exito || '',
+      num_clientes: state.answers.num_clientes || '',
+      num_ticket: state.answers.num_ticket || '',
+      num_inversion: state.answers.num_inversion || '',
+      invertir: state.answers.invertir || '',
+      contacto_nombre: state.answers.contacto_nombre || '',
+      contacto_email: state.answers.contacto_email || '',
+      contacto_telefono: state.answers.contacto_telefono || ''
+    };
+  };
+
+  var compileText = function () {
+    var p = getPayload();
+    var out = ['💥 UNIVERSA — DIAGNÓSTICO BIG BANG™', '====================================', ''];
+    out.push('DATOS DE CONTACTO:');
+    out.push('• Nombre: ' + (p.contacto_nombre || 'N/A'));
+    out.push('• Empresa: ' + (p.empresa || 'N/A'));
+    out.push('• Email: ' + (p.contacto_email || 'N/A'));
+    out.push('• Teléfono / WhatsApp: ' + (p.contacto_telefono || 'N/A'));
+    out.push('• Web / Redes: ' + (p.contacto_web || 'N/A'));
+    out.push('');
+
+    out.push('01 · EL NÚCLEO:');
+    out.push('• Origen: ' + (p.origen || 'N/A'));
+    out.push('• Misión y Valores: ' + (p.mision || 'N/A'));
+    out.push('');
+
+    out.push('02 · ADN DE MARCA:');
+    out.push('• Tono / Edad: ' + (p.adn_edad || 'N/A'));
+    out.push('• Personalidad: ' + (p.adn_personalidad || 'N/A'));
+    out.push('• Palabras clave: ' + (p.adn_palabras || 'N/A'));
+    out.push('');
+
+    out.push('03 · EL UNIVERSO COMPETITIVO:');
+    out.push('• Competidores: ' + (p.competidores || 'N/A'));
+    out.push('• Análisis: ' + (p.comp_bienmal || 'N/A'));
+    out.push('• Marcas que admira: ' + (p.admiras || 'N/A'));
+    out.push('');
+
+    out.push('04 · LA GRAVEDAD (PROPUESTA):');
+    out.push('• Ventaja única: ' + (p.porque_tu || 'N/A'));
+    out.push('• Promesa: ' + (p.promesa || 'N/A'));
+    out.push('• Recompra: ' + (p.recompra || 'N/A'));
+    out.push('');
+
+    out.push('05 · BRANDING & E-COMMERCE:');
+    out.push('• Estado de Branding: ' + (p.branding_estado || 'N/A'));
+    out.push('• Paleta y Estilo: ' + (p.branding_colores || 'N/A'));
+    out.push('• Link Referencias: ' + (p.branding_referencias || 'N/A'));
+    out.push('• Modelo de negocio: ' + (p.es_ecommerce || 'N/A'));
+    if (p.num_productos) out.push('• Catálogo productos: ' + p.num_productos);
+    if (p.plataforma_ecommerce) out.push('• Plataforma E-commerce: ' + p.plataforma_ecommerce);
+    if (p.logistica_envios) out.push('• Logística: ' + p.logistica_envios);
+    out.push('');
+
+    out.push('06 · CANALES & SOLUCIÓN PRIORITARIA:');
+    out.push('• Canales: ' + (p.canales.join(', ') || 'N/A'));
+    out.push('• Canales top: ' + (p.canales_top || 'N/A'));
+    out.push('• Solución urgente: ' + (p.servicios_urgentes || 'N/A'));
+    out.push('');
+
+    out.push('07 · EXPANSIÓN & MÉTRICAS:');
+    out.push('• Metas 1-5 años: ' + (p.meta_1_5 || 'N/A'));
+    out.push('• Éxito extraordinario: ' + (p.exito || 'N/A'));
+    out.push('• Clientes/mes: ' + (p.num_clientes || 'N/A'));
+    out.push('• Ticket promedio: ' + (p.num_ticket || 'N/A'));
+    out.push('• Inversión actual: ' + (p.num_inversion || 'N/A'));
+    out.push('• Presupuesto para crecer: ' + (p.invertir || 'N/A'));
+
+    return out.join('
+');
   };
 
   var feedback = document.getElementById('bbFeedback');
-  var say = function (msg) {
-    feedback.textContent = msg;
-    setTimeout(function () { feedback.textContent = ''; }, 4200);
+  var successCard = document.getElementById('bbSuccessCard');
+  var sendBtn = document.getElementById('bbSend');
+
+  var say = function (msg, isError) {
+    if (feedback) {
+      feedback.style.color = isError ? '#ff7b7b' : '#2ee58f';
+      feedback.textContent = msg;
+    }
   };
 
-  document.getElementById('bbSend').addEventListener('click', function () {
-    var text = compile();
-    var subject = 'Big Bang\u2122 \u2014 ' + (state.answers.empresa || state.answers.contacto_nombre || 'Nueva marca');
-    window.location.href =
-      'mailto:info@universaagency.com' +
-      '?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(text);
-    say('Abriendo tu correo\u2026 si no se abre, usa \u201cCopiar respuestas\u201d.');
+  /* ---------- Envío vía API (Resend + Airtable) ---------- */
+  sendBtn.addEventListener('click', async function () {
+    collect();
+    var payload = getPayload();
+
+    if (!payload.contacto_nombre || !payload.contacto_email) {
+      say('Por favor completa tu Nombre y Correo electrónico antes de enviar.', true);
+      document.getElementById('q-nombre')?.focus();
+      return;
+    }
+
+    sendBtn.classList.add('is-loading');
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Transmitiendo al Growth Lab... 🚀';
+    say('');
+
+    try {
+      var res = await fetch('/api/bigbang', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      var result = await res.json();
+
+      if (res.ok && result.success) {
+        sendBtn.textContent = '¡Big Bang Transmitido! ✓';
+        if (successCard) successCard.classList.add('is-live', 'is-visible');
+        say('✓ Datos sincronizados con éxito en Airtable y notificados a info@universaagency.com.');
+        if (!reducedMotion) {
+          explode(W / 2, H * 0.4, 250, 9);
+        }
+      } else {
+        throw new Error(result.error || 'Error en el servidor al transmitir');
+      }
+    } catch (err) {
+      console.error('Error submitting Big Bang:', err);
+      sendBtn.textContent = 'Reintentar envío 🚀';
+      sendBtn.disabled = false;
+      sendBtn.classList.remove('is-loading');
+      say('No se pudo completar el envío automático. Puedes copiar tus respuestas con el botón de abajo o enviarlas a info@universaagency.com.', true);
+    }
   });
 
+  /* Copiar respuestas */
   document.getElementById('bbCopy').addEventListener('click', function () {
-    var text = compile();
-    var done = function () { say('Mapa copiado. P\u00e9galo donde quieras \u2728'); };
+    var text = compileText();
+    var done = function () { say('✓ Mapa copiado al portapapeles. Puedes pegarlo donde desees ✨'); };
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function () { fallback(text); done(); });
+      navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text); done(); });
     } else {
-      fallback(text); done();
+      fallbackCopy(text); done();
     }
-    function fallback(t) {
+    function fallbackCopy(t) {
       var ta = document.createElement('textarea');
       ta.value = t;
       ta.style.position = 'fixed';
@@ -6710,11 +7003,17 @@ body.home-v2 .proj-viewport {
     }
   });
 
+  /* Reiniciar */
   document.getElementById('bbRestart').addEventListener('click', function () {
+    if (!confirm('¿Deseas reiniciar y limpiar todas tus respuestas?')) return;
     store.clear();
-    state.phase = 0; state.max = 0; state.answers = {}; state.canales = [];
+    state.phase = 0; state.max = 0; state.answers = {}; state.canales = []; state.singleChoices = {};
     document.querySelectorAll('[data-k]').forEach(function (el) { el.value = ''; });
-    chips.forEach(function (c) { c.classList.remove('is-on'); c.setAttribute('aria-pressed', 'false'); });
+    document.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('is-on'); c.setAttribute('aria-pressed', 'false'); });
+    if (successCard) successCard.classList.remove('is-visible');
+    sendBtn.disabled = false;
+    sendBtn.classList.remove('is-loading');
+    sendBtn.textContent = '🚀 Enviar y Transmitir Big Bang';
     stars = []; burst = []; exploded = false;
     setPhase(0, { silent: true });
   });
@@ -6726,6 +7025,7 @@ body.home-v2 .proj-viewport {
     state.max = saved.max || saved.phase;
     state.answers = saved.answers || {};
     state.canales = saved.canales || [];
+    state.singleChoices = saved.singleChoices || {};
     exploded = true;
     hydrate();
     ensureStars(STARS_AT[Math.min(state.phase, STARS_AT.length - 1)]);
@@ -6734,7 +7034,6 @@ body.home-v2 .proj-viewport {
     setPhase(0, { silent: true });
   }
 })();
-
 </script>
 </body>
 </html>
