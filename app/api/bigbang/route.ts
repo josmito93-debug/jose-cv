@@ -44,8 +44,8 @@ export async function POST(req: Request) {
       notas_extra = ''
     } = data;
 
-    const nombreFinal = contacto_nombre || 'Emprendedor / Líder';
-    const empresaFinal = empresa || 'Empresa sin nombre';
+    const nombreFinal = contacto_nombre || 'Líder / Creador';
+    const empresaFinal = empresa || 'Tu Marca';
     const canalesStr = Array.isArray(canales) ? canales.join(', ') : String(canales || '');
 
     const timestamp = new Date().toISOString();
@@ -55,16 +55,18 @@ export async function POST(req: Request) {
       timeStyle: 'short'
     });
 
-    // -------------------------------------------------------------
-    // 1. SEND EMAIL NOTIFICATION VIA RESEND
-    // -------------------------------------------------------------
-    let emailSent = false;
-    let emailId = null;
     const resendApiKey = process.env.RESEND_API_KEY;
+    let agencyEmailSent = false;
+    let agencyEmailId = null;
+    let clientEmailSent = false;
+    let clientEmailId = null;
 
+    // -------------------------------------------------------------
+    // 1. EMAIL A LA AGENCIA (info@universaagency.com)
+    // -------------------------------------------------------------
     if (resendApiKey) {
       try {
-        const emailHtml = `
+        const agencyEmailHtml = `
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -111,7 +113,7 @@ export async function POST(req: Request) {
                 </tr>
                 <tr>
                   <td style="color: #7d968b; font-weight: 600;">Teléfono / WhatsApp:</td>
-                  <td><a href="https://wa.me/${contacto_telefono?.replace(/[^0-9]/g, '')}" style="color: #a78bff; text-decoration: none;">${contacto_telefono || 'No especificado'}</a></td>
+                  <td><a href="https://wa.me/${contacto_telefono?.replace(/[^0-9]/g, '')}" style="color: #a78bff; text-decoration: none; font-weight: 700;">${contacto_telefono || 'No especificado'} → Abrir WhatsApp</a></td>
                 </tr>
                 <tr>
                   <td style="color: #7d968b; font-weight: 600;">Sitio Web / Redes:</td>
@@ -135,8 +137,7 @@ export async function POST(req: Request) {
               </div>
 
               <!-- FASE 02 -->
-              <div style="margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                <h4 style="margin: 0 0 12px 0; font-size: 16px; color: #2ee58f;">02 · ADN de Marca</h4>
+              <div style="margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08);"><h4 style="margin: 0 0 12px 0; font-size: 16px; color: #2ee58f;">02 · ADN de Marca</h4>
                 <p style="margin: 0 0 8px 0; font-size: 13px; color: #7d968b;"><strong>Edad y Tono de voz:</strong></p>
                 <div style="background: rgba(255,255,255,0.03); padding: 12px 16px; border-radius: 8px; font-size: 14px; color: #eaf0ec; line-height: 1.5;">${adn_edad || 'Sin respuesta'}</div>
                 <p style="margin: 12px 0 8px 0; font-size: 13px; color: #7d968b;"><strong>Personalidad y Pasiones:</strong></p>
@@ -262,7 +263,7 @@ export async function POST(req: Request) {
 </html>
         `;
 
-        const res = await fetch('https://api.resend.com/emails', {
+        const resAgency = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${resendApiKey}`,
@@ -272,25 +273,160 @@ export async function POST(req: Request) {
             from: 'Universa Big Bang <tickets@universaagency.com>',
             to: ['info@universaagency.com'],
             subject: `💥 Big Bang™ [${empresaFinal}] — ${nombreFinal}`,
-            html: emailHtml
+            html: agencyEmailHtml
           })
         });
 
-        const resData = await res.json();
-        if (res.ok && resData.id) {
-          emailSent = true;
-          emailId = resData.id;
-          console.log('Resend email sent successfully:', resData.id);
+        const agencyData = await resAgency.json();
+        if (resAgency.ok && agencyData.id) {
+          agencyEmailSent = true;
+          agencyEmailId = agencyData.id;
+          console.log('Agency email sent:', agencyData.id);
         } else {
-          console.error('Resend error response:', resData);
+          console.error('Resend agency error:', agencyData);
         }
       } catch (err: any) {
-        console.error('Error sending Resend email:', err.message);
+        console.error('Error sending agency email:', err.message);
+      }
+
+      // -------------------------------------------------------------
+      // 2. EMAIL DE CONFIRMACIÓN AL CLIENTE
+      // -------------------------------------------------------------
+      if (contacto_email && contacto_email.includes('@')) {
+        try {
+          const clientEmailHtml = `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tu Big Bang™ ha comenzado - Universa Agency</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #06090e; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #eaf0ec;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #06090e; padding: 30px 10px;">
+    <tr>
+      <td align="center">
+        <table width="100%" max-width="640" border="0" cellspacing="0" cellpadding="0" style="max-width: 640px; background: #0c1219; border: 1px solid rgba(46, 229, 143, 0.3); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.7);">
+          
+          <!-- HEADER -->
+          <tr>
+            <td style="padding: 36px 36px 28px; background: linear-gradient(135deg, rgba(46, 229, 143, 0.2), rgba(167, 137, 255, 0.12)); border-bottom: 1px solid rgba(46, 229, 143, 0.25); text-align: center;">
+              <span style="display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #2ee58f; margin-bottom: 8px;">UNIVERSA GROWTH LAB</span>
+              <h1 style="margin: 0 0 10px 0; font-size: 28px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px;">🌌 Tu universo ha nacido.</h1>
+              <p style="margin: 0; font-size: 15px; color: #b7d1c5; line-height: 1.5;">Hemos recibido el diagnóstico estratégico de <strong>${empresaFinal}</strong>.</p>
+            </td>
+          </tr>
+
+          <!-- BODY -->
+          <tr>
+            <td style="padding: 36px;">
+              <p style="font-size: 16px; color: #ffffff; margin-top: 0;">Hola <strong>${nombreFinal}</strong>,</p>
+              
+              <p style="font-size: 15px; color: #d6e2dc; line-height: 1.6;">
+                Cada dato y respuesta que nos has compartido es una partícula de gravedad para tu marca. Nuestro equipo de directores de crecimiento y estrategas ya tiene tu mapa sobre la mesa para diseñar la ruta de expansión de <strong>${empresaFinal}</strong>.
+              </p>
+
+              <!-- SUMMARY CARD -->
+              <div style="background: #111a24; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; margin: 24px 0;">
+                <h4 style="margin: 0 0 14px 0; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: #2ee58f;">📋 Resumen de tu Diagnóstico:</h4>
+                <table width="100%" border="0" cellspacing="0" cellpadding="5" style="font-size: 14px; color: #cbd5e1;">
+                  <tr>
+                    <td width="42%" style="color: #88a397;">Empresa / Proyecto:</td>
+                    <td style="color: #ffffff; font-weight: bold;">${empresaFinal}</td>
+                  </tr>
+                  ${branding_estado ? `
+                  <tr>
+                    <td style="color: #88a397;">Branding / Identidad:</td>
+                    <td style="color: #ffffff;">${branding_estado}</td>
+                  </tr>
+                  ` : ''}
+                  ${es_ecommerce ? `
+                  <tr>
+                    <td style="color: #88a397;">Modelo de negocio:</td>
+                    <td style="color: #ffffff;">${es_ecommerce}</td>
+                  </tr>
+                  ` : ''}
+                  ${servicios_urgentes ? `
+                  <tr>
+                    <td style="color: #88a397;">Servicio prioritario:</td>
+                    <td style="color: #2ee58f; font-weight: bold;">${servicios_urgentes}</td>
+                  </tr>
+                  ` : ''}
+                  ${meta_1_5 ? `
+                  <tr>
+                    <td style="color: #88a397;">Meta principal:</td>
+                    <td style="color: #ffffff;">${meta_1_5}</td>
+                  </tr>
+                  ` : ''}
+                </table>
+              </div>
+
+              <!-- NEXT STEPS -->
+              <h4 style="margin: 28px 0 12px 0; font-size: 15px; color: #ffffff;">¿Cuáles son los siguientes pasos?</h4>
+              <ol style="padding-left: 20px; margin: 0 0 24px 0; font-size: 14px; color: #cbd5e1; line-height: 1.7;">
+                <li><strong>Análisis Estratégico:</strong> Evaluamos tus competidores, mercado, canales y oportunidades inmediatas de facturación.</li>
+                <li><strong>Sesión 1 a 1:</strong> Nos comunicaremos contigo en menos de <strong>24 horas</strong> vía WhatsApp o correo para presentarte los hallazgos.</li>
+                <li><strong>Plan de Expansión:</strong> Definiremos el roadmap táctico para comenzar a ejecutar.</li>
+              </ol>
+
+              <!-- CTA BUTTON -->
+              <div style="text-align: center; margin: 32px 0 16px 0;">
+                <a href="https://wa.me/17863769974?text=${encodeURIComponent('Hola Universa, acabo de enviar mi Big Bang para ' + empresaFinal + ' y me gustaría conectar con un estratega.')}" target="_blank" style="display: inline-block; background: #2ee58f; color: #04100b; font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 50px; text-decoration: none; box-shadow: 0 0 25px rgba(46, 229, 143, 0.4);">
+                  Hablar directamente por WhatsApp →
+                </a>
+              </div>
+
+              <p style="font-size: 13px; color: #7d968b; text-align: center; margin-top: 16px;">
+                O si prefieres, puedes responder directamente a este correo.
+              </p>
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td align="center" style="padding: 24px; background: #070b10; border-top: 1px solid rgba(255,255,255,0.06); font-size: 12px; color: #6b857a;">
+              <strong>Universa Agency</strong> · Growth Lab & Digital Engineering<br />
+              Miami · Madrid · Caracas · <a href="https://www.universaagency.com" style="color: #2ee58f; text-decoration: none;">www.universaagency.com</a>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+          `;
+
+          const resClient = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${resendApiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: 'Universa Agency <tickets@universaagency.com>',
+              to: [contacto_email],
+              subject: `🌌 Tu universo ha nacido: ${empresaFinal} — Universa Growth Lab`,
+              html: clientEmailHtml
+            })
+          });
+
+          const clientData = await resClient.json();
+          if (resClient.ok && clientData.id) {
+            clientEmailSent = true;
+            clientEmailId = clientData.id;
+            console.log('Client confirmation email sent:', clientData.id);
+          } else {
+            console.error('Resend client email error:', clientData);
+          }
+        } catch (clientErr: any) {
+          console.error('Error sending client email:', clientErr.message);
+        }
       }
     }
 
     // -------------------------------------------------------------
-    // 2. SAVE INTO AIRTABLE (Big Bang Responses table)
+    // 3. REGISTRAR EN AIRTABLE (Big Bang Responses table)
     // -------------------------------------------------------------
     let airtableSaved = false;
     let airtableRecordId = null;
@@ -359,8 +495,10 @@ Canales: ${canalesStr}`,
     return NextResponse.json({
       success: true,
       message: 'Big Bang recibido y procesado con éxito',
-      emailSent,
-      emailId,
+      agencyEmailSent,
+      agencyEmailId,
+      clientEmailSent,
+      clientEmailId,
       airtableSaved,
       airtableRecordId
     });
