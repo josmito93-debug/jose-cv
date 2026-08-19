@@ -30,6 +30,7 @@ export async function POST(req: Request) {
       num_productos = '',
       plataforma_ecommerce = '',
       logistica_envios = '',
+      producto_estrella = '',
       servicios_urgentes = '',
       meta_1_5 = '',
       exito = '',
@@ -370,7 +371,7 @@ export async function POST(req: Request) {
 
               <!-- CTA BUTTON -->
               <div style="text-align: center; margin: 32px 0 16px 0;">
-                <a href="https://wa.me/17863769974?text=${encodeURIComponent('Hola Universa, acabo de enviar mi Big Bang para ' + empresaFinal + ' y me gustaría conectar con un estratega.')}" target="_blank" style="display: inline-block; background: #2ee58f; color: #04100b; font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 50px; text-decoration: none; box-shadow: 0 0 25px rgba(46, 229, 143, 0.4);">
+                <a href="https://wa.me/17863024923?text=${encodeURIComponent('Hola Universa, acabo de enviar mi Big Bang para ' + empresaFinal + ' y me gustaría conectar con un estratega.')}" target="_blank" style="display: inline-block; background: #2ee58f; color: #04100b; font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 50px; text-decoration: none; box-shadow: 0 0 25px rgba(46, 229, 143, 0.4);">
                   Hablar directamente por WhatsApp →
                 </a>
               </div>
