@@ -6813,20 +6813,6 @@ body.home-v2 .proj-viewport {
   });
 
   /* ---------- Compilación de Respuestas ---------- */
-  var LABELS = {
-    empresa: 'Empresa / Marca', contacto_web: 'Sitio Web / Redes', origen: 'Origen y Problema', mision: 'Misión y Valores',
-    adn_edad: 'Edad y Tono de voz', adn_personalidad: 'Personalidad de Marca', adn_palabras: 'Palabras siempre / jamás',
-    competidores: 'Competidores', comp_bienmal: 'Análisis de Competencia', admiras: 'Marcas que admira',
-    porque_tu: 'Ventaja Competitiva', promesa: 'Promesa y Experiencia', recompra: 'Factor de Recompra',
-    branding_colores: 'Paleta de Colores & Estilo', branding_referencias: 'Link Referencias / Logo',
-    plataforma_ecommerce: 'Plataforma E-Commerce', logistica_envios: 'Logística y Envíos',
-    canales_top: 'Canales con mejor rendimiento',
-    meta_1_5: 'Metas a 1 y 5 años', exito: 'Visión de Éxito',
-    num_clientes: 'Clientes / mes', num_ticket: 'Ticket promedio', num_inversion: 'Inversión actual en marketing',
-    invertir: 'Presupuesto para crecer',
-    contacto_nombre: 'Nombre de contacto', contacto_email: 'Email de contacto', contacto_telefono: 'Teléfono / WhatsApp'
-  };
-
   var getPayload = function () {
     collect();
     return {
@@ -6923,8 +6909,7 @@ body.home-v2 .proj-viewport {
     out.push('• Inversión actual: ' + (p.num_inversion || 'N/A'));
     out.push('• Presupuesto para crecer: ' + (p.invertir || 'N/A'));
 
-    return out.join('
-');
+    return out.join('\n');
   };
 
   var feedback = document.getElementById('bbFeedback');
