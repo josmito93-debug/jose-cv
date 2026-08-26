@@ -1568,21 +1568,124 @@
           }
         ]
       }
+    ]
+  },
+  "gearup-by-nina": {
+    "client": "GearUp by nina",
+    "status": "Propuesta Comercial & Contrato Digital",
+    "title": "TIENDA E-COMMERCE PREMIUM: EMBUDOS DE CONVERSIÓN, UP-SELLING Y AUTOMATIZACIÓN DE COMPRA",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "FASE 1: DISEÑO UX/UI, CORE DE TIENDA Y PASARELA DE PAGOS (STRIPE/SQUARE)",
+        "investment": 375,
+        "items": [
+          {
+            "title": "E-Commerce Core & Checkout Personalizado",
+            "description": "Desarrollo de una tienda digital optimizada enfocada en compras directas express, sin la fricción del carrito de compras lento convencional.",
+            "icon": "globe",
+            "bullets": [
+              "Catálogo interactivo con transiciones premium y micro-interacciones de producto",
+              "Integración nativa con pasarelas de pago líderes: Stripe, Square o PayPal",
+              "Soporte para pagos rápidos de alta conversión: Apple Pay y Google Pay",
+              "Página de Checkout personalizada (Custom Checkout Page) con diseño optimizado para conversión"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Up-Selling Estratégico en Cart",
+            "description": "Módulos de venta inteligente integrados directamente en el proceso de compra para motivar al cliente a adquirir productos complementarios antes de realizar el pago.",
+            "icon": "activity",
+            "bullets": [
+              "Módulo de Up-sell directo en la ficha de producto y durante el checkout",
+              "Ofertas dinámicas sugeridas basadas en el comportamiento de compra para elevar el ticket promedio (Average Order Value)"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Diseño Premium & Animaciones de Alto Nivel",
+            "description": "Una experiencia inmersiva que incrementa el valor percibido de tu marca mediante efectos interactivos modernos y de alta fidelidad.",
+            "icon": "palette",
+            "bullets": [
+              "Efectos de parallax dinámicos y transiciones de página fluidas y modernas",
+              "Micro-animaciones interactivas al pasar el cursor (hover states) y en botones de acción",
+              "Presentación animada del catálogo para maximizar la retención y el engagement visual"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "FASE 2: AUTOMATIZACIONES, ESTRATEGIA SEO/GEO Y DASHBOARD GRÁFICO",
+        "investment": 375,
+        "items": [
+          {
+            "title": "Facturación Automática e Emails HTML Custom",
+            "description": "Flujo de comunicación automatizado y estético post-compra para enviar facturas en formato PDF generadas dinámicamente.",
+            "icon": "users",
+            "bullets": [
+              "Diseño de correos HTML personalizados para confirmación de compra y detalles de envío",
+              "Sistema de facturación automática con envío de PDFs profesionales de factura tras la compra"
+            ],
+            "tag": "panenka-journey",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Estrategia SEO, GEO, Sitemap y Robots.txt",
+            "description": "Optimización técnica avanzada orientando geográficamente el tráfico e indexando tus productos en los motores de búsqueda tradicionales e IA.",
+            "icon": "globe",
+            "bullets": [
+              "Optimización SEO on-page completa (metaetiquetas, jerarquía de encabezados)",
+              "Orientación geográfica (GEO SEO) para captar clientes en tu zona de mayor influencia",
+              "Generación automática de Sitemap XML y configuración estratégica de Robots.txt"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Estrategia de Recuperación de Carrito Abandonado",
+            "description": "Automatización táctica diseñada para rescatar compras que no fueron completadas en el checkout.",
+            "icon": "activity",
+            "bullets": [
+              "Secuencias automáticas de recordatorios por correo para carritos abandonados",
+              "Cupones de descuento dinámicos opcionales para incentivar la compra de rescate"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Dashboard de Analíticas e Indicadores Gráficos",
+            "description": "Panel administrativo interactivo integrado con gráficas de alto nivel para el monitoreo del desempeño de la tienda en tiempo real.",
+            "icon": "activity",
+            "bullets": [
+              "Gráficas interactivas de ventas semanales, volumen total e ingresos",
+              "Métricas de conversión y analíticas avanzadas del comportamiento de los clientes"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
     ],
-    "summary": "Desarrollo de plataforma SaaS interactiva para Morgan Studios con backend y CRM unificado en Airtable (que maneja credenciales de acceso de forma segura), portal personalizado para selección de fotos con descargas y sincronización a Drive, panel administrativo con bloqueo/gestión de usuarios y analíticas de crecimiento semanal, pasarela de pagos Stripe y sistema de reservas con recordatorios automatizados por una inversión única y promocional de $300 USD.",
-    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20confirmar%20la%20propuesta%20de%20Morgan%20Studios%20por%20300%20USD",
+    "summary": "Desarrollo de plataforma e-commerce premium para la marca GearUp by nina. Incluye un catálogo con animaciones interactivas de alto nivel, checkout totalmente personalizado libre de fricciones de carrito tradicional con integraciones de Stripe/Square, módulos avanzados de Up-selling, sistema automatizado de correos de confirmación HTML y facturación digital en PDF, estrategia técnica de SEO local e internacional (Sitemaps/Robots), sistema de recuperación de carritos abandonados y gráficas analíticas avanzadas de ventas. Todo por una inversión de $750 USD en dos mitades iguales de $375 USD.",
+    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20confirmar%20la%20propuesta%20de%20GearUp%20by%20nina%20por%20750%20USD",
     "hideRelated": true,
-    "paymentSplit": "300",
+    "paymentSplit": "375/375",
     "contractTerms": {
       "payments": [
-        { "name": "Pago Único de Reserva y Desarrollo Completo", "amount": 300 }
+        { "name": "Primer Pago (Reserva / Inicio)", "amount": 375 },
+        { "name": "Segundo Pago (Entrega Final y Lanzamiento)", "amount": 375 }
       ],
       "clauses": [
-        "TIEMPO DE ENTREGA: El proyecto completo se desarrollará, probará y entregará listo para producción en un plazo máximo de 2 (dos) semanas a partir del inicio del proyecto y recepción de accesos por parte de la Agencia.",
-        "PROPIEDAD DE ACTIVOS Y REPOSITORIOS: Todos los assets visuales, diseños de interfaz, código fuente, integraciones y repositorios de código asociados a esta plataforma pertenecerán en su totalidad y de forma exclusiva al CLIENTE una vez completado el pago de la inversión acordada.",
-        "POLÍTICA DE NO DEVOLUCIÓN DE DINERO (NO REFUNDS): Dadas la naturaleza de los servicios de diseño personalizado, desarrollo técnico de software a medida e integraciones con APIs de terceros (Stripe, Google Calendar/Drive y base de datos Airtable), bajo ninguna circunstancia se realizarán devoluciones de dinero una vez iniciado el proyecto o realizado cualquier pago de reserva.",
-        "ACCESOS A PLATAFORMAS TERCERAS: El CLIENTE es responsable de proporcionar a la Agencia las credenciales y accesos necesarios de su cuenta de Airtable, Google Workspace profesional y su cuenta de Stripe para realizar las correspondientes pruebas e integraciones técnicas.",
-        "NOTIFICACIONES DE WHATSAPP: Esta propuesta incluye la integración de flujos de WhatsApp dinámicos mediante enlaces web nativos. La automatización por API de envíos masivos mediante software tipo ZAPI o ZAU requiere que el CLIENTE asuma de forma independiente los costos de adquisición de licencias y líneas móviles asociadas."
+        "TIEMPO DE ENTREGA: El proyecto completo se desarrollará, probará y entregará listo para producción en un plazo máximo de 3 (tres) semanas a partir del inicio del proyecto y recepción de accesos por parte de la Agencia.",
+        "PROPIEDAD DE ACTIVOS Y REPOSITORIOS: Todos los assets visuales, de interfaz, código fuente, integraciones y repositorios de código asociados a esta plataforma pertenecerán en su totalidad y de forma exclusiva al CLIENTE una vez completado el pago del 100% de la inversión acordada.",
+        "POLÍTICA DE NO DEVOLUCIÓN DE DINERO (NO REFUNDS): Dadas la naturaleza de los servicios de diseño personalizado, desarrollo técnico de software a medida e integraciones con APIs de terceros (Stripe/Square, email automation y generación de PDF), bajo ninguna circunstancia se realizarán devoluciones de dinero una vez iniciado el proyecto o realizado cualquier pago de reserva.",
+        "ACCESOS A PLATAFORMAS TERCERAS: El CLIENTE es responsable de proporcionar a la Agencia las credenciales y accesos necesarios de su cuenta de Stripe, Square o proveedor de hosting para realizar las correspondientes pruebas e integraciones técnicas."
       ]
     }
   }

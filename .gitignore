@@ -29,5 +29,9 @@ dist-ssr
 node_modules
 out
 build
-dist
 .env*
+*.mov
+*.mp4
+*.zip
+hero section universa/
+temp_extracted/

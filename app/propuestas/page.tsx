@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
 import { 
   FileText, 
   CheckCircle2, 
@@ -35,9 +36,188 @@ import {
   Smartphone,
   ChevronRight,
   Eye,
-  HelpCircle
+  HelpCircle,
+  Users,
+  Activity,
+  Target,
+  Brain,
+  Lock,
+  RefreshCw,
+  BarChart2,
+  ShieldAlert,
+  CheckCheck,
+  MousePointerClick,
+  Radio,
+  PieChart,
+  LineChart,
+  Code,
+  Lightbulb,
+  Share2,
+  Send,
+  Workflow,
+  Sparkle
 } from 'lucide-react';
 import proposalsData from '@/data/proposals.json';
+
+// --- MARKETING TITANS STRATEGY DATA ---
+const titansData = [
+  {
+    id: 'hormozi',
+    name: 'Alex Hormozi',
+    book: 'Autor de $100M Offers & $100M Leads',
+    badge: 'Category of One & Ecuación de Valor',
+    tagline: '"Haz una oferta tan irresistible que la gente se sienta estúpida diciendo que no."',
+    reframe: 'Nunca vendas una "página web" (un commodity de $200 donde compites por precio). Vende un Ecosistema de Retorno Asimétrico donde el costo de NO tenerlo es 10 veces mayor que la inversión.',
+    universaApp: 'En Universa eliminamos la fricción y el riesgo: creamos la infraestructura completa (diseño a 60fps, catálogo interactivo, pasarelas de pago y tracking de primer orden) entregando un activo comercial llave en mano.',
+    color: '#2ee58f',
+    icon: Target
+  },
+  {
+    id: 'brunson',
+    name: 'Russell Brunson',
+    book: 'Fundador de ClickFunnels & DotCom Secrets',
+    badge: 'Traffic You Own vs. Rented Land',
+    tagline: '"Si tu negocio depende únicamente del feed de Instagram o TikTok, estás construyendo sobre tierra alquilada."',
+    reframe: 'Los enlaces genéricos como Linktree y los DMs de Instagram no te pertenecen. Si la red social cambia el algoritmo o cae la cuenta, tu flujo de prospectos desaparece instantáneamente.',
+    universaApp: 'El Ecosistema Universa convierte visitas anónimas en Tráfico Propietario mediante Meta Pixel CAPI, Google Tag Manager y captura omnicanal de datos de primer orden (First-Party Data).',
+    color: '#38bdf8',
+    icon: Database
+  },
+  {
+    id: 'suby',
+    name: 'Sabri Suby',
+    book: 'Autor de Sell Like Crazy & King of Direct Response',
+    badge: 'La Regla del 3% & La Fuga del 97%',
+    tagline: '"En cualquier momento, solo el 3% de tu mercado está listo para comprar. El 97% restante se evapora si no tienes retargeting."',
+    reframe: 'Los catálogos tradicionales y los DMs solo capturan al 3% (y con fricción). El otro 97% visita tu perfil, duda, se va y jamás regresa porque nadie lo etiquetó.',
+    universaApp: 'Instalamos tracking omnicanal para que el 97% de personas que visitan tu web sean nutridas automáticamente con anuncios de retargeting que cuestan centavos de dólar.',
+    color: '#a78bff',
+    icon: PieChart
+  },
+  {
+    id: 'kennedy',
+    name: 'Dan Kennedy',
+    book: 'Padrino del Direct Response & Magnetic Marketing',
+    badge: 'Activo Comercial vs. Gasto Digital',
+    tagline: '"Un sitio web no es un folleto decorativo; es tu mejor vendedor que trabaja 24/7/365 sin pedir comisiones ni vacaciones."',
+    reframe: 'Una plantilla básica de WordPress es un costo muerto. Un Ecosistema con pasarelas automáticas (Stripe, Apple Pay, Clover) y checkout optimizado es un activo generador de flujo de caja perpetuo.',
+    universaApp: 'Estructuramos cada pantalla con jerarquía de conversión visual, botones de acción inmediata y pasarelas de pago que cierran ventas mientras duermes.',
+    color: '#f59e0b',
+    icon: DollarSign
+  },
+  {
+    id: 'schwartz',
+    name: 'Eugene Schwartz',
+    book: 'Autor de Breakthrough Advertising',
+    badge: '5 Niveles de Conciencia del Cliente',
+    tagline: '"No puedes venderle a un cliente frío de la misma manera que le vendes a alguien que ya tiene la tarjeta en la mano."',
+    reframe: 'Las páginas genéricas tratan a todos los usuarios por igual. Un ecosistema de alto nivel segmenta dinámicamente el comportamiento según la temperatura e intención de compra.',
+    universaApp: 'Segmentamos automáticamente el tráfico en 3 temperaturas (Cold, Warm, Hot) para disparar eventos de conversión precisos y multiplicar el retorno publicitario.',
+    color: '#ec4899',
+    icon: Brain
+  },
+  {
+    id: 'voss',
+    name: 'Chris Voss',
+    book: 'Ex-Negociador del FBI & Autor de Never Split the Difference',
+    badge: 'Aversión a la Pérdida & Estatus Subconsciente',
+    tagline: '"La aversión a la pérdida es el doble de poderosa que el deseo de ganar. Muéstrale al cliente lo que está perdiendo cada segundo."',
+    reframe: 'El cliente no duda por el precio de la web; duda porque no comprende cuántos miles de dólares está regalando hoy a su competencia por no tener tracking profesional.',
+    universaApp: 'Usamos ingeniería visual a 60fps y micro-motion acelerado por hardware para transmitir autoridad indiscutible, permitiendo a la marca justificar precios más altos.',
+    color: '#10b981',
+    icon: ShieldCheck
+  }
+];
+
+// --- PLAYBOOK DE OBJECIONES DE CIERRE ---
+const closingObjections = [
+  {
+    title: 'Objeción 1: "Un amigo / freelancer me hace la web por $200"',
+    psychology: 'Reencuadre Dan Kennedy & Alex Hormozi (Gasto a Fondo Perdido vs. Activo de Retorno Asimétrico)',
+    clientSay: 'Oye Jose, estuve cotizando y una persona me hace una página en WordPress o Canva por $200.',
+    closerScript: `Comprendo perfectamente, y es tentador irse por ahí al inicio. La diferencia crucial es que un freelancer te va a cobrar $200 por entregarte un archivo de diseño genérico que nadie visita y que no captura data. Eso es un gasto del 100% porque ese dinero nunca regresa.
+
+Nosotros en Universa no construimos páginas de adorno; construimos un activo comercial con Píxel de Meta CAPI, Google Tag Manager, pasarela de pago en 1 clic y fluidez visual a 60fps. Si tu ecosistema convierte tan solo 3 clientes adicionales al mes o recupera el 15% de los carritos que hoy se pierden en WhatsApp, la inversión se paga sola en 60 días y el resto es ganancia neta pura para tu negocio.
+
+¿Prefieres gastar $200 en un folleto digital invisible o invertir en una máquina que te traiga clientes predecibles todos los meses?`,
+    bulletPoints: [
+      'Reencuadre Financiero: $200 en plantilla = 100% de pérdida (Costo hundido).',
+      'Matemática Asimétrica: 3 ventas extra al mes amortizan la inversión completa.',
+      'Diferencial Técnico: Píxel CAPI server-side + Pasarelas de 1 clic + Micro-Motion a 60fps.'
+    ]
+  },
+  {
+    title: 'Objeción 2: "Yo solo vendo por Instagram DM o WhatsApp, no necesito web"',
+    psychology: 'Aversión a la Pérdida Chris Voss & La Regla del 3% de Sabri Suby',
+    clientSay: 'La verdad es que a mí me escriben por Instagram y WhatsApp directo, siento que una web no me hace falta.',
+    closerScript: `Vender por WhatsApp e Instagram es excelente para cerrar, pero tiene dos problemas mortales que frenan tu crecimiento:
+
+Primero, requiere tu tiempo manual las 24 horas del día. Si alguien quiere ordenar a las 11:00 PM o un domingo y no respondes en 5 minutos, se va con tu competencia.
+Segundo y más grave: por cada 100 personas que entran a tu perfil de Instagram hoy, solo 3 te escriben un DM. Las otras 97 personas se van y las pierdes para siempre (0% de retención).
+
+Con tu Ecosistema Universa, esas 97 personas quedan etiquetadas automáticamente por el Píxel. Al día siguiente, cuando abren su Instagram o TikTok, les aparece tu anuncio de recordatorio por centavos de dólar. No estamos reemplazando tu WhatsApp; estamos evitando que regales el 97% de tus clientes potenciales.`,
+    bulletPoints: [
+      'Elimina el cuello de botella: Ventas y reservas automatizadas 24/7.',
+      'La Regla del 3%: Deja de perder al 97% de visitantes que no escriben DM.',
+      'Efecto Omnicanal: La web alimenta a tu WhatsApp con prospectos ya calificados.'
+    ]
+  },
+  {
+    title: 'Objeción 3: "Ahorita no voy a pagar publicidad, ¿para qué quiero el píxel?"',
+    psychology: 'El Efecto Interés Compuesto de Datos (First-Party Data Compound Interest)',
+    clientSay: 'Es que este mes no tengo presupuesto para pauta en Facebook o Google, así que el tracking no me urge.',
+    closerScript: `Ese es exactamente el motivo por el cual debemos instalarlo HOY mismo. 
+
+El Píxel de Meta y Google no empieza a aprender el día que pagas anuncios; empieza a aprender desde la primera visita orgánica que entra a tu web por tus historias, por Google o por recomendación boca a boca.
+
+Cada visita que entra hoy acumula data sobre el tipo de dispositivo, ubicación, intereses y nivel de intención. Si esperas 4 meses para instalar el píxel, habrás botado a la basura 4 meses de data irrecuperable. Con el Ecosistema activo, cuando decidas invertir tus primeros $50 en anuncios dentro de unos meses, la inteligencia artificial ya sabrá con precisión milimétrica a quién mostrarle tu oferta para darte el retorno más alto.`,
+    bulletPoints: [
+      'Data Orgánica Gratuita: Cada visita sin pauta entrena a la IA sin costo adicional.',
+      'Cero Aprendizaje Frío: Al pautar, no inicias desde cero; vas directo a audiencias con intención.',
+      'Activo Acumulativo: La data recopilada es propiedad exclusiva de tu empresa.'
+    ]
+  }
+];
+
+// --- TABLA DE CONTRASTE COMPARATIVO ---
+const comparisonDimensions = [
+  {
+    feature: 'Dominio & Presencia Oficial',
+    generic: 'linktr.ee/tumarca o canva.site (Pérdida inmediata de autoridad y estatus)',
+    universa: 'tumarca.com oficial (Proyecta empresa consolidada y de alto valor)',
+    impact: 'Multiplica la confianza y el estatus'
+  },
+  {
+    feature: 'Captura de Data & Píxel CAPI',
+    generic: '0% de data. Imposible rastrear eventos avanzados o crear Lookalikes',
+    universa: '100% First-Party Data con Meta Conversions API (CAPI) + GA4 + GTM',
+    impact: 'Convierte el tráfico anónimo en audiencias de retargeting eterno'
+  },
+  {
+    feature: 'Ingeniería Visual & Rendimiento',
+    generic: 'Plantillas genéricas lentas (>3.5s) con botones idénticos a 10M de usuarios',
+    universa: 'Diseño a medida con aceleración GPU a 60fps y carga en < 0.8 segundos',
+    impact: 'Permite justificar tickets de precio 2x a 3x más altos'
+  },
+  {
+    feature: 'Pasarelas de Pago Nativas',
+    generic: 'Redirecciones externas torpes o transferencias manuales lentas',
+    universa: 'Checkout nativo en 1 clic (Apple Pay, Google Pay, Stripe, Clover)',
+    impact: 'Reduce el abandono de compra hasta en un 40%'
+  },
+  {
+    feature: 'Indexación en Motores de IA',
+    generic: 'Completamente invisible para ChatGPT Search, Perplexity y Google SGE',
+    universa: 'Estructuración Schema JSON-LD completa para recomendación por IA local',
+    impact: 'Aparece como respuesta destacada en búsquedas por IA'
+  },
+  {
+    feature: 'Tasa de Conversión Promedio',
+    generic: 'Entre 0.8% y 1.2% (Pérdida del 99% de los esfuerzos)',
+    universa: 'Entre 3.8% y 7.5% (Optimizado con psicología de respuesta directa)',
+    impact: 'Hasta 4x a 6x más clientes por la misma cantidad de visitas'
+  }
+];
 
 type TabMode = 'control' | 'metodo' | 'calculadora';
 
@@ -62,6 +242,38 @@ export default function PropuestasHubPage() {
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'Aceptada' | 'En Negociación' | 'Pendiente'>('ALL');
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
   const [selectedProposal, setSelectedProposal] = useState<ProposalItem | null>(null);
+
+  // Method & Titans State
+  const [selectedTitan, setSelectedTitan] = useState<string>('hormozi');
+  const [trafficSimMode, setTrafficSimMode] = useState<'traditional' | 'universa'>('universa');
+  const [activeFunnelStage, setActiveFunnelStage] = useState<'cold' | 'warm' | 'hot'>('cold');
+  const [activeObjectionIndex, setActiveObjectionIndex] = useState<number>(0);
+  const [copiedScriptIndex, setCopiedScriptIndex] = useState<number | null>(null);
+
+  // Ref for GSAP animations
+  const metodoContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (activeTab === 'metodo' && metodoContainerRef.current) {
+      const ctx = gsap.context(() => {
+        gsap.from('.gsap-reveal', {
+          y: 24,
+          opacity: 0,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'power3.out'
+        });
+      }, metodoContainerRef);
+
+      return () => ctx.revert();
+    }
+  }, [activeTab]);
+
+  const handleCopyScript = (scriptText: string, index: number) => {
+    navigator.clipboard.writeText(scriptText);
+    setCopiedScriptIndex(index);
+    setTimeout(() => setCopiedScriptIndex(null), 2500);
+  };
 
   // Proposal Calculator State
   const [calcTier, setCalcTier] = useState<'landing' | 'ecommerce' | 'ecosystem'>('ecommerce');
@@ -494,207 +706,699 @@ export default function PropuestasHubPage() {
 
         {/* TAB 2: EL MÉTODO UNIVERSA (PRESENTACIÓN COMERCIAL Y MANIFIESTO DE VENTAS) */}
         {activeTab === 'metodo' && (
-          <div className="mt-8 space-y-12">
+          <div ref={metodoContainerRef} className="mt-8 space-y-12">
             
-            {/* Hero Manifesto */}
-            <div className="relative rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-[#0c1a13] via-[#09120e] to-[#040806] border border-[#2ee58f]/30 overflow-hidden shadow-2xl">
-              <div className="max-w-3xl relative z-10">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] text-xs font-bold uppercase tracking-widest mb-4">
-                  <Award className="w-3.5 h-3.5" />
-                  El Estándar de Cierre Universa
-                </span>
-                <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-4">
-                  Por qué vendemos <span className="text-[#2ee58f]">Ecosistemas Web</span> y no simples "páginas de internet"
+            {/* HERO MANIFESTO */}
+            <div className="gsap-reveal relative rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-[#0c1a13] via-[#09120e] to-[#040806] border border-[#2ee58f]/40 overflow-hidden shadow-[0_0_50px_rgba(46,229,143,0.12)]">
+              <div className="max-w-4xl relative z-10">
+                <div className="flex flex-wrap items-center gap-2.5 mb-4">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] text-xs font-bold uppercase tracking-widest">
+                    <Award className="w-3.5 h-3.5" />
+                    Manifiesto de Cierre Estratégico Universa v3.0
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/60 text-xs font-mono">
+                    <Sparkles className="w-3 h-3 text-[#2ee58f]" />
+                    Engineered with High-Conversion Direct Response
+                  </span>
+                </div>
+
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mb-6">
+                  Por qué las marcas líderes compran <span className="text-[#2ee58f] bg-clip-text text-transparent bg-gradient-to-r from-[#2ee58f] via-[#70ffb9] to-white">Ecosistemas de Monetización</span> y no simples "páginas web"
                 </h2>
-                <p className="text-white/70 text-base sm:text-lg leading-relaxed">
-                  Cualquiera puede hacer un diseño básico en una plantilla. Nosotros construimos <strong>activos comerciales de alta retención</strong> con captura de datos omnicanal, píxel de conversión e ingeniería visual a 60fps que transforman visitas anónimas en clientes rentables y recurrentes.
+
+                <p className="text-white/70 text-base sm:text-xl leading-relaxed mb-8">
+                  Cualquiera puede ensamblar una plantilla genérica en WordPress o Canva por $200. Nosotros construimos <strong>activos comerciales de adquisición y retención asimétrica</strong> con arquitectura de First-Party Data, micro-motion a 60fps y tracking CAPI que transforman visitas anónimas en clientes recurrentes y rentables.
                 </p>
+
+                {/* Live Core Pillars Tags */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/10">
+                  <div className="bg-[#111e17]/80 backdrop-blur-md p-3 rounded-xl border border-[#2ee58f]/20">
+                    <div className="text-[#2ee58f] text-xs font-bold flex items-center gap-1.5 mb-1">
+                      <Database className="w-3.5 h-3.5" /> 100% First-Party Data
+                    </div>
+                    <div className="text-[11px] text-white/50">Tracking CAPI sin fugas</div>
+                  </div>
+                  <div className="bg-[#111e17]/80 backdrop-blur-md p-3 rounded-xl border border-[#38bdf8]/20">
+                    <div className="text-[#38bdf8] text-xs font-bold flex items-center gap-1.5 mb-1">
+                      <Zap className="w-3.5 h-3.5" /> GPU 60fps Engine
+                    </div>
+                    <div className="text-[11px] text-white/50">Micro-motion de alta retención</div>
+                  </div>
+                  <div className="bg-[#111e17]/80 backdrop-blur-md p-3 rounded-xl border border-[#a78bff]/20">
+                    <div className="text-[#a78bff] text-xs font-bold flex items-center gap-1.5 mb-1">
+                      <Brain className="w-3.5 h-3.5" /> AI Search Schema
+                    </div>
+                    <div className="text-[11px] text-white/50">ChatGPT & Google SGE ready</div>
+                  </div>
+                  <div className="bg-[#111e17]/80 backdrop-blur-md p-3 rounded-xl border border-amber-400/20">
+                    <div className="text-amber-400 text-xs font-bold flex items-center gap-1.5 mb-1">
+                      <DollarSign className="w-3.5 h-3.5" /> 1-Click Checkout
+                    </div>
+                    <div className="text-[11px] text-white/50">Apple Pay & Stripe Native</div>
+                  </div>
+                </div>
               </div>
-              <div className="absolute right-[-5%] bottom-[-10%] w-[450px] h-[450px] bg-[#2ee58f]/10 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="absolute right-[-10%] bottom-[-15%] w-[550px] h-[550px] bg-[#2ee58f]/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute top-[-20%] right-[10%] w-[350px] h-[350px] bg-[#a78bff]/10 rounded-full blur-3xl pointer-events-none" />
             </div>
 
-            {/* PILAR 1: LA MÁQUINA DE DATA Y RETARGETING */}
-            <section className="bg-[#0b120e] rounded-3xl p-8 sm:p-10 border border-white/10">
+            {/* SECCIÓN 00: LA MATRIZ DE LOS 6 TITANES DEL MARKETING */}
+            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10 relative overflow-hidden">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                  <span className="text-xs font-bold text-[#2ee58f] uppercase tracking-widest flex items-center gap-1.5 mb-2">
+                    <Workflow className="w-4 h-4" />
+                    Deep Research Estratégico
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-black text-white">
+                    La Matriz de los 6 Titanes del Marketing Directo
+                  </h3>
+                  <p className="text-xs sm:text-sm text-white/50 mt-1">
+                    Cada línea de código y cada pantalla de Universa aplica las leyes científicas de adquisición y persuasión.
+                  </p>
+                </div>
+
+                <div className="text-xs text-white/40 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10 font-mono self-start md:self-auto">
+                  Selecciona un Titán para ver su aplicación
+                </div>
+              </div>
+
+              {/* Titans Horizontal Tabs */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 mb-6">
+                {titansData.map((titan) => {
+                  const Icon = titan.icon;
+                  const isSelected = selectedTitan === titan.id;
+                  return (
+                    <button
+                      key={titan.id}
+                      onClick={() => setSelectedTitan(titan.id)}
+                      className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col justify-between ${
+                        isSelected
+                          ? 'bg-[#13221b] border-[#2ee58f] text-white shadow-[0_0_20px_rgba(46,229,143,0.25)]'
+                          : 'bg-[#0f1713] border-white/5 text-white/60 hover:text-white hover:border-white/20'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div
+                          className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold"
+                          style={{
+                            backgroundColor: `${titan.color}20`,
+                            color: titan.color,
+                            border: `1px solid ${titan.color}40`
+                          }}
+                        >
+                          <Icon className="w-3.5 h-3.5" />
+                        </div>
+                        {isSelected && (
+                          <span className="w-2 h-2 rounded-full bg-[#2ee58f] animate-pulse" />
+                        )}
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white truncate">{titan.name}</div>
+                        <div className="text-[10px] text-white/40 truncate">{titan.badge}</div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Active Titan Breakdown Card */}
+              {(() => {
+                const current = titansData.find(t => t.id === selectedTitan) || titansData[0];
+                const Icon = current.icon;
+                return (
+                  <motion.div
+                    key={current.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#121c17] to-[#0a100d] border border-white/10 relative"
+                  >
+                    <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                      <div className="space-y-4 max-w-2xl">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="w-10 h-10 rounded-xl flex items-center justify-center font-bold"
+                            style={{
+                              backgroundColor: `${current.color}20`,
+                              color: current.color,
+                              border: `1px solid ${current.color}50`
+                            }}
+                          >
+                            <Icon className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <h4 className="text-xl font-black text-white flex items-center gap-2">
+                              {current.name}
+                              <span className="text-xs font-normal text-white/40 font-mono">({current.book})</span>
+                            </h4>
+                            <span
+                              className="text-xs font-bold uppercase tracking-wider"
+                              style={{ color: current.color }}
+                            >
+                              {current.badge}
+                            </span>
+                          </div>
+                        </div>
+
+                        <blockquote className="text-base sm:text-lg italic text-white/90 border-l-2 border-[#2ee58f] pl-4 font-serif">
+                          {current.tagline}
+                        </blockquote>
+
+                        <div className="space-y-3 pt-2">
+                          <div className="p-3.5 rounded-xl bg-red-950/20 border border-red-500/20 text-xs sm:text-sm text-red-200/90 leading-relaxed">
+                            <strong className="text-red-400 block mb-1">✕ El Error Mortal que Comete el Mercado:</strong>
+                            {current.reframe}
+                          </div>
+
+                          <div className="p-3.5 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-xs sm:text-sm text-white/90 leading-relaxed">
+                            <strong className="text-[#2ee58f] block mb-1">✓ La Solución Científica Universa:</strong>
+                            {current.universaApp}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Strategy Badge Callout */}
+                      <div className="lg:w-80 bg-black/40 p-5 rounded-2xl border border-white/10 flex flex-col justify-between space-y-4 self-stretch">
+                        <div>
+                          <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-2">
+                            Métrica de Impacto
+                          </span>
+                          <div className="text-3xl font-black text-[#2ee58f] font-mono mb-1">
+                            {current.id === 'hormozi' ? '+320% ROI' : current.id === 'brunson' ? '100% Data' : current.id === 'suby' ? '97% Recuperado' : current.id === 'kennedy' ? '24/7 Closer' : current.id === 'schwartz' ? '3x Conversión' : '2.5x Ticket'}
+                          </div>
+                          <p className="text-xs text-white/60">
+                            {current.id === 'hormozi' ? 'Justifica tickets de venta más altos sin fricción de precio.' : current.id === 'brunson' ? 'Independencia total del algoritmo de Instagram.' : current.id === 'suby' ? 'Retargeting a centavos para el 97% que no compra de inmediato.' : current.id === 'kennedy' ? 'Pasarela de pago y checkout sin intervención manual.' : current.id === 'schwartz' ? 'Segmentación dinámica por intención y temperatura.' : 'Estatus de marca premium acelerado por GPU a 60fps.'}
+                          </p>
+                        </div>
+
+                        <div className="pt-3 border-t border-white/10 text-[11px] font-bold text-[#2ee58f] flex items-center justify-between">
+                          <span>Estándar Integrado</span>
+                          <span>✓ Activo</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })()}
+            </section>
+
+            {/* SECCIÓN 01: INFOGRAFÍA INTERACTIVA - LA REGLA DEL 3% VS. EL ECOSISTEMA UNIVERSA */}
+            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10 relative overflow-hidden">
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-9 h-9 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] flex items-center justify-center font-bold text-sm">
                   01
                 </span>
-                <h3 className="text-2xl font-bold text-white">
-                  La Máquina de Data, Meta Pixel & Audiencias Inteligentes
-                </h3>
+                <div>
+                  <h3 className="text-2xl font-bold text-white">
+                    La Regla del 3% & La Fuga Masiva de Clientes
+                  </h3>
+                  <p className="text-xs text-white/40">Por qué el Linktree o el Instagram DM están quemando tu presupuesto de marketing</p>
+                </div>
               </div>
 
-              <p className="text-white/60 text-sm sm:text-base leading-relaxed mb-8 max-w-4xl">
-                La mayoría de los dueños de negocio cometen el grave error de dirigir tráfico a un Instagram DM o a un Linktree genérico. <strong>Cada persona que entra a tu perfil y no escribe un mensaje se evapora para siempre (0% de data).</strong> Con tu propia web y el Píxel activo, el 100% de los visitantes son etiquetados para alimentarte con campañas de retargeting de costo ultra-bajo.
+              <p className="text-white/60 text-sm sm:text-base leading-relaxed mb-6 max-w-4xl">
+                En cualquier momento, <strong>solo el 3% de tu audiencia está lista para comprar ya</strong>. El otro 97% está en fase de exploración. Si envías tráfico a un enlace gratuito o a un DM de Instagram, el 97% que no escribe se evapora para siempre en el vacío digital (0% de data).
               </p>
 
-              {/* Temperature Funnel Diagram */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-[#0f1914] rounded-2xl p-6 border border-sky-400/20 relative overflow-hidden">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-sky-400 bg-sky-400/10 px-3 py-1 rounded-full border border-sky-400/30">
-                      <Snowflake className="w-3.5 h-3.5" />
-                      Tráfico Frío (Cold)
-                    </span>
-                    <span className="text-xs text-white/30 font-mono">Etapa 1</span>
-                  </div>
-                  <h4 className="text-lg font-bold text-white mb-2">Captura de Identidad & Dispositivo</h4>
-                  <p className="text-xs text-white/50 leading-relaxed">
-                    Personas que nunca te han comprado. Al aterrizar en tu dominio, el Píxel registra su ID de Facebook/TikTok/Google, ubicación, intereses y comportamiento exacto.
-                  </p>
-                  <div className="mt-4 pt-3 border-t border-white/5 text-[11px] text-sky-400 font-semibold">
-                    → Creación de Audiencias Similares (Lookalikes)
-                  </div>
+              {/* Simulation Mode Toggle Bar */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-[#0f1713] border border-white/10 mb-8">
+                <div className="text-xs sm:text-sm font-semibold text-white/80">
+                  <span className="text-[#2ee58f] font-bold">Simulación en Vivo:</span> ¿Qué pasa cuando 1,000 personas visitan tu perfil?
                 </div>
-
-                <div className="bg-[#0f1914] rounded-2xl p-6 border border-amber-400/20 relative overflow-hidden">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/30">
-                      <Sun className="w-3.5 h-3.5" />
-                      Tráfico Tibio (Warm)
-                    </span>
-                    <span className="text-xs text-white/30 font-mono">Etapa 2</span>
-                  </div>
-                  <h4 className="text-lg font-bold text-white mb-2">Interés Activo & Consideración</h4>
-                  <p className="text-xs text-white/50 leading-relaxed">
-                    Usuarios que vieron el menú, cotizaron un servicio, leyeron testimonios o añadieron al carrito. Ya confían en tu marca pero necesitan el empujón final.
-                  </p>
-                  <div className="mt-4 pt-3 border-t border-white/5 text-[11px] text-amber-400 font-semibold">
-                    → Campañas de Retargeting directo con ofertas
-                  </div>
-                </div>
-
-                <div className="bg-[#0f1914] rounded-2xl p-6 border border-[#2ee58f]/20 relative overflow-hidden">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#2ee58f] bg-[#2ee58f]/10 px-3 py-1 rounded-full border border-[#2ee58f]/30">
-                      <Flame className="w-3.5 h-3.5" />
-                      Tráfico Caliente (Hot)
-                    </span>
-                    <span className="text-xs text-white/30 font-mono">Etapa 3</span>
-                  </div>
-                  <h4 className="text-lg font-bold text-white mb-2">Compradores & Creadores de LTV</h4>
-                  <p className="text-xs text-white/50 leading-relaxed">
-                    Clientes que completaron el checkout o reservaron una cita. Su perfil de compra se envía a la IA publicitaria para encontrar clones exactos con alta disposición de pago.
-                  </p>
-                  <div className="mt-4 pt-3 border-t border-white/5 text-[11px] text-[#2ee58f] font-semibold">
-                    → Up-selling automático y fidelización
-                  </div>
+                <div className="flex items-center bg-black/50 p-1 rounded-xl border border-white/10">
+                  <button
+                    onClick={() => setTrafficSimMode('traditional')}
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      trafficSimMode === 'traditional'
+                        ? 'bg-red-500/20 text-red-300 border border-red-500/30 shadow-md'
+                        : 'text-white/40 hover:text-white'
+                    }`}
+                  >
+                    ✕ Enlace Genérico / Linktree
+                  </button>
+                  <button
+                    onClick={() => setTrafficSimMode('universa')}
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      trafficSimMode === 'universa'
+                        ? 'bg-[#2ee58f] text-[#04100b] shadow-[0_0_15px_rgba(46,229,143,0.4)]'
+                        : 'text-white/40 hover:text-white'
+                    }`}
+                  >
+                    ✓ Ecosistema Digital Universa
+                  </button>
                 </div>
               </div>
 
-              {/* Golden Rule Callout */}
-              <div className="mt-6 bg-[#13221b] border-l-4 border-[#2ee58f] p-4 sm:p-5 rounded-r-2xl">
-                <p className="text-sm text-white font-medium">
-                  <strong>La Ley de Universa:</strong> "Si no tienes una página web con píxel instalado hoy, estás regalándole el 90% de tus potenciales clientes a tu competencia. Aunque no inviertas en anuncios este mes, el píxel ya está acumulando la data que te permitirá escalar cuando decidas pautar."
-                </p>
+              {/* Interactive Visual Canvas / Flow */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                {/* Input Stage */}
+                <div className="lg:col-span-3 bg-[#0f1914] p-5 rounded-2xl border border-white/10 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold uppercase text-white/40 tracking-wider block mb-1">Entrada de Tráfico</span>
+                    <h4 className="text-lg font-bold text-white flex items-center gap-2">
+                      <Users className="w-4 h-4 text-[#38bdf8]" /> 1,000 Visitas
+                    </h4>
+                    <p className="text-xs text-white/50 mt-2 leading-relaxed">
+                      Llegan desde Instagram Reels, historias, TikTok, Google Maps o boca a boca.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-white/5 text-[11px] text-[#38bdf8] font-mono">
+                    100% Volumen Inicial
+                  </div>
+                </div>
+
+                {/* Middle Stage: The Split */}
+                <div className="lg:col-span-6 space-y-4">
+                  {/* The 3% Hot Buyers */}
+                  <div className="p-4 rounded-2xl bg-[#0e1a14] border border-[#2ee58f]/30 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-[#2ee58f]/10 text-[#2ee58f] flex items-center justify-center font-bold text-xs">
+                        3%
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">30 Compradores Inmediatos</div>
+                        <div className="text-[11px] text-white/50">Tienen urgencia y compran sin pensarlo.</div>
+                      </div>
+                    </div>
+                    <span className="text-xs font-bold font-mono text-[#2ee58f] bg-[#2ee58f]/10 px-2.5 py-1 rounded-lg">
+                      30 Clientes
+                    </span>
+                  </div>
+
+                  {/* The 97% Critical Split */}
+                  <div className={`p-4 rounded-2xl border transition-all duration-300 ${
+                    trafficSimMode === 'traditional'
+                      ? 'bg-red-950/20 border-red-500/30'
+                      : 'bg-[#11221a] border-[#38bdf8]/40 shadow-[0_0_20px_rgba(56,189,248,0.1)]'
+                  }`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${
+                          trafficSimMode === 'traditional' ? 'bg-red-500/10 text-red-400' : 'bg-[#38bdf8]/10 text-[#38bdf8]'
+                        }`}>
+                          97%
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-white">970 Visitantes Indecisos / Investigando</div>
+                          <div className="text-[11px] text-white/50">
+                            {trafficSimMode === 'traditional'
+                              ? 'Entran al Linktree, ven botones grises y cierran la app.'
+                              : 'Aterrizan en tu web: el Píxel CAPI registra su ID, comportamiento e intereses.'}
+                          </div>
+                        </div>
+                      </div>
+                      <span className={`text-xs font-bold font-mono px-2.5 py-1 rounded-lg ${
+                        trafficSimMode === 'traditional' ? 'text-red-400 bg-red-500/10' : 'text-[#38bdf8] bg-[#38bdf8]/10'
+                      }`}>
+                        970 Personas
+                      </span>
+                    </div>
+
+                    <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
+                      <span className="text-white/60">Resultado con esta data:</span>
+                      <strong className={trafficSimMode === 'traditional' ? 'text-red-400' : 'text-[#2ee58f]'}>
+                        {trafficSimMode === 'traditional' ? '0% Data — Evaporados para siempre' : '+145 Ventas en Retargeting ($0.15/click)'}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Final Stage: Financial Metric */}
+                <div className={`lg:col-span-3 p-5 rounded-2xl border flex flex-col justify-between transition-all duration-300 ${
+                  trafficSimMode === 'traditional'
+                    ? 'bg-[#140b0b] border-red-500/30'
+                    : 'bg-gradient-to-b from-[#0c1f16] to-[#07130d] border-[#2ee58f]/40 shadow-xl'
+                }`}>
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider block mb-1 text-white/40">
+                      Balance Financiero Total
+                    </span>
+                    <div className={`text-3xl font-black font-mono mb-1 ${
+                      trafficSimMode === 'traditional' ? 'text-red-400' : 'text-[#2ee58f]'
+                    }`}>
+                      {trafficSimMode === 'traditional' ? '30 Clientes' : '175 Clientes'}
+                    </div>
+                    <div className="text-xs text-white/60">
+                      {trafficSimMode === 'traditional'
+                        ? 'Pérdida neta de 970 prospectos. Estás subsidiando con tu tiempo al algoritmo de Meta.'
+                        : 'Ecosistema de adquisición omnicanal. Multiplicador de 5.8x sobre el mismo tráfico.'}
+                    </div>
+                  </div>
+
+                  <div className={`mt-4 pt-3 border-t text-[11px] font-bold ${
+                    trafficSimMode === 'traditional' ? 'border-red-500/20 text-red-400' : 'border-[#2ee58f]/20 text-[#2ee58f]'
+                  }`}>
+                    {trafficSimMode === 'traditional' ? '❌ Fuga Masiva de Capital' : '✓ Dominio y Retención Total'}
+                  </div>
+                </div>
               </div>
             </section>
 
-            {/* PILAR 2: AUTORIDAD DE MARCA VS. LINKS GENÉRICOS */}
-            <section className="bg-[#0b120e] rounded-3xl p-8 sm:p-10 border border-white/10">
+            {/* SECCIÓN 02: INFOGRAFÍA INTERACTIVA - EL EMBUDO TÉRMICO DE 3 TEMPERATURAS */}
+            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10">
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-9 h-9 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] flex items-center justify-center font-bold text-sm">
                   02
                 </span>
-                <h3 className="text-2xl font-bold text-white">
-                  Autoridad de Marca vs. El "Linktree" y Catálogos Genéricos
-                </h3>
+                <div>
+                  <h3 className="text-2xl font-bold text-white">
+                    El Embudo Térmico & Automatización de Eventos CAPI
+                  </h3>
+                  <p className="text-xs text-white/40">Eugene Schwartz + Alex Hormozi: Segmentación de audiencias por intención real</p>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-                <div className="bg-[#140e0e] rounded-2xl p-6 border border-red-500/20">
-                  <div className="flex items-center gap-2 text-red-400 font-bold text-sm mb-4">
-                    <span>✕</span> Enlace Genérico (Linktree, Canva, PDF, Links Gratis)
-                  </div>
-                  <ul className="space-y-3 text-xs sm:text-sm text-white/60">
-                    <li className="flex items-start gap-2">
-                      <span className="text-red-400">✗</span>
-                      <span><strong>Sin dominio propio:</strong> Tu cliente ve <code>linktr.ee/tumarca</code> en vez de <code>tumarca.com</code>. Pérdida inmediata de estatus.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-red-400">✗</span>
-                      <span><strong>Sin captura de data:</strong> No puedes instalar el Píxel de Meta ni Google Tag Manager a nivel de evento avanzado.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-red-400">✗</span>
-                      <span><strong>Diseño genérico y frío:</strong> Botones grises iguales a los de 10 millones de personas. 0% identidad de marca.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-red-400">✗</span>
-                      <span><strong>Conversión pobre:</strong> Tasa promedio de conversión menor al 1.2%.</span>
-                    </li>
-                  </ul>
-                </div>
+              <p className="text-white/60 text-sm sm:text-base leading-relaxed mb-6 max-w-4xl">
+                Un cliente que nunca ha escuchado de ti no puede recibir la misma oferta que alguien que ya revisó tu carta o cotizó un servicio. Tu Ecosistema Universa clasifica en tiempo real cada interacción para alimentar a la IA publicitaria.
+              </p>
 
-                <div className="bg-[#0c1a13] rounded-2xl p-6 border border-[#2ee58f]/30 shadow-[0_0_30px_rgba(46,229,143,0.06)]">
-                  <div className="flex items-center gap-2 text-[#2ee58f] font-bold text-sm mb-4">
-                    <span>✓</span> Ecosistema Web a Medida Universa Growth Lab
+              {/* Temperature Selector */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <button
+                  onClick={() => setActiveFunnelStage('cold')}
+                  className={`p-5 rounded-2xl border text-left transition-all relative overflow-hidden ${
+                    activeFunnelStage === 'cold'
+                      ? 'bg-[#0f1914] border-sky-400 text-white shadow-[0_0_25px_rgba(56,189,248,0.2)]'
+                      : 'bg-[#0b120e] border-white/5 text-white/60 hover:border-white/20'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-sky-400 bg-sky-400/10 px-2.5 py-1 rounded-full border border-sky-400/30">
+                      <Snowflake className="w-3.5 h-3.5" />
+                      Tráfico Frío (Cold)
+                    </span>
+                    <span className="text-xs font-mono text-white/30">Etapa 1</span>
                   </div>
-                  <ul className="space-y-3 text-xs sm:text-sm text-white/80">
-                    <li className="flex items-start gap-2">
-                      <span className="text-[#2ee58f]">✓</span>
-                      <span><strong>Dominio propio oficial:</strong> Proyecta una empresa consolidada y establecida en el mercado estadounidense e internacional.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[#2ee58f]">✓</span>
-                      <span><strong>Brand DNA Completo:</strong> Tu paleta cromática exacta, tipografía de autor y narrativa persuasiva orientada a ventas.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[#2ee58f]">✓</span>
-                      <span><strong>100% de Data Propietaria:</strong> Cada clic, scroll, producto visto y formulario queda grabado para retargeting eterno.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[#2ee58f]">✓</span>
-                      <span><strong>Conversión Elevada:</strong> Tasas de conversión optimizadas del 3.5% al 7.2%.</span>
-                    </li>
-                  </ul>
-                </div>
+                  <h4 className="text-base font-bold text-white mb-1">Captura de Identidad & Huella</h4>
+                  <p className="text-xs text-white/50">Visitantes por primera vez. Creación de Lookalikes al 1%.</p>
+                </button>
+
+                <button
+                  onClick={() => setActiveFunnelStage('warm')}
+                  className={`p-5 rounded-2xl border text-left transition-all relative overflow-hidden ${
+                    activeFunnelStage === 'warm'
+                      ? 'bg-[#0f1914] border-amber-400 text-white shadow-[0_0_25px_rgba(251,191,36,0.2)]'
+                      : 'bg-[#0b120e] border-white/5 text-white/60 hover:border-white/20'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-full border border-amber-400/30">
+                      <Sun className="w-3.5 h-3.5" />
+                      Tráfico Tibio (Warm)
+                    </span>
+                    <span className="text-xs font-mono text-white/30">Etapa 2</span>
+                  </div>
+                  <h4 className="text-base font-bold text-white mb-1">Intención & Consideración</h4>
+                  <p className="text-xs text-white/50">Scroll depth &gt; 60%, clics en productos y carritos.</p>
+                </button>
+
+                <button
+                  onClick={() => setActiveFunnelStage('hot')}
+                  className={`p-5 rounded-2xl border text-left transition-all relative overflow-hidden ${
+                    activeFunnelStage === 'hot'
+                      ? 'bg-[#0f1914] border-[#2ee58f] text-white shadow-[0_0_25px_rgba(46,229,143,0.25)]'
+                      : 'bg-[#0b120e] border-white/5 text-white/60 hover:border-white/20'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#2ee58f] bg-[#2ee58f]/10 px-2.5 py-1 rounded-full border border-[#2ee58f]/30">
+                      <Flame className="w-3.5 h-3.5" />
+                      Tráfico Caliente (Hot)
+                    </span>
+                    <span className="text-xs font-mono text-white/30">Etapa 3</span>
+                  </div>
+                  <h4 className="text-base font-bold text-white mb-1">Checkout & LTV Maximizado</h4>
+                  <p className="text-xs text-white/50">Apple Pay, Stripe y up-selling automático en 1 clic.</p>
+                </button>
+              </div>
+
+              {/* Dynamic Stage Drill-Down */}
+              <div className="p-6 rounded-2xl bg-[#0f1713] border border-white/10">
+                {activeFunnelStage === 'cold' && (
+                  <div className="space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+                      <div className="text-sm font-bold text-white flex items-center gap-2">
+                        <Snowflake className="w-4 h-4 text-sky-400" />
+                        Comportamiento en Tráfico Frío
+                      </div>
+                      <span className="text-xs font-mono text-sky-400">Meta CAPI Event: PageView + UserProperties</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-white/70">
+                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
+                        <strong className="text-white block text-sm">¿Qué hace el Ecosistema?</strong>
+                        <p>Carga el sitio en menos de 0.8s en el teléfono del usuario. Ejecuta el Píxel Server-Side registrando ID publicitario, geolocalización en Miami/Florida y modelo de dispositivo sin ralentizar la interfaz.</p>
+                      </div>
+                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
+                        <strong className="text-sky-400 block text-sm">El Retorno Publicitario</strong>
+                        <p>Meta y Google construyen una <strong>Audiencia Similar (Lookalike)</strong> de 50,000 personas en tu ciudad que tienen el mismo patrón de comportamiento que tus mejores clientes.</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeFunnelStage === 'warm' && (
+                  <div className="space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+                      <div className="text-sm font-bold text-white flex items-center gap-2">
+                        <Sun className="w-4 h-4 text-amber-400" />
+                        Comportamiento en Tráfico Tibio
+                      </div>
+                      <span className="text-xs font-mono text-amber-400">Meta CAPI Event: ViewContent + AddToCart + ScrollDepth</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-white/70">
+                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
+                        <strong className="text-white block text-sm">¿Qué hace el Ecosistema?</strong>
+                        <p>Monitorea qué platos o servicios exploró el cliente, si leyó testimonios o si hizo clic en "Ordenar". Si abandona sin pagar, el sistema lo etiqueta como prospecto de alta intención.</p>
+                      </div>
+                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
+                        <strong className="text-amber-400 block text-sm">El Retorno Publicitario</strong>
+                        <p>Activa campañas de <strong>Retargeting Dinámico</strong> en Instagram Stories y Feed ("¿Te quedaste con antojo? Termina tu pedido hoy y recibe 10% off"), logrando un ROAS de hasta 4.5x.</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeFunnelStage === 'hot' && (
+                  <div className="space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+                      <div className="text-sm font-bold text-white flex items-center gap-2">
+                        <Flame className="w-4 h-4 text-[#2ee58f]" />
+                        Comportamiento en Tráfico Caliente
+                      </div>
+                      <span className="text-xs font-mono text-[#2ee58f]">Meta CAPI Event: Purchase + High-Value Tag</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-white/70">
+                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
+                        <strong className="text-white block text-sm">¿Qué hace el Ecosistema?</strong>
+                        <p>Ofrece pago en 1 segundo con Apple Pay, Google Pay, Clover o Stripe sin obligar al usuario a llenar formularios tediosos. Tras la compra, muestra un upsell de alto margen con 1 clic.</p>
+                      </div>
+                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
+                        <strong className="text-[#2ee58f] block text-sm">El Retorno Publicitario</strong>
+                        <p>Incrementa el valor promedio de orden (AOV) entre un 20% y un 35%, enviando el perfil de comprador verificado para que los algoritmos sigan atrayendo clientes con alta disposición de pago.</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </section>
 
-            {/* PILAR 3: INGENIERÍA VISUAL, ANIMACIONES & SEO */}
-            <section className="bg-[#0b120e] rounded-3xl p-8 sm:p-10 border border-white/10">
+            {/* SECCIÓN 03: TABLA DE CONTRASTE COMPARATIVA (DESTRUCCIÓN DE COMMODITY) */}
+            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10">
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-9 h-9 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] flex items-center justify-center font-bold text-sm">
                   03
                 </span>
-                <h3 className="text-2xl font-bold text-white">
-                  Ingeniería Visual, Micro-animaciones a 60fps & SEO Local
-                </h3>
+                <div>
+                  <h3 className="text-2xl font-bold text-white">
+                    Matriz de Estatus: Enlace Genérico vs. Ecosistema Universa
+                  </h3>
+                  <p className="text-xs text-white/40">Dan Kennedy + David Ogilvy: La autoridad visual y técnica dictan el poder de fijación de precios</p>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className="bg-[#0f1713] p-6 rounded-2xl border border-white/5">
-                  <div className="w-10 h-10 rounded-xl bg-[#2ee58f]/10 text-[#2ee58f] flex items-center justify-center mb-3">
-                    <Zap className="w-5 h-5" />
-                  </div>
-                  <h4 className="text-lg font-bold text-white mb-2">El Cariño en los Detalles & Micro-Motion</h4>
-                  <p className="text-xs sm:text-sm text-white/60 leading-relaxed">
-                    Las animaciones en Universa no son un adorno: son <strong>psicología de retención</strong>. Usamos aceleración por hardware (GPU) y curvas de animación elásticas que hacen que la web se sienta viva, moderna y cara, permitiendo a nuestros clientes justificar tickets más altos.
-                  </p>
-                </div>
+              <div className="mt-6 space-y-3">
+                {comparisonDimensions.map((dim, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-[#0f1713] border border-white/5 hover:border-white/20 transition-all grid grid-cols-1 lg:grid-cols-12 gap-4 items-center"
+                  >
+                    <div className="lg:col-span-3">
+                      <div className="text-xs font-bold text-white uppercase tracking-wider">{dim.feature}</div>
+                      <div className="text-[11px] text-[#2ee58f] mt-0.5">{dim.impact}</div>
+                    </div>
 
-                <div className="bg-[#0f1713] p-6 rounded-2xl border border-white/5">
-                  <div className="w-10 h-10 rounded-xl bg-[#a78bff]/10 text-[#a78bff] flex items-center justify-center mb-3">
-                    <Globe className="w-5 h-5" />
+                    <div className="lg:col-span-4 p-3 rounded-xl bg-red-950/20 border border-red-500/20 text-xs text-white/60">
+                      <div className="text-red-400 font-bold mb-1 flex items-center gap-1">
+                        <span>✕</span> Genérico (Linktree, Canva, $200 WP)
+                      </div>
+                      <p>{dim.generic}</p>
+                    </div>
+
+                    <div className="lg:col-span-5 p-3 rounded-xl bg-[#0c1a13] border border-[#2ee58f]/30 text-xs text-white/90 shadow-[0_0_15px_rgba(46,229,143,0.05)]">
+                      <div className="text-[#2ee58f] font-bold mb-1 flex items-center gap-1">
+                        <span>✓</span> Ecosistema Universa Growth Lab
+                      </div>
+                      <p>{dim.universa}</p>
+                    </div>
                   </div>
-                  <h4 className="text-lg font-bold text-white mb-2">Dominación de Búsqueda (Google + IA)</h4>
-                  <p className="text-xs sm:text-sm text-white/60 leading-relaxed">
-                    Configuramos Datos Estructurados (Schema Markup), velocidad de carga inferior a 1 segundo y optimización para los nuevos motores de búsqueda basados en IA como <strong>ChatGPT Search, Perplexity y Google SGE</strong>, asegurando que tu negocio aparezca cuando buscan soluciones en tu ciudad.
-                  </p>
-                </div>
+                ))}
               </div>
             </section>
 
-            {/* PILAR 4: CÓMO ESTRUCTURAMOS UNA PROPUESTA COMERCIAL */}
-            <section className="bg-[#0b120e] rounded-3xl p-8 sm:p-10 border border-white/10">
+            {/* SECCIÓN 04: INGENIERÍA VISUAL A 60FPS & PREPARACIÓN PARA MOTORES DE IA */}
+            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10">
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-9 h-9 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] flex items-center justify-center font-bold text-sm">
                   04
                 </span>
-                <h3 className="text-2xl font-bold text-white">
-                  Formato Estándar de Cotización Universa en 3 Fases
-                </h3>
+                <div>
+                  <h3 className="text-2xl font-bold text-white">
+                    Ingeniería Visual a 60fps & Dominación de Búsqueda por IA
+                  </h3>
+                  <p className="text-xs text-white/40">Psicología de retención acelerada por hardware y arquitectura para la nueva era de la IA</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div className="bg-[#0f1713] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
+                  <div className="w-10 h-10 rounded-xl bg-[#2ee58f]/10 text-[#2ee58f] flex items-center justify-center mb-3">
+                    <Zap className="w-5 h-5" />
+                  </div>
+                  <h4 className="text-lg font-bold text-white mb-2">Micro-Motion & Aceleración por GPU</h4>
+                  <p className="text-xs sm:text-sm text-white/60 leading-relaxed">
+                    Las animaciones en Universa no son decoración vacía: son <strong>psicología de retención y estatus</strong>. Usamos aceleración por hardware (GPU) y físicas elásticas que hacen que la web se sienta nativa, moderna y lujosa, permitiendo a nuestros clientes justificar tickets más altos sin resistencia.
+                  </p>
+                  <div className="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-[#2ee58f]">
+                    ⚡ Carga inicial &lt; 0.8s en redes móviles 5G/4G
+                  </div>
+                </div>
+
+                <div className="bg-[#0f1713] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
+                  <div className="w-10 h-10 rounded-xl bg-[#a78bff]/10 text-[#a78bff] flex items-center justify-center mb-3">
+                    <Brain className="w-5 h-5" />
+                  </div>
+                  <h4 className="text-lg font-bold text-white mb-2">SEO Semántico para ChatGPT, Perplexity & Google SGE</h4>
+                  <p className="text-xs sm:text-sm text-white/60 leading-relaxed">
+                    El 40% de las búsquedas locales hoy se realizan a través de asistentes y motores de IA generativa. Configuramos <strong>Datos Estructurados (Schema JSON-LD)</strong> y Core Web Vitals para que las IAs entiendan exactamente tu oferta y recomienden tu negocio cuando busquen soluciones en tu ciudad.
+                  </p>
+                  <div className="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-[#a78bff]">
+                    🌐 Schema Markup de Restaurante, Negocio Local y Catálogo
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* SECCIÓN 05: ARSENAL DEL CLOSER (SCRIPTS DE CIERRE & MANEJO DE OBJECIONES EN VIVO) */}
+            <section className="gsap-reveal bg-gradient-to-br from-[#0c1b14] via-[#09130f] to-[#050a08] rounded-3xl p-6 sm:p-10 border border-[#2ee58f]/40 shadow-2xl relative overflow-hidden">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                  <span className="text-xs font-bold text-[#2ee58f] uppercase tracking-widest flex items-center gap-1.5 mb-1">
+                    <MessageCircle className="w-4 h-4" />
+                    Arsenal de Cierre en Llamadas & WhatsApp
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-black text-white">
+                    Playbook de Respuestas a Objeciones Difíciles
+                  </h3>
+                  <p className="text-xs text-white/50 mt-0.5">
+                    Guiones probados de reencuadre psicológico para cerrar cotizaciones de alto valor al instante.
+                  </p>
+                </div>
+
+                <span className="text-[11px] font-mono text-[#2ee58f] bg-[#2ee58f]/10 border border-[#2ee58f]/30 px-3 py-1.5 rounded-xl self-start md:self-auto">
+                  Click en un botón para copiar el script
+                </span>
+              </div>
+
+              {/* Objection Tabs */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                {closingObjections.map((obj, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveObjectionIndex(idx)}
+                    className={`p-4 rounded-2xl border text-left transition-all ${
+                      activeObjectionIndex === idx
+                        ? 'bg-[#13221b] border-[#2ee58f] text-white shadow-[0_0_20px_rgba(46,229,143,0.25)]'
+                        : 'bg-[#0f1713] border-white/10 text-white/60 hover:text-white hover:border-white/20'
+                    }`}
+                  >
+                    <div className="text-xs font-bold text-white truncate mb-1">
+                      {obj.title.split(':')[0]}
+                    </div>
+                    <div className="text-[11px] text-white/40 truncate">
+                      {obj.title.split(':')[1]}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Active Objection Card */}
+              {(() => {
+                const currentObj = closingObjections[activeObjectionIndex];
+                return (
+                  <div className="bg-[#0f1914] rounded-2xl p-6 sm:p-8 border border-white/10 space-y-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+                      <div>
+                        <span className="text-xs font-bold text-[#2ee58f] uppercase tracking-wider block mb-1">
+                          {currentObj.psychology}
+                        </span>
+                        <h4 className="text-lg sm:text-xl font-bold text-white">
+                          "{currentObj.clientSay}"
+                        </h4>
+                      </div>
+
+                      <button
+                        onClick={() => handleCopyScript(currentObj.closerScript, activeObjectionIndex)}
+                        className="inline-flex items-center justify-center gap-2 bg-[#2ee58f] hover:bg-[#28c77c] text-[#04100b] text-xs font-bold py-2.5 px-4 rounded-xl transition-all shadow-md self-start sm:self-auto"
+                      >
+                        {copiedScriptIndex === activeObjectionIndex ? (
+                          <>
+                            <Check className="w-4 h-4 text-[#04100b]" />
+                            ¡Script Copiado!
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-4 h-4" />
+                            Copiar Script al Portapapeles
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    <div className="bg-black/40 p-5 rounded-2xl border border-white/5">
+                      <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-2">
+                        Guion de Respuesta Palabra por Palabra:
+                      </span>
+                      <p className="text-xs sm:text-sm text-white/80 whitespace-pre-line leading-relaxed font-sans">
+                        {currentObj.closerScript}
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      {currentObj.bulletPoints.map((bp, i) => (
+                        <div key={i} className="p-3 rounded-xl bg-white/5 border border-white/5 text-[11px] text-white/70">
+                          ✓ {bp}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+            </section>
+
+            {/* SECCIÓN 06: FORMATO ESTÁNDAR DE COTIZACIÓN EN 3 FASES */}
+            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="w-9 h-9 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] flex items-center justify-center font-bold text-sm">
+                  05
+                </span>
+                <div>
+                  <h3 className="text-2xl font-bold text-white">
+                    Formato Estándar de Cotización Universa en 3 Fases Modulares
+                  </h3>
+                  <p className="text-xs text-white/40">Desglose transparente que permite al cliente elegir su nivel de entrada o contratar el ecosistema 360°</p>
+                </div>
               </div>
 
               <div className="space-y-4 mt-6">
@@ -727,9 +1431,9 @@ export default function PropuestasHubPage() {
                 <div className="p-5 rounded-2xl bg-[#0f1713] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <span className="text-xs font-bold text-sky-400 uppercase tracking-wider">Fase 03</span>
-                    <h4 className="text-lg font-bold text-white">Tracking Avanzado, Meta Pixel, SEO & Retargeting</h4>
+                    <h4 className="text-lg font-bold text-white">Tracking Avanzado, Meta Pixel CAPI, SEO & Retargeting</h4>
                     <p className="text-xs text-white/50 max-w-xl">
-                      Instalación de eventos de conversión, recuperación de carritos abandonados, Google Tag Manager y setup de audiencias.
+                      Instalación de eventos de conversión, recuperación de carritos abandonados, Google Tag Manager y setup de audiencias Lookalike.
                     </p>
                   </div>
                   <div className="text-sm font-mono font-bold text-white bg-black/40 px-4 py-2 rounded-xl border border-white/10 whitespace-nowrap self-start sm:self-auto">
@@ -737,7 +1441,23 @@ export default function PropuestasHubPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Action Banner to Calculator */}
+              <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-[#12221b] to-[#0c1813] border border-[#2ee58f]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                  <h4 className="text-base font-bold text-white">¿Listo para cotizar una propuesta personalizada?</h4>
+                  <p className="text-xs text-white/50">Usa nuestro generador paramétrico para calcular precios y paquetes modulares en segundos.</p>
+                </div>
+                <button
+                  onClick={() => setActiveTab('calculadora')}
+                  className="inline-flex items-center gap-2 bg-[#2ee58f] hover:bg-[#28c77c] text-[#04100b] font-bold text-xs py-3 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(46,229,143,0.3)] whitespace-nowrap"
+                >
+                  <Calculator className="w-4 h-4" />
+                  Ir al Cotizador Rápido →
+                </button>
+              </div>
             </section>
+
           </div>
         )}
 
