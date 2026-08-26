@@ -237,11 +237,26 @@ interface ProposalItem {
 }
 
 export default function PropuestasHubPage() {
-  const [activeTab, setActiveTab] = useState<TabMode>('control');
+  const [activeTab, setActiveTab] = useState<TabMode>('metodo');
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'Aceptada' | 'En Negociación' | 'Pendiente'>('ALL');
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
   const [selectedProposal, setSelectedProposal] = useState<ProposalItem | null>(null);
+
+  // Sync tab with URL hash/query on load
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab');
+      if (tabParam === 'control' || tabParam === 'metodo' || tabParam === 'calculadora') {
+        setActiveTab(tabParam);
+      } else if (window.location.hash === '#control') {
+        setActiveTab('control');
+      } else if (window.location.hash === '#calculadora') {
+        setActiveTab('calculadora');
+      }
+    }
+  }, []);
 
   // Method & Titans State
   const [selectedTitan, setSelectedTitan] = useState<string>('hormozi');
@@ -455,115 +470,115 @@ export default function PropuestasHubPage() {
         {activeTab === 'control' && (
           <div className="mt-8 space-y-8">
             
-            {/* KPI Cards */}
+            {/* KPI Cards (Home Bento Style) */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              <div className="bg-gradient-to-b from-[#111c16] to-[#0b120e] p-5 rounded-2xl border border-white/10 relative overflow-hidden">
-                <div className="flex items-center justify-between text-white/50 text-xs font-semibold uppercase tracking-wider mb-2">
+              <div className="bg-gradient-to-b from-[rgba(255,255,255,0.03)] via-[rgba(4,16,11,0.65)] to-[#020a06] p-6 rounded-[24px] border border-[rgba(140,245,198,0.14)] relative overflow-hidden backdrop-blur-xl hover:border-[rgba(140,245,198,0.3)] transition-all">
+                <div className="flex items-center justify-between text-[#9fb8ab] text-[11px] font-bold uppercase tracking-wider mb-2">
                   <span>Total Cotizado</span>
                   <DollarSign className="w-4 h-4 text-[#2ee58f]" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-white">
-                  ${stats.totalPipeline.toLocaleString()} <span className="text-xs font-medium text-white/40">USD</span>
+                <div className="text-2xl sm:text-3xl font-medium tracking-tight text-white font-mono">
+                  ${stats.totalPipeline.toLocaleString()} <span className="text-xs font-normal text-[#9fb8ab]">USD</span>
                 </div>
-                <div className="text-xs text-white/40 mt-1">
-                  En {stats.totalCount} propuestas enviadas
+                <div className="text-xs text-[#9fb8ab] mt-1 font-light">
+                  En {stats.totalCount} propuestas activas
                 </div>
-                <div className="absolute right-[-10px] bottom-[-10px] w-20 h-20 bg-[#2ee58f]/5 rounded-full blur-xl" />
+                <div className="absolute right-[-10px] bottom-[-10px] w-24 h-24 bg-[#2ee58f]/5 rounded-full blur-xl" />
               </div>
 
-              <div className="bg-gradient-to-b from-[#111c16] to-[#0b120e] p-5 rounded-2xl border border-[#2ee58f]/30 relative overflow-hidden shadow-[0_0_25px_rgba(46,229,143,0.08)]">
-                <div className="flex items-center justify-between text-[#2ee58f] text-xs font-semibold uppercase tracking-wider mb-2">
+              <div className="bg-gradient-to-b from-[rgba(255,255,255,0.03)] via-[rgba(4,16,11,0.65)] to-[#020a06] p-6 rounded-[24px] border border-[#2ee58f]/40 relative overflow-hidden backdrop-blur-xl shadow-[0_0_30px_rgba(46,229,143,0.1)] hover:border-[#2ee58f] transition-all">
+                <div className="flex items-center justify-between text-[#2ee58f] text-[11px] font-bold uppercase tracking-wider mb-2">
                   <span>Aceptadas / Firmadas</span>
                   <CheckCircle2 className="w-4 h-4 text-[#2ee58f]" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-white">
-                  ${stats.acceptedRevenue.toLocaleString()} <span className="text-xs font-medium text-white/40">USD</span>
+                <div className="text-2xl sm:text-3xl font-medium tracking-tight text-white font-mono">
+                  ${stats.acceptedRevenue.toLocaleString()} <span className="text-xs font-normal text-[#9fb8ab]">USD</span>
                 </div>
-                <div className="text-xs text-[#2ee58f]/80 mt-1 font-semibold">
+                <div className="text-xs text-[#2ee58f] mt-1 font-medium">
                   {stats.acceptedCount} clientes formalizados
                 </div>
-                <div className="absolute right-[-10px] bottom-[-10px] w-20 h-20 bg-[#2ee58f]/10 rounded-full blur-xl" />
+                <div className="absolute right-[-10px] bottom-[-10px] w-24 h-24 bg-[#2ee58f]/10 rounded-full blur-xl" />
               </div>
 
-              <div className="bg-gradient-to-b from-[#111c16] to-[#0b120e] p-5 rounded-2xl border border-[#a78bff]/30 relative overflow-hidden">
-                <div className="flex items-center justify-between text-[#a78bff] text-xs font-semibold uppercase tracking-wider mb-2">
+              <div className="bg-gradient-to-b from-[rgba(255,255,255,0.03)] via-[rgba(4,16,11,0.65)] to-[#020a06] p-6 rounded-[24px] border border-[#a789ff]/30 relative overflow-hidden backdrop-blur-xl hover:border-[#a789ff] transition-all">
+                <div className="flex items-center justify-between text-[#a789ff] text-[11px] font-bold uppercase tracking-wider mb-2">
                   <span>En Negociación</span>
-                  <Clock className="w-4 h-4 text-[#a78bff]" />
+                  <Clock className="w-4 h-4 text-[#a789ff]" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-white">
-                  ${stats.inNegotiationRevenue.toLocaleString()} <span className="text-xs font-medium text-white/40">USD</span>
+                <div className="text-2xl sm:text-3xl font-medium tracking-tight text-white font-mono">
+                  ${stats.inNegotiationRevenue.toLocaleString()} <span className="text-xs font-normal text-[#9fb8ab]">USD</span>
                 </div>
-                <div className="text-xs text-[#a78bff]/80 mt-1 font-semibold">
+                <div className="text-xs text-[#a789ff] mt-1 font-medium">
                   {stats.inNegotiationCount} propuestas activas
                 </div>
-                <div className="absolute right-[-10px] bottom-[-10px] w-20 h-20 bg-[#a78bff]/10 rounded-full blur-xl" />
+                <div className="absolute right-[-10px] bottom-[-10px] w-24 h-24 bg-[#a789ff]/10 rounded-full blur-xl" />
               </div>
 
-              <div className="bg-gradient-to-b from-[#111c16] to-[#0b120e] p-5 rounded-2xl border border-white/10 relative overflow-hidden">
-                <div className="flex items-center justify-between text-white/50 text-xs font-semibold uppercase tracking-wider mb-2">
+              <div className="bg-gradient-to-b from-[rgba(255,255,255,0.03)] via-[rgba(4,16,11,0.65)] to-[#020a06] p-6 rounded-[24px] border border-[rgba(140,245,198,0.14)] relative overflow-hidden backdrop-blur-xl hover:border-[rgba(140,245,198,0.3)] transition-all">
+                <div className="flex items-center justify-between text-[#9fb8ab] text-[11px] font-bold uppercase tracking-wider mb-2">
                   <span>Ticket Promedio</span>
                   <TrendingUp className="w-4 h-4 text-[#2ee58f]" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-white">
-                  ${stats.averageTicket.toLocaleString()} <span className="text-xs font-medium text-white/40">USD</span>
+                <div className="text-2xl sm:text-3xl font-medium tracking-tight text-white font-mono">
+                  ${stats.averageTicket.toLocaleString()} <span className="text-xs font-normal text-[#9fb8ab]">USD</span>
                 </div>
-                <div className="text-xs text-white/40 mt-1">
+                <div className="text-xs text-[#9fb8ab] mt-1 font-light">
                   Ecosistemas de alto valor
                 </div>
-                <div className="absolute right-[-10px] bottom-[-10px] w-20 h-20 bg-[#2ee58f]/5 rounded-full blur-xl" />
+                <div className="absolute right-[-10px] bottom-[-10px] w-24 h-24 bg-[#2ee58f]/5 rounded-full blur-xl" />
               </div>
             </div>
 
-            {/* Filter and Search Bar */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-[#0d1511] p-3 rounded-2xl border border-white/10">
+            {/* Filter and Search Bar (Pill Style) */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-[rgba(4,16,11,0.85)] p-2.5 rounded-full border border-[rgba(140,245,198,0.18)] backdrop-blur-xl shadow-xl">
               <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9fb8ab]" />
                 <input
                   type="text"
                   placeholder="Buscar por cliente, slug o servicio..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-[#131e18] border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#2ee58f]"
+                  className="w-full bg-[#04100b] border border-[rgba(140,245,198,0.14)] rounded-full pl-11 pr-4 py-2 text-xs sm:text-sm text-white placeholder:text-[#9fb8ab]/50 focus:outline-none focus:border-[#2ee58f]"
                 />
               </div>
 
-              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+              <div className="flex items-center gap-1.5 overflow-x-auto px-2 pb-1 sm:pb-0">
                 <button
                   onClick={() => setStatusFilter('ALL')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
                     statusFilter === 'ALL'
-                      ? 'bg-white text-black'
-                      : 'bg-white/5 text-white/60 hover:text-white'
+                      ? 'bg-[#2ee58f] text-[#04100b] font-bold shadow-[0_0_15px_rgba(46,229,143,0.3)]'
+                      : 'text-[#9fb8ab] hover:text-white hover:bg-white/5'
                   }`}
                 >
                   Todas ({proposalsList.length})
                 </button>
                 <button
                   onClick={() => setStatusFilter('Aceptada')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
                     statusFilter === 'Aceptada'
-                      ? 'bg-[#2ee58f] text-[#04100b]'
-                      : 'bg-white/5 text-[#2ee58f] hover:bg-[#2ee58f]/10'
+                      ? 'bg-[#2ee58f] text-[#04100b] font-bold shadow-[0_0_15px_rgba(46,229,143,0.3)]'
+                      : 'text-[#2ee58f] hover:bg-[#2ee58f]/10'
                   }`}
                 >
-                  Aceptadas / Firmadas ({stats.acceptedCount})
+                  Aceptadas ({stats.acceptedCount})
                 </button>
                 <button
                   onClick={() => setStatusFilter('En Negociación')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
                     statusFilter === 'En Negociación'
-                      ? 'bg-[#a78bff] text-[#04100b]'
-                      : 'bg-white/5 text-[#a78bff] hover:bg-[#a78bff]/10'
+                      ? 'bg-[#a789ff] text-[#04100b] font-bold shadow-[0_0_15px_rgba(167,137,255,0.3)]'
+                      : 'text-[#a789ff] hover:bg-[#a789ff]/10'
                   }`}
                 >
                   En Negociación ({stats.inNegotiationCount})
                 </button>
                 <button
                   onClick={() => setStatusFilter('Pendiente')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
                     statusFilter === 'Pendiente'
-                      ? 'bg-amber-400 text-black'
-                      : 'bg-white/5 text-amber-300 hover:bg-amber-400/10'
+                      ? 'bg-amber-400 text-black font-bold'
+                      : 'text-amber-300 hover:bg-amber-400/10'
                   }`}
                 >
                   Pendientes ({stats.pendingCount})
@@ -571,7 +586,7 @@ export default function PropuestasHubPage() {
               </div>
             </div>
 
-            {/* Proposals Cards Grid */}
+            {/* Proposals Cards Grid (Home Bento Cards) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredProposals.map((p) => {
                 const isAceptada = p.category === 'Aceptada';
@@ -583,107 +598,109 @@ export default function PropuestasHubPage() {
                     layout
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`bg-gradient-to-b from-[#0f1713] to-[#090e0b] rounded-2xl p-5 border flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${
+                    className={`bg-gradient-to-b from-[rgba(255,255,255,0.02)] to-[rgba(4,16,11,0.65)] rounded-[24px] p-6 border flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl backdrop-blur-xl ${
                       isAceptada
-                        ? 'border-[#2ee58f]/40 hover:border-[#2ee58f]'
+                        ? 'border-[#2ee58f]/40 hover:border-[#2ee58f] shadow-[0_0_20px_rgba(46,229,143,0.08)]'
                         : isNegociacion
-                        ? 'border-[#a78bff]/30 hover:border-[#a78bff]'
-                        : 'border-white/10 hover:border-white/30'
+                        ? 'border-[#a789ff]/30 hover:border-[#a789ff]'
+                        : 'border-[rgba(140,245,198,0.12)] hover:border-[rgba(140,245,198,0.3)]'
                     }`}
                   >
                     <div>
                       {/* Card Header Status */}
                       <div className="flex items-center justify-between gap-2 mb-3">
-                        <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+                        <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${
                           isAceptada
                             ? 'bg-[#2ee58f]/10 text-[#2ee58f] border-[#2ee58f]/30'
                             : isNegociacion
-                            ? 'bg-[#a78bff]/10 text-[#a78bff] border-[#a78bff]/30'
+                            ? 'bg-[#a789ff]/10 text-[#a789ff] border-[#a789ff]/30'
                             : 'bg-amber-400/10 text-amber-300 border-amber-400/30'
                         }`}>
                           <span className={`w-1.5 h-1.5 rounded-full ${
-                            isAceptada ? 'bg-[#2ee58f]' : isNegociacion ? 'bg-[#a78bff]' : 'bg-amber-400'
+                            isAceptada ? 'bg-[#2ee58f]' : isNegociacion ? 'bg-[#a789ff]' : 'bg-amber-400'
                           }`} />
                           {p.status}
                         </span>
 
-                        <span className="font-mono text-xs text-white/30">
+                        <span className="font-mono text-xs text-[#9fb8ab]">
                           /{p.slug}
                         </span>
                       </div>
 
                       {/* Client Name & Project Title */}
-                      <h3 className="text-xl font-bold text-white mb-1">
+                      <h3 className="text-xl font-medium text-white mb-1">
                         {p.client}
                       </h3>
-                      <p className="text-xs font-semibold text-[#2ee58f]/90 line-clamp-1 mb-2 uppercase tracking-wide">
+                      <p className="text-xs font-semibold text-[#2ee58f] line-clamp-1 mb-2 uppercase tracking-wide">
                         {p.title}
                       </p>
-                      <p className="text-xs text-white/50 line-clamp-2 leading-relaxed mb-4">
+                      <p className="text-xs text-[#9fb8ab] line-clamp-2 leading-relaxed mb-4 font-light">
                         {p.summary || "Ecosistema digital completo diseñado para captura de data, autoridad y conversión."}
                       </p>
 
                       {/* Pricing Breakdown Pill */}
-                      <div className="bg-black/40 border border-white/5 rounded-xl p-3 mb-4">
+                      <div className="bg-[#04100b] border border-[rgba(140,245,198,0.14)] rounded-2xl p-4 mb-4">
                         <div className="flex items-baseline justify-between">
-                          <span className="text-[11px] text-white/40 uppercase font-semibold">Inversión Total:</span>
+                          <span className="text-[11px] text-[#9fb8ab] uppercase font-semibold">Inversión Total:</span>
                           <div className="flex items-baseline gap-2">
                             {p.originalInvestment && (
-                              <span className="text-xs text-white/30 line-through font-mono">
+                              <span className="text-xs text-[#9fb8ab]/50 line-through font-mono">
                                 ${p.originalInvestment.toLocaleString()}
                               </span>
                             )}
-                            <span className="text-lg font-black text-white font-mono">
-                              ${p.investment.toLocaleString()} <span className="text-xs text-white/50 font-normal">USD</span>
+                            <span className="text-xl font-medium text-white font-mono">
+                              ${p.investment.toLocaleString()} <span className="text-xs text-[#9fb8ab] font-normal">USD</span>
                             </span>
                           </div>
                         </div>
 
                         {p.paymentSplit && (
-                          <div className="text-[10px] text-white/40 mt-1 flex items-center justify-between border-t border-white/5 pt-1">
+                          <div className="text-[10px] text-[#9fb8ab] mt-1.5 flex items-center justify-between border-t border-white/5 pt-1.5">
                             <span>Estructura de pagos:</span>
                             <span className="font-mono text-[#2ee58f] font-semibold">{p.paymentSplit} USD</span>
                           </div>
                         )}
 
-                        <div className="text-[10px] text-white/40 mt-1 flex items-center justify-between">
+                        <div className="text-[10px] text-[#9fb8ab] mt-1.5 flex items-center justify-between">
                           <span>Fases incluidas:</span>
-                          <span className="font-semibold text-white/70">{p.phasesCount} Fases de entrega</span>
+                          <span className="font-semibold text-white/80">{p.phasesCount} Fases de entrega</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="space-y-2 pt-2 border-t border-white/10">
-                      <div className="flex items-center gap-2">
+                    <div className="space-y-2 pt-3 border-t border-[rgba(140,245,198,0.1)]">
+                      <div className="grid grid-cols-2 gap-2">
                         <Link
                           href={`/propuestas/${p.slug}`}
-                          target="_blank"
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#2ee58f] hover:bg-[#28c77c] text-[#04100b] font-bold text-xs py-2 px-3 rounded-xl transition-all shadow-[0_0_15px_rgba(46,229,143,0.2)]"
+                          className="inline-flex items-center justify-center gap-1.5 bg-[#2ee58f] hover:bg-[#28c77c] text-[#04100b] font-bold text-xs py-2 px-3 rounded-full transition-all shadow-[0_0_12px_rgba(46,229,143,0.2)]"
                         >
-                          Ver Propuesta Digital
-                          <ArrowUpRight className="w-3.5 h-3.5" />
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          Ver Propuesta
                         </Link>
-
                         <button
                           onClick={() => handleCopyLink(p.slug)}
-                          title="Copiar enlace de la propuesta"
-                          className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white transition-colors"
+                          className="inline-flex items-center justify-center gap-1.5 bg-[rgba(4,16,11,0.8)] hover:bg-[#12221b] border border-[rgba(140,245,198,0.2)] text-white text-xs py-2 px-3 rounded-full transition-all"
                         >
                           {copiedSlug === p.slug ? (
-                            <Check className="w-4 h-4 text-[#2ee58f]" />
+                            <>
+                              <Check className="w-3.5 h-3.5 text-[#2ee58f]" />
+                              ¡Copiado!
+                            </>
                           ) : (
-                            <Copy className="w-4 h-4" />
+                            <>
+                              <Copy className="w-3.5 h-3.5 text-[#9fb8ab]" />
+                              Copiar Link
+                            </>
                           )}
                         </button>
                       </div>
 
-                      <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center justify-between gap-2 pt-1">
                         <a
                           href={getWhatsAppFollowup(p)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[11px] font-semibold text-white/50 hover:text-[#2ee58f] inline-flex items-center gap-1 transition-colors"
+                          className="text-[11px] font-medium text-[#9fb8ab] hover:text-[#2ee58f] inline-flex items-center gap-1 transition-colors"
                         >
                           <MessageCircle className="w-3 h-3 text-[#2ee58f]" />
                           Seguimiento WhatsApp
@@ -691,7 +708,7 @@ export default function PropuestasHubPage() {
 
                         <button
                           onClick={() => setSelectedProposal(p)}
-                          className="text-[11px] font-semibold text-white/40 hover:text-white inline-flex items-center gap-1 transition-colors"
+                          className="text-[11px] font-medium text-[#9fb8ab]/60 hover:text-white inline-flex items-center gap-1 transition-colors"
                         >
                           <Eye className="w-3 h-3" />
                           Desglose Rápido
@@ -1349,69 +1366,72 @@ export default function PropuestasHubPage() {
         {/* TAB 3: CALCULADORA Y GENERADOR DE PROPUESTAS */}
         {activeTab === 'calculadora' && (
           <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 bg-[#0b120e] rounded-3xl p-6 sm:p-8 border border-white/10 space-y-6">
+            <div className="lg:col-span-2 bg-gradient-to-b from-[rgba(255,255,255,0.02)] to-[rgba(4,16,11,0.7)] rounded-[28px] p-6 sm:p-10 border border-[rgba(140,245,198,0.16)] backdrop-blur-xl space-y-8">
               <div>
-                <h3 className="text-2xl font-bold text-white mb-1">Cotizador Rápido de Ecosistemas</h3>
-                <p className="text-xs sm:text-sm text-white/50">
+                <span className="font-bold italic uppercase tracking-[0.28em] text-[11px] text-[#2ee58f] block mb-1">
+                  Configurador Paramétrico
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-medium text-white tracking-tight">Cotizador Rápido de Ecosistemas</h3>
+                <p className="text-xs sm:text-sm text-[#9fb8ab] mt-1 font-light">
                   Configura los módulos requeridos por el cliente para calcular la inversión recomendada y generar la estructura de la propuesta.
                 </p>
               </div>
 
               {/* Tier Selection */}
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-white/60 block mb-3">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#9fb8ab] block mb-3 font-mono">
                   1. Nivel de Infraestructura Digital
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                   <button
                     onClick={() => setCalcTier('landing')}
-                    className={`p-4 rounded-2xl border text-left transition-all ${
+                    className={`p-5 rounded-[22px] border text-left transition-all ${
                       calcTier === 'landing'
-                        ? 'bg-[#2ee58f]/10 border-[#2ee58f] text-white shadow-[0_0_20px_rgba(46,229,143,0.2)]'
-                        : 'bg-[#0f1713] border-white/10 text-white/60 hover:border-white/30'
+                        ? 'bg-[#0c1f16] border-[#2ee58f] text-white shadow-[0_0_20px_rgba(46,229,143,0.2)]'
+                        : 'bg-[#04100b] border-[rgba(140,245,198,0.12)] text-[#9fb8ab] hover:border-[rgba(140,245,198,0.3)]'
                     }`}
                   >
-                    <div className="font-bold text-sm text-white mb-1">Landing Page Pro</div>
-                    <div className="text-xs text-white/40 mb-2">Captación rápida de leads</div>
-                    <div className="font-mono text-sm font-bold text-[#2ee58f]">$450 USD</div>
+                    <div className="font-medium text-sm text-white mb-1">Landing Page Pro</div>
+                    <div className="text-xs text-[#9fb8ab] mb-3 font-light">Captación rápida de leads</div>
+                    <div className="font-mono text-base font-bold text-[#2ee58f]">$450 USD</div>
                   </button>
 
                   <button
                     onClick={() => setCalcTier('ecommerce')}
-                    className={`p-4 rounded-2xl border text-left transition-all ${
+                    className={`p-5 rounded-[22px] border text-left transition-all ${
                       calcTier === 'ecommerce'
-                        ? 'bg-[#2ee58f]/10 border-[#2ee58f] text-white shadow-[0_0_20px_rgba(46,229,143,0.2)]'
-                        : 'bg-[#0f1713] border-white/10 text-white/60 hover:border-white/30'
+                        ? 'bg-[#0c1f16] border-[#2ee58f] text-white shadow-[0_0_20px_rgba(46,229,143,0.2)]'
+                        : 'bg-[#04100b] border-[rgba(140,245,198,0.12)] text-[#9fb8ab] hover:border-[rgba(140,245,198,0.3)]'
                     }`}
                   >
-                    <div className="font-bold text-sm text-white mb-1">E-Commerce / Menu</div>
-                    <div className="text-xs text-white/40 mb-2">Catálogo & checkout online</div>
-                    <div className="font-mono text-sm font-bold text-[#2ee58f]">$1,000 USD</div>
+                    <div className="font-medium text-sm text-white mb-1">E-Commerce / Menu</div>
+                    <div className="text-xs text-[#9fb8ab] mb-3 font-light">Catálogo & checkout online</div>
+                    <div className="font-mono text-base font-bold text-[#2ee58f]">$1,000 USD</div>
                   </button>
 
                   <button
                     onClick={() => setCalcTier('ecosystem')}
-                    className={`p-4 rounded-2xl border text-left transition-all ${
+                    className={`p-5 rounded-[22px] border text-left transition-all ${
                       calcTier === 'ecosystem'
-                        ? 'bg-[#2ee58f]/10 border-[#2ee58f] text-white shadow-[0_0_20px_rgba(46,229,143,0.2)]'
-                        : 'bg-[#0f1713] border-white/10 text-white/60 hover:border-white/30'
+                        ? 'bg-[#0c1f16] border-[#2ee58f] text-white shadow-[0_0_20px_rgba(46,229,143,0.2)]'
+                        : 'bg-[#04100b] border-[rgba(140,245,198,0.12)] text-[#9fb8ab] hover:border-[rgba(140,245,198,0.3)]'
                     }`}
                   >
-                    <div className="font-bold text-sm text-white mb-1">Ecosistema 360°</div>
-                    <div className="text-xs text-white/40 mb-2">Plataforma custom + SaaS</div>
-                    <div className="font-mono text-sm font-bold text-[#2ee58f]">$1,850 USD</div>
+                    <div className="font-medium text-sm text-white mb-1">Ecosistema 360°</div>
+                    <div className="text-xs text-[#9fb8ab] mb-3 font-light">Plataforma custom + SaaS</div>
+                    <div className="font-mono text-base font-bold text-[#2ee58f]">$1,850 USD</div>
                   </button>
                 </div>
               </div>
 
               {/* Modules Toggles */}
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-white/60 block mb-3">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#9fb8ab] block mb-3 font-mono">
                   2. Módulos Estratégicos Adicionales
                 </label>
                 <div className="space-y-3">
-                  <label className="flex items-center justify-between p-4 rounded-xl bg-[#0f1713] border border-white/5 cursor-pointer hover:border-white/20 transition-colors">
-                    <div className="flex items-center gap-3">
+                  <label className="flex items-center justify-between p-4 rounded-2xl bg-[#04100b] border border-[rgba(140,245,198,0.12)] cursor-pointer hover:border-[rgba(140,245,198,0.25)] transition-colors">
+                    <div className="flex items-center gap-3.5">
                       <input
                         type="checkbox"
                         checked={includePixel}
@@ -1419,15 +1439,15 @@ export default function PropuestasHubPage() {
                         className="w-4 h-4 rounded text-[#2ee58f] focus:ring-[#2ee58f] bg-black/40 border-white/20"
                       />
                       <div>
-                        <div className="text-sm font-bold text-white">Meta Pixel + Full Funnel Tracking</div>
-                        <div className="text-xs text-white/40">Tracking de conversiones, Google Tag Manager y audiencias de retargeting</div>
+                        <div className="text-xs sm:text-sm font-medium text-white">Meta Pixel + Full Funnel Tracking</div>
+                        <div className="text-xs text-[#9fb8ab] font-light">Tracking de conversiones, Google Tag Manager y audiencias de retargeting</div>
                       </div>
                     </div>
                     <span className="font-mono text-xs font-bold text-[#2ee58f]">+$250 USD</span>
                   </label>
 
-                  <label className="flex items-center justify-between p-4 rounded-xl bg-[#0f1713] border border-white/5 cursor-pointer hover:border-white/20 transition-colors">
-                    <div className="flex items-center gap-3">
+                  <label className="flex items-center justify-between p-4 rounded-2xl bg-[#04100b] border border-[rgba(140,245,198,0.12)] cursor-pointer hover:border-[rgba(140,245,198,0.25)] transition-colors">
+                    <div className="flex items-center gap-3.5">
                       <input
                         type="checkbox"
                         checked={includeSeo}
@@ -1435,15 +1455,15 @@ export default function PropuestasHubPage() {
                         className="w-4 h-4 rounded text-[#2ee58f] focus:ring-[#2ee58f] bg-black/40 border-white/20"
                       />
                       <div>
-                        <div className="text-sm font-bold text-white">SEO Local + Preparación IA (ChatGPT/Perplexity)</div>
-                        <div className="text-xs text-white/40">Schema Markup estructurado e indexación en Google Maps</div>
+                        <div className="text-xs sm:text-sm font-medium text-white">SEO Local + Preparación IA (ChatGPT/Perplexity)</div>
+                        <div className="text-xs text-[#9fb8ab] font-light">Schema Markup estructurado e indexación en Google Maps</div>
                       </div>
                     </div>
                     <span className="font-mono text-xs font-bold text-[#2ee58f]">+$300 USD</span>
                   </label>
 
-                  <label className="flex items-center justify-between p-4 rounded-xl bg-[#0f1713] border border-white/5 cursor-pointer hover:border-white/20 transition-colors">
-                    <div className="flex items-center gap-3">
+                  <label className="flex items-center justify-between p-4 rounded-2xl bg-[#04100b] border border-[rgba(140,245,198,0.12)] cursor-pointer hover:border-[rgba(140,245,198,0.25)] transition-colors">
+                    <div className="flex items-center gap-3.5">
                       <input
                         type="checkbox"
                         checked={includeBooking}
@@ -1451,15 +1471,15 @@ export default function PropuestasHubPage() {
                         className="w-4 h-4 rounded text-[#2ee58f] focus:ring-[#2ee58f] bg-black/40 border-white/20"
                       />
                       <div>
-                        <div className="text-sm font-bold text-white">Motor de Reservas / Citas en Tiempo Real</div>
-                        <div className="text-xs text-white/40">Integración con Google Calendar, recordatorios por email y cobro de depósitos</div>
+                        <div className="text-xs sm:text-sm font-medium text-white">Motor de Reservas / Citas en Tiempo Real</div>
+                        <div className="text-xs text-[#9fb8ab] font-light">Integración con Google Calendar, recordatorios por email y cobro de depósitos</div>
                       </div>
                     </div>
                     <span className="font-mono text-xs font-bold text-[#2ee58f]">+$250 USD</span>
                   </label>
 
-                  <label className="flex items-center justify-between p-4 rounded-xl bg-[#0f1713] border border-white/5 cursor-pointer hover:border-white/20 transition-colors">
-                    <div className="flex items-center gap-3">
+                  <label className="flex items-center justify-between p-4 rounded-2xl bg-[#04100b] border border-[rgba(140,245,198,0.12)] cursor-pointer hover:border-[rgba(140,245,198,0.25)] transition-colors">
+                    <div className="flex items-center gap-3.5">
                       <input
                         type="checkbox"
                         checked={includeContent}
@@ -1467,8 +1487,8 @@ export default function PropuestasHubPage() {
                         className="w-4 h-4 rounded text-[#2ee58f] focus:ring-[#2ee58f] bg-black/40 border-white/20"
                       />
                       <div>
-                        <div className="text-sm font-bold text-white">Producción de Contenido (Fotos Pro + UGC Video)</div>
-                        <div className="text-xs text-white/40">Sesión en bloque de producto y videos promocionales para redes</div>
+                        <div className="text-xs sm:text-sm font-medium text-white">Producción de Contenido (Fotos Pro + UGC Video)</div>
+                        <div className="text-xs text-[#9fb8ab] font-light">Sesión en bloque de producto y videos promocionales para redes</div>
                       </div>
                     </div>
                     <span className="font-mono text-xs font-bold text-[#2ee58f]">+$450 USD</span>
@@ -1478,16 +1498,16 @@ export default function PropuestasHubPage() {
             </div>
 
             {/* Live Pricing Summary Box */}
-            <div className="bg-[#0b120e] rounded-3xl p-6 sm:p-8 border border-[#2ee58f]/30 flex flex-col justify-between h-fit sticky top-6 shadow-2xl">
+            <div className="bg-gradient-to-b from-[rgba(255,255,255,0.03)] via-[#0c1f16] to-[#04100b] rounded-[28px] p-6 sm:p-8 border border-[#2ee58f]/40 flex flex-col justify-between h-fit sticky top-6 shadow-2xl backdrop-blur-xl">
               <div>
-                <div className="text-xs font-bold text-[#2ee58f] uppercase tracking-wider mb-2">
-                  Resumen de Propuesta
-                </div>
-                <h4 className="text-xl font-black text-white mb-6">
+                <span className="font-bold italic uppercase tracking-[0.28em] text-[10px] text-[#2ee58f] block mb-2 font-mono">
+                  Resumen de Inversión
+                </span>
+                <h4 className="text-xl font-medium text-white mb-6">
                   {calcTier === 'landing' ? 'Landing Page de Captación' : calcTier === 'ecommerce' ? 'E-Commerce & Ordering' : 'Ecosistema 360° Omnicanal'}
                 </h4>
 
-                <div className="space-y-3 text-xs text-white/70 border-b border-white/10 pb-6 mb-6">
+                <div className="space-y-3 text-xs text-[#9fb8ab] border-b border-[rgba(140,245,198,0.12)] pb-6 mb-6">
                   <div className="flex justify-between">
                     <span>Infraestructura Base:</span>
                     <span className="font-mono font-bold text-white">
@@ -1507,7 +1527,7 @@ export default function PropuestasHubPage() {
                     </div>
                   )}
                   {includeBooking && (
-                    <div className="flex justify-between text-[#a78bff]">
+                    <div className="flex justify-between text-[#a789ff]">
                       <span>+ Motor de Reservas:</span>
                       <span className="font-mono font-bold">$250 USD</span>
                     </div>
@@ -1521,13 +1541,13 @@ export default function PropuestasHubPage() {
                 </div>
 
                 <div className="flex items-baseline justify-between mb-2">
-                  <span className="text-sm font-bold text-white uppercase">Inversión Total:</span>
+                  <span className="text-xs font-bold text-[#9fb8ab] uppercase tracking-wider">Inversión Total:</span>
                   <span className="text-3xl font-black text-[#2ee58f] font-mono">
-                    ${calculatedPrice.toLocaleString()} <span className="text-xs text-white/40">USD</span>
+                    ${calculatedPrice.toLocaleString()} <span className="text-xs text-[#9fb8ab] font-normal">USD</span>
                   </span>
                 </div>
 
-                <div className="text-[11px] text-white/40 mb-6">
+                <div className="text-[11px] text-[#9fb8ab] mb-6 font-light leading-relaxed">
                   Plan de pagos estándar: 50% al iniciar (${Math.round(calculatedPrice/2)}) + 50% a la entrega (${Math.round(calculatedPrice/2)})
                 </div>
               </div>
@@ -1541,10 +1561,10 @@ export default function PropuestasHubPage() {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#2ee58f] hover:bg-[#28c77c] text-[#04100b] font-bold text-sm py-3 px-4 rounded-xl transition-all shadow-[0_0_20px_rgba(46,229,143,0.3)]"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#2ee58f] hover:bg-[#28c77c] text-[#04100b] font-bold text-xs py-3.5 px-6 rounded-full transition-all shadow-[0_0_20px_rgba(46,229,143,0.3)]"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  Enviar Cotización por WhatsApp
+                  Enviar Propuesta por WhatsApp
                 </a>
               </div>
             </div>
