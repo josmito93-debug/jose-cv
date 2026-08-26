@@ -1692,49 +1692,51 @@
   "souvapet": {
     "client": "SOUVAPET · Mobile Pet Grooming",
     "status": "Propuesta & Contrato Digital",
-    "title": "ECOSISTEMA DIGITAL DE RESERVAS, LIVE DISPATCH & CONVERSIÓN OMNICANAL",
+    "title": "APP DE VENTAS & OPERACIONES: RESERVAS INTELIGENTES, LIVE DISPATCH, GEO-SEO & CONVERSIÓN",
     "isContract": true,
     "phases": [
       {
         "id": 1,
-        "name": "INFRAESTRUCTURA WEB CRO & MOTOR DE RESERVAS INTELIGENTE",
+        "name": "MODAL DE RESERVAS INTELIGENTE + DIAGNÓSTICO FOTOGRÁFICO & COTIZADOR EN TIEMPO REAL",
         "investment": 750,
         "originalInvestment": 1400,
         "items": [
           {
-            "title": "Ecosistema Web Mobile-First de Alta Conversión",
-            "description": "Arquitectura moderna desarrollada en Next.js a 60fps con carga instantánea y diseño de alta gama. El 92% de las citas de grooming se agendan desde celulares; construimos una experiencia visual sin fricción que transmite autoridad médica y estética inmediata.",
-            "icon": "globe",
-            "bullets": [
-              "Diseño UX/UI premium adaptado a dispositivos móviles y tablets",
-              "Galería interactiva 'Antes & Después' para exhibir transformaciones de peluquería",
-              "Módulo de testimonios y reseñas reales de dueños de mascotas verificados",
-              "Sección de Preguntas Frecuentes interactivas para derribar objeciones al instante"
-            ],
-            "tag": "panenka-web",
-            "tagImage": "/tags/WEb desiing and UI.png"
-          },
-          {
-            "title": "Modal Interactivo de Reservas en 4 Pasos (Booking Engine)",
-            "description": "Motor de captación guiado que sustituye la pérdida de tiempo respondiendo DMs o mensajes manuales por un embudo de autoservicio 24/7.",
+            "title": "Modal Interactivo de Reservas con Captura Fotográfica (Smart Booking)",
+            "description": "Una aplicación web interactiva que no es solo una página informativa, sino una potente herramienta de ventas y logística que digitaliza el 100% de la captación y se adapta a la forma exacta en la que Souvapet opera.",
             "icon": "palette",
             "bullets": [
-              "Paso 1: Selector de tipo de mascota (Perro / Gato), peso/tamaño y tipo de pelaje",
-              "Paso 2: Menú interactivo de paquetes (Full Grooming Spa, Baño & Deslanado, Mantenimiento Express)",
-              "Paso 3: Módulo de Up-Selling inteligente (Limpieza dental enzimática, tratamiento antipulgas, spa de almohadillas, corte de uñas con lima pulidora)",
-              "Paso 4: Ingreso de dirección, selección de fecha y franja horaria disponible en agenda"
+              "Módulo de Diagnóstico Fotográfico: El cliente toma o sube la foto de su perrito directamente desde el celular para evaluar pelaje, tamaño y condiciones especiales antes del servicio",
+              "Captura de Datos de Contacto: Formulario optimizado (Nombre del dueño, nombre de la mascota, WhatsApp/teléfono, correo electrónico y dirección exacta)",
+              "Selector de Fecha y Hora en Tiempo Real: Calendario interactivo sincronizado con la disponibilidad real de la van móvil",
+              "Selector de Servicios y Paquetes Modulares: Menú dinámico de servicios (Full Grooming, Baño Deslanado, Spa Hidratante, Corte Higiénico)"
             ],
             "tag": "panenka-design",
             "tagImage": "/tags/WEb desiing and UI.png"
           },
           {
-            "title": "Google SEO Local & Preparación para Búsqueda IA",
-            "description": "Dominio de las búsquedas locales en Google Maps y motores de Inteligencia Artificial para que Souvapet sea la primera recomendación cuando busquen grooming a domicilio en tu ciudad.",
+            "title": "Motor de Cotización Paramétrica Dinámica (Cálculo Automático de Fees & Rutas)",
+            "description": "La misma aplicación calcula en tiempo real el precio exacto del servicio en pantalla, eliminando cotizaciones manuales y aumentando el ticket promedio.",
             "icon": "globe",
             "bullets": [
-              "Datos Estructurados (Schema Markup LocalBusiness) para indexación prioritaria en Google",
-              "Optimización de palabras clave geo-localizadas ('mobile pet grooming cerca de mí', 'peluquería canina a domicilio')",
-              "Preparación técnica para motores generativos (ChatGPT Search, Perplexity, Google SGE)"
+              "Cálculo automático según tamaño de la mascota (Toy, Pequeño, Mediano, Grande, Gigante)",
+              "Suma inteligente de Extras & Up-sells en vivo (Limpieza dental enzimática, spa de almohadillas, corte de uñas pulido, antipulgas)",
+              "Tarifas de Desplazamiento & Rutas (Travel Fees): Cálculo paramétrico de recargos por zona o distancia según el código postal del cliente",
+              "Desglose transparente del total en pantalla sin fricciones ni sorpresas para el cliente"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Infraestructura GEO-SEO, Sitemap XML Dinámico & Robots.txt",
+            "description": "Arquitectura técnica de posicionamiento diseñada para dominar las búsquedas hiper-locales en Google Maps y motores de Inteligencia Artificial.",
+            "icon": "globe",
+            "bullets": [
+              "GEO-SEO Hiper-Localizado: Optimización técnica por zonas de servicio, barrios y códigos postales ('mobile pet grooming cerca de mí')",
+              "Configuración Estratégica de Robots.txt: Control de rastreo para indexación prioritaria de páginas comerciales de alta conversión",
+              "Generación Automática de Sitemap XML: Envío dinámico de URLs actualizadas a Google Search Console y Bing Webmaster",
+              "Datos Estructurados (Schema Markup LocalBusiness & ServiceArea): Google comprende tus rutas, servicios, horarios y precios al instante",
+              "Preparación para Búsquedas por Voz e IA (ChatGPT Search, Perplexity, Apple Intelligence y Google SGE)"
             ],
             "tag": "panenka-advantage",
             "tagImage": "/tags/SEO and google.png"
@@ -1743,7 +1745,7 @@
       },
       {
         "id": 2,
-        "name": "RADAR LOGÍSTICO (LIVE DISPATCH & ETA) + PIPELINE DE NOTIFICACIONES",
+        "name": "RADAR LOGÍSTICO (LIVE DISPATCH & ETA) + PIPELINE DE NOTIFICACIONES & BOLETA DIGITAL",
         "investment": 450,
         "originalInvestment": 900,
         "items": [
@@ -1820,7 +1822,7 @@
         ]
       }
     ],
-    "summary": "Desarrollo del ecosistema digital comercial y operativo para SOUVAPET Mobile Pet Grooming. Incluye Web App mobile-first de alta gama, modal interactivo de reservas en 4 pasos con selección de raza, servicios y up-sells, radar logístico con mapa interactivo y cálculo de tiempo de llegada (ETA) en vivo, pipeline de notificaciones omnicanal automáticas antes y después del servicio por WhatsApp/SMS, boleta digital con colector de reseñas 5 estrellas en Google, y tracking avanzado con Meta CAPI y motor de recompra automática para recurrencia mensual. Inversión total de $1,550 USD estructurada en 2 cuotas de $775 USD.",
+    "summary": "Desarrollo del ecosistema digital comercial y operativo para SOUVAPET Mobile Pet Grooming. Incluye aplicación de reservas inteligente adaptada a la operativa de Souva con subida de fotos de la mascota para diagnóstico previo, selector de fecha/hora, captura de datos de contacto, cotizador paramétrico dinámico que calcula precios, fees de ruta y extras en tiempo real, radar logístico con mapa interactivo y cálculo de ETA en vivo, pipeline de notificaciones omnicanal automáticas antes y después del servicio por WhatsApp/SMS, boleta digital con colector de reseñas 5 estrellas en Google, y arquitectura completa de GEO-SEO, Sitemap XML, Robots.txt y Meta CAPI con motor de recompra mensual. Inversión total de $1,550 USD estructurada en 2 cuotas de $775 USD.",
     "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20confirmar%20la%20propuesta%20de%20SOUVAPET%20por%201550%20USD",
     "hideRelated": true,
     "paymentSplit": "775/775",
