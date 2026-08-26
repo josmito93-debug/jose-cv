@@ -1688,5 +1688,153 @@
         "ACCESOS A PLATAFORMAS TERCERAS: El CLIENTE es responsable de proporcionar a la Agencia las credenciales y accesos necesarios de su cuenta de Stripe, Square o proveedor de hosting para realizar las correspondientes pruebas e integraciones técnicas."
       ]
     }
+  },
+  "souvapet": {
+    "client": "SOUVAPET · Mobile Pet Grooming",
+    "status": "Propuesta & Contrato Digital",
+    "title": "ECOSISTEMA DIGITAL DE RESERVAS, LIVE DISPATCH & CONVERSIÓN OMNICANAL",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "INFRAESTRUCTURA WEB CRO & MOTOR DE RESERVAS INTELIGENTE",
+        "investment": 750,
+        "originalInvestment": 1400,
+        "items": [
+          {
+            "title": "Ecosistema Web Mobile-First de Alta Conversión",
+            "description": "Arquitectura moderna desarrollada en Next.js a 60fps con carga instantánea y diseño de alta gama. El 92% de las citas de grooming se agendan desde celulares; construimos una experiencia visual sin fricción que transmite autoridad médica y estética inmediata.",
+            "icon": "globe",
+            "bullets": [
+              "Diseño UX/UI premium adaptado a dispositivos móviles y tablets",
+              "Galería interactiva 'Antes & Después' para exhibir transformaciones de peluquería",
+              "Módulo de testimonios y reseñas reales de dueños de mascotas verificados",
+              "Sección de Preguntas Frecuentes interactivas para derribar objeciones al instante"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Modal Interactivo de Reservas en 4 Pasos (Booking Engine)",
+            "description": "Motor de captación guiado que sustituye la pérdida de tiempo respondiendo DMs o mensajes manuales por un embudo de autoservicio 24/7.",
+            "icon": "palette",
+            "bullets": [
+              "Paso 1: Selector de tipo de mascota (Perro / Gato), peso/tamaño y tipo de pelaje",
+              "Paso 2: Menú interactivo de paquetes (Full Grooming Spa, Baño & Deslanado, Mantenimiento Express)",
+              "Paso 3: Módulo de Up-Selling inteligente (Limpieza dental enzimática, tratamiento antipulgas, spa de almohadillas, corte de uñas con lima pulidora)",
+              "Paso 4: Ingreso de dirección, selección de fecha y franja horaria disponible en agenda"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Google SEO Local & Preparación para Búsqueda IA",
+            "description": "Dominio de las búsquedas locales en Google Maps y motores de Inteligencia Artificial para que Souvapet sea la primera recomendación cuando busquen grooming a domicilio en tu ciudad.",
+            "icon": "globe",
+            "bullets": [
+              "Datos Estructurados (Schema Markup LocalBusiness) para indexación prioritaria en Google",
+              "Optimización de palabras clave geo-localizadas ('mobile pet grooming cerca de mí', 'peluquería canina a domicilio')",
+              "Preparación técnica para motores generativos (ChatGPT Search, Perplexity, Google SGE)"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "RADAR LOGÍSTICO (LIVE DISPATCH & ETA) + PIPELINE DE NOTIFICACIONES",
+        "investment": 450,
+        "originalInvestment": 900,
+        "items": [
+          {
+            "title": "Radar Logístico & Mapa Interactivo con ETA en Tiempo Real",
+            "description": "Herramienta visual que calcula el tiempo estimado de llegada (ETA) de la van móvil según la zona o código postal del cliente, generando transparencia y máxima expectativa.",
+            "icon": "activity",
+            "bullets": [
+              "Mapa interactivo de cobertura por zonas y códigos postales atendidos",
+              "Cálculo dinámico de tiempo de llegada en minutos según la ruta programada",
+              "Widget de disponibilidad en vivo: 'Van móvil operando en tu zona hoy · Próximo cupo disponible'",
+              "Reducción total de llamadas de clientes preguntando '¿Por dónde vienen?'"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Pipeline Automatizado de Notificaciones (WhatsApp & SMS)",
+            "description": "Comunicaciones automatizadas que acompañan al cliente en cada etapa del servicio sin intervención manual.",
+            "icon": "users",
+            "bullets": [
+              "Recordatorio automático 24h y 2h antes de la cita para eliminar no-shows al 0%",
+              "Notificación 'Van en Camino' con alerta por SMS/WhatsApp cuando el groomer inicia el trayecto",
+              "Notificación de finalización: '¡Tu peludo está listo, oliendo delicioso y esperando por ti! 🐾'",
+              "Confirmación instantánea de cita con botón para agregar directo a Google Calendar / Apple Calendar"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Boleta Digital Automatizada & Colector de Reseñas 5★ en Google",
+            "description": "Envío inmediato de recibo digital transparente y captura masiva de reputación online.",
+            "icon": "activity",
+            "bullets": [
+              "Generación automática de boleta digital con desglose detallado de servicios y extras aplicados",
+              "Envío directo por WhatsApp al concluir el servicio con botón de pago digital o confirmación de cobro",
+              "Disparador automático de solicitud de Reseña de 5 Estrellas en Google Maps con 1-Click"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "DATA ASSET, META PIXEL & MOTOR DE RECOMPRA AUTOMÁTICA (LTV BOOST)",
+        "investment": 350,
+        "originalInvestment": 700,
+        "items": [
+          {
+            "title": "Meta Conversions API (CAPI) & Máquina de Audiencias",
+            "description": "Cada visitante que interactúa con el modal de reservas queda registrado como data propietaria para campañas de retargeting de ultra bajo costo.",
+            "icon": "activity",
+            "bullets": [
+              "Meta Pixel & Server-Side Conversions API (CAPI) para trackear eventos de reserva sin bloqueo de iOS",
+              "Creación de audiencias Lookalike (similares) de dueños de mascotas de alto ticket",
+              "Medición exacta del Costo por Cita Agendada (CPA) y Retorno de Inversión (ROAS)"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          },
+          {
+            "title": "Motor de Reagendamiento Recurrente (Ciclo de 4 Semanas)",
+            "description": "La higiene y estética canina es un servicio periódico recurrente. Convertimos cada cliente de una sola vez en un flujo de caja predecible y vitalicio.",
+            "icon": "users",
+            "bullets": [
+              "Disparador programado a los 25 días del último servicio con mensaje personalizado de recordatorio",
+              "Enlace directo de 'Reagendar en 1-Click' precargado con los datos de su mascota",
+              "Multiplicación del valor de vida del cliente (LTV) y fidelización sin costo publicitario recurrente"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Desarrollo del ecosistema digital comercial y operativo para SOUVAPET Mobile Pet Grooming. Incluye Web App mobile-first de alta gama, modal interactivo de reservas en 4 pasos con selección de raza, servicios y up-sells, radar logístico con mapa interactivo y cálculo de tiempo de llegada (ETA) en vivo, pipeline de notificaciones omnicanal automáticas antes y después del servicio por WhatsApp/SMS, boleta digital con colector de reseñas 5 estrellas en Google, y tracking avanzado con Meta CAPI y motor de recompra automática para recurrencia mensual. Inversión total de $1,550 USD estructurada en 2 cuotas de $775 USD.",
+    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20confirmar%20la%20propuesta%20de%20SOUVAPET%20por%201550%20USD",
+    "hideRelated": true,
+    "paymentSplit": "775/775",
+    "contractTerms": {
+      "payments": [
+        { "name": "Primer Pago (Reserva e Inicio de Desarrollo)", "amount": 775 },
+        { "name": "Segundo Pago (Entrega Final, Pruebas y Lanzamiento)", "amount": 775 }
+      ],
+      "clauses": [
+        "PLAZO DE ENTREGA: El ecosistema completo se desarrollará, integrará y entregará probado y listo para producción en un plazo estimado de 3 a 4 semanas a partir de la recepción del primer pago de reserva y el material de la marca.",
+        "PROPIEDAD EXCLUSIVA: Todo el código fuente, la arquitectura en Next.js, configuraciones del modal, integraciones de mapas y automatizaciones pasarán a ser propiedad exclusiva del CLIENTE una vez cancelado el 100% de la inversión acordada.",
+        "INTEGRACIONES Y APIS: La Agencia configurará el enlace con los servicios de mensajería (WhatsApp/SMS) y pasarelas de pago digitales según las cuentas suministradas por el Cliente.",
+        "POLÍTICA DE PAGO: Los pagos se realizarán en 2 cuotas iguales del 50% al iniciar ($775 USD) y 50% a la entrega final ($775 USD)."
+      ]
+    }
   }
 }
