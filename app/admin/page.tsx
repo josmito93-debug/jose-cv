@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -38,52 +38,58 @@ const COMMON_STOPWORDS = new Set([
   'main', 'app', 'website', 'web', 'site', 'project', 'client', 'code', 
   'design', 'hub', 'draft', 'test', 'brand', 'presentation', 'digital', 
   'express', 'sequence', 'solutions', 'services', 'store', 'shop', 'group',
-  'sin', 'nombre', 'negocio', 'owner', 'unknown', 'fashion', 'week', 
-  'magazine', 'food', 'street', 'eats', 'agency', 'hero', 'platform', 'fit',
-  'alliance', 'guardian', 'engine', 'delivery', 'amigo', 'market', 'art'
+  'sin', 'nombre', 'negocio', 'owner', 'unknown'
 ]);
 
+function normalizeStr(str: any): string {
+  if (!str) return '';
+  return String(str)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+}
+
 function matchClientAndProject(client: any, project: any): boolean {
-  const busLower = String(client.business || '').toLowerCase();
-  const projLower = String(project.name || '').toLowerCase();
+  const busLower = normalizeStr(client.business);
+  const projLower = normalizeStr(project.name);
   
   // 1. Direct equal match
   if (busLower === projLower) return true;
   
-  // 2. Clean match (no spaces or special chars) - exact comparison
+  // 2. Clean match (no spaces or special chars)
   const busClean = busLower.replace(/[^a-z0-9]/g, '');
   const projClean = projLower.replace(/[^a-z0-9]/g, '');
   if (busClean && projClean && busClean === projClean) return true;
   
-  // 3. Substring match, but only if distinctive (not a stopword)
-  const isStopword = (str: string) => {
-    const stops = ['main', 'app', 'website', 'web', 'site', 'code', 'design', 'brand', 'presentation'];
-    return stops.some(s => str.includes(s) || s.includes(str));
-  };
+  // 3. Substring match
+  if (busClean && projClean && (busClean.includes(projClean) || projClean.includes(busClean))) return true;
+  if (busLower.includes(projLower) || projLower.includes(busLower)) return true;
   
-  if (!isStopword(busLower) && !isStopword(projLower)) {
-    if (busLower.includes(projLower) || projLower.includes(busLower)) return true;
-    if (busClean && projClean && (busClean.includes(projClean) || projClean.includes(busClean))) return true;
-  }
-  
-  // 4. Word overlap of distinctive words
-  const busWords = busLower.split(/[\s-_]+/).filter((w: string) => w.length > 3 && !COMMON_STOPWORDS.has(w));
-  const projWords = projLower.split(/[\s-_]+/).filter((w: string) => w.length > 3 && !COMMON_STOPWORDS.has(w));
+  // 4. Word overlap of distinctive words (>= 2 chars)
+  const busWords = busLower.split(/[\s-_.]+/)
+    .map(w => w.replace(/[^a-z0-9]/g, ''))
+    .filter((w: string) => w.length >= 2 && !COMMON_STOPWORDS.has(w));
+  const projWords = projLower.split(/[\s-_.]+/)
+    .map(w => w.replace(/[^a-z0-9]/g, ''))
+    .filter((w: string) => w.length >= 2 && !COMMON_STOPWORDS.has(w));
   
   const hasSharedWord = busWords.some((w: string) => 
-    projWords.some((pw: string) => pw === w)
+    projWords.some((pw: string) => pw === w || (pw.length > 3 && w.length > 3 && (pw.includes(w) || w.includes(pw))))
   );
   if (hasSharedWord) return true;
   
   // 5. Domain Alias matching
   const aliases = project.targets?.production?.alias || [];
   for (const alias of aliases) {
-    const aliasClean = alias.toLowerCase().replace(/[^a-z0-9]/g, '');
-    if (busClean && aliasClean && busClean === aliasClean) return true;
+    const aliasNorm = normalizeStr(alias);
+    const aliasClean = aliasNorm.replace(/[^a-z0-9]/g, '');
+    if (busClean && aliasClean && (busClean === aliasClean || aliasClean.includes(busClean) || busClean.includes(aliasClean))) return true;
     
-    const aliasWords = alias.toLowerCase().split(/[\s.-]+/).filter((w: string) => w.length > 3 && !COMMON_STOPWORDS.has(w));
+    const aliasWords = aliasNorm.split(/[\s.-]+/)
+      .map(w => w.replace(/[^a-z0-9]/g, ''))
+      .filter((w: string) => w.length >= 2 && !COMMON_STOPWORDS.has(w));
     const hasSharedAliasWord = busWords.some((w: string) =>
-      aliasWords.some((aw: string) => aw === w)
+      aliasWords.some((aw: string) => aw === w || (aw.length > 3 && w.length > 3 && (aw.includes(w) || w.includes(aw))))
     );
     if (hasSharedAliasWord) return true;
   }
@@ -158,50 +164,55 @@ export default function UnifiedAdminVercel() {
   const [paymentModal, setPaymentModal] = useState<{ visible: boolean; business: string; url: string; copied: boolean } | null>(null);
   const [loadingInvoice, setLoadingInvoice] = useState<string | null>(null);
 
-  const normalizeStr = (str: any) => 
-    String(str || '')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[-_./]/g, ' ')
-      .toLowerCase();
+  const filteredClients = useMemo(() => {
+    return clients.filter(client => {
+      const rawQuery = searchQuery.trim();
+      if (rawQuery) {
+        const normQuery = normalizeStr(rawQuery);
+        const queryTokens = normQuery.split(/\s+/).filter(Boolean);
+        
+        const searchableFields = [
+          client.business,
+          client.name,
+          client.rawProjectName,
+          client.vercelUrl,
+          client.id,
+          client.paymentStatus,
+          client.status,
+          client.info?.email,
+          client.info?.phone,
+          client.info?.contactName,
+          client.info?.businessName,
+          client.atData?.name,
+          client.atData?.business,
+          client.atData?.info?.email,
+          client.atData?.info?.phone,
+          client.atData?.info?.contactName,
+          client.atData?.info?.businessName
+        ].filter(Boolean).map(val => normalizeStr(val));
 
-  const filteredClients = clients.filter(client => {
-    const rawQuery = searchQuery.trim();
-    if (rawQuery) {
-      const queryTokens = normalizeStr(rawQuery).split(/\s+/).filter(Boolean);
-      
-      const aggregateSearchableText = normalizeStr([
-        client.business,
-        client.name,
-        client.rawProjectName,
-        client.vercelUrl,
-        client.id,
-        client.paymentStatus,
-        client.status,
-        client.info?.email,
-        client.info?.phone,
-        client.info?.contactName,
-        client.info?.businessName,
-        client.atData?.name,
-        client.atData?.business,
-        client.atData?.info?.email,
-        client.atData?.info?.phone,
-        client.atData?.info?.contactName,
-        client.atData?.info?.businessName
-      ].join(' '));
+        const aggregateText = searchableFields.join(' ');
+        const aggregateClean = aggregateText.replace(/[^a-z0-9]/g, '');
+        const queryClean = normQuery.replace(/[^a-z0-9]/g, '');
 
-      // Precision match: EVERY query word must match somewhere in the client's aggregate text
-      const matchesSearch = queryTokens.every(token => aggregateSearchableText.includes(token));
+        // Match whole phrase or tokens
+        const matchesWhole = aggregateText.includes(normQuery) || (queryClean.length >= 2 && aggregateClean.includes(queryClean));
+        const matchesTokens = queryTokens.every(token => {
+          const tokenClean = token.replace(/[^a-z0-9]/g, '');
+          return aggregateText.includes(token) || (tokenClean.length >= 2 && aggregateClean.includes(tokenClean));
+        });
 
-      if (!matchesSearch) return false;
-    }
+        if (!matchesWhole && !matchesTokens) return false;
+      }
 
-    if (filterStatus === 'LIVE') return client.status === 'DEPLOYED';
-    if (filterStatus === 'PENDING_PAYMENT') return client.paymentStatus !== 'PAID';
-    if (filterStatus === 'PAID') return client.paymentStatus === 'PAID';
+      // Filter by status if selected
+      if (filterStatus === 'LIVE') return client.status === 'DEPLOYED';
+      if (filterStatus === 'PENDING_PAYMENT') return client.paymentStatus !== 'PAID';
+      if (filterStatus === 'PAID') return client.paymentStatus === 'PAID';
 
-    return true;
-  });
+      return true;
+    });
+  }, [clients, searchQuery, filterStatus]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -532,25 +543,31 @@ export default function UnifiedAdminVercel() {
              </div>
              <div className="flex items-center gap-3">
                 <div className="relative flex-1 sm:w-auto">
-                   <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />
+                   <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
                    <input 
                       type="text" 
-                      placeholder="Buscar cliente, marca o dominio..." 
+                      placeholder="Buscar por cliente, marca, email, slug o dominio..." 
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="bg-white/5 border border-white/10 rounded-xl py-2 pl-9 pr-8 text-xs font-medium w-36 xs:w-48 sm:w-64 focus:outline-none focus:border-indigo-500/50 focus:bg-white/10 text-white placeholder:text-zinc-500 transition-all" 
+                      className="bg-white/5 border border-white/10 rounded-xl py-2 pl-9.5 pr-20 text-xs font-medium w-48 xs:w-64 sm:w-80 md:w-96 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 text-white placeholder:text-zinc-500 transition-all" 
                     />
-                    {searchQuery && (
-                      <button 
-                        onClick={() => setSearchQuery('')}
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white text-xs p-1"
-                        title="Limpiar búsqueda"
-                      >
-                        ✕
-                      </button>
-                    )}
+                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                      {searchQuery && (
+                        <>
+                          <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                            {filteredClients.length}
+                          </span>
+                          <button 
+                            onClick={() => setSearchQuery('')}
+                            className="text-zinc-400 hover:text-white text-xs p-0.5"
+                            title="Limpiar búsqueda"
+                          >
+                            ✕
+                          </button>
+                        </>
+                      )}
+                    </div>
                 </div>
-                <Filter className="w-4 h-4 text-zinc-600 hover:text-white transition-colors cursor-pointer shrink-0" />
              </div>
           </div>
 
