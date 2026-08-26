@@ -379,72 +379,73 @@ export default function PropuestasHubPage() {
   }, [calcTier, includePixel, includeSeo, includeBooking, includeContent]);
 
   return (
-    <div className="min-h-screen bg-[#070b09] text-[#e3ece7] font-sans selection:bg-[#2ee58f] selection:text-[#04100b] relative overflow-x-hidden">
-      {/* Background Cosmic Glows */}
+    <div className="min-h-screen bg-[#04100b] text-[#eaf6ee] font-sans selection:bg-[#2ee58f] selection:text-[#04100b] relative overflow-x-hidden">
+      {/* Background Cosmic Grid Texture & Halos */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(46,229,143,0.08)_0%,transparent_70%)]" />
-        <div className="absolute top-[30%] right-[-15%] w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(167,137,255,0.06)_0%,transparent_70%)]" />
-        <div className="absolute bottom-[-10%] left-[20%] w-[700px] h-[700px] rounded-full bg-[radial-gradient(circle,rgba(46,229,143,0.05)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(140,245,198,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(140,245,198,0.04)_1px,transparent_1px)] bg-[size:72px_72px] opacity-70" />
+        <div className="absolute top-[-10%] left-[-10%] w-[650px] h-[650px] rounded-full bg-[radial-gradient(circle,rgba(46,229,143,0.09)_0%,transparent_70%)] blur-[90px]" />
+        <div className="absolute top-[30%] right-[-15%] w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(122,63,242,0.12)_0%,transparent_70%)] blur-[110px]" />
+        <div className="absolute bottom-[-10%] left-[20%] w-[700px] h-[700px] rounded-full bg-[radial-gradient(circle,rgba(53,208,194,0.06)_0%,transparent_70%)] blur-[90px]" />
       </div>
 
       {/* Main Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
         
         {/* Top Header & Navigation */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-white/10">
+        <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-[rgba(140,245,198,0.12)]">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <Link href="/admin" className="inline-flex items-center gap-1 text-xs font-semibold text-white/50 hover:text-[#2ee58f] transition-colors">
+              <Link href="/admin" className="inline-flex items-center gap-1 text-xs font-medium text-[#9fb8ab] hover:text-[#2ee58f] transition-colors">
                 ← Volver a /admin
               </Link>
               <span className="text-white/20">/</span>
-              <span className="inline-flex items-center gap-1 text-xs font-bold text-[#2ee58f] uppercase tracking-widest bg-[#2ee58f]/10 px-2.5 py-1 rounded-full border border-[#2ee58f]/20">
+              <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] text-[#2ee58f] bg-[rgba(4,16,11,0.8)] px-3 py-1 rounded-full border border-[rgba(140,245,198,0.22)] shadow-[0_0_12px_rgba(46,229,143,0.15)]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#2ee58f] animate-pulse" />
                 Pipeline de Cierre & Ventas
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white flex items-center gap-3">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white flex items-center gap-3">
               Universa Proposals Hub
-              <span className="text-sm font-normal text-white/40 border border-white/10 px-2.5 py-0.5 rounded-md">v2.0</span>
+              <span className="text-xs font-mono text-[#9fb8ab] border border-[rgba(140,245,198,0.2)] px-2.5 py-0.5 rounded-full bg-[rgba(4,16,11,0.6)]">v2.0</span>
             </h1>
-            <p className="text-white/60 text-sm sm:text-base mt-1 max-w-2xl">
+            <p className="text-[#9fb8ab] text-sm sm:text-base mt-1.5 max-w-2xl font-light leading-relaxed">
               Control centralizado de propuestas comerciales enviadas, estado de contratos y manifiesto estratégico de cómo y por qué cotizamos sitios web.
             </p>
           </div>
 
-          {/* Navigation Mode Tabs */}
-          <div className="flex items-center bg-[#0d1511] p-1.5 rounded-2xl border border-white/10 self-start md:self-auto shadow-2xl">
+          {/* Navigation Mode Tabs (Home Pill Style) */}
+          <div className="flex items-center bg-[rgba(4,16,11,0.85)] p-1.5 rounded-full border border-[rgba(140,245,198,0.18)] self-start lg:self-auto shadow-2xl backdrop-blur-xl">
             <button
               onClick={() => setActiveTab('control')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
                 activeTab === 'control'
-                  ? 'bg-[#2ee58f] text-[#04100b] shadow-[0_0_20px_rgba(46,229,143,0.35)]'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                  ? 'bg-[#2ee58f] text-[#04100b] font-bold shadow-[0_0_20px_rgba(46,229,143,0.35)]'
+                  : 'text-[#9fb8ab] hover:text-white hover:bg-white/5'
               }`}
             >
-              <Layers className="w-4 h-4" />
-              Control de Propuestas ({proposalsList.length})
+              <Layers className="w-3.5 h-3.5" />
+              Control ({proposalsList.length})
             </button>
             <button
               onClick={() => setActiveTab('metodo')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
                 activeTab === 'metodo'
-                  ? 'bg-[#2ee58f] text-[#04100b] shadow-[0_0_20px_rgba(46,229,143,0.35)]'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                  ? 'bg-[#2ee58f] text-[#04100b] font-bold shadow-[0_0_20px_rgba(46,229,143,0.35)]'
+                  : 'text-[#9fb8ab] hover:text-white hover:bg-white/5'
               }`}
             >
-              <Sparkles className="w-4 h-4" />
-              ¿Cómo & Por Qué Vendemos Web?
+              <Sparkles className="w-3.5 h-3.5" />
+              ¿Cómo & Por Qué Vendemos?
             </button>
             <button
               onClick={() => setActiveTab('calculadora')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
                 activeTab === 'calculadora'
-                  ? 'bg-[#2ee58f] text-[#04100b] shadow-[0_0_20px_rgba(46,229,143,0.35)]'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                  ? 'bg-[#2ee58f] text-[#04100b] font-bold shadow-[0_0_20px_rgba(46,229,143,0.35)]'
+                  : 'text-[#9fb8ab] hover:text-white hover:bg-white/5'
               }`}
             >
-              <Calculator className="w-4 h-4" />
+              <Calculator className="w-3.5 h-3.5" />
               Cotizador Rápido
             </button>
           </div>
@@ -706,538 +707,466 @@ export default function PropuestasHubPage() {
 
         {/* TAB 2: EL MÉTODO UNIVERSA (PRESENTACIÓN COMERCIAL Y MANIFIESTO DE VENTAS) */}
         {activeTab === 'metodo' && (
-          <div ref={metodoContainerRef} className="mt-8 space-y-12">
+          <div ref={metodoContainerRef} className="mt-8 space-y-16">
             
-            {/* HERO MANIFESTO */}
-            <div className="gsap-reveal relative rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-[#0c1a13] via-[#09120e] to-[#040806] border border-[#2ee58f]/40 overflow-hidden shadow-[0_0_50px_rgba(46,229,143,0.12)]">
+            {/* HERO MANIFESTO BENTO */}
+            <div className="gsap-reveal relative rounded-[28px] p-8 sm:p-12 md:p-14 bg-gradient-to-b from-[rgba(255,255,255,0.03)] via-[rgba(4,16,11,0.7)] to-[#020a06] border border-[rgba(140,245,198,0.18)] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-xl">
+              {/* Background grid overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(140,245,198,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(140,245,198,0.04)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-60 mask-radial" />
+              
               <div className="max-w-4xl relative z-10">
-                <div className="flex flex-wrap items-center gap-2.5 mb-4">
-                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] text-xs font-bold uppercase tracking-widest">
-                    <Award className="w-3.5 h-3.5" />
-                    Manifiesto de Cierre Estratégico Universa v3.0
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/60 text-xs font-mono">
-                    <Sparkles className="w-3 h-3 text-[#2ee58f]" />
-                    Engineered with High-Conversion Direct Response
-                  </span>
+                {/* Home style badge */}
+                <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[rgba(4,16,11,0.8)] border border-[rgba(140,245,198,0.22)] text-[#2ee58f] text-[11px] font-bold uppercase tracking-[0.25em] mb-6 shadow-[0_0_15px_rgba(46,229,143,0.15)]">
+                  <span className="w-2 h-2 rounded-full bg-[#2ee58f] animate-pulse shadow-[0_0_8px_#2ee58f]" />
+                  Universa Growth Lab · Manifiesto de Cierre Estratégico
                 </div>
 
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mb-6">
-                  Por qué las marcas líderes compran <span className="text-[#2ee58f] bg-clip-text text-transparent bg-gradient-to-r from-[#2ee58f] via-[#70ffb9] to-white">Ecosistemas de Monetización</span> y no simples "páginas web"
+                <h2 className="text-3xl sm:text-5xl md:text-6xl font-medium tracking-tight text-white leading-[1.12] mb-6">
+                  Por qué las marcas líderes compran <span className="text-[#2ee58f] bg-clip-text text-transparent bg-gradient-to-r from-[#8cf5c6] via-[#2ee58f] to-[#35d0c2]">Ecosistemas de Monetización</span> y no simples "páginas web"
                 </h2>
 
-                <p className="text-white/70 text-base sm:text-xl leading-relaxed mb-8">
-                  Cualquiera puede ensamblar una plantilla genérica en WordPress o Canva por $200. Nosotros construimos <strong>activos comerciales de adquisición y retención asimétrica</strong> con arquitectura de First-Party Data, micro-motion a 60fps y tracking CAPI que transforman visitas anónimas en clientes recurrentes y rentables.
+                <p className="text-[#9fb8ab] text-base sm:text-lg md:text-xl leading-[1.7] max-w-3xl font-light mb-10">
+                  Cualquiera puede ensamblar una plantilla básica en WordPress o Canva por $200. Nosotros construimos <strong>activos comerciales de adquisición y retención asimétrica</strong> con captura de datos de primer orden (First-Party Data), micro-motion a 60fps y tracking CAPI que transforman visitas anónimas en clientes recurrentes.
                 </p>
 
-                {/* Live Core Pillars Tags */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/10">
-                  <div className="bg-[#111e17]/80 backdrop-blur-md p-3 rounded-xl border border-[#2ee58f]/20">
-                    <div className="text-[#2ee58f] text-xs font-bold flex items-center gap-1.5 mb-1">
-                      <Database className="w-3.5 h-3.5" /> 100% First-Party Data
+                {/* Modular 4-Pillars Bento Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-[rgba(140,245,198,0.12)]">
+                  <div className="p-4 rounded-2xl bg-[rgba(4,16,11,0.6)] border border-[rgba(140,245,198,0.14)] backdrop-blur-md hover:border-[rgba(140,245,198,0.35)] transition-all">
+                    <div className="w-8 h-8 rounded-full bg-[#2ee58f]/10 text-[#2ee58f] flex items-center justify-center font-mono font-bold text-xs mb-3 border border-[#2ee58f]/30">
+                      01
                     </div>
-                    <div className="text-[11px] text-white/50">Tracking CAPI sin fugas</div>
+                    <div className="text-sm font-medium text-white mb-1">100% First-Party Data</div>
+                    <div className="text-xs text-[#9fb8ab] leading-relaxed">Meta CAPI & GTM sin fugas de información.</div>
                   </div>
-                  <div className="bg-[#111e17]/80 backdrop-blur-md p-3 rounded-xl border border-[#38bdf8]/20">
-                    <div className="text-[#38bdf8] text-xs font-bold flex items-center gap-1.5 mb-1">
-                      <Zap className="w-3.5 h-3.5" /> GPU 60fps Engine
+
+                  <div className="p-4 rounded-2xl bg-[rgba(4,16,11,0.6)] border border-[rgba(140,245,198,0.14)] backdrop-blur-md hover:border-[rgba(140,245,198,0.35)] transition-all">
+                    <div className="w-8 h-8 rounded-full bg-[#38bdf8]/10 text-[#38bdf8] flex items-center justify-center font-mono font-bold text-xs mb-3 border border-[#38bdf8]/30">
+                      02
                     </div>
-                    <div className="text-[11px] text-white/50">Micro-motion de alta retención</div>
+                    <div className="text-sm font-medium text-white mb-1">GPU 60fps Engine</div>
+                    <div className="text-xs text-[#9fb8ab] leading-relaxed">Micro-motion y estatus que justifica tickets altos.</div>
                   </div>
-                  <div className="bg-[#111e17]/80 backdrop-blur-md p-3 rounded-xl border border-[#a78bff]/20">
-                    <div className="text-[#a78bff] text-xs font-bold flex items-center gap-1.5 mb-1">
-                      <Brain className="w-3.5 h-3.5" /> AI Search Schema
+
+                  <div className="p-4 rounded-2xl bg-[rgba(4,16,11,0.6)] border border-[rgba(140,245,198,0.14)] backdrop-blur-md hover:border-[rgba(140,245,198,0.35)] transition-all">
+                    <div className="w-8 h-8 rounded-full bg-[#a789ff]/10 text-[#a789ff] flex items-center justify-center font-mono font-bold text-xs mb-3 border border-[#a789ff]/30">
+                      03
                     </div>
-                    <div className="text-[11px] text-white/50">ChatGPT & Google SGE ready</div>
+                    <div className="text-sm font-medium text-white mb-1">AI Search Schema</div>
+                    <div className="text-xs text-[#9fb8ab] leading-relaxed">Optimizado para ChatGPT Search & Google SGE.</div>
                   </div>
-                  <div className="bg-[#111e17]/80 backdrop-blur-md p-3 rounded-xl border border-amber-400/20">
-                    <div className="text-amber-400 text-xs font-bold flex items-center gap-1.5 mb-1">
-                      <DollarSign className="w-3.5 h-3.5" /> 1-Click Checkout
+
+                  <div className="p-4 rounded-2xl bg-[rgba(4,16,11,0.6)] border border-[rgba(140,245,198,0.14)] backdrop-blur-md hover:border-[rgba(140,245,198,0.35)] transition-all">
+                    <div className="w-8 h-8 rounded-full bg-[#f59e0b]/10 text-[#f59e0b] flex items-center justify-center font-mono font-bold text-xs mb-3 border border-[#f59e0b]/30">
+                      04
                     </div>
-                    <div className="text-[11px] text-white/50">Apple Pay & Stripe Native</div>
+                    <div className="text-sm font-medium text-white mb-1">1-Click Checkout</div>
+                    <div className="text-xs text-[#9fb8ab] leading-relaxed">Apple Pay, Stripe y Clover con compra inmediata.</div>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute right-[-10%] bottom-[-15%] w-[550px] h-[550px] bg-[#2ee58f]/10 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute top-[-20%] right-[10%] w-[350px] h-[350px] bg-[#a78bff]/10 rounded-full blur-3xl pointer-events-none" />
+              {/* Ambient Glows */}
+              <div className="absolute right-[-10%] bottom-[-20%] w-[550px] h-[550px] bg-[#2ee58f]/10 rounded-full blur-[100px] pointer-events-none" />
+              <div className="absolute top-[-20%] right-[10%] w-[400px] h-[400px] bg-[#7a3ff2]/12 rounded-full blur-[100px] pointer-events-none" />
             </div>
 
-            {/* SECCIÓN 00: LA MATRIZ DE LOS 6 TITANES DEL MARKETING */}
-            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10 relative overflow-hidden">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            {/* SECCIÓN 01: MATRIZ DE LOS 6 TITANES EN BENTO MODULAR */}
+            <section className="gsap-reveal space-y-6">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-[rgba(140,245,198,0.12)]">
                 <div>
-                  <span className="text-xs font-bold text-[#2ee58f] uppercase tracking-widest flex items-center gap-1.5 mb-2">
-                    <Workflow className="w-4 h-4" />
-                    Deep Research Estratégico
+                  <span className="font-bold italic uppercase tracking-[0.28em] text-[11px] text-[#2ee58f] block mb-2">
+                    Framework Científico · Direct Response Titans
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-black text-white">
-                    La Matriz de los 6 Titanes del Marketing Directo
+                  <h3 className="text-2xl sm:text-4xl font-medium text-white tracking-tight">
+                    La Matriz de los 6 Titanes del Marketing
                   </h3>
-                  <p className="text-xs sm:text-sm text-white/50 mt-1">
-                    Cada línea de código y cada pantalla de Universa aplica las leyes científicas de adquisición y persuasión.
-                  </p>
                 </div>
-
-                <div className="text-xs text-white/40 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10 font-mono self-start md:self-auto">
-                  Selecciona un Titán para ver su aplicación
-                </div>
+                <p className="text-xs sm:text-sm text-[#9fb8ab] max-w-md font-light">
+                  Cada pantalla y línea de código de Universa aplica las leyes matemáticas de los estrategas más influyentes del mundo.
+                </p>
               </div>
 
-              {/* Titans Horizontal Tabs */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 mb-6">
-                {titansData.map((titan) => {
+              {/* Bento 3x2 Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {titansData.map((titan, idx) => {
                   const Icon = titan.icon;
                   const isSelected = selectedTitan === titan.id;
                   return (
-                    <button
+                    <div
                       key={titan.id}
                       onClick={() => setSelectedTitan(titan.id)}
-                      className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col justify-between ${
+                      className={`p-6 sm:p-7 rounded-[24px] border flex flex-col justify-between cursor-pointer transition-all duration-300 relative overflow-hidden group ${
                         isSelected
-                          ? 'bg-[#13221b] border-[#2ee58f] text-white shadow-[0_0_20px_rgba(46,229,143,0.25)]'
-                          : 'bg-[#0f1713] border-white/5 text-white/60 hover:text-white hover:border-white/20'
+                          ? 'bg-gradient-to-b from-[#0c1f16] to-[#04100b] border-[#2ee58f] shadow-[0_0_30px_rgba(46,229,143,0.18)] translate-y-[-2px]'
+                          : 'bg-gradient-to-b from-[rgba(255,255,255,0.02)] to-[rgba(4,16,11,0.6)] border-[rgba(140,245,198,0.12)] hover:border-[rgba(140,245,198,0.3)] hover:shadow-xl'
                       }`}
                     >
-                      <div className="flex items-center justify-between mb-2">
-                        <div
-                          className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold"
-                          style={{
-                            backgroundColor: `${titan.color}20`,
-                            color: titan.color,
-                            border: `1px solid ${titan.color}40`
-                          }}
-                        >
-                          <Icon className="w-3.5 h-3.5" />
-                        </div>
-                        {isSelected && (
-                          <span className="w-2 h-2 rounded-full bg-[#2ee58f] animate-pulse" />
-                        )}
-                      </div>
                       <div>
-                        <div className="text-xs font-bold text-white truncate">{titan.name}</div>
-                        <div className="text-[10px] text-white/40 truncate">{titan.badge}</div>
+                        {/* Header Node */}
+                        <div className="flex items-center justify-between gap-3 mb-4">
+                          <div className="flex items-center gap-3">
+                            <span className="w-8 h-8 rounded-full bg-[#0a1a12] border border-[rgba(140,245,198,0.3)] text-[#2ee58f] flex items-center justify-center font-mono font-bold text-xs">
+                              0{idx + 1}
+                            </span>
+                            <div>
+                              <h4 className="text-base font-medium text-white group-hover:text-[#2ee58f] transition-colors">
+                                {titan.name}
+                              </h4>
+                              <span className="text-[11px] text-[#9fb8ab] block">{titan.book}</span>
+                            </div>
+                          </div>
+
+                          <div
+                            className="w-8 h-8 rounded-xl flex items-center justify-center"
+                            style={{
+                              backgroundColor: `${titan.color}15`,
+                              color: titan.color,
+                              border: `1px solid ${titan.color}35`
+                            }}
+                          >
+                            <Icon className="w-4 h-4" />
+                          </div>
+                        </div>
+
+                        {/* Tagline */}
+                        <blockquote className="text-xs sm:text-sm text-white/90 italic font-serif leading-relaxed mb-4 border-l-2 border-[#2ee58f]/40 pl-3">
+                          {titan.tagline}
+                        </blockquote>
+
+                        {/* Error vs Solution Visual Pills */}
+                        <div className="space-y-2 text-xs">
+                          <div className="p-2.5 rounded-xl bg-red-950/20 border border-red-500/20 text-red-200/90 leading-relaxed">
+                            <span className="text-red-400 font-bold block mb-0.5">✕ El Error Mortal:</span>
+                            {titan.reframe}
+                          </div>
+
+                          <div className="p-2.5 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/20 text-white/90 leading-relaxed">
+                            <span className="text-[#2ee58f] font-bold block mb-0.5">✓ En Universa:</span>
+                            {titan.universaApp}
+                          </div>
+                        </div>
                       </div>
-                    </button>
+
+                      {/* Card Footer Metric */}
+                      <div className="mt-5 pt-3 border-t border-[rgba(140,245,198,0.1)] flex items-center justify-between text-[11px]">
+                        <span className="text-[#9fb8ab] font-medium">{titan.badge}</span>
+                        <span className="font-mono font-bold text-[#2ee58f] bg-[#2ee58f]/10 px-2 py-0.5 rounded-md">
+                          {titan.id === 'hormozi' ? '+320% ROI' : titan.id === 'brunson' ? '100% Data' : titan.id === 'suby' ? '97% Recuperado' : titan.id === 'kennedy' ? '24/7 Sales' : titan.id === 'schwartz' ? '3x Conversión' : '2.5x Ticket'}
+                        </span>
+                      </div>
+                    </div>
                   );
                 })}
               </div>
-
-              {/* Active Titan Breakdown Card */}
-              {(() => {
-                const current = titansData.find(t => t.id === selectedTitan) || titansData[0];
-                const Icon = current.icon;
-                return (
-                  <motion.div
-                    key={current.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#121c17] to-[#0a100d] border border-white/10 relative"
-                  >
-                    <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
-                      <div className="space-y-4 max-w-2xl">
-                        <div className="flex items-center gap-3">
-                          <div
-                            className="w-10 h-10 rounded-xl flex items-center justify-center font-bold"
-                            style={{
-                              backgroundColor: `${current.color}20`,
-                              color: current.color,
-                              border: `1px solid ${current.color}50`
-                            }}
-                          >
-                            <Icon className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <h4 className="text-xl font-black text-white flex items-center gap-2">
-                              {current.name}
-                              <span className="text-xs font-normal text-white/40 font-mono">({current.book})</span>
-                            </h4>
-                            <span
-                              className="text-xs font-bold uppercase tracking-wider"
-                              style={{ color: current.color }}
-                            >
-                              {current.badge}
-                            </span>
-                          </div>
-                        </div>
-
-                        <blockquote className="text-base sm:text-lg italic text-white/90 border-l-2 border-[#2ee58f] pl-4 font-serif">
-                          {current.tagline}
-                        </blockquote>
-
-                        <div className="space-y-3 pt-2">
-                          <div className="p-3.5 rounded-xl bg-red-950/20 border border-red-500/20 text-xs sm:text-sm text-red-200/90 leading-relaxed">
-                            <strong className="text-red-400 block mb-1">✕ El Error Mortal que Comete el Mercado:</strong>
-                            {current.reframe}
-                          </div>
-
-                          <div className="p-3.5 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-xs sm:text-sm text-white/90 leading-relaxed">
-                            <strong className="text-[#2ee58f] block mb-1">✓ La Solución Científica Universa:</strong>
-                            {current.universaApp}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Strategy Badge Callout */}
-                      <div className="lg:w-80 bg-black/40 p-5 rounded-2xl border border-white/10 flex flex-col justify-between space-y-4 self-stretch">
-                        <div>
-                          <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-2">
-                            Métrica de Impacto
-                          </span>
-                          <div className="text-3xl font-black text-[#2ee58f] font-mono mb-1">
-                            {current.id === 'hormozi' ? '+320% ROI' : current.id === 'brunson' ? '100% Data' : current.id === 'suby' ? '97% Recuperado' : current.id === 'kennedy' ? '24/7 Closer' : current.id === 'schwartz' ? '3x Conversión' : '2.5x Ticket'}
-                          </div>
-                          <p className="text-xs text-white/60">
-                            {current.id === 'hormozi' ? 'Justifica tickets de venta más altos sin fricción de precio.' : current.id === 'brunson' ? 'Independencia total del algoritmo de Instagram.' : current.id === 'suby' ? 'Retargeting a centavos para el 97% que no compra de inmediato.' : current.id === 'kennedy' ? 'Pasarela de pago y checkout sin intervención manual.' : current.id === 'schwartz' ? 'Segmentación dinámica por intención y temperatura.' : 'Estatus de marca premium acelerado por GPU a 60fps.'}
-                          </p>
-                        </div>
-
-                        <div className="pt-3 border-t border-white/10 text-[11px] font-bold text-[#2ee58f] flex items-center justify-between">
-                          <span>Estándar Integrado</span>
-                          <span>✓ Activo</span>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })()}
             </section>
 
-            {/* SECCIÓN 01: INFOGRAFÍA INTERACTIVA - LA REGLA DEL 3% VS. EL ECOSISTEMA UNIVERSA */}
-            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10 relative overflow-hidden">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="w-9 h-9 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] flex items-center justify-center font-bold text-sm">
-                  01
-                </span>
+            {/* SECCIÓN 02: DIAGRAMA DE FLUJO MODULAR - LA REGLA DEL 3% */}
+            <section className="gsap-reveal rounded-[28px] p-8 sm:p-10 bg-gradient-to-b from-[rgba(255,255,255,0.02)] to-[rgba(2,10,6,0.8)] border border-[rgba(140,245,198,0.16)] backdrop-blur-xl relative overflow-hidden">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
-                  <h3 className="text-2xl font-bold text-white">
-                    La Regla del 3% & La Fuga Masiva de Clientes
+                  <span className="font-bold italic uppercase tracking-[0.28em] text-[11px] text-[#2ee58f] block mb-1">
+                    Diagrama de Flujo y Adquisición Omnicanal
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-medium text-white tracking-tight">
+                    La Regla del 3% vs. La Trampa de la "Tierra Alquilada"
                   </h3>
-                  <p className="text-xs text-white/40">Por qué el Linktree o el Instagram DM están quemando tu presupuesto de marketing</p>
+                  <p className="text-xs sm:text-sm text-[#9fb8ab] mt-1 font-light">
+                    Por qué centralizar tu tráfico en un Linktree o un Instagram DM te hace perder el 97% de tu inversión.
+                  </p>
                 </div>
-              </div>
 
-              <p className="text-white/60 text-sm sm:text-base leading-relaxed mb-6 max-w-4xl">
-                En cualquier momento, <strong>solo el 3% de tu audiencia está lista para comprar ya</strong>. El otro 97% está en fase de exploración. Si envías tráfico a un enlace gratuito o a un DM de Instagram, el 97% que no escribe se evapora para siempre en el vacío digital (0% de data).
-              </p>
-
-              {/* Simulation Mode Toggle Bar */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-[#0f1713] border border-white/10 mb-8">
-                <div className="text-xs sm:text-sm font-semibold text-white/80">
-                  <span className="text-[#2ee58f] font-bold">Simulación en Vivo:</span> ¿Qué pasa cuando 1,000 personas visitan tu perfil?
-                </div>
-                <div className="flex items-center bg-black/50 p-1 rounded-xl border border-white/10">
+                {/* Simulation Toggle */}
+                <div className="flex items-center bg-[#020a06] p-1.5 rounded-2xl border border-[rgba(140,245,198,0.2)] shadow-xl self-start md:self-auto">
                   <button
                     onClick={() => setTrafficSimMode('traditional')}
-                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                       trafficSimMode === 'traditional'
-                        ? 'bg-red-500/20 text-red-300 border border-red-500/30 shadow-md'
-                        : 'text-white/40 hover:text-white'
+                        ? 'bg-red-500/20 text-red-300 border border-red-500/40 shadow-lg'
+                        : 'text-[#9fb8ab] hover:text-white'
                     }`}
                   >
-                    ✕ Enlace Genérico / Linktree
+                    ✕ Modo Linktree / DM
                   </button>
                   <button
                     onClick={() => setTrafficSimMode('universa')}
-                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                       trafficSimMode === 'universa'
-                        ? 'bg-[#2ee58f] text-[#04100b] shadow-[0_0_15px_rgba(46,229,143,0.4)]'
-                        : 'text-white/40 hover:text-white'
+                        ? 'bg-[#2ee58f] text-[#04100b] shadow-[0_0_20px_rgba(46,229,143,0.4)]'
+                        : 'text-[#9fb8ab] hover:text-white'
                     }`}
                   >
-                    ✓ Ecosistema Digital Universa
+                    ✓ Ecosistema Universa
                   </button>
                 </div>
               </div>
 
-              {/* Interactive Visual Canvas / Flow */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                {/* Input Stage */}
-                <div className="lg:col-span-3 bg-[#0f1914] p-5 rounded-2xl border border-white/10 flex flex-col justify-between">
+              {/* Visual Flowchart Diagram */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+                {/* Node 1: Entry */}
+                <div className="lg:col-span-3 p-6 rounded-[22px] bg-[#04100b] border border-[rgba(140,245,198,0.14)] flex flex-col justify-between">
                   <div>
-                    <span className="text-[10px] font-bold uppercase text-white/40 tracking-wider block mb-1">Entrada de Tráfico</span>
-                    <h4 className="text-lg font-bold text-white flex items-center gap-2">
-                      <Users className="w-4 h-4 text-[#38bdf8]" /> 1,000 Visitas
-                    </h4>
-                    <p className="text-xs text-white/50 mt-2 leading-relaxed">
-                      Llegan desde Instagram Reels, historias, TikTok, Google Maps o boca a boca.
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="w-7 h-7 rounded-full bg-[#38bdf8]/10 text-[#38bdf8] flex items-center justify-center font-bold text-xs border border-[#38bdf8]/30">
+                        A
+                      </span>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#9fb8ab]">Entrada de Tráfico</span>
+                    </div>
+                    <div className="text-3xl font-black text-white font-mono mb-1">1,000</div>
+                    <div className="text-xs text-[#2ee58f] font-semibold mb-2">Visitas Mensuales</div>
+                    <p className="text-xs text-[#9fb8ab] leading-relaxed">
+                      Procedentes de Instagram Reels, Stories, TikTok, anuncios o recomendaciones locales.
                     </p>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-white/5 text-[11px] text-[#38bdf8] font-mono">
-                    100% Volumen Inicial
+                  <div className="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-[#38bdf8]">
+                    100% Tráfico Inicial
                   </div>
                 </div>
 
-                {/* Middle Stage: The Split */}
+                {/* Node 2: The Core Split (Graphic Bars) */}
                 <div className="lg:col-span-6 space-y-4">
-                  {/* The 3% Hot Buyers */}
-                  <div className="p-4 rounded-2xl bg-[#0e1a14] border border-[#2ee58f]/30 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-[#2ee58f]/10 text-[#2ee58f] flex items-center justify-center font-bold text-xs">
-                        3%
+                  {/* The 3% Hot Segment */}
+                  <div className="p-5 rounded-[22px] bg-[#04100b] border border-[#2ee58f]/30">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#2ee58f]" />
+                        <span className="text-xs font-bold text-white uppercase tracking-wider">3% · Compradores Inmediatos</span>
                       </div>
-                      <div>
-                        <div className="text-xs font-bold text-white">30 Compradores Inmediatos</div>
-                        <div className="text-[11px] text-white/50">Tienen urgencia y compran sin pensarlo.</div>
-                      </div>
+                      <span className="font-mono text-xs font-bold text-[#2ee58f] bg-[#2ee58f]/10 px-2.5 py-0.5 rounded-md">
+                        30 Ventas
+                      </span>
                     </div>
-                    <span className="text-xs font-bold font-mono text-[#2ee58f] bg-[#2ee58f]/10 px-2.5 py-1 rounded-lg">
-                      30 Clientes
-                    </span>
+                    <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden mb-2">
+                      <div className="bg-[#2ee58f] h-full rounded-full w-[3%]" />
+                    </div>
+                    <p className="text-xs text-[#9fb8ab]">
+                      Tienen alta urgencia y compran sin importar la plataforma.
+                    </p>
                   </div>
 
-                  {/* The 97% Critical Split */}
-                  <div className={`p-4 rounded-2xl border transition-all duration-300 ${
+                  {/* The 97% Critical Leak vs Capture */}
+                  <div className={`p-5 rounded-[22px] border transition-all duration-300 ${
                     trafficSimMode === 'traditional'
                       ? 'bg-red-950/20 border-red-500/30'
-                      : 'bg-[#11221a] border-[#38bdf8]/40 shadow-[0_0_20px_rgba(56,189,248,0.1)]'
+                      : 'bg-[#061910] border-[#38bdf8]/40 shadow-[0_0_25px_rgba(56,189,248,0.12)]'
                   }`}>
                     <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${
-                          trafficSimMode === 'traditional' ? 'bg-red-500/10 text-red-400' : 'bg-[#38bdf8]/10 text-[#38bdf8]'
-                        }`}>
-                          97%
-                        </div>
-                        <div>
-                          <div className="text-xs font-bold text-white">970 Visitantes Indecisos / Investigando</div>
-                          <div className="text-[11px] text-white/50">
-                            {trafficSimMode === 'traditional'
-                              ? 'Entran al Linktree, ven botones grises y cierran la app.'
-                              : 'Aterrizan en tu web: el Píxel CAPI registra su ID, comportamiento e intereses.'}
-                          </div>
-                        </div>
+                      <div className="flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${trafficSimMode === 'traditional' ? 'bg-red-400' : 'bg-[#38bdf8]'}`} />
+                        <span className="text-xs font-bold text-white uppercase tracking-wider">97% · Visitantes Indecisos (970 Personas)</span>
                       </div>
-                      <span className={`text-xs font-bold font-mono px-2.5 py-1 rounded-lg ${
+                      <span className={`font-mono text-xs font-bold px-2.5 py-0.5 rounded-md ${
                         trafficSimMode === 'traditional' ? 'text-red-400 bg-red-500/10' : 'text-[#38bdf8] bg-[#38bdf8]/10'
                       }`}>
-                        970 Personas
+                        970 Prospectos
                       </span>
                     </div>
 
-                    <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
-                      <span className="text-white/60">Resultado con esta data:</span>
-                      <strong className={trafficSimMode === 'traditional' ? 'text-red-400' : 'text-[#2ee58f]'}>
-                        {trafficSimMode === 'traditional' ? '0% Data — Evaporados para siempre' : '+145 Ventas en Retargeting ($0.15/click)'}
-                      </strong>
+                    <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden mb-3">
+                      <div className={`h-full rounded-full w-[97%] transition-all duration-500 ${
+                        trafficSimMode === 'traditional' ? 'bg-red-500' : 'bg-gradient-to-r from-[#38bdf8] to-[#2ee58f]'
+                      }`} />
                     </div>
+
+                    <p className="text-xs text-[#9fb8ab] leading-relaxed">
+                      {trafficSimMode === 'traditional'
+                        ? '✕ Sin píxel propio ni dominio oficial. Los 970 usuarios se van sin dejar rastro (0% First-Party Data). El dinero se pierde para siempre.'
+                        : '✓ El 100% queda registrado por Meta Conversions API (CAPI) y Google Tag Manager. Se crean 50,000 clones en Lookalikes y se activan campañas de retargeting de $0.15/click que recuperan +145 ventas.'}
+                    </p>
                   </div>
                 </div>
 
-                {/* Final Stage: Financial Metric */}
-                <div className={`lg:col-span-3 p-5 rounded-2xl border flex flex-col justify-between transition-all duration-300 ${
+                {/* Node 3: Resulting Capital Balance */}
+                <div className={`lg:col-span-3 p-6 rounded-[22px] border flex flex-col justify-between transition-all duration-300 ${
                   trafficSimMode === 'traditional'
-                    ? 'bg-[#140b0b] border-red-500/30'
-                    : 'bg-gradient-to-b from-[#0c1f16] to-[#07130d] border-[#2ee58f]/40 shadow-xl'
+                    ? 'bg-[#140808] border-red-500/30'
+                    : 'bg-gradient-to-b from-[#0c1f16] to-[#04100b] border-[#2ee58f]/40 shadow-2xl'
                 }`}>
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider block mb-1 text-white/40">
-                      Balance Financiero Total
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#9fb8ab] block mb-1">
+                      Retorno Comercial Final
                     </span>
-                    <div className={`text-3xl font-black font-mono mb-1 ${
+                    <div className={`text-4xl font-black font-mono mb-1 ${
                       trafficSimMode === 'traditional' ? 'text-red-400' : 'text-[#2ee58f]'
                     }`}>
                       {trafficSimMode === 'traditional' ? '30 Clientes' : '175 Clientes'}
                     </div>
-                    <div className="text-xs text-white/60">
-                      {trafficSimMode === 'traditional'
-                        ? 'Pérdida neta de 970 prospectos. Estás subsidiando con tu tiempo al algoritmo de Meta.'
-                        : 'Ecosistema de adquisición omnicanal. Multiplicador de 5.8x sobre el mismo tráfico.'}
+                    <div className="text-xs font-semibold text-white/80 mb-2">
+                      {trafficSimMode === 'traditional' ? 'Tasa de Conversión: 3%' : 'Tasa de Conversión Total: 17.5%'}
                     </div>
+                    <p className="text-xs text-[#9fb8ab] leading-relaxed">
+                      {trafficSimMode === 'traditional'
+                        ? 'Estás trabajando y gastando tiempo para regalarle tu audiencia al algoritmo de Meta.'
+                        : 'Activo digital de alto rendimiento. Multiplicador de 5.8x sobre la misma cantidad de visitas.'}
+                    </p>
                   </div>
 
-                  <div className={`mt-4 pt-3 border-t text-[11px] font-bold ${
+                  <div className={`mt-4 pt-3 border-t text-xs font-bold ${
                     trafficSimMode === 'traditional' ? 'border-red-500/20 text-red-400' : 'border-[#2ee58f]/20 text-[#2ee58f]'
                   }`}>
-                    {trafficSimMode === 'traditional' ? '❌ Fuga Masiva de Capital' : '✓ Dominio y Retención Total'}
+                    {trafficSimMode === 'traditional' ? '✕ Pérdida del 97% de Clientes' : '✓ Dominio de Mercado y Retención'}
                   </div>
                 </div>
               </div>
             </section>
 
-            {/* SECCIÓN 02: INFOGRAFÍA INTERACTIVA - EL EMBUDO TÉRMICO DE 3 TEMPERATURAS */}
-            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="w-9 h-9 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] flex items-center justify-center font-bold text-sm">
-                  02
-                </span>
+            {/* SECCIÓN 03: EL EMBUDO TÉRMICO 3D EN FORMATO BENTO */}
+            <section className="gsap-reveal space-y-6">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-[rgba(140,245,198,0.12)]">
                 <div>
-                  <h3 className="text-2xl font-bold text-white">
+                  <span className="font-bold italic uppercase tracking-[0.28em] text-[11px] text-[#2ee58f] block mb-2">
+                    Segmentación Psicológica · Eugene Schwartz Framework
+                  </span>
+                  <h3 className="text-2xl sm:text-4xl font-medium text-white tracking-tight">
                     El Embudo Térmico & Automatización de Eventos CAPI
                   </h3>
-                  <p className="text-xs text-white/40">Eugene Schwartz + Alex Hormozi: Segmentación de audiencias por intención real</p>
                 </div>
+                <p className="text-xs sm:text-sm text-[#9fb8ab] max-w-md font-light">
+                  Un prospecto frío necesita autoridad; un prospecto tibio necesita eliminar dudas; un prospecto caliente necesita checkout en 1 clic.
+                </p>
               </div>
 
-              <p className="text-white/60 text-sm sm:text-base leading-relaxed mb-6 max-w-4xl">
-                Un cliente que nunca ha escuchado de ti no puede recibir la misma oferta que alguien que ya revisó tu carta o cotizó un servicio. Tu Ecosistema Universa clasifica en tiempo real cada interacción para alimentar a la IA publicitaria.
-              </p>
-
-              {/* Temperature Selector */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <button
+              {/* 3 Columns Thermal Bento */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {/* Cold Thermal Card */}
+                <div
                   onClick={() => setActiveFunnelStage('cold')}
-                  className={`p-5 rounded-2xl border text-left transition-all relative overflow-hidden ${
+                  className={`p-7 rounded-[26px] border flex flex-col justify-between transition-all cursor-pointer ${
                     activeFunnelStage === 'cold'
-                      ? 'bg-[#0f1914] border-sky-400 text-white shadow-[0_0_25px_rgba(56,189,248,0.2)]'
-                      : 'bg-[#0b120e] border-white/5 text-white/60 hover:border-white/20'
+                      ? 'bg-gradient-to-b from-[#081822] to-[#04100b] border-sky-400 shadow-[0_0_30px_rgba(56,189,248,0.2)] translate-y-[-2px]'
+                      : 'bg-gradient-to-b from-[rgba(255,255,255,0.02)] to-[rgba(4,16,11,0.6)] border-[rgba(140,245,198,0.12)] hover:border-sky-400/40'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-sky-400 bg-sky-400/10 px-2.5 py-1 rounded-full border border-sky-400/30">
-                      <Snowflake className="w-3.5 h-3.5" />
-                      Tráfico Frío (Cold)
-                    </span>
-                    <span className="text-xs font-mono text-white/30">Etapa 1</span>
-                  </div>
-                  <h4 className="text-base font-bold text-white mb-1">Captura de Identidad & Huella</h4>
-                  <p className="text-xs text-white/50">Visitantes por primera vez. Creación de Lookalikes al 1%.</p>
-                </button>
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-sky-400 bg-sky-400/10 px-3 py-1 rounded-full border border-sky-400/30">
+                        <Snowflake className="w-3.5 h-3.5" />
+                        Tráfico Frío (Cold)
+                      </span>
+                      <span className="font-mono text-xs text-[#9fb8ab]">Nivel 1</span>
+                    </div>
 
-                <button
+                    <h4 className="text-lg font-medium text-white mb-2">Captura de Identidad & Huella</h4>
+                    <p className="text-xs text-[#9fb8ab] leading-relaxed mb-4">
+                      Personas que nunca han escuchado de ti. Al aterrizar en tu dominio, el Píxel Server-Side registra su ID de Meta/Google y geolocalización sin demora (&lt;0.8s).
+                    </p>
+
+                    <div className="p-3 rounded-xl bg-black/40 border border-white/5 font-mono text-[11px] text-sky-300 space-y-1 mb-4">
+                      <div className="text-[10px] text-white/40 uppercase font-sans">Evento CAPI Disparado:</div>
+                      <div>PageView + UserParams</div>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-[rgba(140,245,198,0.1)] text-xs text-sky-400 font-semibold">
+                    → Creación de Lookalikes al 1% (50,000 Clones)
+                  </div>
+                </div>
+
+                {/* Warm Thermal Card */}
+                <div
                   onClick={() => setActiveFunnelStage('warm')}
-                  className={`p-5 rounded-2xl border text-left transition-all relative overflow-hidden ${
+                  className={`p-7 rounded-[26px] border flex flex-col justify-between transition-all cursor-pointer ${
                     activeFunnelStage === 'warm'
-                      ? 'bg-[#0f1914] border-amber-400 text-white shadow-[0_0_25px_rgba(251,191,36,0.2)]'
-                      : 'bg-[#0b120e] border-white/5 text-white/60 hover:border-white/20'
+                      ? 'bg-gradient-to-b from-[#1c1608] to-[#04100b] border-amber-400 shadow-[0_0_30px_rgba(251,191,36,0.2)] translate-y-[-2px]'
+                      : 'bg-gradient-to-b from-[rgba(255,255,255,0.02)] to-[rgba(4,16,11,0.6)] border-[rgba(140,245,198,0.12)] hover:border-amber-400/40'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-full border border-amber-400/30">
-                      <Sun className="w-3.5 h-3.5" />
-                      Tráfico Tibio (Warm)
-                    </span>
-                    <span className="text-xs font-mono text-white/30">Etapa 2</span>
-                  </div>
-                  <h4 className="text-base font-bold text-white mb-1">Intención & Consideración</h4>
-                  <p className="text-xs text-white/50">Scroll depth &gt; 60%, clics en productos y carritos.</p>
-                </button>
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/30">
+                        <Sun className="w-3.5 h-3.5" />
+                        Tráfico Tibio (Warm)
+                      </span>
+                      <span className="font-mono text-xs text-[#9fb8ab]">Nivel 2</span>
+                    </div>
 
-                <button
+                    <h4 className="text-lg font-medium text-white mb-2">Detección de Intención & Retención</h4>
+                    <p className="text-xs text-[#9fb8ab] leading-relaxed mb-4">
+                      Prospectos que vieron tu carta, cotizaron un servicio o leyeron reseñas. El sistema detecta scroll &gt; 60% y añade al carrito.
+                    </p>
+
+                    <div className="p-3 rounded-xl bg-black/40 border border-white/5 font-mono text-[11px] text-amber-300 space-y-1 mb-4">
+                      <div className="text-[10px] text-white/40 uppercase font-sans">Evento CAPI Disparado:</div>
+                      <div>ViewContent + AddToCart</div>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-[rgba(140,245,198,0.1)] text-xs text-amber-400 font-semibold">
+                    → Retargeting Dinámico (ROAS 4.5x)
+                  </div>
+                </div>
+
+                {/* Hot Thermal Card */}
+                <div
                   onClick={() => setActiveFunnelStage('hot')}
-                  className={`p-5 rounded-2xl border text-left transition-all relative overflow-hidden ${
+                  className={`p-7 rounded-[26px] border flex flex-col justify-between transition-all cursor-pointer ${
                     activeFunnelStage === 'hot'
-                      ? 'bg-[#0f1914] border-[#2ee58f] text-white shadow-[0_0_25px_rgba(46,229,143,0.25)]'
-                      : 'bg-[#0b120e] border-white/5 text-white/60 hover:border-white/20'
+                      ? 'bg-gradient-to-b from-[#0c1f16] to-[#04100b] border-[#2ee58f] shadow-[0_0_30px_rgba(46,229,143,0.25)] translate-y-[-2px]'
+                      : 'bg-gradient-to-b from-[rgba(255,255,255,0.02)] to-[rgba(4,16,11,0.6)] border-[rgba(140,245,198,0.12)] hover:border-[#2ee58f]/40'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#2ee58f] bg-[#2ee58f]/10 px-2.5 py-1 rounded-full border border-[#2ee58f]/30">
-                      <Flame className="w-3.5 h-3.5" />
-                      Tráfico Caliente (Hot)
-                    </span>
-                    <span className="text-xs font-mono text-white/30">Etapa 3</span>
-                  </div>
-                  <h4 className="text-base font-bold text-white mb-1">Checkout & LTV Maximizado</h4>
-                  <p className="text-xs text-white/50">Apple Pay, Stripe y up-selling automático en 1 clic.</p>
-                </button>
-              </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#2ee58f] bg-[#2ee58f]/10 px-3 py-1 rounded-full border border-[#2ee58f]/30">
+                        <Flame className="w-3.5 h-3.5" />
+                        Tráfico Caliente (Hot)
+                      </span>
+                      <span className="font-mono text-xs text-[#9fb8ab]">Nivel 3</span>
+                    </div>
 
-              {/* Dynamic Stage Drill-Down */}
-              <div className="p-6 rounded-2xl bg-[#0f1713] border border-white/10">
-                {activeFunnelStage === 'cold' && (
-                  <div className="space-y-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-                      <div className="text-sm font-bold text-white flex items-center gap-2">
-                        <Snowflake className="w-4 h-4 text-sky-400" />
-                        Comportamiento en Tráfico Frío
-                      </div>
-                      <span className="text-xs font-mono text-sky-400">Meta CAPI Event: PageView + UserProperties</span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-white/70">
-                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
-                        <strong className="text-white block text-sm">¿Qué hace el Ecosistema?</strong>
-                        <p>Carga el sitio en menos de 0.8s en el teléfono del usuario. Ejecuta el Píxel Server-Side registrando ID publicitario, geolocalización en Miami/Florida y modelo de dispositivo sin ralentizar la interfaz.</p>
-                      </div>
-                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
-                        <strong className="text-sky-400 block text-sm">El Retorno Publicitario</strong>
-                        <p>Meta y Google construyen una <strong>Audiencia Similar (Lookalike)</strong> de 50,000 personas en tu ciudad que tienen el mismo patrón de comportamiento que tus mejores clientes.</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                    <h4 className="text-lg font-medium text-white mb-2">1-Click Checkout & Maximización de LTV</h4>
+                    <p className="text-xs text-[#9fb8ab] leading-relaxed mb-4">
+                      Compra en 1 segundo con Apple Pay o Clover sin formularios innecesarios. Sincroniza al CRM y ofrece One-Click Upsells automáticos.
+                    </p>
 
-                {activeFunnelStage === 'warm' && (
-                  <div className="space-y-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-                      <div className="text-sm font-bold text-white flex items-center gap-2">
-                        <Sun className="w-4 h-4 text-amber-400" />
-                        Comportamiento en Tráfico Tibio
-                      </div>
-                      <span className="text-xs font-mono text-amber-400">Meta CAPI Event: ViewContent + AddToCart + ScrollDepth</span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-white/70">
-                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
-                        <strong className="text-white block text-sm">¿Qué hace el Ecosistema?</strong>
-                        <p>Monitorea qué platos o servicios exploró el cliente, si leyó testimonios o si hizo clic en "Ordenar". Si abandona sin pagar, el sistema lo etiqueta como prospecto de alta intención.</p>
-                      </div>
-                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
-                        <strong className="text-amber-400 block text-sm">El Retorno Publicitario</strong>
-                        <p>Activa campañas de <strong>Retargeting Dinámico</strong> en Instagram Stories y Feed ("¿Te quedaste con antojo? Termina tu pedido hoy y recibe 10% off"), logrando un ROAS de hasta 4.5x.</p>
-                      </div>
+                    <div className="p-3 rounded-xl bg-black/40 border border-white/5 font-mono text-[11px] text-[#2ee58f] space-y-1 mb-4">
+                      <div className="text-[10px] text-white/40 uppercase font-sans">Evento CAPI Disparado:</div>
+                      <div>Purchase + HighLTVTag</div>
                     </div>
                   </div>
-                )}
 
-                {activeFunnelStage === 'hot' && (
-                  <div className="space-y-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-                      <div className="text-sm font-bold text-white flex items-center gap-2">
-                        <Flame className="w-4 h-4 text-[#2ee58f]" />
-                        Comportamiento en Tráfico Caliente
-                      </div>
-                      <span className="text-xs font-mono text-[#2ee58f]">Meta CAPI Event: Purchase + High-Value Tag</span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-white/70">
-                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
-                        <strong className="text-white block text-sm">¿Qué hace el Ecosistema?</strong>
-                        <p>Ofrece pago en 1 segundo con Apple Pay, Google Pay, Clover o Stripe sin obligar al usuario a llenar formularios tediosos. Tras la compra, muestra un upsell de alto margen con 1 clic.</p>
-                      </div>
-                      <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
-                        <strong className="text-[#2ee58f] block text-sm">El Retorno Publicitario</strong>
-                        <p>Incrementa el valor promedio de orden (AOV) entre un 20% y un 35%, enviando el perfil de comprador verificado para que los algoritmos sigan atrayendo clientes con alta disposición de pago.</p>
-                      </div>
-                    </div>
+                  <div className="pt-3 border-t border-[rgba(140,245,198,0.1)] text-xs text-[#2ee58f] font-semibold">
+                    → Incremento del Ticket Promedio (+20% a +35%)
                   </div>
-                )}
+                </div>
               </div>
             </section>
 
-            {/* SECCIÓN 03: TABLA DE CONTRASTE COMPARATIVA (DESTRUCCIÓN DE COMMODITY) */}
-            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="w-9 h-9 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] flex items-center justify-center font-bold text-sm">
-                  03
-                </span>
+            {/* SECCIÓN 04: MATRIZ DE GUERRA DE ESTATUS (BATTLE CARDS) */}
+            <section className="gsap-reveal space-y-6">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-[rgba(140,245,198,0.12)]">
                 <div>
-                  <h3 className="text-2xl font-bold text-white">
+                  <span className="font-bold italic uppercase tracking-[0.28em] text-[11px] text-[#2ee58f] block mb-2">
+                    Destrucción de Commodity · Dan Kennedy & David Ogilvy
+                  </span>
+                  <h3 className="text-2xl sm:text-4xl font-medium text-white tracking-tight">
                     Matriz de Estatus: Enlace Genérico vs. Ecosistema Universa
                   </h3>
-                  <p className="text-xs text-white/40">Dan Kennedy + David Ogilvy: La autoridad visual y técnica dictan el poder de fijación de precios</p>
                 </div>
+                <p className="text-xs sm:text-sm text-[#9fb8ab] max-w-md font-light">
+                  La ingeniería visual y la infraestructura técnica son las que permiten cobrar tickets altos en el mercado estadounidense.
+                </p>
               </div>
 
-              <div className="mt-6 space-y-3">
+              <div className="space-y-3.5">
                 {comparisonDimensions.map((dim, idx) => (
                   <div
                     key={idx}
-                    className="p-4 rounded-2xl bg-[#0f1713] border border-white/5 hover:border-white/20 transition-all grid grid-cols-1 lg:grid-cols-12 gap-4 items-center"
+                    className="p-5 rounded-[22px] bg-gradient-to-b from-[rgba(255,255,255,0.02)] to-[rgba(4,16,11,0.6)] border border-[rgba(140,245,198,0.12)] hover:border-[rgba(140,245,198,0.28)] transition-all grid grid-cols-1 lg:grid-cols-12 gap-4 items-center"
                   >
                     <div className="lg:col-span-3">
                       <div className="text-xs font-bold text-white uppercase tracking-wider">{dim.feature}</div>
-                      <div className="text-[11px] text-[#2ee58f] mt-0.5">{dim.impact}</div>
+                      <div className="text-[11px] text-[#2ee58f] mt-0.5 font-medium">{dim.impact}</div>
                     </div>
 
-                    <div className="lg:col-span-4 p-3 rounded-xl bg-red-950/20 border border-red-500/20 text-xs text-white/60">
-                      <div className="text-red-400 font-bold mb-1 flex items-center gap-1">
-                        <span>✕</span> Genérico (Linktree, Canva, $200 WP)
+                    <div className="lg:col-span-4 p-3.5 rounded-xl bg-red-950/20 border border-red-500/20 text-xs text-white/70">
+                      <div className="text-red-400 font-bold mb-1 flex items-center gap-1.5">
+                        <span>✕</span> Enlace Genérico / $200
                       </div>
                       <p>{dim.generic}</p>
                     </div>
 
-                    <div className="lg:col-span-5 p-3 rounded-xl bg-[#0c1a13] border border-[#2ee58f]/30 text-xs text-white/90 shadow-[0_0_15px_rgba(46,229,143,0.05)]">
-                      <div className="text-[#2ee58f] font-bold mb-1 flex items-center gap-1">
+                    <div className="lg:col-span-5 p-3.5 rounded-xl bg-[#0c1a13] border border-[#2ee58f]/30 text-xs text-white/95 shadow-[0_0_20px_rgba(46,229,143,0.06)]">
+                      <div className="text-[#2ee58f] font-bold mb-1 flex items-center gap-1.5">
                         <span>✓</span> Ecosistema Universa Growth Lab
                       </div>
                       <p>{dim.universa}</p>
@@ -1247,68 +1176,24 @@ export default function PropuestasHubPage() {
               </div>
             </section>
 
-            {/* SECCIÓN 04: INGENIERÍA VISUAL A 60FPS & PREPARACIÓN PARA MOTORES DE IA */}
-            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="w-9 h-9 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] flex items-center justify-center font-bold text-sm">
-                  04
-                </span>
-                <div>
-                  <h3 className="text-2xl font-bold text-white">
-                    Ingeniería Visual a 60fps & Dominación de Búsqueda por IA
-                  </h3>
-                  <p className="text-xs text-white/40">Psicología de retención acelerada por hardware y arquitectura para la nueva era de la IA</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className="bg-[#0f1713] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
-                  <div className="w-10 h-10 rounded-xl bg-[#2ee58f]/10 text-[#2ee58f] flex items-center justify-center mb-3">
-                    <Zap className="w-5 h-5" />
-                  </div>
-                  <h4 className="text-lg font-bold text-white mb-2">Micro-Motion & Aceleración por GPU</h4>
-                  <p className="text-xs sm:text-sm text-white/60 leading-relaxed">
-                    Las animaciones en Universa no son decoración vacía: son <strong>psicología de retención y estatus</strong>. Usamos aceleración por hardware (GPU) y físicas elásticas que hacen que la web se sienta nativa, moderna y lujosa, permitiendo a nuestros clientes justificar tickets más altos sin resistencia.
-                  </p>
-                  <div className="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-[#2ee58f]">
-                    ⚡ Carga inicial &lt; 0.8s en redes móviles 5G/4G
-                  </div>
-                </div>
-
-                <div className="bg-[#0f1713] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
-                  <div className="w-10 h-10 rounded-xl bg-[#a78bff]/10 text-[#a78bff] flex items-center justify-center mb-3">
-                    <Brain className="w-5 h-5" />
-                  </div>
-                  <h4 className="text-lg font-bold text-white mb-2">SEO Semántico para ChatGPT, Perplexity & Google SGE</h4>
-                  <p className="text-xs sm:text-sm text-white/60 leading-relaxed">
-                    El 40% de las búsquedas locales hoy se realizan a través de asistentes y motores de IA generativa. Configuramos <strong>Datos Estructurados (Schema JSON-LD)</strong> y Core Web Vitals para que las IAs entiendan exactamente tu oferta y recomienden tu negocio cuando busquen soluciones en tu ciudad.
-                  </p>
-                  <div className="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-[#a78bff]">
-                    🌐 Schema Markup de Restaurante, Negocio Local y Catálogo
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* SECCIÓN 05: ARSENAL DEL CLOSER (SCRIPTS DE CIERRE & MANEJO DE OBJECIONES EN VIVO) */}
-            <section className="gsap-reveal bg-gradient-to-br from-[#0c1b14] via-[#09130f] to-[#050a08] rounded-3xl p-6 sm:p-10 border border-[#2ee58f]/40 shadow-2xl relative overflow-hidden">
+            {/* SECCIÓN 05: ARSENAL DEL CLOSER (TERMINAL DE CIERRE DE OBJECIONES) */}
+            <section className="gsap-reveal rounded-[28px] p-8 sm:p-10 bg-gradient-to-br from-[#0c1b14] via-[#07130d] to-[#020a06] border border-[#2ee58f]/40 shadow-2xl relative overflow-hidden">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
-                  <span className="text-xs font-bold text-[#2ee58f] uppercase tracking-widest flex items-center gap-1.5 mb-1">
-                    <MessageCircle className="w-4 h-4" />
-                    Arsenal de Cierre en Llamadas & WhatsApp
+                  <span className="font-bold italic uppercase tracking-[0.28em] text-[11px] text-[#2ee58f] block mb-1">
+                    Playbook de Negociación en Vivo · Chris Voss & Alex Hormozi
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-black text-white">
-                    Playbook de Respuestas a Objeciones Difíciles
+                  <h3 className="text-2xl sm:text-3xl font-medium text-white tracking-tight">
+                    Arsenal de Cierre en Llamadas & WhatsApp
                   </h3>
-                  <p className="text-xs text-white/50 mt-0.5">
-                    Guiones probados de reencuadre psicológico para cerrar cotizaciones de alto valor al instante.
+                  <p className="text-xs text-[#9fb8ab] mt-0.5 font-light">
+                    Guiones exactos de reencuadre financiero para cerrar propuestas de alto valor al instante.
                   </p>
                 </div>
 
-                <span className="text-[11px] font-mono text-[#2ee58f] bg-[#2ee58f]/10 border border-[#2ee58f]/30 px-3 py-1.5 rounded-xl self-start md:self-auto">
+                <div className="text-[11px] font-mono text-[#2ee58f] bg-[#2ee58f]/10 border border-[#2ee58f]/30 px-3 py-1.5 rounded-xl self-start md:self-auto">
                   Click en un botón para copiar el script
-                </span>
+                </div>
               </div>
 
               {/* Objection Tabs */}
@@ -1320,37 +1205,37 @@ export default function PropuestasHubPage() {
                     className={`p-4 rounded-2xl border text-left transition-all ${
                       activeObjectionIndex === idx
                         ? 'bg-[#13221b] border-[#2ee58f] text-white shadow-[0_0_20px_rgba(46,229,143,0.25)]'
-                        : 'bg-[#0f1713] border-white/10 text-white/60 hover:text-white hover:border-white/20'
+                        : 'bg-[#04100b] border-[rgba(140,245,198,0.12)] text-[#9fb8ab] hover:text-white hover:border-[rgba(140,245,198,0.25)]'
                     }`}
                   >
                     <div className="text-xs font-bold text-white truncate mb-1">
                       {obj.title.split(':')[0]}
                     </div>
-                    <div className="text-[11px] text-white/40 truncate">
+                    <div className="text-[11px] text-[#9fb8ab] truncate">
                       {obj.title.split(':')[1]}
                     </div>
                   </button>
                 ))}
               </div>
 
-              {/* Active Objection Card */}
+              {/* Active Objection Terminal Box */}
               {(() => {
                 const currentObj = closingObjections[activeObjectionIndex];
                 return (
-                  <div className="bg-[#0f1914] rounded-2xl p-6 sm:p-8 border border-white/10 space-y-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+                  <div className="bg-[#04100b] rounded-[24px] p-6 sm:p-8 border border-[rgba(140,245,198,0.18)] space-y-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[rgba(140,245,198,0.1)] pb-4">
                       <div>
                         <span className="text-xs font-bold text-[#2ee58f] uppercase tracking-wider block mb-1">
                           {currentObj.psychology}
                         </span>
-                        <h4 className="text-lg sm:text-xl font-bold text-white">
+                        <h4 className="text-lg sm:text-xl font-medium text-white">
                           "{currentObj.clientSay}"
                         </h4>
                       </div>
 
                       <button
                         onClick={() => handleCopyScript(currentObj.closerScript, activeObjectionIndex)}
-                        className="inline-flex items-center justify-center gap-2 bg-[#2ee58f] hover:bg-[#28c77c] text-[#04100b] text-xs font-bold py-2.5 px-4 rounded-xl transition-all shadow-md self-start sm:self-auto"
+                        className="inline-flex items-center justify-center gap-2 bg-[#2ee58f] hover:bg-[#28c77c] text-[#04100b] text-xs font-bold py-2.5 px-5 rounded-full transition-all shadow-[0_0_15px_rgba(46,229,143,0.3)] self-start sm:self-auto"
                       >
                         {copiedScriptIndex === activeObjectionIndex ? (
                           <>
@@ -1366,18 +1251,18 @@ export default function PropuestasHubPage() {
                       </button>
                     </div>
 
-                    <div className="bg-black/40 p-5 rounded-2xl border border-white/5">
-                      <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block mb-2">
-                        Guion de Respuesta Palabra por Palabra:
+                    <div className="bg-black/50 p-6 rounded-2xl border border-white/5">
+                      <span className="text-[10px] font-bold text-[#9fb8ab] uppercase tracking-widest block mb-2 font-mono">
+                        Guion de Respuesta Recomendado:
                       </span>
-                      <p className="text-xs sm:text-sm text-white/80 whitespace-pre-line leading-relaxed font-sans">
+                      <p className="text-xs sm:text-sm text-white/90 whitespace-pre-line leading-[1.75] font-sans">
                         {currentObj.closerScript}
                       </p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       {currentObj.bulletPoints.map((bp, i) => (
-                        <div key={i} className="p-3 rounded-xl bg-white/5 border border-white/5 text-[11px] text-white/70">
+                        <div key={i} className="p-3.5 rounded-xl bg-white/5 border border-white/5 text-[11px] text-[#9fb8ab] leading-relaxed">
                           ✓ {bp}
                         </div>
                       ))}
@@ -1387,70 +1272,70 @@ export default function PropuestasHubPage() {
               })()}
             </section>
 
-            {/* SECCIÓN 06: FORMATO ESTÁNDAR DE COTIZACIÓN EN 3 FASES */}
-            <section className="gsap-reveal bg-[#0b120e] rounded-3xl p-6 sm:p-10 border border-white/10">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="w-9 h-9 rounded-xl bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] flex items-center justify-center font-bold text-sm">
-                  05
+            {/* SECCIÓN 06: ROADMAP EN 3 FASES MODULARES & CTA */}
+            <section className="gsap-reveal rounded-[28px] p-8 sm:p-10 bg-gradient-to-b from-[rgba(255,255,255,0.02)] to-[#020a06] border border-[rgba(140,245,198,0.16)] backdrop-blur-xl">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-9 h-9 rounded-full bg-[#0a1a12] border border-[rgba(140,245,198,0.3)] text-[#2ee58f] flex items-center justify-center font-bold text-xs font-mono">
+                  06
                 </span>
                 <div>
-                  <h3 className="text-2xl font-bold text-white">
-                    Formato Estándar de Cotización Universa en 3 Fases Modulares
+                  <h3 className="text-2xl font-medium text-white tracking-tight">
+                    Formato Estándar de Cotización en 3 Fases Modulares
                   </h3>
-                  <p className="text-xs text-white/40">Desglose transparente que permite al cliente elegir su nivel de entrada o contratar el ecosistema 360°</p>
+                  <p className="text-xs text-[#9fb8ab]">Desglose transparente que permite al cliente contratar por etapas o adquirir el ecosistema 360°</p>
                 </div>
               </div>
 
-              <div className="space-y-4 mt-6">
-                <div className="p-5 rounded-2xl bg-[#0f1713] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
+                <div className="p-6 rounded-[22px] bg-[#04100b] border border-[rgba(140,245,198,0.14)] flex flex-col justify-between hover:border-[rgba(140,245,198,0.35)] transition-all">
                   <div>
-                    <span className="text-xs font-bold text-[#2ee58f] uppercase tracking-wider">Fase 01</span>
-                    <h4 className="text-lg font-bold text-white">Infraestructura Web Core, UX/UI & Mobile-First</h4>
-                    <p className="text-xs text-white/50 max-w-xl">
-                      Diseño a medida, catálogo o carta digital interactiva, carga ultra-rápida y pasarela de pago (Stripe, Apple Pay, Clover).
+                    <span className="text-xs font-bold text-[#2ee58f] uppercase tracking-wider block mb-1">Fase 01</span>
+                    <h4 className="text-base font-medium text-white mb-2">Core Web & UX/UI Mobile</h4>
+                    <p className="text-xs text-[#9fb8ab] leading-relaxed mb-4">
+                      Diseño a medida, catálogo interactivo, velocidad &lt; 0.8s y pasarelas nativas (Apple Pay, Stripe).
                     </p>
                   </div>
-                  <div className="text-sm font-mono font-bold text-white bg-black/40 px-4 py-2 rounded-xl border border-white/10 whitespace-nowrap self-start sm:self-auto">
+                  <div className="font-mono text-sm font-bold text-[#2ee58f] bg-black/40 px-3 py-1.5 rounded-lg border border-white/5 self-start">
                     $600 – $1,200 USD
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-[#0f1713] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="p-6 rounded-[22px] bg-[#04100b] border border-[rgba(140,245,198,0.14)] flex flex-col justify-between hover:border-[rgba(140,245,198,0.35)] transition-all">
                   <div>
-                    <span className="text-xs font-bold text-[#a78bff] uppercase tracking-wider">Fase 02</span>
-                    <h4 className="text-lg font-bold text-white">Producción Audiovisual, UGC & Activos de Marca</h4>
-                    <p className="text-xs text-white/50 max-w-xl">
-                      Fotografía de producto profesional en bloque, videos UGC para TikTok/Reels y optimización visual de Instagram.
+                    <span className="text-xs font-bold text-[#a789ff] uppercase tracking-wider block mb-1">Fase 02</span>
+                    <h4 className="text-base font-medium text-white mb-2">Producción UGC & Audiovisual</h4>
+                    <p className="text-xs text-[#9fb8ab] leading-relaxed mb-4">
+                      Fotografía de producto en bloque, videos UGC para TikTok/Reels y optimización visual de Instagram.
                     </p>
                   </div>
-                  <div className="text-sm font-mono font-bold text-white bg-black/40 px-4 py-2 rounded-xl border border-white/10 whitespace-nowrap self-start sm:self-auto">
+                  <div className="font-mono text-sm font-bold text-[#a789ff] bg-black/40 px-3 py-1.5 rounded-lg border border-white/5 self-start">
                     $350 – $800 USD
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-[#0f1713] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="p-6 rounded-[22px] bg-[#04100b] border border-[rgba(140,245,198,0.14)] flex flex-col justify-between hover:border-[rgba(140,245,198,0.35)] transition-all">
                   <div>
-                    <span className="text-xs font-bold text-sky-400 uppercase tracking-wider">Fase 03</span>
-                    <h4 className="text-lg font-bold text-white">Tracking Avanzado, Meta Pixel CAPI, SEO & Retargeting</h4>
-                    <p className="text-xs text-white/50 max-w-xl">
-                      Instalación de eventos de conversión, recuperación de carritos abandonados, Google Tag Manager y setup de audiencias Lookalike.
+                    <span className="text-xs font-bold text-sky-400 uppercase tracking-wider block mb-1">Fase 03</span>
+                    <h4 className="text-base font-medium text-white mb-2">Tracking CAPI & Retargeting</h4>
+                    <p className="text-xs text-[#9fb8ab] leading-relaxed mb-4">
+                      Meta Pixel Server-Side, Google Tag Manager, recuperación de carritos y creación de Lookalikes.
                     </p>
                   </div>
-                  <div className="text-sm font-mono font-bold text-white bg-black/40 px-4 py-2 rounded-xl border border-white/10 whitespace-nowrap self-start sm:self-auto">
+                  <div className="font-mono text-sm font-bold text-sky-400 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5 self-start">
                     $300 – $600 USD
                   </div>
                 </div>
               </div>
 
               {/* Action Banner to Calculator */}
-              <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-[#12221b] to-[#0c1813] border border-[#2ee58f]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="mt-8 p-6 rounded-[22px] bg-gradient-to-r from-[#0c1f16] to-[#04100b] border border-[rgba(140,245,198,0.25)] flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
-                  <h4 className="text-base font-bold text-white">¿Listo para cotizar una propuesta personalizada?</h4>
-                  <p className="text-xs text-white/50">Usa nuestro generador paramétrico para calcular precios y paquetes modulares en segundos.</p>
+                  <h4 className="text-base font-medium text-white">¿Listo para estructurar una propuesta en vivo?</h4>
+                  <p className="text-xs text-[#9fb8ab]">Usa nuestro cotizador paramétrico para calcular precios y paquetes modulares en segundos.</p>
                 </div>
                 <button
                   onClick={() => setActiveTab('calculadora')}
-                  className="inline-flex items-center gap-2 bg-[#2ee58f] hover:bg-[#28c77c] text-[#04100b] font-bold text-xs py-3 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(46,229,143,0.3)] whitespace-nowrap"
+                  className="inline-flex items-center gap-2 bg-[#2ee58f] hover:bg-[#28c77c] text-[#04100b] font-bold text-xs py-3 px-6 rounded-full transition-all shadow-[0_0_20px_rgba(46,229,143,0.3)] whitespace-nowrap"
                 >
                   <Calculator className="w-4 h-4" />
                   Ir al Cotizador Rápido →
