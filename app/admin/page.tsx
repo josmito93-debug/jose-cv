@@ -388,6 +388,11 @@ export default function UnifiedAdminVercel() {
               <p className="text-[9px] font-black uppercase tracking-widest text-zinc-600 mb-1">Monthly Recurring Revenue</p>
               <p className="text-xl font-black tracking-tighter text-emerald-400">${stats.monthlyRevenue.toLocaleString()}.00</p>
            </div>
+           <Link href="/propuestas">
+             <button className="px-6 py-3 bg-[#2ee58f]/10 border border-[#2ee58f]/30 text-[#2ee58f] font-black rounded-xl shadow-lg flex items-center gap-2 hover:bg-[#2ee58f]/20 transition-all text-xs">
+                <FileText className="w-4 h-4" /> Propuestas & Ventas
+             </button>
+           </Link>
            <Link href="/admin/clients/new">
              <button className="px-8 py-3 bg-white text-black font-black rounded-xl shadow-2xl flex items-center gap-3 hover:bg-zinc-200 transition-all text-xs">
                 <Plus className="w-4 h-4" /> Register Client
