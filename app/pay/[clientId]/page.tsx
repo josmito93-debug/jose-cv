@@ -53,7 +53,7 @@ export default function PaymentPage() {
   useEffect(() => {
     const fetchClient = async () => {
       try {
-        const res = await fetch(`/api/clients/${clientUrlId}`);
+        const res = await fetch(`/api/clients/${clientUrlId}?t=${Date.now()}`, { cache: 'no-store' });
         const data = await res.json();
         if (data.success) {
           setClient(data.client);
