@@ -66,7 +66,7 @@ export async function GET(
       name: record.fields['Contact Name'] || 'Sin Nombre',
       business: record.fields['Business Name'] || 'Sin Negocio',
       paymentStatus: record.fields['Payment Status'] || 'UNPAID',
-      monthlyPrice: clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ' ? 12 : (record.fields['Monthly Price'] || record.fields['Price'] || 30),
+      monthlyPrice: clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ' ? 12 : (record.fields['Payment Amount'] || record.fields['Monthly Price'] || record.fields['Price'] || 30),
     };
 
     return NextResponse.json({ success: true, client });

@@ -17,7 +17,7 @@ export const stripeService = {
     try {
       const record = await airtableCRM.getClient(clientId);
       if (record) {
-        return record.fields['Monthly Price'] || record.fields['Price'] || 30;
+        return record.fields['Payment Amount'] || record.fields['Monthly Price'] || record.fields['Price'] || 30;
       }
     } catch (e) {
       console.error('Failed to get client price, defaulting to 30:', e);
