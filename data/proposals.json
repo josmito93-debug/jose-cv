@@ -1698,8 +1698,8 @@
       {
         "id": 1,
         "name": "MODAL DE RESERVAS INTELIGENTE + DIAGNÓSTICO FOTOGRÁFICO & COTIZADOR EN TIEMPO REAL",
-        "investment": 750,
-        "originalInvestment": 1400,
+        "investment": 300,
+        "originalInvestment": 900,
         "items": [
           {
             "title": "Modal Interactivo de Reservas con Captura Fotográfica (Smart Booking)",
@@ -1746,8 +1746,8 @@
       {
         "id": 2,
         "name": "RADAR LOGÍSTICO (LIVE DISPATCH & ETA) + PIPELINE DE NOTIFICACIONES & BOLETA DIGITAL",
-        "investment": 450,
-        "originalInvestment": 900,
+        "investment": 150,
+        "originalInvestment": 500,
         "items": [
           {
             "title": "Radar Logístico & Mapa Interactivo con ETA en Tiempo Real",
@@ -1792,8 +1792,8 @@
       {
         "id": 3,
         "name": "DATA ASSET, META PIXEL & MOTOR DE RECOMPRA AUTOMÁTICA (LTV BOOST)",
-        "investment": 350,
-        "originalInvestment": 700,
+        "investment": 150,
+        "originalInvestment": 400,
         "items": [
           {
             "title": "Meta Conversions API (CAPI) & Máquina de Audiencias",
@@ -1822,20 +1822,21 @@
         ]
       }
     ],
-    "summary": "Desarrollo del ecosistema digital comercial y operativo para SOUVAPET Mobile Pet Grooming. Incluye aplicación de reservas inteligente adaptada a la operativa de Souva con subida de fotos de la mascota para diagnóstico previo, selector de fecha/hora, captura de datos de contacto, cotizador paramétrico dinámico que calcula precios, fees de ruta y extras en tiempo real, radar logístico con mapa interactivo y cálculo de ETA en vivo, pipeline de notificaciones omnicanal automáticas antes y después del servicio por WhatsApp/SMS, boleta digital con colector de reseñas 5 estrellas en Google, y arquitectura completa de GEO-SEO, Sitemap XML, Robots.txt y Meta CAPI con motor de recompra mensual. Inversión total de $1,550 USD estructurada en 2 cuotas de $775 USD.",
-    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20confirmar%20la%20propuesta%20de%20SOUVAPET%20por%201550%20USD",
+    "summary": "Desarrollo del ecosistema digital comercial y operativo para SOUVAPET Mobile Pet Grooming. Incluye aplicación de reservas inteligente adaptada a la operativa de Souva con subida de fotos de la mascota para diagnóstico previo, selector de fecha/hora, captura de datos de contacto, cotizador paramétrico dinámico que calcula precios, fees de ruta y extras en tiempo real, radar logístico con mapa interactivo y cálculo de ETA en vivo, pipeline de notificaciones omnicanal automáticas antes y después del servicio por WhatsApp/SMS, boleta digital con colector de reseñas 5 estrellas en Google, y arquitectura completa de GEO-SEO, Sitemap XML, Robots.txt y Meta CAPI con motor de recompra mensual. Inversión total de $600 USD estructurada en 3 cuotas iguales de $200 USD.",
+    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20confirmar%20la%20propuesta%20de%20SOUVAPET%20por%20600%20USD",
     "hideRelated": true,
-    "paymentSplit": "775/775",
+    "paymentSplit": "200/200/200",
     "contractTerms": {
       "payments": [
-        { "name": "Primer Pago (Reserva e Inicio de Desarrollo)", "amount": 775 },
-        { "name": "Segundo Pago (Entrega Final, Pruebas y Lanzamiento)", "amount": 775 }
+        { "name": "Primer Pago (Reserva e Inicio de Desarrollo)", "amount": 200 },
+        { "name": "Segundo Pago (Desarrollo Intermedio / Modal y Radar)", "amount": 200 },
+        { "name": "Tercer Pago (Entrega Final, Pruebas y Lanzamiento)", "amount": 200 }
       ],
       "clauses": [
-        "PLAZO DE ENTREGA: El ecosistema completo se desarrollará, integrará y entregará probado y listo para producción en un plazo estimado de 3 a 4 semanas a partir de la recepción del primer pago de reserva y el material de la marca.",
-        "PROPIEDAD EXCLUSIVA: Todo el código fuente, la arquitectura en Next.js, configuraciones del modal, integraciones de mapas y automatizaciones pasarán a ser propiedad exclusiva del CLIENTE una vez cancelado el 100% de la inversión acordada.",
+        "PLAZO DE ENTREGA: El ecosistema completo se desarrollará, integrará y entregará probado y listo para producción en un plazo estimado de 3 semanas a partir de la recepción del primer pago de reserva y el material de la marca.",
+        "PROPIEDAD EXCLUSIVA: Todo el código fuente, la arquitectura en Next.js, configuraciones del modal, integraciones de mapas y automatizaciones pasarán a ser propiedad exclusiva del CLIENTE una vez cancelado el 100% de la inversión acordada ($600 USD).",
         "INTEGRACIONES Y APIS: La Agencia configurará el enlace con los servicios de mensajería (WhatsApp/SMS) y pasarelas de pago digitales según las cuentas suministradas por el Cliente.",
-        "POLÍTICA DE PAGO: Los pagos se realizarán en 2 cuotas iguales del 50% al iniciar ($775 USD) y 50% a la entrega final ($775 USD)."
+        "POLÍTICA DE PAGO: Los pagos se realizarán en 3 cuotas estructuradas de $200 USD: un primer pago de inicio ($200 USD), un segundo pago intermedio de avance ($200 USD) y un pago final contra entrega y despliegue ($200 USD)."
       ]
     }
   }
