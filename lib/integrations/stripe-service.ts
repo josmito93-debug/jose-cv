@@ -14,6 +14,9 @@ export const stripeService = {
     if (clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ') {
       return 12;
     }
+    if (['innovatech', 'innovatech-bio', 'innovatechbio', 'life-style-store-main', 'prj_eX4sHkbTDeexe7V4CtIxHHdOhHSP'].includes(clientId.toLowerCase())) {
+      return 8;
+    }
     try {
       const record = await airtableCRM.getClient(clientId);
       if (record) {

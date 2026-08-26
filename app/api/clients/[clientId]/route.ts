@@ -57,16 +57,22 @@ export async function GET(
       }
     }
 
-    if (!record) {
+    // Fallback for Innovatech
+    const isInnovatech = ['innovatech', 'innovatech-bio', 'innovatechbio', 'life-style-store-main', 'prj_eX4sHkbTDeexe7V4CtIxHHdOhHSP'].includes(clientId.toLowerCase());
+    if (isInnovatech && !record) {
+      record = await airtableCRM.getClientByBusinessName('Innovatech Bio');
+    }
+
+    if (!record && !isInnovatech) {
       return NextResponse.json({ success: false, error: 'Client not found' }, { status: 404 });
     }
 
     const client = {
-      id: record.fields['Client ID'] || record.id,
-      name: record.fields['Contact Name'] || 'Sin Nombre',
-      business: record.fields['Business Name'] || 'Sin Negocio',
-      paymentStatus: record.fields['Payment Status'] || 'UNPAID',
-      monthlyPrice: clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ' ? 12 : (record.fields['Payment Amount'] || record.fields['Monthly Price'] || record.fields['Price'] || 30),
+      id: record?.fields['Client ID'] || clientId,
+      name: record?.fields['Contact Name'] || (isInnovatech ? 'Innovatech Bio' : 'Sin Nombre'),
+      business: isInnovatech ? 'Innovatech Bio' : (record?.fields['Business Name'] || 'Sin Negocio'),
+      paymentStatus: record?.fields['Payment Status'] || 'UNPAID',
+      monthlyPrice: isInnovatech ? 8 : (clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ' ? 12 : (record?.fields['Payment Amount'] || record?.fields['Monthly Price'] || record?.fields['Price'] || 30)),
       billingInterval: clientId === '58films' ? 'year' : 'month'
     };
 
