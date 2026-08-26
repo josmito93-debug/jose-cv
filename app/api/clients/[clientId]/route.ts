@@ -67,6 +67,7 @@ export async function GET(
       business: record.fields['Business Name'] || 'Sin Negocio',
       paymentStatus: record.fields['Payment Status'] || 'UNPAID',
       monthlyPrice: clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ' ? 12 : (record.fields['Payment Amount'] || record.fields['Monthly Price'] || record.fields['Price'] || 30),
+      billingInterval: clientId === '58films' ? 'year' : 'month'
     };
 
     return NextResponse.json({ success: true, client });

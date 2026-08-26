@@ -26,9 +26,9 @@ export const stripeService = {
   },
 
   /**
-   * Get or create the monthly price for Attom/Universa
+   * Get or create the price for Attom/Universa
    */
-  async getOrCreateGrowthPlan(amount: number = 30) {
+  async getOrCreateGrowthPlan(amount: number = 30, interval: 'month' | 'year' = 'month') {
     // Search for existing product
     const products = await stripe.products.list({
       limit: 100,
@@ -41,7 +41,7 @@ export const stripeService = {
     if (!product) {
       product = await stripe.products.create({
         name: productName,
-        description: `Monthly website maintenance and growth tools by Universa Agency ($${amount}/mo)`,
+        description: `Website maintenance and growth tools by Universa Agency ($${amount}/${interval === 'year' ? 'yr' : 'mo'})`,
       });
     }
 
@@ -51,7 +51,7 @@ export const stripeService = {
       active: true,
     });
 
-    let price = prices.data.find(p => p.unit_amount === amount * 100 && p.recurring?.interval === 'month');
+    let price = prices.data.find(p => p.unit_amount === amount * 100 && p.recurring?.interval === interval);
 
     if (!price) {
       price = await stripe.prices.create({
@@ -59,7 +59,7 @@ export const stripeService = {
         unit_amount: amount * 100, // amount in cents
         currency: 'usd',
         recurring: {
-          interval: 'month',
+          interval: interval,
         },
       });
     }
@@ -72,7 +72,8 @@ export const stripeService = {
    */
   async createSubscriptionSession(clientId: string, successUrl: string, cancelUrl: string) {
     const amount = await this.getClientPrice(clientId);
-    const priceId = await this.getOrCreateGrowthPlan(amount);
+    const interval = clientId === '58films' ? 'year' : 'month';
+    const priceId = await this.getOrCreateGrowthPlan(amount, interval);
 
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',

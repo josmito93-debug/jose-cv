@@ -232,7 +232,9 @@ export default function PaymentPage() {
                           <p className="text-lg font-black text-white uppercase italic">Growth Maintenance</p>
                       </div>
                       <div className="text-right">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Mensual</p>
+                          <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">
+                            {client?.billingInterval === 'year' ? 'Anual' : 'Mensual'}
+                          </p>
                           <p className="text-3xl font-black text-white">${price}<span className="text-sm font-bold text-zinc-600 underline decoration-indigo-500">.00</span></p>
                       </div>
                   </div>
@@ -278,7 +280,7 @@ export default function PaymentPage() {
                                 </div>
                               </div>
                               <p className="text-xs text-zinc-400 leading-relaxed">
-                                Serás redirigido al portal seguro de Stripe para configurar tu suscripción mensual de <span className="text-white font-bold">${price}.00</span>.
+                                Serás redirigido al portal seguro de Stripe para configurar tu suscripción {client?.billingInterval === 'year' ? 'anual' : 'mensual'} de <span className="text-white font-bold">${price}.00</span>.
                               </p>
                            </div>
                            <button 
