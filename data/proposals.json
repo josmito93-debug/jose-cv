@@ -1,4 +1,184 @@
 {
+  "vector-solutions": {
+    "client": "Vector Solutions",
+    "status": "Propuesta & Contrato Digital",
+    "title": "DESARROLLO FRONT-END SERVERLESS (OFFLINE-FIRST) + DISEÑO VECTORIAL DE VAN",
+    "lang": "es",
+    "ctaText": "Aceptar Propuesta",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "DESARROLLO FRONT-END SERVERLESS & MODO OFFLINE",
+        "investment": 400,
+        "items": [
+          {
+            "title": "Arquitectura Serverless & Interfaz UI/UX Moderna",
+            "description": "Desarrollo de interfaz de usuario ágil, moderna y responsiva. Cero costos mensuales fijos de infraestructura con ejecución optimizada.",
+            "icon": "globe",
+            "bullets": [
+              "Desarrollo Front-End de alta velocidad optimizado para estaciones de trabajo",
+              "Interfaz interactiva e intuitiva adaptada a la operativa de Vector Solutions",
+              "Empaquetado de software y docking para despliegue ágil en dispositivos",
+              "Estructura modular preparada para escalabilidad en fases futuras"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "¿Cómo corre sin Internet? (Motor Offline-First)",
+            "description": "Arquitectura moderna PWA con Service Workers y persistencia local para garantizar operatividad continua en campo, bodegas o zonas sin señal.",
+            "icon": "activity",
+            "bullets": [
+              "Service Workers & Caché Local: La aplicación se instala y ejecuta localmente en el equipo",
+              "Base de Datos Local (IndexedDB): Guarda información y registros al instante de forma segura sin conexión",
+              "Sincronización Inteligente: Al detectar conexión a internet, los datos se sincronizan automáticamente en segundo plano",
+              "Autonomía total: Cero bloqueos de trabajo por caídas de red o falta de señal"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "DISEÑO GRÁFICO VECTORIAL DE VAN CORPORATIVA",
+        "investment": 200,
+        "items": [
+          {
+            "title": "Diseño en Vectores para Rotulación Vehicular",
+            "description": "Creación del arte gráfico profesional adaptado milimétricamente a la estructura y curvas de la van corporativa de Vector Solutions.",
+            "icon": "palette",
+            "bullets": [
+              "Diseño 100% vectorial escalable a cualquier tamaño sin pérdida de calidad",
+              "Archivos listos para imprenta y rotulación (.AI, .SVG, .PDF en curvas)",
+              "Guías de corte, medidas exactas y perfiles de color para vinilado profesional",
+              "Identidad visual de alto impacto que proyecta autoridad en la calle"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Desarrollo de Front-End funcional Serverless con arquitectura Offline-First para Vector Solutions (Iker Villasmil). Incluye interfaz interactiva de alta velocidad, persistencia local y sincronización inteligente para operar 100% sin internet, empaquetado optimizado, diseño gráfico vectorial para rotulación de la van corporativa y continuidad de Universa como soporte IT integral y socio tecnológico prioritario por una inversión total de $600 USD dividida en 3 partes.",
+    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20aprobar%20la%20propuesta%20de%20Vector%20Solutions",
+    "hideRelated": true,
+    "paymentSplit": "200/200/200",
+    "contractTerms": {
+      "payments": [
+        {
+          "name": "Primer Pago (Inicio / Anticipo Inmediato)",
+          "amount": 200
+        },
+        {
+          "name": "Segundo Pago (Desarrollo Intermedio y Motor Offline)",
+          "amount": 200
+        },
+        {
+          "name": "Tercer Pago (Entrega Final del Software y Artes Vectoriales)",
+          "amount": 200
+        }
+      ],
+      "clauses": [
+        "ALIANZA ESTRATÉGICA Y SOPORTE IT: Iker Villasmil (Vector Solutions) ratifica su compromiso de mantener a Universa como su proveedor integral de Soporte IT y socio tecnológico preferencial para futuras fases, contrataciones y evoluciones del software.",
+        "ARQUITECTURA SERVERLESS Y OFFLINE-FIRST: El software se entrega 100% funcional en su primera fase, permitiendo operar sin conexión activa a internet mediante Service Workers y persistencia local en base de datos del dispositivo, sincronizando datos al recuperar conectividad.",
+        "DISEÑO VECTORIAL VEHICULAR: Se entregará el arte vectorial completo a escala para la rotulación de la van corporativa de Vector Solutions en formatos editables e imprimibles (.AI, .SVG, .PDF en curvas) con especificaciones de vinilado.",
+        "ESQUEMA DE PAGOS (FACILIDAD AL CLIENTE): La inversión total de $600 USD se liquida en 3 cuotas iguales de $200 USD: un anticipo de $200 USD al iniciar, $200 USD a conveniencia durante el desarrollo intermedio, y $200 USD contra entrega final del producto funcional y archivos vectoriales.",
+        "PROPIEDAD DE ACTIVOS Y CÓDIGO: Al liquidar el monto total acordado de $600 USD, todos los derechos, archivos vectoriales y código fuente desarrollado pertenecerán en su totalidad a Vector Solutions."
+      ]
+    }
+  },
+  "vector": {
+    "client": "Vector Solutions",
+    "status": "Propuesta & Contrato Digital",
+    "title": "DESARROLLO FRONT-END SERVERLESS (OFFLINE-FIRST) + DISEÑO VECTORIAL DE VAN",
+    "lang": "es",
+    "ctaText": "Aceptar Propuesta",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "DESARROLLO FRONT-END SERVERLESS & MODO OFFLINE",
+        "investment": 400,
+        "items": [
+          {
+            "title": "Arquitectura Serverless & Interfaz UI/UX Moderna",
+            "description": "Desarrollo de interfaz de usuario ágil, moderna y responsiva. Cero costos mensuales fijos de infraestructura con ejecución optimizada.",
+            "icon": "globe",
+            "bullets": [
+              "Desarrollo Front-End de alta velocidad optimizado para estaciones de trabajo",
+              "Interfaz interactiva e intuitiva adaptada a la operativa de Vector Solutions",
+              "Empaquetado de software y docking para despliegue ágil en dispositivos",
+              "Estructura modular preparada para escalabilidad en fases futuras"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "¿Cómo corre sin Internet? (Motor Offline-First)",
+            "description": "Arquitectura moderna PWA con Service Workers y persistencia local para garantizar operatividad continua en campo, bodegas o zonas sin señal.",
+            "icon": "activity",
+            "bullets": [
+              "Service Workers & Caché Local: La aplicación se instala y ejecuta localmente en el equipo",
+              "Base de Datos Local (IndexedDB): Guarda información y registros al instante de forma segura sin conexión",
+              "Sincronización Inteligente: Al detectar conexión a internet, los datos se sincronizan automáticamente en segundo plano",
+              "Autonomía total: Cero bloqueos de trabajo por caídas de red o falta de señal"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "DISEÑO GRÁFICO VECTORIAL DE VAN CORPORATIVA",
+        "investment": 200,
+        "items": [
+          {
+            "title": "Diseño en Vectores para Rotulación Vehicular",
+            "description": "Creación del arte gráfico profesional adaptado milimétricamente a la estructura y curvas de la van corporativa de Vector Solutions.",
+            "icon": "palette",
+            "bullets": [
+              "Diseño 100% vectorial escalable a cualquier tamaño sin pérdida de calidad",
+              "Archivos listos para imprenta y rotulación (.AI, .SVG, .PDF en curvas)",
+              "Guías de corte, medidas exactas y perfiles de color para vinilado profesional",
+              "Identidad visual de alto impacto que proyecta autoridad en la calle"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Desarrollo de Front-End funcional Serverless con arquitectura Offline-First para Vector Solutions (Iker Villasmil). Incluye interfaz interactiva de alta velocidad, persistencia local y sincronización inteligente para operar 100% sin internet, empaquetado optimizado, diseño gráfico vectorial para rotulación de la van corporativa y continuidad de Universa como soporte IT integral y socio tecnológico prioritario por una inversión total de $600 USD dividida en 3 partes.",
+    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20aprobar%20la%20propuesta%20de%20Vector%20Solutions",
+    "hideRelated": true,
+    "paymentSplit": "200/200/200",
+    "contractTerms": {
+      "payments": [
+        {
+          "name": "Primer Pago (Inicio / Anticipo Inmediato)",
+          "amount": 200
+        },
+        {
+          "name": "Segundo Pago (Desarrollo Intermedio y Motor Offline)",
+          "amount": 200
+        },
+        {
+          "name": "Tercer Pago (Entrega Final del Software y Artes Vectoriales)",
+          "amount": 200
+        }
+      ],
+      "clauses": [
+        "ALIANZA ESTRATÉGICA Y SOPORTE IT: Iker Villasmil (Vector Solutions) ratifica su compromiso de mantener a Universa como su proveedor integral de Soporte IT y socio tecnológico preferencial para futuras fases, contrataciones y evoluciones del software.",
+        "ARQUITECTURA SERVERLESS Y OFFLINE-FIRST: El software se entrega 100% funcional en su primera fase, permitiendo operar sin conexión activa a internet mediante Service Workers y persistencia local en base de datos del dispositivo, sincronizando datos al recuperar conectividad.",
+        "DISEÑO VECTORIAL VEHICULAR: Se entregará el arte vectorial completo a escala para la rotulación de la van corporativa de Vector Solutions en formatos editables e imprimibles (.AI, .SVG, .PDF en curvas) con especificaciones de vinilado.",
+        "ESQUEMA DE PAGOS (FACILIDAD AL CLIENTE): La inversión total de $600 USD se liquida en 3 cuotas iguales de $200 USD: un anticipo de $200 USD al iniciar, $200 USD a conveniencia durante el desarrollo intermedio, y $200 USD contra entrega final del producto funcional y archivos vectoriales.",
+        "PROPIEDAD DE ACTIVOS Y CÓDIGO: Al liquidar el monto total acordado de $600 USD, todos los derechos, archivos vectoriales y código fuente desarrollado pertenecerán en su totalidad a Vector Solutions."
+      ]
+    }
+  },
   "roxe": {
     "client": "ROXE",
     "status": "Propuesta & Contrato Digital",
@@ -137,9 +317,18 @@
     "paymentSplit": "350/400/750",
     "contractTerms": {
       "payments": [
-        { "name": "Primer Pago (Reserva / Inicio)", "amount": 350 },
-        { "name": "Segundo Pago (Desarrollo Intermedio)", "amount": 400 },
-        { "name": "Tercer Pago (Entrega Final y Lanzamiento)", "amount": 750 }
+        {
+          "name": "Primer Pago (Reserva / Inicio)",
+          "amount": 350
+        },
+        {
+          "name": "Segundo Pago (Desarrollo Intermedio)",
+          "amount": 400
+        },
+        {
+          "name": "Tercer Pago (Entrega Final y Lanzamiento)",
+          "amount": 750
+        }
       ],
       "clauses": [
         "PROPIEDAD DE CONTENIDOS Y CÓDIGO: Todo el contenido desarrollado (diseño web, código fuente, fotos de producto, videos UGC, copys, artes e integraciones) pertenece en su totalidad y de forma exclusiva al CLIENTE (ROXE) una vez liquidados los montos del proyecto.",
@@ -1404,8 +1593,14 @@
     "paymentSplit": "500/500",
     "contractTerms": {
       "payments": [
-        { "name": "Primer Pago (Reserva / Inicio)", "amount": 500 },
-        { "name": "Segundo Pago (Lanzamiento y Entrega Final)", "amount": 500 }
+        {
+          "name": "Primer Pago (Reserva / Inicio)",
+          "amount": 500
+        },
+        {
+          "name": "Segundo Pago (Lanzamiento y Entrega Final)",
+          "amount": 500
+        }
       ],
       "clauses": [
         "PROPIEDAD DE MARCA Y CONTENIDOS: Los derechos de uso y explotación sobre el Brand Book, logotipos y Web App pertenecerán en su totalidad a MASTER TIRE INTEGRAL SERVICES LLC una vez liquidada la totalidad de la inversión de $1,000 USD.",
@@ -1472,7 +1667,10 @@
     "paymentSplit": "1400",
     "contractTerms": {
       "payments": [
-        { "name": "Pago único al finalizar y entregar el proyecto", "amount": 1400 }
+        {
+          "name": "Pago único al finalizar y entregar el proyecto",
+          "amount": 1400
+        }
       ],
       "clauses": [
         "POLÍTICA DE NO DEVOLUCIÓN DE DINERO (NO REFUNDS): Dadas la naturaleza de los servicios de consultoría, diseño, producción de creativos, desarrollo técnico y configuración publicitaria (donde se comprometen horas de trabajo profesional y recursos técnicos de forma inmediata), bajo ninguna circunstancia se realizarán devoluciones de dinero una vez iniciado el proyecto o realizado cualquier pago de reserva.",
@@ -1678,8 +1876,14 @@
     "paymentSplit": "375/375",
     "contractTerms": {
       "payments": [
-        { "name": "Primer Pago (Reserva / Inicio)", "amount": 375 },
-        { "name": "Segundo Pago (Entrega Final y Lanzamiento)", "amount": 375 }
+        {
+          "name": "Primer Pago (Reserva / Inicio)",
+          "amount": 375
+        },
+        {
+          "name": "Segundo Pago (Entrega Final y Lanzamiento)",
+          "amount": 375
+        }
       ],
       "clauses": [
         "TIEMPO DE ENTREGA: El proyecto completo se desarrollará, probará y entregará listo para producción en un plazo máximo de 3 (tres) semanas a partir del inicio del proyecto y recepción de accesos por parte de la Agencia.",
@@ -1828,9 +2032,18 @@
     "paymentSplit": "200/200/200",
     "contractTerms": {
       "payments": [
-        { "name": "Primer Pago (Reserva e Inicio de Desarrollo)", "amount": 200 },
-        { "name": "Segundo Pago (Desarrollo Intermedio / Modal y Radar)", "amount": 200 },
-        { "name": "Tercer Pago (Entrega Final, Pruebas y Lanzamiento)", "amount": 200 }
+        {
+          "name": "Primer Pago (Reserva e Inicio de Desarrollo)",
+          "amount": 200
+        },
+        {
+          "name": "Segundo Pago (Desarrollo Intermedio / Modal y Radar)",
+          "amount": 200
+        },
+        {
+          "name": "Tercer Pago (Entrega Final, Pruebas y Lanzamiento)",
+          "amount": 200
+        }
       ],
       "clauses": [
         "PLAZO DE ENTREGA: El ecosistema completo se desarrollará, integrará y entregará probado y listo para producción en un plazo estimado de 3 semanas a partir de la recepción del primer pago de reserva y el material de la marca.",
