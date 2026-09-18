@@ -63,7 +63,25 @@ export async function GET(
       record = await airtableCRM.getClientByBusinessName('Innovatech Bio');
     }
 
+    // Fallback for Souvapet & Vector Solutions
+    const isSouvapet = ['souvapet', 'souva', 'souvapet-mobile'].includes(clientId.toLowerCase());
+    const isVector = ['vector-solutions', 'vector', 'vector_solutions'].includes(clientId.toLowerCase());
+
     if (!record && !isInnovatech) {
+      if (isSouvapet || isVector) {
+        const businessName = isSouvapet ? 'Souvapet Mobile Pet Grooming' : 'Vector Solutions';
+        return NextResponse.json({
+          success: true,
+          client: {
+            id: clientId,
+            name: businessName,
+            business: businessName,
+            paymentStatus: 'UNPAID',
+            monthlyPrice: 30,
+            billingInterval: 'month'
+          }
+        });
+      }
       return NextResponse.json({ success: false, error: 'Client not found' }, { status: 404 });
     }
 
