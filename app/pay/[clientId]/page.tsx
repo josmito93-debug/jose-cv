@@ -47,8 +47,22 @@ export default function PaymentPage() {
     // Handle success/cancel status from Stripe redirect
     if (status === 'success') {
       setPaid(true);
+      const targetId = client?.id || clientUrlId;
+      if (targetId) {
+        fetch('/api/billing/confirm', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            clientId: targetId, 
+            subscriptionId: `stripe_checkout_${Date.now()}`, 
+            method: 'STRIPE',
+            businessName: client?.business || clientUrlId,
+            amount: price || 30
+          })
+        }).catch(err => console.error('Auto-confirm Stripe redirect error:', err));
+      }
     }
-  }, [status]);
+  }, [status, client, clientUrlId, price]);
 
   useEffect(() => {
     const fetchClient = async () => {

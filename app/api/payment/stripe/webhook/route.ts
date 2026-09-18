@@ -227,7 +227,42 @@ export async function POST(request: Request) {
         console.error('Error updating CRM from webhook:', crmError.message);
       }
     } else {
-      console.log('No matched Airtable record found for this checkout session.');
+      console.log('No matched Airtable record found for this checkout session. Auto-creating client record...');
+      try {
+        const nextDueDate = new Date();
+        nextDueDate.setMonth(nextDueDate.getMonth() + 1);
+
+        const fallbackBusinessName = clientId 
+          ? clientId.replace(/[-_]+/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())
+          : (session.customer_details?.name || 'Cliente Stripe');
+
+        const newRecordId = await airtableCRM.syncClient({
+          info: {
+            clientId: clientId || `CLNT-${Date.now()}`,
+            businessName: fallbackBusinessName,
+            contactName: session.customer_details?.name || 'Cliente Stripe',
+            email: session.customer_details?.email || '',
+            phone: session.customer_details?.phone || '',
+            businessType: 'other',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          },
+          payment: {
+            status: 'PAID',
+            method: 'STRIPE',
+            reference: subscriptionId || session.payment_intent || 'one-time',
+            amount: session.amount_total ? session.amount_total / 100 : 30,
+            currency: 'USD',
+            nextDueDate: nextDueDate.toISOString().split('T')[0]
+          },
+          branding: { colors: { primary: '#10b981' } },
+          deployment: { status: 'deployed' }
+        } as any);
+
+        console.log(`Auto-created Airtable record ${newRecordId} marked as PAID for Stripe customer.`);
+      } catch (createErr: any) {
+        console.error('Error auto-creating CRM record for Stripe checkout:', createErr.message);
+      }
     }
   }
 

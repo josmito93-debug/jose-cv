@@ -1,7 +1,19 @@
 import { NextResponse } from 'next/server';
 import { airtableCRM } from '@/lib/integrations/airtable-crm';
+import proposalsData from '@/data/proposals.json';
 
 export const dynamic = 'force-dynamic';
+
+function cleanProjectName(name: string): string {
+  if (!name) return 'Cliente Web';
+  return name
+    .replace(/-main$/, '')
+    .replace(/-web$/, '')
+    .replace(/-site$/, '')
+    .replace(/-app$/, '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
 
 export async function GET(
   request: Request,
@@ -16,81 +28,104 @@ export async function GET(
 
     const cleanId = clientId.toLowerCase().trim();
 
-    // Direct Instant Return for Virtual Clients (Souvapet & Vector Solutions)
-    const isSouvapet = ['souvapet', 'souva', 'souvapet-mobile'].includes(cleanId);
-    const isVector = ['vector-solutions', 'vector', 'vector_solutions'].includes(cleanId);
+    // 1. Direct Quick Lookup in Airtable
+    let record: any = null;
+    try {
+      record = await airtableCRM.getClient(clientId);
+      if (!record && cleanId !== clientId) {
+        record = await airtableCRM.getClient(cleanId);
+      }
+    } catch (aErr) {
+      console.error('Airtable lookup error:', aErr);
+    }
 
-    if (isSouvapet || isVector) {
-      const businessName = isSouvapet ? 'Souvapet Mobile Pet Grooming' : 'Vector Solutions';
+    // 2. Fallback: Lookup in Vercel API (accepts both project name and prj_ ID!)
+    if (!record) {
+      try {
+        const vercelToken = process.env.VERCEL_TOKEN;
+        if (vercelToken) {
+          const vResponse = await fetch(`https://api.vercel.com/v9/projects/${encodeURIComponent(clientId)}`, {
+            headers: { Authorization: `Bearer ${vercelToken}` },
+          });
+
+          if (vResponse.ok) {
+            const vData = await vResponse.json();
+            const projectName = vData.name || clientId;
+            console.log('Vercel project resolved automatically:', projectName);
+
+            // Check if Airtable has it by business name
+            try {
+              record = await airtableCRM.getClientByBusinessName(projectName);
+            } catch (e) {
+              // ignore
+            }
+
+            if (!record) {
+              const formattedName = cleanProjectName(projectName);
+              return NextResponse.json({
+                success: true,
+                client: {
+                  id: vData.name || clientId,
+                  name: formattedName,
+                  business: formattedName,
+                  rawProjectName: vData.name,
+                  paymentStatus: 'UNPAID',
+                  isVirtual: true,
+                  monthlyPrice: 30,
+                  billingInterval: 'month',
+                  vercelId: vData.id
+                }
+              });
+            }
+          }
+        }
+      } catch (vError) {
+        console.error('Vercel auto-lookup failed:', vError);
+      }
+    }
+
+    // 3. Fallback: Proposals Database Check
+    const proposal = (proposalsData as any)[cleanId];
+    if (!record && proposal) {
       return NextResponse.json({
         success: true,
         client: {
           id: clientId,
-          name: businessName,
-          business: businessName,
+          name: proposal.client || cleanProjectName(clientId),
+          business: proposal.client || cleanProjectName(clientId),
           paymentStatus: 'UNPAID',
           monthlyPrice: 30,
-          billingInterval: 'month'
+          billingInterval: 'month',
+          isProposal: true
         }
       });
     }
 
-    // Attempt 1: Standard Airtable Lookup
-    let record: any = null;
-    try {
-      record = await airtableCRM.getClient(clientId);
-    } catch (aErr) {
-      console.error('Airtable lookup error:', aErr);
-    }
-    
-    // Attempt 2: If clientId looks like a Vercel project ID, fetch from Vercel first
-    if (!record && clientId.startsWith('prj_')) {
-      console.log('Detected Vercel Project ID, fetching from Vercel:', clientId);
+    // 4. Fallback for Innovatech
+    const isInnovatech = ['innovatech', 'innovatech-bio', 'innovatechbio', 'life-style-store-main', 'prj_eX4sHkbTDeexe7V4CtIxHHdOhHSP'].includes(cleanId);
+    if (isInnovatech && !record) {
       try {
-        const vResponse = await fetch(`https://api.vercel.com/v9/projects/${clientId}`, {
-          headers: {
-            Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
-          },
-        });
-        
-        if (vResponse.ok) {
-          const vData = await vResponse.json();
-          const projectName = vData.name;
-          console.log('Vercel project found:', projectName);
-          
-          // Try to find client by business name (which usually matches Vercel project name)
-          record = await airtableCRM.getClientByBusinessName(projectName);
-          
-          if (!record) {
-             // If still not found, we could potentially create it, but for now let's just return a virtual client
-             // OR rely on the manual "Invoice" generation to have created it.
-             // For the payment page to work, we need a business name.
-             return NextResponse.json({ 
-               success: true, 
-               client: {
-                 id: clientId,
-                 name: 'Cliente Vercel',
-                 business: projectName,
-                 paymentStatus: 'UNPAID',
-                 isVirtual: true,
-                 monthlyPrice: clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ' ? 12 : 30
-               } 
-             });
-          }
-        }
-      } catch (vError) {
-        console.error('Vercel lookup failed:', vError);
+        record = await airtableCRM.getClientByBusinessName('Innovatech Bio');
+      } catch (e) {
+        // ignore
       }
     }
 
-    // Fallback for Innovatech
-    const isInnovatech = ['innovatech', 'innovatech-bio', 'innovatechbio', 'life-style-store-main', 'prj_eX4sHkbTDeexe7V4CtIxHHdOhHSP'].includes(clientId.toLowerCase());
-    if (isInnovatech && !record) {
-      record = await airtableCRM.getClientByBusinessName('Innovatech Bio');
-    }
-
+    // 5. Final Graceful Fallback: Never break payment links for any valid web
     if (!record && !isInnovatech) {
-      return NextResponse.json({ success: false, error: 'Client not found' }, { status: 404 });
+      const fallbackName = cleanProjectName(clientId);
+      return NextResponse.json({
+        success: true,
+        client: {
+          id: clientId,
+          name: fallbackName,
+          business: fallbackName,
+          paymentStatus: 'UNPAID',
+          monthlyPrice: 30,
+          billingInterval: 'month',
+          isVirtual: true
+        }
+      });
     }
 
     const client = {
@@ -98,7 +133,7 @@ export async function GET(
       name: record?.fields['Contact Name'] || (isInnovatech ? 'Innovatech Bio' : 'Sin Nombre'),
       business: isInnovatech ? 'Innovatech Bio' : (record?.fields['Business Name'] || 'Sin Negocio'),
       paymentStatus: record?.fields['Payment Status'] || 'UNPAID',
-      monthlyPrice: isInnovatech ? 8 : (clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ' ? 12 : (record?.fields['Payment Amount'] || record?.fields['Monthly Price'] || record?.fields['Price'] || 30)),
+      monthlyPrice: isInnovatech ? 8 : (clientId === 'prj_dA0XHibYMkPnamABbAkEwn0HDQKZ' ? 12 : Number(record?.fields['Payment Amount'] || record?.fields['Monthly Price'] || record?.fields['Price'] || 30)),
       billingInterval: clientId === '58films' ? 'year' : 'month'
     };
 

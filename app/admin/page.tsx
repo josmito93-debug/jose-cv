@@ -50,26 +50,37 @@ function normalizeStr(str: any): string {
 }
 
 function matchClientAndProject(client: any, project: any): boolean {
-  const busLower = normalizeStr(client.business);
-  const projLower = normalizeStr(project.name);
+  if (!client || !project) return false;
+
+  // 0. Direct ID checks (Airtable Client ID vs Vercel project ID or project Name)
+  const cId = normalizeStr(client.id || '');
+  const cClientId = normalizeStr(client.info?.clientId || '');
+  const pId = normalizeStr(project.id || '');
+  const pName = normalizeStr(project.name || '');
+
+  if (cId && (cId === pId || cId === pName)) return true;
+  if (cClientId && (cClientId === pId || cClientId === pName)) return true;
+  if (client.rawProjectName && normalizeStr(client.rawProjectName) === pName) return true;
+
+  const busLower = normalizeStr(client.business || client.name || '');
   
   // 1. Direct equal match
-  if (busLower === projLower) return true;
+  if (busLower === pName) return true;
   
   // 2. Clean match (no spaces or special chars)
   const busClean = busLower.replace(/[^a-z0-9]/g, '');
-  const projClean = projLower.replace(/[^a-z0-9]/g, '');
+  const projClean = pName.replace(/[^a-z0-9]/g, '');
   if (busClean && projClean && busClean === projClean) return true;
   
   // 3. Substring match
   if (busClean && projClean && (busClean.includes(projClean) || projClean.includes(busClean))) return true;
-  if (busLower.includes(projLower) || projLower.includes(busLower)) return true;
+  if (busLower.includes(pName) || pName.includes(busLower)) return true;
   
   // 4. Word overlap of distinctive words (>= 2 chars)
   const busWords = busLower.split(/[\s-_.]+/)
     .map(w => w.replace(/[^a-z0-9]/g, ''))
     .filter((w: string) => w.length >= 2 && !COMMON_STOPWORDS.has(w));
-  const projWords = projLower.split(/[\s-_.]+/)
+  const projWords = pName.split(/[\s-_.]+/)
     .map(w => w.replace(/[^a-z0-9]/g, ''))
     .filter((w: string) => w.length >= 2 && !COMMON_STOPWORDS.has(w));
   
@@ -162,55 +173,67 @@ export default function UnifiedAdminVercel() {
   const [filterStatus, setFilterStatus] = useState<'ALL' | 'LIVE' | 'PENDING_PAYMENT' | 'PAID'>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [paymentModal, setPaymentModal] = useState<{ visible: boolean; business: string; url: string; copied: boolean } | null>(null);
-  const [loadingInvoice, setLoadingInvoice] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const filteredClients = useMemo(() => {
     return clients.filter(client => {
+      // 1. Status Filter Tabs
+      if (filterStatus === 'LIVE' && client.status !== 'DEPLOYED') return false;
+      if (filterStatus === 'PENDING_PAYMENT' && client.paymentStatus === 'PAID') return false;
+      if (filterStatus === 'PAID' && client.paymentStatus !== 'PAID') return false;
+
       const rawQuery = searchQuery.trim();
-      if (rawQuery) {
-        const normQuery = normalizeStr(rawQuery);
-        const queryTokens = normQuery.split(/\s+/).filter(Boolean);
-        
-        const searchableFields = [
-          client.business,
-          client.name,
-          client.rawProjectName,
-          client.vercelUrl,
-          client.id,
-          client.paymentStatus,
-          client.status,
-          client.info?.email,
-          client.info?.phone,
-          client.info?.contactName,
-          client.info?.businessName,
-          client.atData?.name,
-          client.atData?.business,
-          client.atData?.info?.email,
-          client.atData?.info?.phone,
-          client.atData?.info?.contactName,
-          client.atData?.info?.businessName
-        ].filter(Boolean).map(val => normalizeStr(val));
+      if (!rawQuery) return true;
 
-        const aggregateText = searchableFields.join(' ');
-        const aggregateClean = aggregateText.replace(/[^a-z0-9]/g, '');
-        const queryClean = normQuery.replace(/[^a-z0-9]/g, '');
+      const normQuery = normalizeStr(rawQuery);
+      const queryTokens = normQuery.split(/\s+/).filter(Boolean);
 
-        // Match whole phrase or tokens
-        const matchesWhole = aggregateText.includes(normQuery) || (queryClean.length >= 2 && aggregateClean.includes(queryClean));
-        const matchesTokens = queryTokens.every(token => {
-          const tokenClean = token.replace(/[^a-z0-9]/g, '');
-          return aggregateText.includes(token) || (tokenClean.length >= 2 && aggregateClean.includes(tokenClean));
-        });
+      // Status and payment synonyms for natural search
+      const paymentSynonyms = client.paymentStatus === 'PAID' 
+        ? ['paid', 'pagado', 'al dia', 'cobrado', 'activo'] 
+        : ['unpaid', 'pendiente', 'impago', 'por cobrar', 'deuda', 'gratis'];
+      
+      const statusSynonyms = client.status === 'DEPLOYED' 
+        ? ['live', 'activo', 'online', 'en linea', 'vercel', 'desplegado'] 
+        : ['pending', 'offline', 'inactivo', 'proceso'];
 
-        if (!matchesWhole && !matchesTokens) return false;
-      }
+      const aliases = Array.isArray(client.aliases) ? client.aliases : [];
 
-      // Filter by status if selected
-      if (filterStatus === 'LIVE') return client.status === 'DEPLOYED';
-      if (filterStatus === 'PENDING_PAYMENT') return client.paymentStatus !== 'PAID';
-      if (filterStatus === 'PAID') return client.paymentStatus === 'PAID';
+      const searchableFields = [
+        client.business,
+        client.name,
+        client.rawProjectName,
+        client.vercelUrl,
+        client.id,
+        client.paymentStatus,
+        client.status,
+        ...paymentSynonyms,
+        ...statusSynonyms,
+        ...aliases,
+        `$${client.monthlyPrice || 30}`,
+        `${client.monthlyPrice || 30}`,
+        client.info?.email,
+        client.info?.phone,
+        client.info?.contactName,
+        client.info?.businessName,
+        client.atData?.name,
+        client.atData?.business,
+        client.atData?.info?.email,
+        client.atData?.info?.phone,
+        client.atData?.info?.contactName,
+        client.atData?.info?.businessName
+      ].filter(Boolean).map(val => normalizeStr(val));
 
-      return true;
+      const aggregateText = searchableFields.join(' ');
+      const aggregateClean = aggregateText.replace(/[^a-z0-9]/g, '');
+
+      // Check if every token in query matches somewhere in aggregateText
+      return queryTokens.every(token => {
+        const tokenClean = token.replace(/[^a-z0-9]/g, '');
+        if (aggregateText.includes(token)) return true;
+        if (tokenClean.length >= 2 && aggregateClean.includes(tokenClean)) return true;
+        return false;
+      });
     });
   }, [clients, searchQuery, filterStatus]);
 
@@ -245,8 +268,11 @@ export default function UnifiedAdminVercel() {
               bestUrl = project.link || '';
             }
 
+            const paymentSlug = project.name || project.id;
+            const autoPaymentUrl = `https://universaagency.com/pay/${paymentSlug}`;
+
             return {
-              id: atClient?.info?.clientId || project.id,
+              id: atClient?.info?.clientId || project.name || project.id,
               name: ensureString(atClient?.name) || 'Unknown Owner',
               business: ensureString(project.brandName || atClient?.business || cleanProjectName(project.name)),
               rawProjectName: project.name,
@@ -254,6 +280,8 @@ export default function UnifiedAdminVercel() {
               paymentStatus: ensureString(atClient?.paymentStatus) || 'UNPAID',
               monthlyPrice: atClient?.monthlyPrice || 30,
               vercelUrl: bestUrl,
+              aliases: aliases,
+              paymentUrl: autoPaymentUrl,
               lastDeploy: project.updatedAt,
               isVercelMaster: true,
               atData: atClient || null
@@ -267,15 +295,20 @@ export default function UnifiedAdminVercel() {
             return !wasMatched;
           });
 
-          unifiedClients = [...unifiedClients, ...extraClients.map((c: any) => ({
-            ...c,
-            name: ensureString(c.name) || 'Unknown Owner',
-            business: ensureString(c.business) || 'Sin Negocio',
-            paymentStatus: ensureString(c.paymentStatus) || 'UNPAID',
-            monthlyPrice: c.monthlyPrice || 30,
-            isVercelMaster: false,
-            status: 'PENDING'
-          }))];
+          unifiedClients = [...unifiedClients, ...extraClients.map((c: any) => {
+            const fallbackSlug = c.info?.clientId || c.id;
+            return {
+              ...c,
+              name: ensureString(c.name) || 'Unknown Owner',
+              business: ensureString(c.business) || 'Sin Negocio',
+              paymentStatus: ensureString(c.paymentStatus) || 'UNPAID',
+              monthlyPrice: c.monthlyPrice || 30,
+              paymentUrl: `https://universaagency.com/pay/${fallbackSlug}`,
+              aliases: [],
+              isVercelMaster: false,
+              status: 'PENDING'
+            };
+          })];
 
           setClients(unifiedClients);
           setVercelProjects(vercelData.projects);
@@ -283,30 +316,17 @@ export default function UnifiedAdminVercel() {
           const paidClients = unifiedClients.filter((c: any) => c.paymentStatus === 'PAID');
           const pendingCount = unifiedClients.filter((c: any) => c.paymentStatus !== 'PAID').length;
           
-          // De-duplicate paid subscriptions by email or name to represent real Stripe subscriptions
-          const seenPaidEmails = new Set<string>();
-          const seenPaidNames = new Set<string>();
-          let uniquePaidCount = 0;
+          // Accurately sum monthly recurring revenue for each paid web project
           let totalRevenue = 0;
+          let uniquePaidCount = 0;
+          const seenPaidProjectKeys = new Set<string>();
 
           paidClients.forEach((c: any) => {
-            const email = (c.info?.email || c.atData?.info?.email || c.email || '').toLowerCase().trim();
-            const name = (c.name || c.atData?.name || '').toLowerCase().trim();
-            const price = c.monthlyPrice || 30;
+            const key = (c.rawProjectName || c.id || '').toLowerCase().trim();
+            const price = Number(c.monthlyPrice || 30);
 
-            if (email) {
-              if (!seenPaidEmails.has(email)) {
-                seenPaidEmails.add(email);
-                uniquePaidCount++;
-                totalRevenue += price;
-              }
-            } else if (name) {
-              if (!seenPaidNames.has(name)) {
-                seenPaidNames.add(name);
-                uniquePaidCount++;
-                totalRevenue += price;
-              }
-            } else {
+            if (key && !seenPaidProjectKeys.has(key)) {
+              seenPaidProjectKeys.add(key);
               uniquePaidCount++;
               totalRevenue += price;
             }
@@ -334,25 +354,58 @@ export default function UnifiedAdminVercel() {
     return () => clearInterval(interval);
   }, []);
 
+  const copyDirectPaymentLink = async (client: any) => {
+    const slug = client.rawProjectName || client.id;
+    const url = client.paymentUrl || `https://universaagency.com/pay/${slug}`;
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed'; 
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta); 
+        ta.focus(); 
+        ta.select();
+        document.execCommand('copy'); 
+        ta.remove();
+      }
+      setCopiedId(client.id);
+      setTimeout(() => setCopiedId(null), 2500);
+
+      // Background registration so it exists in Airtable
+      fetch('/api/billing/invoice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId: slug, businessName: client.business })
+      }).catch(() => {});
+    } catch (err) {
+      console.error('Error copying direct link:', err);
+    }
+  };
+
+  const openShareModal = (client: any) => {
+    const slug = client.rawProjectName || client.id;
+    const url = client.paymentUrl || `https://universaagency.com/pay/${slug}`;
+    setPaymentModal({
+      visible: true,
+      business: client.business,
+      url: url,
+      copied: false
+    });
+
+    // Background registration
+    fetch('/api/billing/invoice', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientId: slug, businessName: client.business })
+    }).catch(() => {});
+  };
+
   const generateInvoice = async (client: any) => {
-     setLoadingInvoice(client.id);
-     try {
-       const res = await fetch('/api/billing/invoice', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ clientId: client.id, businessName: client.business })
-       });
-       const data = await res.json();
-        if (data.success) {
-          setPaymentModal({ visible: true, business: client.business, url: data.paymentUrl, copied: false });
-        } else {
-          alert(`Error: ${data.error || 'No se pudo generar el link'}`);
-        }
-     } catch (err: any) {
-       alert(`Error: ${err.message}`);
-     } finally {
-       setLoadingInvoice(null);
-     }
+     openShareModal(client);
   };
 
   const copyPaymentLink = async () => {
@@ -466,23 +519,46 @@ export default function UnifiedAdminVercel() {
                 </div>
               </div>
 
-              {/* Copy Button */}
-              <button
-                onClick={copyPaymentLink}
-                className={`w-full py-4 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all ${
-                  paymentModal.copied
-                    ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
-                    : 'bg-white text-black hover:bg-zinc-100'
-                }`}
-              >
-                {paymentModal.copied ? (
-                  <><CheckCircle2 className="w-4 h-4" /> ¡Copiado al Portapapeles!</>
-                ) : (
-                  <><Copy className="w-4 h-4" /> Copiar Link de Pago</>
-                )}
-              </button>
+              {/* Action Buttons */}
+              <div className="space-y-2.5">
+                <button
+                  onClick={copyPaymentLink}
+                  className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 transition-all ${
+                    paymentModal.copied
+                      ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
+                      : 'bg-white text-black hover:bg-zinc-100'
+                  }`}
+                >
+                  {paymentModal.copied ? (
+                    <><CheckCircle2 className="w-4 h-4" /> ¡Copiado al Portapapeles!</>
+                  ) : (
+                    <><Copy className="w-4 h-4" /> Copiar Link de Pago</>
+                  )}
+                </button>
+
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(`Hola! Aquí tienes el link oficial para el pago de hosting y mantenimiento de tu web (${paymentModal.business}):\n\n${paymentModal.url}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-white border border-emerald-500/20 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2.5 transition-all"
+                >
+                  <span>Enviar por WhatsApp</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+
+                <a
+                  href={paymentModal.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white border border-white/10 rounded-2xl font-bold text-[11px] uppercase tracking-widest flex items-center justify-center gap-2 transition-all"
+                >
+                  <span>Abrir Portal de Pago</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
               <p className="text-center text-[9px] text-zinc-600 mt-3 font-bold uppercase tracking-widest">
-                Pega este link en WhatsApp, email o donde prefieras
+                Link generado automáticamente para cobro recurrente de $30 USD
               </p>
             </motion.div>
           </motion.div>
@@ -531,30 +607,54 @@ export default function UnifiedAdminVercel() {
         
         {/* Left Column: Client Inventory (Stakent List View) */}
         <div className="xl:col-span-8 bg-[#0C0C0E] border border-white/5 rounded-2xl overflow-hidden">
-          <div className="p-8 border-b border-white/5 flex items-center justify-between bg-[#111113]/50">
+          <div className="p-6 md:p-8 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#111113]/50">
              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                <h3 className="text-sm font-black uppercase tracking-widest italic">Inventory & Billing Module</h3>
-                {filterStatus !== 'ALL' && (
-                  <span className="px-2 py-0.5 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[8px] font-black uppercase tracking-wider rounded-md inline-flex items-center gap-1.5 self-start">
-                    {filterStatus === 'LIVE' ? 'LIVE ON VERCEL' : filterStatus === 'PENDING_PAYMENT' ? 'PENDING PAYMENTS' : 'PAID PAYMENTS'}
-                    <button onClick={() => setFilterStatus('ALL')} className="hover:text-white transition-colors text-[10px]">✕</button>
-                  </span>
-                )}
+                <h3 className="text-sm font-black uppercase tracking-widest italic flex items-center gap-2">
+                  <span>Inventory & Billing Module</span>
+                  <span className="text-[10px] font-mono text-zinc-500 font-normal">({filteredClients.length} de {clients.length})</span>
+                </h3>
+                
+                {/* Quick status filter pills */}
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {(['ALL', 'LIVE', 'PAID', 'PENDING_PAYMENT'] as const).map((st) => {
+                    const isSelected = filterStatus === st;
+                    const label = st === 'ALL' ? 'Todos' : st === 'LIVE' ? 'Live Vercel' : st === 'PAID' ? 'Pagados' : 'Pendientes';
+                    const count = st === 'ALL' ? clients.length : st === 'LIVE' ? stats.activeProjects : st === 'PAID' ? stats.paidPayments : stats.pendingPayments;
+                    return (
+                      <button
+                        key={st}
+                        onClick={() => setFilterStatus(st)}
+                        className={`px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+                          isSelected
+                            ? 'bg-white text-black shadow-sm'
+                            : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10 border border-white/5'
+                        }`}
+                      >
+                        <span>{label}</span>
+                        <span className={`text-[8px] font-mono px-1 py-0.2 rounded ${isSelected ? 'bg-black/10 text-black' : 'bg-white/5 text-zinc-500'}`}>
+                          {count}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
              </div>
+
+             {/* Search Input Box */}
              <div className="flex items-center gap-3">
-                <div className="relative flex-1 sm:w-auto">
+                <div className="relative w-full sm:w-80 md:w-96">
                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
                    <input 
                       type="text" 
-                      placeholder="Buscar por cliente, marca, email, slug o dominio..." 
+                      placeholder="Buscar por cliente, web, dominio, slug, estado..." 
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="bg-white/5 border border-white/10 rounded-xl py-2 pl-9.5 pr-20 text-xs font-medium w-48 xs:w-64 sm:w-80 md:w-96 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 text-white placeholder:text-zinc-500 transition-all" 
+                      className="bg-white/5 border border-white/10 rounded-xl py-2 pl-9.5 pr-20 text-xs font-medium w-full focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 text-white placeholder:text-zinc-500 transition-all" 
                     />
                     <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
                       {searchQuery && (
                         <>
-                          <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                          <span className="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
                             {filteredClients.length}
                           </span>
                           <button 
@@ -663,32 +763,53 @@ export default function UnifiedAdminVercel() {
                            </div>
                         </td>
                         <td className="p-3 md:p-6 text-right">
-                           <div className="flex items-center justify-end gap-1.5 md:gap-3 flex-nowrap">
+                           <div className="flex items-center justify-end gap-1.5 md:gap-2 flex-nowrap">
+                             {/* 1-Click Copy Link button */}
                              <button 
-                               onClick={() => generateInvoice(client)}
-                               disabled={loadingInvoice === client.id}
-                               className={`flex p-2 md:px-4 md:py-2 border rounded-lg text-[9px] font-black uppercase tracking-widest transition-all items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shrink-0 ${
-                                 client.paymentStatus === 'PAID'
-                                   ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white'
-                                   : 'bg-white/5 border-white/5 text-indigo-400 hover:bg-indigo-500 hover:text-white'
+                               onClick={() => copyDirectPaymentLink(client)}
+                               className={`flex p-2 md:px-3.5 md:py-2 border rounded-xl text-[9px] font-black uppercase tracking-widest transition-all items-center gap-1.5 shrink-0 ${
+                                 copiedId === client.id
+                                   ? 'bg-emerald-500 text-white border-emerald-400 shadow-lg shadow-emerald-500/25 scale-[1.03]'
+                                   : client.paymentStatus === 'PAID'
+                                     ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white'
+                                     : 'bg-white/5 border-white/10 text-indigo-400 hover:bg-indigo-500 hover:text-white hover:border-indigo-500'
                                }`}
-                               title={client.paymentStatus === 'PAID' ? 'Reenviar Link de Pago' : 'Generar Link de Pago'}
+                               title="Copiar Link de Pago $30 al portapapeles"
                              >
-                               {loadingInvoice === client.id ? (
-                                 <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                               {copiedId === client.id ? (
+                                 <>
+                                   <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                                   <span>¡Copiado!</span>
+                                 </>
                                ) : (
-                                 <Link2 className="w-3.5 h-3.5" />
+                                 <>
+                                   <Copy className="w-3.5 h-3.5" />
+                                   <span className="hidden lg:inline">{client.paymentStatus === 'PAID' ? 'Link Pago' : 'Copiar $30'}</span>
+                                 </>
                                )}
-                               <span className="hidden lg:inline">{client.paymentStatus === 'PAID' ? 'Reenviar' : 'Link $30'}</span>
                              </button>
+
+                             {/* Share / WhatsApp & Details modal button */}
+                             <button 
+                               onClick={() => openShareModal(client)}
+                               className="p-2 md:p-2.5 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl border border-white/5 text-zinc-400 hover:text-white transition-all shrink-0"
+                               title="Opciones de compartir / WhatsApp"
+                             >
+                               <Link2 className="w-3.5 h-3.5" />
+                             </button>
+
+                             {/* Open Live Web */}
                              {client.vercelUrl && (
-                               <a href={client.vercelUrl} target="_blank" className="p-2 md:p-2.5 bg-white/5 rounded-lg md:rounded-xl border border-white/5 text-zinc-500 hover:text-white transition-all shrink-0">
+                               <a 
+                                 href={client.vercelUrl} 
+                                 target="_blank" 
+                                 rel="noopener noreferrer"
+                                 className="p-2 md:p-2.5 bg-white/5 hover:bg-white/10 rounded-lg md:rounded-xl border border-white/5 text-zinc-400 hover:text-white transition-all shrink-0"
+                                 title="Abrir web en producción"
+                               >
                                   <ExternalLink className="w-3.5 h-3.5" />
                                </a>
                              )}
-                             <button className="p-2 md:p-2.5 bg-white/5 rounded-lg md:rounded-xl border border-white/5 text-zinc-500 hover:text-white transition-all shrink-0">
-                                <MoreVertical className="w-3.5 h-3.5" />
-                             </button>
                            </div>
                         </td>
                       </tr>
