@@ -14,8 +14,34 @@ export async function GET(
       return NextResponse.json({ success: false, error: 'Client ID is required' }, { status: 400 });
     }
 
+    const cleanId = clientId.toLowerCase().trim();
+
+    // Direct Instant Return for Virtual Clients (Souvapet & Vector Solutions)
+    const isSouvapet = ['souvapet', 'souva', 'souvapet-mobile'].includes(cleanId);
+    const isVector = ['vector-solutions', 'vector', 'vector_solutions'].includes(cleanId);
+
+    if (isSouvapet || isVector) {
+      const businessName = isSouvapet ? 'Souvapet Mobile Pet Grooming' : 'Vector Solutions';
+      return NextResponse.json({
+        success: true,
+        client: {
+          id: clientId,
+          name: businessName,
+          business: businessName,
+          paymentStatus: 'UNPAID',
+          monthlyPrice: 30,
+          billingInterval: 'month'
+        }
+      });
+    }
+
     // Attempt 1: Standard Airtable Lookup
-    let record = await airtableCRM.getClient(clientId);
+    let record: any = null;
+    try {
+      record = await airtableCRM.getClient(clientId);
+    } catch (aErr) {
+      console.error('Airtable lookup error:', aErr);
+    }
     
     // Attempt 2: If clientId looks like a Vercel project ID, fetch from Vercel first
     if (!record && clientId.startsWith('prj_')) {
@@ -63,25 +89,7 @@ export async function GET(
       record = await airtableCRM.getClientByBusinessName('Innovatech Bio');
     }
 
-    // Fallback for Souvapet & Vector Solutions
-    const isSouvapet = ['souvapet', 'souva', 'souvapet-mobile'].includes(clientId.toLowerCase());
-    const isVector = ['vector-solutions', 'vector', 'vector_solutions'].includes(clientId.toLowerCase());
-
     if (!record && !isInnovatech) {
-      if (isSouvapet || isVector) {
-        const businessName = isSouvapet ? 'Souvapet Mobile Pet Grooming' : 'Vector Solutions';
-        return NextResponse.json({
-          success: true,
-          client: {
-            id: clientId,
-            name: businessName,
-            business: businessName,
-            paymentStatus: 'UNPAID',
-            monthlyPrice: 30,
-            billingInterval: 'month'
-          }
-        });
-      }
       return NextResponse.json({ success: false, error: 'Client not found' }, { status: 404 });
     }
 
