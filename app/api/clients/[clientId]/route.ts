@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { airtableCRM } from '@/lib/integrations/airtable-crm';
+import { syncStripeAndAirtable } from '@/lib/integrations/stripe-sync';
 import proposalsData from '@/data/proposals.json';
 
 export const dynamic = 'force-dynamic';
@@ -26,6 +27,11 @@ export async function GET(
       return NextResponse.json({ success: false, error: 'Client ID is required' }, { status: 400 });
     }
 
+    if (clientId === 'sync-stripe') {
+      const syncResult = await syncStripeAndAirtable(true);
+      return NextResponse.json({ success: true, sync: syncResult });
+    }
+
     const cleanId = clientId.toLowerCase().trim();
 
     // 1. Direct Quick Lookup in Airtable
@@ -35,11 +41,14 @@ export async function GET(
       if (!record && cleanId !== clientId) {
         record = await airtableCRM.getClient(cleanId);
       }
+      if (!record) {
+        record = await airtableCRM.getClientByBusinessName(cleanId);
+      }
     } catch (aErr) {
       console.error('Airtable lookup error:', aErr);
     }
 
-    // 2. Fallback: Lookup in Vercel API (accepts both project name and prj_ ID!)
+    // 2. Fallback: Lookup in Vercel API
     if (!record) {
       try {
         const vercelToken = process.env.VERCEL_TOKEN;
@@ -51,14 +60,10 @@ export async function GET(
           if (vResponse.ok) {
             const vData = await vResponse.json();
             const projectName = vData.name || clientId;
-            console.log('Vercel project resolved automatically:', projectName);
 
-            // Check if Airtable has it by business name
             try {
               record = await airtableCRM.getClientByBusinessName(projectName);
-            } catch (e) {
-              // ignore
-            }
+            } catch (e) {}
 
             if (!record) {
               const formattedName = cleanProjectName(projectName);
@@ -106,12 +111,10 @@ export async function GET(
     if (isInnovatech && !record) {
       try {
         record = await airtableCRM.getClientByBusinessName('Innovatech Bio');
-      } catch (e) {
-        // ignore
-      }
+      } catch (e) {}
     }
 
-    // 5. Final Graceful Fallback: Never break payment links for any valid web
+    // 5. Final Graceful Fallback
     if (!record && !isInnovatech) {
       const fallbackName = cleanProjectName(clientId);
       return NextResponse.json({
