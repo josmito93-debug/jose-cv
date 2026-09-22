@@ -2186,7 +2186,7 @@
       {
         "id": 1,
         "name": "BRAND PLATFORM, MOBILE EXPERIENCE & LEAD ENGINE",
-        "investment": 450,
+        "investment": 400,
         "items": [
           {
             "title": "Clean, Modern Pink or Brown Web Architecture",
@@ -2232,7 +2232,7 @@
       {
         "id": 2,
         "name": "E-COMMERCE STOREFRONT (SHIRTS, HATS, SOCKS, UNDERWEAR) & SOURCING ADVISORY",
-        "investment": 450,
+        "investment": 350,
         "items": [
           {
             "title": "Full Merchandise E-Commerce Storefront",
@@ -2265,7 +2265,7 @@
       {
         "id": 3,
         "name": "SUPABASE BACKEND, MEMBER FOUNDATION, CMS & TRACKING",
-        "investment": 300,
+        "investment": 250,
         "items": [
           {
             "title": "Supabase Member Foundation (App-Ready Architecture)",
@@ -2299,25 +2299,25 @@
     "summary": "Full-scale development of the new Pink or Brown digital flagship platform targeting launch on September 29, 2026. The project delivers a clean, modern Next.js website migrated from Webflow, full mobile optimization, @pinkorbrown social integration, email capture, an e-commerce storefront for merchandise (shirts, hats, socks, underwear) with Stripe checkout, merchandise sourcing advisory via freight forwarding, a lightweight CMS for effortless updates, and a Supabase backend establishing the member/community foundation designed specifically so the future mobile app plugs directly into the unified system without rebuilds.",
     "cta": "https://wa.me/17863024923?text=Hi%20Universa,%20I%20would%20like%20to%20approve%20the%20Pink%20or%20Brown%20proposal",
     "hideRelated": true,
-    "paymentSplit": "50/50",
+    "paymentSplit": "300/700",
     "contractTerms": {
       "payments": [
         {
-          "name": "Initial Kickoff Deposit (50% to Initiate Sprint)",
-          "amount": 600
+          "name": "Initial Kickoff Deposit ($300 to Start Sprint)",
+          "amount": 300
         },
         {
-          "name": "Final Balance (50% Upon QA Testing, Domain Cutover & Launch)",
-          "amount": 600
+          "name": "Final Balance ($700 Upon QA Testing & Domain Cutover)",
+          "amount": 700
         }
       ],
       "clauses": [
-        "TARGET LAUNCH TIMELINE & SPRINT COMMITMENT: Development is scheduled as an expedited 7-day sprint targeting public launch by September 29, 2026. Work initiates immediately upon receipt of the kickoff deposit and Webflow design/content assets.",
+        "TARGET LAUNCH TIMELINE & SPRINT COMMITMENT: Development is scheduled as an expedited 7-day sprint targeting public launch by September 29, 2026. Work initiates immediately upon receipt of the initial  kickoff deposit and Webflow design/content assets.",
         "STAGING ENVIRONMENT & ZERO-DOWNTIME CUTOVER: To preserve continuity, the existing Webflow site remains live while the new version is developed on an isolated Vercel staging preview URL. Once fully tested, reviewed, and approved, Universa Agency will execute the DNS cutover to point pinkorbrown.com to the new production platform with zero downtime.",
         "APP-READY BACKEND ARCHITECTURE: The backend and member database will be built on Supabase (PostgreSQL + Auth), ensuring the platform's user authentication, customer orders, and community database will plug directly into the planned mobile app in future phases without requiring data migration or backend rebuilds.",
         "MERCHANDISING & E-COMMERCE INTEGRATION: Universa Agency will deliver an active storefront for merchandise (shirts, hats, socks, underwear) with Stripe payment integration, and provide sourcing advisory (Alibaba / direct suppliers & freight forwarder contacts) to optimize manufacturing cost and shipping efficiency.",
         "REVISIONS, CLIENT INPUT & SCOPE: Includes up to 2 iterative review rounds during staging. Timely delivery by September 29 requires prompt client feedback and provision of product copy, pricing, and domain DNS access.",
-        "INTELLECTUAL PROPERTY & CODE OWNERSHIP: Upon settlement of the final payment, 100% of the custom code, designs, branding assets, database schemas, and administrative credentials will belong exclusively to Pink or Brown."
+        "INTELLECTUAL PROPERTY & CODE OWNERSHIP: Upon settlement of the final  balance, 100% of the custom code, designs, branding assets, database schemas, and administrative credentials will belong exclusively to Pink or Brown."
       ]
     }
   },
@@ -2332,7 +2332,7 @@
       {
         "id": 1,
         "name": "BRAND PLATFORM, MOBILE EXPERIENCE & LEAD ENGINE",
-        "investment": 450,
+        "investment": 400,
         "items": [
           {
             "title": "Clean, Modern Pink or Brown Web Architecture",
@@ -2378,7 +2378,7 @@
       {
         "id": 2,
         "name": "E-COMMERCE STOREFRONT (SHIRTS, HATS, SOCKS, UNDERWEAR) & SOURCING ADVISORY",
-        "investment": 450,
+        "investment": 350,
         "items": [
           {
             "title": "Full Merchandise E-Commerce Storefront",
@@ -2411,7 +2411,7 @@
       {
         "id": 3,
         "name": "SUPABASE BACKEND, MEMBER FOUNDATION, CMS & TRACKING",
-        "investment": 300,
+        "investment": 250,
         "items": [
           {
             "title": "Supabase Member Foundation (App-Ready Architecture)",
@@ -2445,25 +2445,25 @@
     "summary": "Full-scale development of the new Pink or Brown digital flagship platform targeting launch on September 29, 2026. The project delivers a clean, modern Next.js website migrated from Webflow, full mobile optimization, @pinkorbrown social integration, email capture, an e-commerce storefront for merchandise (shirts, hats, socks, underwear) with Stripe checkout, merchandise sourcing advisory via freight forwarding, a lightweight CMS for effortless updates, and a Supabase backend establishing the member/community foundation designed specifically so the future mobile app plugs directly into the unified system without rebuilds.",
     "cta": "https://wa.me/17863024923?text=Hi%20Universa,%20I%20would%20like%20to%20approve%20the%20Pink%20or%20Brown%20proposal",
     "hideRelated": true,
-    "paymentSplit": "50/50",
+    "paymentSplit": "300/700",
     "contractTerms": {
       "payments": [
         {
-          "name": "Initial Kickoff Deposit (50% to Initiate Sprint)",
-          "amount": 600
+          "name": "Initial Kickoff Deposit ($300 to Start Sprint)",
+          "amount": 300
         },
         {
-          "name": "Final Balance (50% Upon QA Testing, Domain Cutover & Launch)",
-          "amount": 600
+          "name": "Final Balance ($700 Upon QA Testing & Domain Cutover)",
+          "amount": 700
         }
       ],
       "clauses": [
-        "TARGET LAUNCH TIMELINE & SPRINT COMMITMENT: Development is scheduled as an expedited 7-day sprint targeting public launch by September 29, 2026. Work initiates immediately upon receipt of the kickoff deposit and Webflow design/content assets.",
+        "TARGET LAUNCH TIMELINE & SPRINT COMMITMENT: Development is scheduled as an expedited 7-day sprint targeting public launch by September 29, 2026. Work initiates immediately upon receipt of the initial  kickoff deposit and Webflow design/content assets.",
         "STAGING ENVIRONMENT & ZERO-DOWNTIME CUTOVER: To preserve continuity, the existing Webflow site remains live while the new version is developed on an isolated Vercel staging preview URL. Once fully tested, reviewed, and approved, Universa Agency will execute the DNS cutover to point pinkorbrown.com to the new production platform with zero downtime.",
         "APP-READY BACKEND ARCHITECTURE: The backend and member database will be built on Supabase (PostgreSQL + Auth), ensuring the platform's user authentication, customer orders, and community database will plug directly into the planned mobile app in future phases without requiring data migration or backend rebuilds.",
         "MERCHANDISING & E-COMMERCE INTEGRATION: Universa Agency will deliver an active storefront for merchandise (shirts, hats, socks, underwear) with Stripe payment integration, and provide sourcing advisory (Alibaba / direct suppliers & freight forwarder contacts) to optimize manufacturing cost and shipping efficiency.",
         "REVISIONS, CLIENT INPUT & SCOPE: Includes up to 2 iterative review rounds during staging. Timely delivery by September 29 requires prompt client feedback and provision of product copy, pricing, and domain DNS access.",
-        "INTELLECTUAL PROPERTY & CODE OWNERSHIP: Upon settlement of the final payment, 100% of the custom code, designs, branding assets, database schemas, and administrative credentials will belong exclusively to Pink or Brown."
+        "INTELLECTUAL PROPERTY & CODE OWNERSHIP: Upon settlement of the final  balance, 100% of the custom code, designs, branding assets, database schemas, and administrative credentials will belong exclusively to Pink or Brown."
       ]
     }
   }
