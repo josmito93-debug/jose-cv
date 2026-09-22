@@ -121,6 +121,7 @@ export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug
           clientSlug={clientSlug}
           phases={proposal.phases}
           contractTerms={proposal.contractTerms}
+          lang={proposal.lang}
         />
       </div>
     </main>

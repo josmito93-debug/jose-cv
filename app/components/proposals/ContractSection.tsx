@@ -12,6 +12,7 @@ interface ContractSectionProps {
     payments: Array<{ name: string; amount: number }>;
     clauses: string[];
   };
+  lang?: 'en' | 'es';
 }
 
 const loadImage = (url: string): Promise<HTMLImageElement> => {
@@ -24,7 +25,7 @@ const loadImage = (url: string): Promise<HTMLImageElement> => {
   });
 };
 
-export default function ContractSection({ clientName, clientSlug, phases, contractTerms }: ContractSectionProps) {
+export default function ContractSection({ clientName, clientSlug, phases, contractTerms, lang = 'es' }: ContractSectionProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -168,7 +169,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
     
     pdf.setFontSize(15);
     pdf.setTextColor(255, 255, 255); // White text
-    pdf.text("CONTRATO DE PRESTACIÓN DE SERVICIOS", 20, 28);
+    pdf.text(lang === 'en' ? "DIGITAL SERVICES CONTRACT & AGREEMENT" : "CONTRATO DE PRESTACIÓN DE SERVICIOS", 20, 28);
     
     y = 55;
 
@@ -176,38 +177,40 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
     pdf.setTextColor(14, 19, 31);
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(11);
-    pdf.text("1. PARTES CONTRATANTES", 20, y);
+    pdf.text(lang === 'en' ? "1. CONTRACTING PARTIES" : "1. PARTES CONTRATANTES", 20, y);
     y += 8;
 
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(10);
     
     // Client Data Grid Layout
-    pdf.text(`Cliente / Firmante: ${sigObj.name}`, 20, y);
-    pdf.text(`Empresa: ${sigObj.companyName}`, 110, y);
+    pdf.text(`${lang === 'en' ? 'Client / Signatory' : 'Cliente / Firmante'}: ${sigObj.name}`, 20, y);
+    pdf.text(`${lang === 'en' ? 'Company' : 'Empresa'}: ${sigObj.companyName}`, 110, y);
     y += 6;
-    pdf.text(`Correo Electrónico: ${sigObj.email}`, 20, y);
-    pdf.text(`Teléfono: ${sigObj.phone}`, 110, y);
+    pdf.text(`${lang === 'en' ? 'Email' : 'Correo Electrónico'}: ${sigObj.email}`, 20, y);
+    pdf.text(`${lang === 'en' ? 'Phone' : 'Teléfono'}: ${sigObj.phone}`, 110, y);
     y += 6;
-    pdf.text(`Fecha de Firma: ${new Date(sigObj.signedAt).toLocaleString()}`, 20, y);
-    pdf.text(`ID Acuerdo: ${sigObj.id}`, 110, y);
+    pdf.text(`${lang === 'en' ? 'Signed At' : 'Fecha de Firma'}: ${new Date(sigObj.signedAt).toLocaleString()}`, 20, y);
+    pdf.text(`${lang === 'en' ? 'Agreement ID' : 'ID Acuerdo'}: ${sigObj.id}`, 110, y);
     y += 12;
 
     // Object & Investment Section
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(11);
-    pdf.text("2. SERVICIOS Y PRESUPUESTO ACORDADO", 20, y);
+    pdf.text(lang === 'en' ? "2. SERVICES & AGREED INVESTMENT" : "2. SERVICIOS Y PRESUPUESTO ACORDADO", 20, y);
     y += 8;
 
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(10);
-    pdf.text(`Se acuerda la prestación de servicios detallada en la propuesta de ${clientName} por las siguientes fases:`, 20, y);
+    pdf.text(lang === 'en' 
+      ? `The provision of services detailed in the technical proposal for ${clientName} is agreed across the following phases:` 
+      : `Se acuerda la prestación de servicios detallada en la propuesta de ${clientName} por las siguientes fases:`, 20, y);
     y += 8;
 
     // Phase List table-like view
     phases.forEach((phase, i) => {
       pdf.setFont('helvetica', 'bold');
-      pdf.text(`Fase 0${i + 1}: ${phase.name}`, 25, y);
+      pdf.text(`${lang === 'en' ? 'Phase' : 'Fase'} 0${i + 1}: ${phase.name}`, 25, y);
       pdf.setFont('helvetica', 'normal');
       pdf.text(`$${phase.investment.toLocaleString()} USD`, 160, y, { align: 'right' });
       y += 6;
@@ -218,7 +221,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
     y += 6;
 
     pdf.setFont('helvetica', 'bold');
-    pdf.text("TOTAL INVERSIÓN ACUMULADA:", 20, y);
+    pdf.text(lang === 'en' ? "TOTAL CUMULATIVE INVESTMENT:" : "TOTAL INVERSIÓN ACUMULADA:", 20, y);
     pdf.setTextColor(45, 220, 128);
     pdf.text(`$${total.toLocaleString()} USD`, 160, y, { align: 'right' });
     pdf.setTextColor(14, 19, 31);
@@ -227,7 +230,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
     // Terms & Clauses Section
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(11);
-    pdf.text("3. TÉRMINOS Y CLÁUSULAS LEGALES DE PRESTACIÓN", 20, y);
+    pdf.text(lang === 'en' ? "3. LEGAL TERMS AND CONDITIONS" : "3. TÉRMINOS Y CLÁUSULAS LEGALES DE PRESTACIÓN", 20, y);
     y += 8;
 
     pdf.setFont('helvetica', 'normal');
@@ -272,7 +275,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
 
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(10);
-    pdf.text("FIRMAS DE CONFORMIDAD", 20, y);
+    pdf.text(lang === 'en' ? "AUTHORIZED SIGNATURES" : "FIRMAS DE CONFORMIDAD", 20, y);
     y += 10;
 
     // Representative and Client Side by Side
@@ -282,7 +285,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
     pdf.text("UNIVERSA AGENCY S.A.", 20, signY);
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8.5);
-    pdf.text("Firma de Representación Autorizada", 20, signY + 5);
+    pdf.text(lang === 'en' ? "Authorized Agency Representation" : "Firma de Representación Autorizada", 20, signY + 5);
     pdf.setFont('times', 'italic');
     pdf.setFontSize(16);
     pdf.text("Universa Lab", 25, signY + 18);
@@ -290,16 +293,16 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
     pdf.line(20, signY + 22, 85, signY + 22);
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8.5);
-    pdf.text(`Fecha: ${new Date(sigObj.signedAt).toLocaleDateString()}`, 20, signY + 26);
+    pdf.text(`${lang === 'en' ? 'Date' : 'Fecha'}: ${new Date(sigObj.signedAt).toLocaleDateString()}`, 20, signY + 26);
 
     // Right side: Client signature
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(10);
-    pdf.text("EL CLIENTE (CONTRATANTE)", 110, signY);
+    pdf.text(lang === 'en' ? "CLIENT (CONTRACTING PARTY)" : "EL CLIENTE (CONTRATANTE)", 110, signY);
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8.5);
-    pdf.text(`Nombre: ${sigObj.name}`, 110, signY + 5);
-    pdf.text(`Cargo/Empresa: ${sigObj.companyName}`, 110, signY + 9);
+    pdf.text(`${lang === 'en' ? 'Name' : 'Nombre'}: ${sigObj.name}`, 110, signY + 5);
+    pdf.text(`${lang === 'en' ? 'Company' : 'Cargo/Empresa'}: ${sigObj.companyName}`, 110, signY + 9);
     
     if (sigObj.mode === 'draw') {
       try {
@@ -318,14 +321,16 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
     pdf.line(110, signY + 22, 175, signY + 22);
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8.5);
-    pdf.text(`Fecha: ${new Date(sigObj.signedAt).toLocaleDateString()}`, 110, signY + 26);
+    pdf.text(`${lang === 'en' ? 'Date' : 'Fecha'}: ${new Date(sigObj.signedAt).toLocaleDateString()}`, 110, signY + 26);
 
     // Footer notice
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(7.5);
     pdf.setTextColor(150, 150, 150);
-    pdf.text(`Este documento fue firmado digitalmente bajo el código de seguridad única ${sigObj.id}.`, 20, pdfHeight - 12);
-    pdf.text("Universa Agency LLC © 2026. Todos los derechos reservados.", pdfWidth - 20, pdfHeight - 12, { align: 'right' });
+    pdf.text(lang === 'en' 
+      ? `This document was digitally executed under secure identification code ${sigObj.id}.`
+      : `Este documento fue firmado digitalmente bajo el código de seguridad única ${sigObj.id}.`, 20, pdfHeight - 12);
+    pdf.text("Universa Agency LLC © 2026. All rights reserved.", pdfWidth - 20, pdfHeight - 12, { align: 'right' });
   };
 
   const handleSign = async (e: React.FormEvent) => {
@@ -471,14 +476,16 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
           <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-[#2ddc80]/15 border border-[#2ddc80]/20 rounded-full mb-6">
             <FileText className="w-4 h-4 text-[#2ddc80]" />
             <span className="text-[#2ddc80] text-[10px] font-black uppercase tracking-widest">
-              Acuerdo Formal
+              {lang === 'en' ? 'Formal Agreement' : 'Acuerdo Formal'}
             </span>
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase mb-4">
-            Contrato de Servicios
+            {lang === 'en' ? 'Services Agreement' : 'Contrato de Servicios'}
           </h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
-            Por favor, ingresa los datos correspondientes, revisa las condiciones comerciales y firma digitalmente para formalizar la propuesta.
+            {lang === 'en' 
+              ? 'Please review the agreement terms, fill in your details, and sign digitally to execute the contract.'
+              : 'Por favor, ingresa los datos correspondientes, revisa las condiciones comerciales y firma digitalmente para formalizar la propuesta.'}
           </p>
         </div>
 
@@ -491,11 +498,15 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
             {/* Parties */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-white/5 pb-8">
               <div>
-                <span className="text-[10px] font-black text-[#2ddc80] uppercase tracking-widest">Contratante (Cliente)</span>
+                <span className="text-[10px] font-black text-[#2ddc80] uppercase tracking-widest">
+                  {lang === 'en' ? 'Client' : 'Contratante (Cliente)'}
+                </span>
                 <p className="text-white font-black text-xl mt-1 uppercase">{clientName}</p>
               </div>
               <div className="md:text-right">
-                <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">Prestador (Agencia)</span>
+                <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">
+                  {lang === 'en' ? 'Provider (Agency)' : 'Prestador (Agencia)'}
+                </span>
                 <p className="text-white font-black text-xl mt-1 uppercase">Universa Agency</p>
               </div>
             </div>
@@ -504,11 +515,19 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
             <div>
               <h3 className="text-white font-black text-xs uppercase tracking-widest mb-4 flex items-center gap-2">
                 <Award className="w-4 h-4 text-[#2ddc80]" />
-                Objeto y Presupuesto
+                {lang === 'en' ? 'Scope & Investment' : 'Objeto y Presupuesto'}
               </h3>
               <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
                 <p className="text-white/60 text-sm leading-relaxed">
-                  El presente acuerdo tiene como objeto el desarrollo técnico de la plataforma digital y producción de activos para la marca <strong className="text-white font-bold">{clientName}</strong>, con una inversión total acordada de <strong className="text-[#2ddc80] font-black">${total.toLocaleString()} USD</strong>.
+                  {lang === 'en' ? (
+                    <>
+                      This agreement covers the technical platform development and asset production for the brand <strong className="text-white font-bold">{clientName}</strong>, with an agreed total investment of <strong className="text-[#2ddc80] font-black">${total.toLocaleString()} USD</strong>.
+                    </>
+                  ) : (
+                    <>
+                      El presente acuerdo tiene como objeto el desarrollo técnico de la plataforma digital y producción de activos para la marca <strong className="text-white font-bold">{clientName}</strong>, con una inversión total acordada de <strong className="text-[#2ddc80] font-black">${total.toLocaleString()} USD</strong>.
+                    </>
+                  )}
                 </p>
               </div>
             </div>
@@ -517,7 +536,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
             <div>
               <h3 className="text-white font-black text-xs uppercase tracking-widest mb-4 flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 text-[#2ddc80]" />
-                Cláusulas de Cumplimiento
+                {lang === 'en' ? 'Terms & Commercial Clauses' : 'Cláusulas de Cumplimiento'}
               </h3>
               <ol className="space-y-4 list-decimal pl-4">
                 {clauses.map((clause, idx) => (
@@ -534,7 +553,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
               <div>
                 <h3 className="text-white font-black text-xs uppercase tracking-widest mb-4 flex items-center gap-2">
                   <PlayCircle className="w-4 h-4 text-[#2ddc80]" />
-                  Calendario de Desembolsos
+                  {lang === 'en' ? 'Payment Schedule' : 'Calendario de Desembolsos'}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {contractTerms.payments.map((p, idx) => (
@@ -560,53 +579,63 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
               onSubmit={handleSign}
               className="bg-white/[0.01] backdrop-blur-xl border border-white/5 rounded-[2rem] p-8 md:p-10 space-y-6"
             >
-              <h3 className="text-white font-black text-lg uppercase tracking-tight mb-2">Firma Digital del Cliente</h3>
+              <h3 className="text-white font-black text-lg uppercase tracking-tight mb-2">
+                {lang === 'en' ? 'Client Digital Signature' : 'Firma Digital del Cliente'}
+              </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Nombre Completo del Firmante</label>
+                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">
+                    {lang === 'en' ? 'Signatory Full Name' : 'Nombre Completo del Firmante'}
+                  </label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Ej. Ivonne Roxe"
+                    placeholder={lang === 'en' ? "e.g. John Doe" : "Ej. Ivonne Roxe"}
                     className="w-full bg-white/5 border border-white/10 focus:border-[#2ddc80]/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-white/20 font-bold"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Nombre de la Empresa</label>
+                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">
+                    {lang === 'en' ? 'Company Name' : 'Nombre de la Empresa'}
+                  </label>
                   <input
                     type="text"
                     required
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
-                    placeholder="Ej. Roxe LLC"
+                    placeholder={lang === 'en' ? "e.g. Pink or Brown" : "Ej. Roxe LLC"}
                     className="w-full bg-white/5 border border-white/10 focus:border-[#2ddc80]/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-white/20 font-bold"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Número de Teléfono</label>
+                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">
+                    {lang === 'en' ? 'Phone Number' : 'Número de Teléfono'}
+                  </label>
                   <input
                     type="tel"
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="Ej. +1 (786) 123-4567"
+                    placeholder={lang === 'en' ? "+1 (555) 123-4567" : "Ej. +1 (786) 123-4567"}
                     className="w-full bg-white/5 border border-white/10 focus:border-[#2ddc80]/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-white/20 font-bold"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Correo Electrónico</label>
+                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">
+                    {lang === 'en' ? 'Email Address' : 'Correo Electrónico'}
+                  </label>
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="ejemplo@roxe.com"
+                    placeholder={lang === 'en' ? "hello@pinkorbrown.com" : "ejemplo@roxe.com"}
                     className="w-full bg-white/5 border border-white/10 focus:border-[#2ddc80]/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-white/20 font-bold"
                   />
                 </div>
@@ -615,21 +644,23 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
               {/* Signature Canvas / Typed Input */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">Firma Autorizada</label>
+                  <label className="text-[10px] font-black text-white/40 uppercase tracking-widest">
+                    {lang === 'en' ? 'Authorized Signature' : 'Firma Autorizada'}
+                  </label>
                   <div className="flex bg-white/5 rounded-lg p-0.5 border border-white/10">
                     <button
                       type="button"
                       onClick={() => setSignatureMode('type')}
                       className={`px-3 py-1 text-[9px] font-black uppercase rounded ${signatureMode === 'type' ? 'bg-[#2ddc80] text-[#0e131f]' : 'text-white/60 hover:text-white'}`}
                     >
-                      Escribir
+                      {lang === 'en' ? 'Type' : 'Escribir'}
                     </button>
                     <button
                       type="button"
                       onClick={() => setSignatureMode('draw')}
                       className={`px-3 py-1 text-[9px] font-black uppercase rounded ${signatureMode === 'draw' ? 'bg-[#2ddc80] text-[#0e131f]' : 'text-white/60 hover:text-white'}`}
                     >
-                      Dibujar
+                      {lang === 'en' ? 'Draw' : 'Dibujar'}
                     </button>
                   </div>
                 </div>
@@ -648,7 +679,7 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
                       className="absolute bottom-3 right-3 p-2 bg-white/5 hover:bg-white/10 rounded-lg text-white/60 hover:text-white transition-all flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider"
                     >
                       <RotateCcw className="w-3 h-3" />
-                      Limpiar
+                      {lang === 'en' ? 'Clear' : 'Limpiar'}
                     </button>
                   </div>
                 ) : (
@@ -657,12 +688,14 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
                       type="text"
                       value={typedSignature}
                       onChange={(e) => setTypedSignature(e.target.value)}
-                      placeholder="Escribe tu nombre para firmar..."
+                      placeholder={lang === 'en' ? "Type your full name to sign..." : "Escribe tu nombre para firmar..."}
                       className="w-full bg-white/5 border border-white/10 focus:border-[#2ddc80]/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-all placeholder:text-white/20 font-bold"
                     />
                     {typedSignature && (
                       <div className="p-4 bg-black/40 border border-white/5 rounded-2xl text-center">
-                        <span className="text-[10px] font-black text-white/30 uppercase tracking-widest block mb-2">Vista previa de la firma</span>
+                        <span className="text-[10px] font-black text-white/30 uppercase tracking-widest block mb-2">
+                          {lang === 'en' ? 'Signature Preview' : 'Vista previa de la firma'}
+                        </span>
                         <span className="font-serif italic text-3xl text-[#2ddc80] tracking-wider select-none font-semibold block py-2">
                           {typedSignature}
                         </span>
@@ -681,7 +714,9 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
                   className="mt-1 accent-[#2ddc80] cursor-pointer"
                 />
                 <span className="text-white/50 text-xs font-medium leading-relaxed group-hover:text-white/80 transition-colors">
-                  Confirmo que he leído detenidamente los términos descritos y doy mi conformidad para proceder con el cronograma y pagos estipulados.
+                  {lang === 'en'
+                    ? 'I confirm that I have reviewed the agreement terms, accept the payment schedule and deliverables, and authorize Universa Agency to proceed.'
+                    : 'Confirmo que he leído detenidamente los términos descritos y doy mi conformidad para proceder con el cronograma y pagos estipulados.'}
                 </span>
               </label>
 
@@ -697,7 +732,9 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
                 disabled={isSubmitting}
                 className="w-full flex items-center justify-center gap-3 bg-[#2ddc80] hover:bg-[#20bd6b] text-[#0e131f] font-black text-md uppercase tracking-tight py-4 rounded-xl transition-all disabled:opacity-50"
               >
-                {isSubmitting ? 'Procesando Firma...' : 'Firmar y Aceptar Contrato'}
+                {isSubmitting 
+                  ? (lang === 'en' ? 'Processing Signature...' : 'Procesando Firma...') 
+                  : (lang === 'en' ? 'Sign & Accept Contract' : 'Firmar y Aceptar Contrato')}
                 <PenTool className="w-5 h-5" />
               </button>
             </motion.form>
@@ -717,29 +754,33 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
               </div>
 
               <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight mb-2">
-                ¡Contrato Firmado!
+                {lang === 'en' ? 'Contract Signed!' : '¡Contrato Firmado!'}
               </h3>
               <p className="text-white/60 text-sm max-w-md mx-auto mb-8 font-medium">
-                El acuerdo de desarrollo técnico para <strong className="text-white">{clientName}</strong> ha sido formalizado digitalmente de forma exitosa.
+                {lang === 'en' ? (
+                  <>The technical agreement for <strong className="text-white">{clientName}</strong> has been successfully signed and formalized.</>
+                ) : (
+                  <>El acuerdo de desarrollo técnico para <strong className="text-white">{clientName}</strong> ha sido formalizado digitalmente de forma exitosa.</>
+                )}
               </p>
 
               {/* Signature display block */}
               {sigDetails && (
                 <div className="bg-[#0e131f]/60 backdrop-blur-xl border border-white/5 rounded-2xl p-6 max-w-md mx-auto space-y-4 text-left mb-8">
                   <div className="flex justify-between text-xs border-b border-white/5 pb-2">
-                    <span className="text-white/40 uppercase font-bold">Código de Firma</span>
+                    <span className="text-white/40 uppercase font-bold">{lang === 'en' ? 'Signature Code' : 'Código de Firma'}</span>
                     <code className="text-[#2ddc80] font-mono font-bold select-all">{sigDetails.id}</code>
                   </div>
                   <div className="flex justify-between text-xs border-b border-white/5 pb-2">
-                    <span className="text-white/40 uppercase font-bold">Firmante</span>
+                    <span className="text-white/40 uppercase font-bold">{lang === 'en' ? 'Signatory' : 'Firmante'}</span>
                     <span className="text-white font-bold uppercase">{sigDetails.name}</span>
                   </div>
                   <div className="flex justify-between text-xs border-b border-white/5 pb-2">
-                    <span className="text-white/40 uppercase font-bold">Empresa</span>
+                    <span className="text-white/40 uppercase font-bold">{lang === 'en' ? 'Company' : 'Empresa'}</span>
                     <span className="text-white font-bold uppercase">{sigDetails.companyName}</span>
                   </div>
                   <div className="flex justify-between text-xs border-b border-white/5 pb-2">
-                    <span className="text-white/40 uppercase font-bold">Teléfono</span>
+                    <span className="text-white/40 uppercase font-bold">{lang === 'en' ? 'Phone' : 'Teléfono'}</span>
                     <span className="text-white font-bold">{sigDetails.phone}</span>
                   </div>
                   <div className="flex justify-between text-xs border-b border-white/5 pb-2">
@@ -747,15 +788,17 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
                     <span className="text-white font-bold">{sigDetails.email}</span>
                   </div>
                   <div className="flex justify-between text-xs border-b border-white/5 pb-2">
-                    <span className="text-white/40 uppercase font-bold">Fecha / Hora</span>
+                    <span className="text-white/40 uppercase font-bold">{lang === 'en' ? 'Date / Time' : 'Fecha / Hora'}</span>
                     <span className="text-white font-bold">{new Date(sigDetails.signedAt).toLocaleString()}</span>
                   </div>
                   
                   {/* Signature visual representation */}
                   <div className="pt-4 flex flex-col items-center justify-center bg-black/20 rounded-xl p-4 border border-white/5">
-                    <span className="text-[9px] font-black text-white/30 uppercase tracking-widest block mb-2">Firma Registrada</span>
+                    <span className="text-[9px] font-black text-white/30 uppercase tracking-widest block mb-2">
+                      {lang === 'en' ? 'Registered Signature' : 'Firma Registrada'}
+                    </span>
                     {sigDetails.mode === 'draw' ? (
-                      <img src={sigDetails.signatureData} alt="Firma digital" className="max-h-16 max-w-full object-contain filter invert brightness-200" />
+                      <img src={sigDetails.signatureData} alt="Digital Signature" className="max-h-16 max-w-full object-contain filter invert brightness-200" />
                     ) : (
                       <span className="font-serif italic text-3xl text-[#2ddc80] select-none tracking-wider font-semibold py-1">
                         {sigDetails.signatureData}
@@ -772,7 +815,9 @@ export default function ContractSection({ clientName, clientSlug, phases, contra
                 disabled={isGeneratingPDF}
                 className="inline-flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-[#0e131f] font-black text-sm uppercase tracking-wider px-8 py-4 rounded-xl transition-all disabled:opacity-50 shadow-lg"
               >
-                {isGeneratingPDF ? 'Generando PDF...' : 'Descargar Contrato (PDF)'}
+                {isGeneratingPDF 
+                  ? (lang === 'en' ? 'Generating PDF...' : 'Generando PDF...') 
+                  : (lang === 'en' ? 'Download Signed PDF Contract' : 'Descargar Contrato (PDF)')}
                 <Download className="w-4 h-4" />
               </button>
             </motion.div>

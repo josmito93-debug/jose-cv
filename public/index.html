@@ -298,6 +298,156 @@ h1, h2, h3 {
   50% { opacity: 0.75; transform: scale(1.15); }
 }
 
+/* ============================================================
+   ESTRELLAS FUGACES (HERO COMETS) · Fieles a la ilustración
+   ============================================================ */
+.hero__shooting-stars {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero__comet {
+  position: absolute;
+  width: 96px;
+  height: 2.5px;
+  border-radius: 3px;
+  opacity: 0;
+  transform-origin: left center;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(255, 138, 194, 0.85));
+  will-change: transform, opacity;
+}
+
+.hero__comet::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 12px 3px rgba(255, 138, 194, 0.95), 0 0 24px 6px rgba(255, 255, 255, 0.9);
+}
+
+/* Estrella Fugaz 1: Rosa / Magenta insigne (diagonal alta) */
+.hero__comet--1 {
+  top: 14%;
+  right: 18%;
+  background: linear-gradient(90deg, #ffd7ea 0%, #ff8ac2 25%, rgba(255, 138, 194, 0.35) 60%, transparent 100%);
+  animation: comet-streak-1 7.2s cubic-bezier(0.16, 0.84, 0.34, 1) infinite;
+  animation-delay: 0.6s;
+}
+
+/* Estrella Fugaz 2: Cyan / Menta cósmico (diagonal media) */
+.hero__comet--2 {
+  top: 26%;
+  left: 28%;
+  width: 84px;
+  background: linear-gradient(90deg, #ffffff 0%, #8cf5c6 30%, rgba(46, 229, 143, 0.3) 65%, transparent 100%);
+  filter: drop-shadow(0 0 8px rgba(140, 245, 198, 0.85));
+  animation: comet-streak-2 10.4s cubic-bezier(0.16, 0.84, 0.34, 1) infinite;
+  animation-delay: 3.8s;
+}
+.hero__comet--2::after {
+  background: #ffffff;
+  box-shadow: 0 0 12px 3px rgba(140, 245, 198, 0.95), 0 0 22px 6px rgba(255, 255, 255, 0.9);
+}
+
+/* Estrella Fugaz 3: Violeta estelar rápida (diagonal superior) */
+.hero__comet--3 {
+  top: 8%;
+  left: 58%;
+  width: 72px;
+  background: linear-gradient(90deg, #ffffff 0%, #c4b5fd 35%, rgba(167, 139, 250, 0.25) 70%, transparent 100%);
+  filter: drop-shadow(0 0 6px rgba(167, 139, 250, 0.8));
+  animation: comet-streak-3 12.8s cubic-bezier(0.16, 0.84, 0.34, 1) infinite;
+  animation-delay: 6.5s;
+}
+.hero__comet--3::after {
+  background: #ffffff;
+  box-shadow: 0 0 10px 3px rgba(167, 139, 250, 0.95), 0 0 18px 5px rgba(255, 255, 255, 0.85);
+}
+
+@keyframes comet-streak-1 {
+  0% {
+    opacity: 0;
+    transform: rotate(-32deg) translate3d(0, 0, 0) scaleX(0.2);
+  }
+  2% {
+    opacity: 1;
+    transform: rotate(-32deg) translate3d(-60px, 0, 0) scaleX(1.35);
+  }
+  12% {
+    opacity: 0.95;
+    transform: rotate(-32deg) translate3d(-340px, 0, 0) scaleX(1.15);
+  }
+  20% {
+    opacity: 0;
+    transform: rotate(-32deg) translate3d(-540px, 0, 0) scaleX(0.4);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-32deg) translate3d(-540px, 0, 0) scaleX(0.4);
+  }
+}
+
+@keyframes comet-streak-2 {
+  0% {
+    opacity: 0;
+    transform: rotate(-28deg) translate3d(0, 0, 0) scaleX(0.2);
+  }
+  2.5% {
+    opacity: 1;
+    transform: rotate(-28deg) translate3d(-50px, 0, 0) scaleX(1.3);
+  }
+  11% {
+    opacity: 0.9;
+    transform: rotate(-28deg) translate3d(-260px, 0, 0) scaleX(1.1);
+  }
+  18% {
+    opacity: 0;
+    transform: rotate(-28deg) translate3d(-440px, 0, 0) scaleX(0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-28deg) translate3d(-440px, 0, 0) scaleX(0.35);
+  }
+}
+
+@keyframes comet-streak-3 {
+  0% {
+    opacity: 0;
+    transform: rotate(-35deg) translate3d(0, 0, 0) scaleX(0.2);
+  }
+  2% {
+    opacity: 1;
+    transform: rotate(-35deg) translate3d(-40px, 0, 0) scaleX(1.25);
+  }
+  9% {
+    opacity: 0.85;
+    transform: rotate(-35deg) translate3d(-220px, 0, 0) scaleX(1);
+  }
+  16% {
+    opacity: 0;
+    transform: rotate(-35deg) translate3d(-380px, 0, 0) scaleX(0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-35deg) translate3d(-380px, 0, 0) scaleX(0.3);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__comet--1 { right: 5%; top: 18%; }
+  .hero__comet--2 { left: 5%; top: 32%; }
+  .hero__comet--3 { display: none; }
+}
+
 /* Parallax: el puntero mueve --par-x / --par-y; la flotación anima `translate`.
    Ambos canales componen sin pisarse. */
 [data-depth] {
@@ -5994,6 +6144,11 @@ body.home-v2 .proj-viewport {
     <div class="hero__sky" aria-hidden="true"></div>
     <div class="hero__tex" aria-hidden="true"></div>
     <div class="hero__stars" id="stars" aria-hidden="true"></div>
+    <div class="hero__shooting-stars" aria-hidden="true">
+      <div class="hero__comet hero__comet--1"></div>
+      <div class="hero__comet hero__comet--2"></div>
+      <div class="hero__comet hero__comet--3"></div>
+    </div>
 
     <!-- Planetas -->
     <div class="hero__vplanet hero__vplanet--top" aria-hidden="true">
@@ -6021,8 +6176,9 @@ body.home-v2 .proj-viewport {
 
     <div class="hero__content">
       <h1 class="hero__title reveal">
-        El marketing no es magia.<br />
-        <span class="hero__title-dim">Es ciencia esperando ser comprendida.</span>
+        Convertimos<br />
+        variables complejas<br />
+        <span class="hero__title-dim">en resultados deterministas.</span>
       </h1>
       <p class="hero__sub reveal" style="--d:.16s">
         Universa es un laboratorio de crecimiento digital: ciencia, diseño,

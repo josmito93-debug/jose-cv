@@ -2052,5 +2052,419 @@
         "POLÍTICA DE PAGO: Los pagos se realizarán en 3 cuotas estructuradas de $200 USD: un primer pago de inicio ($200 USD), un segundo pago intermedio de avance ($200 USD) y un pago final contra entrega y despliegue ($200 USD)."
       ]
     }
+  },
+  "sarlat": {
+    "client": "Sofia Sarlat",
+    "status": "Proposal & Digital Contract",
+    "title": "PREMIUM BOOKING PLATFORM, AUDIO SHOWCASE & AUTOMATED CRM",
+    "lang": "en",
+    "ctaText": "Accept Proposal",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "PROFESSIONAL WEB DESIGN & AUDIO SHOWCASE",
+        "investment": 150,
+        "items": [
+          {
+            "title": "High-Impact Elegant Hero Section",
+            "description": "A stunning, professional first impression that instantly communicates Sofia's talent and brand elegance upon opening the site.",
+            "icon": "star",
+            "bullets": [
+              "Premium visual layout optimized for high-end venues and clients",
+              "Hardware-accelerated animations for a smooth, modern feel",
+              "Mobile-first responsive design to look perfect on any device",
+              "SEO-ready structure to increase organic visibility"
+            ],
+            "tag": "web-design",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Live Audio Tracks Integration",
+            "description": "A seamless audio player section designed specifically for venues and clients to listen to Sofia's live performances directly on the site.",
+            "icon": "music",
+            "bullets": [
+              "Custom audio player UI matching the elegant brand guidelines",
+              "Fast-loading tracks without compromising website speed",
+              "Tracklist management for easy updates of new songs or covers",
+              "Mobile-friendly listening experience with background play support"
+            ],
+            "tag": "media",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "BOOKING ENGINE & VENUE AUTOMATION",
+        "investment": 150,
+        "items": [
+          {
+            "title": "Automated Booking System",
+            "description": "A streamlined booking flow replacing back-and-forth emails, making it incredibly easy and professional for venues to hire Sofia.",
+            "icon": "calendar",
+            "bullets": [
+              "Custom booking form tailored to gather precise event details",
+              "Professional and intuitive user interface for higher conversion rates",
+              "Streamlined workflow to agility the hiring process"
+            ],
+            "tag": "development",
+            "tagImage": "/tags/Full stack.png"
+          },
+          {
+            "title": "Instant Venue Email Confirmations",
+            "description": "Automated, beautifully branded email sequences triggered immediately after a booking request is submitted.",
+            "icon": "mail",
+            "bullets": [
+              "Instant peace of mind for venues with immediate automated responses",
+              "Professional email templates carrying Sofia's branding",
+              "Dynamic data insertion to personalize every email response",
+              "Administrative notification alerts for Sofia to follow up"
+            ],
+            "tag": "automation",
+            "tagImage": "/tags/Full stack.png"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "CRM, DATABASE & RETENTION SYSTEM",
+        "investment": 100,
+        "items": [
+          {
+            "title": "Airtable CRM Integration",
+            "description": "Every lead and booking is automatically saved into a centralized, organized database to build long-term relationships.",
+            "icon": "database",
+            "bullets": [
+              "Automatic synchronization between the website's booking form and Airtable",
+              "Organized lead tracking (New, Contacted, Booked, Completed)",
+              "Centralized contact list of venues and clients for future marketing efforts"
+            ],
+            "tag": "crm",
+            "tagImage": "/tags/Full stack.png"
+          },
+          {
+            "title": "Client Tracking & Discount Campaigns",
+            "description": "Leverage the database to send targeted promotions and build a highly professional, recurring relationship with venues.",
+            "icon": "trending-up",
+            "bullets": [
+              "Infrastructure to easily segment past clients and venues",
+              "Setup for future email campaigns (e.g., 'Book again for a discount')",
+              "Establishing a premium, agency-level relationship with every contact"
+            ],
+            "tag": "marketing",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Complete development of a premium booking platform and digital showcase for Sofia Sarlat. This proposal includes an elegant, high-impact web design with integrated live audio tracks, a custom booking engine with instant automated email confirmations for venues, and a robust Airtable CRM backend to track clients, manage leads, and send future discount campaigns—elevating Sofia's brand to a highly professional, agency-level standard.",
+    "cta": "https://wa.me/17863024923?text=Hi%20Universa,%20I%20would%20like%20to%20approve%20the%20Sarlat%20proposal",
+    "hideRelated": true,
+    "paymentSplit": "50/50",
+    "contractTerms": {
+      "payments": [
+        {
+          "name": "First Payment (50% Project Kickoff)",
+          "amount": 200
+        },
+        {
+          "name": "Second Payment (50% Final Delivery)",
+          "amount": 200
+        }
+      ]
+    }
+  },
+  "pinkorbrown": {
+    "client": "Pink or Brown",
+    "status": "Proposal & Digital Contract",
+    "title": "NEXT-GEN BRAND PLATFORM, MERCH STORE & APP-READY MEMBER ARCHITECTURE",
+    "lang": "en",
+    "ctaText": "Sign & Accept Proposal",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "BRAND PLATFORM, MOBILE EXPERIENCE & LEAD ENGINE",
+        "investment": 450,
+        "items": [
+          {
+            "title": "Clean, Modern Pink or Brown Web Architecture",
+            "description": "A high-end, editorial digital flagship migrating existing Webflow design & assets into a blazing-fast Next.js 15 framework hosted on Vercel.",
+            "icon": "globe",
+            "bullets": [
+              "Complete migration and cleanup of existing Webflow content, assets, and typography",
+              "Refined visual identity anchored around Pink or Brown, @pinkorbrown, and pinkorbrown.com",
+              "Ultra-clean, minimalist aesthetic with fluid motion and zero visual clutter",
+              "Built separately on Vercel staging preview for zero-downtime cutover on launch day"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Mobile-First UX & Social Ecosystem Integration",
+            "description": "Optimized mobile journey ensuring seamless performance across iOS and Android browsers, paired with high-conversion social touchpoints.",
+            "icon": "users",
+            "bullets": [
+              "Hardware-accelerated mobile responsiveness designed for instant load times under 1 second",
+              "Direct social media integration linking all community touchpoints to @pinkorbrown",
+              "Engaging mobile navigation bar and touch-friendly interactive micro-interactions",
+              "SEO-optimized semantic tags and OpenGraph cards for viral social sharing"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "High-Conversion Email & Customer Capture",
+            "description": "Strategic capture funnels for newsletter subscribers, early drop access, and customer acquisition to build an owned audience.",
+            "icon": "activity",
+            "bullets": [
+              "Floating & inline early-access capture widgets optimized for mobile conversion",
+              "Automated welcome email trigger and segmentation tags for future drops",
+              "Spam-protected API endpoints syncing leads directly to your centralized database",
+              "GDPR and CAN-SPAM compliant opt-in confirmation mechanisms"
+            ],
+            "tag": "panenka-ads",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "E-COMMERCE STOREFRONT (SHIRTS, HATS, SOCKS, UNDERWEAR) & SOURCING ADVISORY",
+        "investment": 450,
+        "items": [
+          {
+            "title": "Full Merchandise E-Commerce Storefront",
+            "description": "Dedicated product catalog and seamless shopping experience tailored for apparel: shirts, hats, socks, and underwear.",
+            "icon": "palette",
+            "bullets": [
+              "Product catalog with high-resolution galleries, size charts, and color variant pickers",
+              "Fast sliding shopping cart drawer with real-time subtotal and quantity adjustments",
+              "Frictionless Stripe Checkout supporting Apple Pay, Google Pay, and major credit cards",
+              "Automated order confirmation emails with receipt and tracking placeholders"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Merchandise Sourcing & Freight Forwarding Advisory",
+            "description": "Strategic advisory to source high-grade blank apparel (heavy cotton shirts, custom underwear/leather) at factory cost without inflated shipping fees.",
+            "icon": "shield",
+            "bullets": [
+              "Guidance on direct manufacturer product sourcing (Alibaba / vetted apparel suppliers)",
+              "Direct connection with freight forwarding partners to cut shipping costs by up to 60-70%",
+              "Blueprint for high-margin production: 100-200 premium heavy cotton tees at ~/unit blank cost",
+              "Recommendations for packaging, custom tags, and print-on-demand vs. batch inventory balance"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "SUPABASE BACKEND, MEMBER FOUNDATION, CMS & TRACKING",
+        "investment": 300,
+        "items": [
+          {
+            "title": "Supabase Member Foundation (App-Ready Architecture)",
+            "description": "A robust PostgreSQL database and authentication engine built so the future community mobile app plugs directly into the same member accounts.",
+            "icon": "shield",
+            "bullets": [
+              "Unified member profile database (email, passwordless magic links, member tiers)",
+              "Single source of truth: website and future mobile app share the exact same user database",
+              "Scalable REST and GraphQL APIs ready for mobile SDK integration (React Native / Flutter / Swift)",
+              "Enterprise-grade Row Level Security (RLS) protecting customer and order privacy"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Simple Admin CMS & Marketing Analytics",
+            "description": "Intuitive content management dashboard for effortless updates plus enterprise tracking for advertising and performance.",
+            "icon": "activity",
+            "bullets": [
+              "Zero-code administrative panel to edit banner copy, product prices, images, and inventory",
+              "Google Analytics 4 (GA4) with custom e-commerce purchase and cart event tracking",
+              "Meta Pixel integration configured for high-accuracy retargeting and ad attribution",
+              "Zero-downtime DNS cutover pointing pinkorbrown.com to Vercel after staging approval"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Full-scale development of the new Pink or Brown digital flagship platform targeting launch on September 29, 2026. The project delivers a clean, modern Next.js website migrated from Webflow, full mobile optimization, @pinkorbrown social integration, email capture, an e-commerce storefront for merchandise (shirts, hats, socks, underwear) with Stripe checkout, merchandise sourcing advisory via freight forwarding, a lightweight CMS for effortless updates, and a Supabase backend establishing the member/community foundation designed specifically so the future mobile app plugs directly into the unified system without rebuilds.",
+    "cta": "https://wa.me/17863024923?text=Hi%20Universa,%20I%20would%20like%20to%20approve%20the%20Pink%20or%20Brown%20proposal",
+    "hideRelated": true,
+    "paymentSplit": "50/50",
+    "contractTerms": {
+      "payments": [
+        {
+          "name": "Initial Kickoff Deposit (50% to Initiate Sprint)",
+          "amount": 600
+        },
+        {
+          "name": "Final Balance (50% Upon QA Testing, Domain Cutover & Launch)",
+          "amount": 600
+        }
+      ],
+      "clauses": [
+        "TARGET LAUNCH TIMELINE & SPRINT COMMITMENT: Development is scheduled as an expedited 7-day sprint targeting public launch by September 29, 2026. Work initiates immediately upon receipt of the kickoff deposit and Webflow design/content assets.",
+        "STAGING ENVIRONMENT & ZERO-DOWNTIME CUTOVER: To preserve continuity, the existing Webflow site remains live while the new version is developed on an isolated Vercel staging preview URL. Once fully tested, reviewed, and approved, Universa Agency will execute the DNS cutover to point pinkorbrown.com to the new production platform with zero downtime.",
+        "APP-READY BACKEND ARCHITECTURE: The backend and member database will be built on Supabase (PostgreSQL + Auth), ensuring the platform's user authentication, customer orders, and community database will plug directly into the planned mobile app in future phases without requiring data migration or backend rebuilds.",
+        "MERCHANDISING & E-COMMERCE INTEGRATION: Universa Agency will deliver an active storefront for merchandise (shirts, hats, socks, underwear) with Stripe payment integration, and provide sourcing advisory (Alibaba / direct suppliers & freight forwarder contacts) to optimize manufacturing cost and shipping efficiency.",
+        "REVISIONS, CLIENT INPUT & SCOPE: Includes up to 2 iterative review rounds during staging. Timely delivery by September 29 requires prompt client feedback and provision of product copy, pricing, and domain DNS access.",
+        "INTELLECTUAL PROPERTY & CODE OWNERSHIP: Upon settlement of the final payment, 100% of the custom code, designs, branding assets, database schemas, and administrative credentials will belong exclusively to Pink or Brown."
+      ]
+    }
+  },
+  "pink-or-brown": {
+    "client": "Pink or Brown",
+    "status": "Proposal & Digital Contract",
+    "title": "NEXT-GEN BRAND PLATFORM, MERCH STORE & APP-READY MEMBER ARCHITECTURE",
+    "lang": "en",
+    "ctaText": "Sign & Accept Proposal",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "BRAND PLATFORM, MOBILE EXPERIENCE & LEAD ENGINE",
+        "investment": 450,
+        "items": [
+          {
+            "title": "Clean, Modern Pink or Brown Web Architecture",
+            "description": "A high-end, editorial digital flagship migrating existing Webflow design & assets into a blazing-fast Next.js 15 framework hosted on Vercel.",
+            "icon": "globe",
+            "bullets": [
+              "Complete migration and cleanup of existing Webflow content, assets, and typography",
+              "Refined visual identity anchored around Pink or Brown, @pinkorbrown, and pinkorbrown.com",
+              "Ultra-clean, minimalist aesthetic with fluid motion and zero visual clutter",
+              "Built separately on Vercel staging preview for zero-downtime cutover on launch day"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Mobile-First UX & Social Ecosystem Integration",
+            "description": "Optimized mobile journey ensuring seamless performance across iOS and Android browsers, paired with high-conversion social touchpoints.",
+            "icon": "users",
+            "bullets": [
+              "Hardware-accelerated mobile responsiveness designed for instant load times under 1 second",
+              "Direct social media integration linking all community touchpoints to @pinkorbrown",
+              "Engaging mobile navigation bar and touch-friendly interactive micro-interactions",
+              "SEO-optimized semantic tags and OpenGraph cards for viral social sharing"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "High-Conversion Email & Customer Capture",
+            "description": "Strategic capture funnels for newsletter subscribers, early drop access, and customer acquisition to build an owned audience.",
+            "icon": "activity",
+            "bullets": [
+              "Floating & inline early-access capture widgets optimized for mobile conversion",
+              "Automated welcome email trigger and segmentation tags for future drops",
+              "Spam-protected API endpoints syncing leads directly to your centralized database",
+              "GDPR and CAN-SPAM compliant opt-in confirmation mechanisms"
+            ],
+            "tag": "panenka-ads",
+            "tagImage": "/tags/Graphic desing.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "E-COMMERCE STOREFRONT (SHIRTS, HATS, SOCKS, UNDERWEAR) & SOURCING ADVISORY",
+        "investment": 450,
+        "items": [
+          {
+            "title": "Full Merchandise E-Commerce Storefront",
+            "description": "Dedicated product catalog and seamless shopping experience tailored for apparel: shirts, hats, socks, and underwear.",
+            "icon": "palette",
+            "bullets": [
+              "Product catalog with high-resolution galleries, size charts, and color variant pickers",
+              "Fast sliding shopping cart drawer with real-time subtotal and quantity adjustments",
+              "Frictionless Stripe Checkout supporting Apple Pay, Google Pay, and major credit cards",
+              "Automated order confirmation emails with receipt and tracking placeholders"
+            ],
+            "tag": "panenka-design",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Merchandise Sourcing & Freight Forwarding Advisory",
+            "description": "Strategic advisory to source high-grade blank apparel (heavy cotton shirts, custom underwear/leather) at factory cost without inflated shipping fees.",
+            "icon": "shield",
+            "bullets": [
+              "Guidance on direct manufacturer product sourcing (Alibaba / vetted apparel suppliers)",
+              "Direct connection with freight forwarding partners to cut shipping costs by up to 60-70%",
+              "Blueprint for high-margin production: 100-200 premium heavy cotton tees at ~/unit blank cost",
+              "Recommendations for packaging, custom tags, and print-on-demand vs. batch inventory balance"
+            ],
+            "tag": "panenka-advantage",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "SUPABASE BACKEND, MEMBER FOUNDATION, CMS & TRACKING",
+        "investment": 300,
+        "items": [
+          {
+            "title": "Supabase Member Foundation (App-Ready Architecture)",
+            "description": "A robust PostgreSQL database and authentication engine built so the future community mobile app plugs directly into the same member accounts.",
+            "icon": "shield",
+            "bullets": [
+              "Unified member profile database (email, passwordless magic links, member tiers)",
+              "Single source of truth: website and future mobile app share the exact same user database",
+              "Scalable REST and GraphQL APIs ready for mobile SDK integration (React Native / Flutter / Swift)",
+              "Enterprise-grade Row Level Security (RLS) protecting customer and order privacy"
+            ],
+            "tag": "panenka-web",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          },
+          {
+            "title": "Simple Admin CMS & Marketing Analytics",
+            "description": "Intuitive content management dashboard for effortless updates plus enterprise tracking for advertising and performance.",
+            "icon": "activity",
+            "bullets": [
+              "Zero-code administrative panel to edit banner copy, product prices, images, and inventory",
+              "Google Analytics 4 (GA4) with custom e-commerce purchase and cart event tracking",
+              "Meta Pixel integration configured for high-accuracy retargeting and ad attribution",
+              "Zero-downtime DNS cutover pointing pinkorbrown.com to Vercel after staging approval"
+            ],
+            "tag": "panenka-tracking",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Full-scale development of the new Pink or Brown digital flagship platform targeting launch on September 29, 2026. The project delivers a clean, modern Next.js website migrated from Webflow, full mobile optimization, @pinkorbrown social integration, email capture, an e-commerce storefront for merchandise (shirts, hats, socks, underwear) with Stripe checkout, merchandise sourcing advisory via freight forwarding, a lightweight CMS for effortless updates, and a Supabase backend establishing the member/community foundation designed specifically so the future mobile app plugs directly into the unified system without rebuilds.",
+    "cta": "https://wa.me/17863024923?text=Hi%20Universa,%20I%20would%20like%20to%20approve%20the%20Pink%20or%20Brown%20proposal",
+    "hideRelated": true,
+    "paymentSplit": "50/50",
+    "contractTerms": {
+      "payments": [
+        {
+          "name": "Initial Kickoff Deposit (50% to Initiate Sprint)",
+          "amount": 600
+        },
+        {
+          "name": "Final Balance (50% Upon QA Testing, Domain Cutover & Launch)",
+          "amount": 600
+        }
+      ],
+      "clauses": [
+        "TARGET LAUNCH TIMELINE & SPRINT COMMITMENT: Development is scheduled as an expedited 7-day sprint targeting public launch by September 29, 2026. Work initiates immediately upon receipt of the kickoff deposit and Webflow design/content assets.",
+        "STAGING ENVIRONMENT & ZERO-DOWNTIME CUTOVER: To preserve continuity, the existing Webflow site remains live while the new version is developed on an isolated Vercel staging preview URL. Once fully tested, reviewed, and approved, Universa Agency will execute the DNS cutover to point pinkorbrown.com to the new production platform with zero downtime.",
+        "APP-READY BACKEND ARCHITECTURE: The backend and member database will be built on Supabase (PostgreSQL + Auth), ensuring the platform's user authentication, customer orders, and community database will plug directly into the planned mobile app in future phases without requiring data migration or backend rebuilds.",
+        "MERCHANDISING & E-COMMERCE INTEGRATION: Universa Agency will deliver an active storefront for merchandise (shirts, hats, socks, underwear) with Stripe payment integration, and provide sourcing advisory (Alibaba / direct suppliers & freight forwarder contacts) to optimize manufacturing cost and shipping efficiency.",
+        "REVISIONS, CLIENT INPUT & SCOPE: Includes up to 2 iterative review rounds during staging. Timely delivery by September 29 requires prompt client feedback and provision of product copy, pricing, and domain DNS access.",
+        "INTELLECTUAL PROPERTY & CODE OWNERSHIP: Upon settlement of the final payment, 100% of the custom code, designs, branding assets, database schemas, and administrative credentials will belong exclusively to Pink or Brown."
+      ]
+    }
   }
 }

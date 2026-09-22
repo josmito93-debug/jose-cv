@@ -5,7 +5,7 @@ import ChatWidget from "./components/ChatWidget";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.universaagency.com"),
   title: "Universa Agency - High Performance Digital Infrastructure",
-  description: "Universa Agency professional workspace. Automated high-performance digital infrastructure and trading intelligence.",
+  description: "Universa Agency - Marketing digital basado en ciencia: convertimos variables complejas en resultados deterministas para marcas de alto rendimiento.",
   icons: {
     icon: [
       { url: '/favicon.ico' },
