@@ -42,7 +42,7 @@ export default async function Image({ params }: { params: Promise<{ client: stri
             width: "650px",
             height: "650px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(45, 220, 128, 0.4) 0%, rgba(45, 220, 128, 0.08) 55%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(45, 220, 128, 0.45) 0%, rgba(45, 220, 128, 0.08) 55%, transparent 70%)",
             display: "flex",
           }}
         />
@@ -55,7 +55,7 @@ export default async function Image({ params }: { params: Promise<{ client: stri
             width: "750px",
             height: "750px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(45, 220, 128, 0.3) 0%, rgba(45, 220, 128, 0.05) 55%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(45, 220, 128, 0.35) 0%, rgba(45, 220, 128, 0.05) 55%, transparent 70%)",
             display: "flex",
           }}
         />
@@ -70,7 +70,7 @@ export default async function Image({ params }: { params: Promise<{ client: stri
             width: "850px",
             height: "400px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(45, 220, 128, 0.15) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(45, 220, 128, 0.18) 0%, transparent 70%)",
             display: "flex",
           }}
         />
@@ -93,12 +93,12 @@ export default async function Image({ params }: { params: Promise<{ client: stri
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "12px",
-            padding: "10px 24px",
+            gap: "10px",
+            padding: "8px 22px",
             background: "rgba(45, 220, 128, 0.1)",
             border: "1px solid rgba(45, 220, 128, 0.3)",
             borderRadius: "9999px",
-            marginBottom: "24px",
+            marginBottom: "16px",
             zIndex: 10,
           }}
         >
@@ -115,7 +115,7 @@ export default async function Image({ params }: { params: Promise<{ client: stri
           <span
             style={{
               color: "#2ddc80",
-              fontSize: "13px",
+              fontSize: "12px",
               fontWeight: 800,
               letterSpacing: "0.25em",
               textTransform: "uppercase",
@@ -125,25 +125,24 @@ export default async function Image({ params }: { params: Promise<{ client: stri
           </span>
         </div>
 
-        {/* Official Universa Logo Image */}
+        {/* Official Universa Logo Image (Aspect ratio 1010 x 719 => 210 x 150) */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={UNIVERSA_LOGO_BASE64}
           alt="Universa Agency Logo"
-          width="280"
-          height="75"
+          width="210"
+          height="150"
           style={{
-            objectFit: "contain",
-            marginBottom: "16px",
+            marginBottom: "8px",
             zIndex: 10,
-            filter: "drop-shadow(0 0 20px rgba(45,220,128,0.4))",
+            filter: "drop-shadow(0 0 25px rgba(45,220,128,0.5))",
           }}
         />
 
         {/* Client Name Main Heading */}
         <div
           style={{
-            marginTop: "16px",
+            marginTop: "12px",
             fontSize: clientName.length > 20 ? "54px" : "66px",
             fontWeight: 900,
             letterSpacing: "-0.03em",
@@ -162,8 +161,8 @@ export default async function Image({ params }: { params: Promise<{ client: stri
         {/* Subtitle / Proposal Title */}
         <div
           style={{
-            marginTop: "16px",
-            fontSize: "17px",
+            marginTop: "14px",
+            fontSize: "16px",
             fontWeight: 700,
             color: "rgba(255, 255, 255, 0.65)",
             textAlign: "center",
@@ -181,7 +180,7 @@ export default async function Image({ params }: { params: Promise<{ client: stri
         <div
           style={{
             position: "absolute",
-            bottom: "24px",
+            bottom: "22px",
             display: "flex",
             alignItems: "center",
             gap: "8px",
