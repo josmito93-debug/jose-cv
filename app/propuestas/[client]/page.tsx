@@ -31,6 +31,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${proposal.client} | Propuesta Técnica Universa`,
       description: proposal.summary,
       type: 'website',
+      url: `https://www.universaagency.com/propuestas/${clientSlug}`,
+      images: [
+        {
+          url: `https://www.universaagency.com/propuestas/${clientSlug}/opengraph-image?v=2`,
+          width: 1200,
+          height: 630,
+          alt: `${proposal.client} - Universa Agency`,
+        }
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${proposal.client} | Propuesta Técnica Universa`,
+      description: proposal.summary,
+      images: [`https://www.universaagency.com/propuestas/${clientSlug}/opengraph-image?v=2`],
     },
     robots: {
       index: false,
