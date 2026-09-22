@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { stripeService } from '@/lib/integrations/stripe-service';
 import { airtableCRM } from '@/lib/integrations/airtable-crm';
+import { syncStripeAndAirtable } from '@/lib/integrations/stripe-sync';
 
 // Helper function to send the ticket confirmation email using Resend API
 async function sendTicketEmail(email: string, name: string, ticketsDescription: string, clientId: string) {
@@ -127,58 +128,75 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
   }
 
-  // Handle the event
+  // Handle Thin Events
   const isV2 = (event as any).object === 'v2.core.event';
-
   if (isV2) {
     console.log(`[Stripe V2 Webhook] Received Thin Event: ${(event as any).type} (ID: ${(event as any).id})`);
     return NextResponse.json({ received: true, version: 'v2', eventId: (event as any).id });
   }
 
-  // Handle standard V1 events
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as any;
-    const clientId = session.metadata?.clientId;
-    const subscriptionId = session.subscription;
+  const eventType = event.type;
+  console.log(`[Stripe Webhook] Received Event: ${eventType}`);
+
+  // Handle all payment success and subscription events
+  const isPaymentEvent = [
+    'checkout.session.completed',
+    'invoice.payment_succeeded',
+    'invoice.paid',
+    'customer.subscription.created',
+    'customer.subscription.updated',
+    'payment_intent.succeeded',
+    'charge.succeeded'
+  ].includes(eventType);
+
+  if (isPaymentEvent) {
+    const obj = event.data.object as any;
+    
+    // Extract metadata and customer details depending on event object type
+    const clientId = obj.metadata?.clientId || obj.client_reference_id;
+    const subscriptionId = obj.subscription || (obj.object === 'subscription' ? obj.id : null);
+    let email = obj.customer_details?.email || obj.customer_email || obj.billing_details?.email;
+    let name = obj.customer_details?.name || obj.billing_details?.name || '';
+    const amount = obj.amount_total ? obj.amount_total / 100 : obj.amount_paid ? obj.amount_paid / 100 : obj.amount ? obj.amount / 100 : 30;
+    const ref = subscriptionId || obj.payment_intent || obj.id || 'stripe_verified';
+
+    // Retrieve customer email if not in event payload
+    if (!email && obj.customer) {
+      try {
+        const customer = await stripeService.retrieveCustomer(obj.customer);
+        if (customer && !(customer as any).deleted) {
+          email = (customer as any).email;
+          if (!name) name = (customer as any).name || '';
+        }
+      } catch (e: any) {
+        console.error(`Failed to retrieve customer details for ${obj.customer}:`, e.message);
+      }
+    }
 
     let targetRecord: any = null;
 
     if (clientId) {
       try {
         targetRecord = await airtableCRM.getClient(clientId);
+        if (!targetRecord) {
+          targetRecord = await airtableCRM.getClientByBusinessName(clientId);
+        }
       } catch (e: any) {
-        console.error(`Failed to find client by metadata clientId ${clientId}:`, e.message);
+        console.error(`Failed to find client by clientId ${clientId}:`, e.message);
       }
     }
 
-    // Fallback: match by customer email
-    if (!targetRecord) {
-      console.log('No client matched by metadata clientId. Running email lookup fallbacks...');
-      let email = session.customer_details?.email;
-      
-      if (!email && session.customer) {
-        try {
-          const customer = await stripeService.retrieveCustomer(session.customer);
-          if (customer && !(customer as any).deleted) {
-            email = (customer as any).email;
-          }
-        } catch (e: any) {
-          console.error(`Failed to retrieve customer details for ${session.customer}:`, e.message);
-        }
-      }
-
-      if (email) {
-        console.log(`Searching Airtable for email match: ${email}`);
-        try {
-          targetRecord = await airtableCRM.getClientByEmail(email);
-        } catch (e: any) {
-          console.error(`Failed to match client by email ${email}:`, e.message);
-        }
+    // Fallback: match by email
+    if (!targetRecord && email) {
+      try {
+        targetRecord = await airtableCRM.getClientByEmail(email);
+      } catch (e: any) {
+        console.error(`Failed to match client by email ${email}:`, e.message);
       }
     }
 
     if (targetRecord) {
-      console.log(`Processing successful checkout for client record: ${targetRecord.id}`);
+      console.log(`[Stripe Webhook] Processing successful payment for record: ${targetRecord.id}`);
       
       try {
         const nextDueDate = new Date();
@@ -187,62 +205,57 @@ export async function POST(request: Request) {
         const updateData: any = {
           'Payment Status': 'PAID',
           'Payment Method': 'STRIPE',
-          'Payment Reference': subscriptionId || session.payment_intent || 'one-time',
-          'Payment Amount': session.amount_total ? session.amount_total / 100 : 25
+          'Payment Reference': ref,
+          'Payment Amount': amount
         };
 
         if (subscriptionId) {
           updateData['Next Due Date'] = nextDueDate.toISOString().split('T')[0];
         }
 
-        // If the record didn't have contact name or email, fill it in from Stripe details
         const currentContactName = targetRecord.fields['Contact Name'] || '';
-        if ((!currentContactName || currentContactName === 'Sin Nombre' || currentContactName === 'Vercel Import') && session.customer_details?.name) {
-          updateData['Contact Name'] = session.customer_details.name;
+        if ((!currentContactName || currentContactName === 'Sin Nombre' || currentContactName === 'Vercel Import') && name) {
+          updateData['Contact Name'] = name;
         }
-        if (!targetRecord.fields['Email'] && session.customer_details?.email) {
-          updateData['Email'] = session.customer_details.email;
+        if (!targetRecord.fields['Email'] && email) {
+          updateData['Email'] = email;
         }
 
         await airtableCRM.updateFields(targetRecord.id, updateData);
-        console.log(`Updated Airtable for client record: ${targetRecord.id} to PAID`);
+        console.log(`[Stripe Webhook] Updated Airtable record ${targetRecord.id} to PAID`);
 
-        // Check if this is a BELLakeo LAND ticket purchase
+        // Check if BELLakeo ticket
         const businessName = targetRecord.fields['Business Name'] || '';
         if (businessName.includes('BELLakeo LAND')) {
-          const emailAddress = targetRecord.fields['Email'] || session.customer_details?.email;
-          const contactName = targetRecord.fields['Contact Name'] || session.customer_details?.name || 'Invitado';
-          
-          // Extract ticket description from businessName (format: "BELLakeo LAND - [ticketsBreakdown]")
+          const emailAddress = targetRecord.fields['Email'] || email;
+          const contactName = targetRecord.fields['Contact Name'] || name || 'Invitado';
           const ticketsDescription = businessName.replace('BELLakeo LAND - ', '') || 'Entrada General';
 
           if (emailAddress) {
-            console.log(`Dispatching ticket QR email to: ${emailAddress}`);
             await sendTicketEmail(emailAddress, contactName, ticketsDescription, targetRecord.id);
-          } else {
-            console.warn('Cannot send ticket email: customer email is missing.');
           }
         }
       } catch (crmError: any) {
-        console.error('Error updating CRM from webhook:', crmError.message);
+        console.error('[Stripe Webhook] Error updating CRM:', crmError.message);
       }
-    } else {
-      console.log('No matched Airtable record found for this checkout session. Auto-creating client record...');
+    } else if (email || clientId) {
+      // Auto-create client record
+      console.log('[Stripe Webhook] No existing record found. Auto-creating client record in Airtable...');
       try {
         const nextDueDate = new Date();
         nextDueDate.setMonth(nextDueDate.getMonth() + 1);
 
         const fallbackBusinessName = clientId 
           ? clientId.replace(/[-_]+/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())
-          : (session.customer_details?.name || 'Cliente Stripe');
+          : (name || 'Cliente Stripe');
 
         const newRecordId = await airtableCRM.syncClient({
           info: {
             clientId: clientId || `CLNT-${Date.now()}`,
             businessName: fallbackBusinessName,
-            contactName: session.customer_details?.name || 'Cliente Stripe',
-            email: session.customer_details?.email || '',
-            phone: session.customer_details?.phone || '',
+            contactName: name || 'Cliente Stripe',
+            email: email || '',
+            phone: '',
             businessType: 'other',
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
@@ -250,20 +263,23 @@ export async function POST(request: Request) {
           payment: {
             status: 'PAID',
             method: 'STRIPE',
-            reference: subscriptionId || session.payment_intent || 'one-time',
-            amount: session.amount_total ? session.amount_total / 100 : 30,
+            reference: ref,
+            amount: amount,
             currency: 'USD',
             nextDueDate: nextDueDate.toISOString().split('T')[0]
           },
-          branding: { colors: { primary: '#10b981' } },
+          branding: { colors: { primary: '#2ee58f' } },
           deployment: { status: 'deployed' }
         } as any);
 
-        console.log(`Auto-created Airtable record ${newRecordId} marked as PAID for Stripe customer.`);
+        console.log(`[Stripe Webhook] Auto-created Airtable record ${newRecordId} marked as PAID`);
       } catch (createErr: any) {
-        console.error('Error auto-creating CRM record for Stripe checkout:', createErr.message);
+        console.error('[Stripe Webhook] Error auto-creating CRM record:', createErr.message);
       }
     }
+
+    // Run global sync in background
+    syncStripeAndAirtable(true).catch(e => console.error('[Webhook post-sync error]:', e.message));
   }
 
   return NextResponse.json({ received: true });

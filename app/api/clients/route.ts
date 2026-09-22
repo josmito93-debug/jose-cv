@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { airtableCRM } from '@/lib/integrations/airtable-crm';
+import { syncStripeAndAirtable } from '@/lib/integrations/stripe-sync';
 import fs from 'fs';
 import path from 'path';
 
@@ -7,7 +8,6 @@ export const dynamic = 'force-dynamic';
 
 function cleanProjectNameString(name: string): string {
   if (!name) return '';
-  // If it doesn't look like a slug (no hyphens and has uppercase letters), keep it
   if (!name.includes('-') && !name.includes('_') && /[A-Z]/.test(name)) {
     return name;
   }
@@ -22,6 +22,13 @@ function cleanProjectNameString(name: string): string {
 
 export async function GET() {
   try {
+    // 1. Run live background reconciliation with Stripe to ensure all recent payments are reflected
+    try {
+      await syncStripeAndAirtable();
+    } catch (syncErr) {
+      console.error('Non-blocking Stripe sync error in GET /api/clients:', syncErr);
+    }
+
     const clientsRaw = await airtableCRM.getAllClients();
     
     let projectMetadata: Record<string, string> = {};
@@ -65,6 +72,7 @@ export async function GET() {
     );
   }
 }
+
 export async function POST(request: any) {
   try {
     const data = await request.json();
@@ -73,7 +81,6 @@ export async function POST(request: any) {
     const isEmail = contact.includes('@');
     const isPhone = !isEmail && /[\d+\-()]{7,}/.test(contact);
 
-    // Create a robust ClientData structure for Airtable
     const clientData: any = {
       info: {
         clientId: `CLNT-${Date.now()}`,

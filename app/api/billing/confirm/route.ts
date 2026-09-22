@@ -1,15 +1,22 @@
 import { NextResponse } from 'next/server';
 import { airtableCRM } from '@/lib/integrations/airtable-crm';
+import { syncStripeAndAirtable } from '@/lib/integrations/stripe-sync';
 
 export async function POST(request: Request) {
   try {
-    const { clientId, subscriptionId, method, businessName: providedBusinessName, amount: providedAmount } = await request.json();
+    const { 
+      clientId, 
+      subscriptionId, 
+      method, 
+      businessName: providedBusinessName, 
+      amount: providedAmount,
+      email: providedEmail 
+    } = await request.json();
     
     if (!clientId || !subscriptionId) {
       return NextResponse.json({ success: false, error: 'Missing payment data' }, { status: 400 });
     }
 
-    // Calculate next due date (1 month from now)
     const nextDueDate = new Date();
     nextDueDate.setMonth(nextDueDate.getMonth() + 1);
 
@@ -18,26 +25,40 @@ export async function POST(request: Request) {
 
     const payAmount = Number(providedAmount || 30);
 
-    // Find the record in Airtable by Client ID
+    // Find the record in Airtable
     let record: any = null;
     try {
       record = await airtableCRM.getClient(clientId);
+      if (!record && providedBusinessName) {
+        record = await airtableCRM.getClientByBusinessName(providedBusinessName);
+      }
+      if (!record && providedEmail) {
+        record = await airtableCRM.getClientByEmail(providedEmail);
+      }
       if (!record) {
         record = await airtableCRM.getClientByBusinessName(clientId);
       }
     } catch (findErr) {
-      console.warn('Lookup in Airtable failed, will create new record:', findErr);
+      console.warn('Lookup in Airtable failed:', findErr);
     }
     
     if (record) {
-      // Update existing record
-      await airtableCRM.updateFields(record.id, {
+      const updateData: any = {
         'Payment Status': status,
         'Payment Method': method,
         'Payment Reference': subscriptionId,
         'Payment Amount': payAmount,
         'Next Due Date': nextDueDate.toISOString().split('T')[0]
-      });
+      };
+
+      if (providedEmail && !record.fields['Email']) {
+        updateData['Email'] = providedEmail;
+      }
+
+      await airtableCRM.updateFields(record.id, updateData);
+
+      // Trigger background sync
+      syncStripeAndAirtable(true).catch(() => {});
 
       return NextResponse.json({ 
         success: true, 
@@ -45,14 +66,13 @@ export async function POST(request: Request) {
         recordId: record.id
       });
     } else {
-      // Auto-create client record in Airtable so payment is NEVER lost!
       const formattedName = providedBusinessName || clientId.replace(/[-_]+/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
       const recordId = await airtableCRM.syncClient({
         info: {
           clientId: clientId,
           businessName: formattedName,
           contactName: 'Cliente ' + formattedName,
-          email: '',
+          email: providedEmail || '',
           phone: '',
           businessType: 'other',
           createdAt: new Date().toISOString(),
@@ -66,11 +86,11 @@ export async function POST(request: Request) {
           currency: 'USD',
           nextDueDate: nextDueDate.toISOString().split('T')[0]
         },
-        branding: { colors: { primary: '#10b981' } },
+        branding: { colors: { primary: '#2ee58f' } },
         deployment: { status: 'deployed' }
       } as any);
 
-      console.log(`Auto-created Airtable client ${recordId} with payment status ${status}`);
+      syncStripeAndAirtable(true).catch(() => {});
 
       return NextResponse.json({ 
         success: true, 
