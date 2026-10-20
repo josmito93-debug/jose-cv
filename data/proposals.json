@@ -2685,7 +2685,8 @@
           }
         ]
       }
-    ]
+    ],
+    "hideRelated": true
   },
   "cafe-makaro": {
     "client": "Café Makaro",
@@ -2818,6 +2819,7 @@
           }
         ]
       }
-    ]
+    ],
+    "hideRelated": true
   }
 }
