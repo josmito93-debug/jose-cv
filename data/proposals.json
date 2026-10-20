@@ -2686,7 +2686,30 @@
         ]
       }
     ],
-    "hideRelated": true
+    "hideRelated": false,
+    "references": [
+      {
+        "name": "SOUVA",
+        "url": "https://www.souvagrooming.com",
+        "description": "Luxury Solar Mobile Pet Grooming (San Francisco & Peninsula) — Plataforma D2C de lujo con agendamiento y experiencia de marca inmersiva.",
+        "gradient": "from-[#10b981] to-[#047857]",
+        "icon": "✨"
+      },
+      {
+        "name": "Timepieces & Co",
+        "url": "https://www.timepiecesco.com",
+        "description": "Restauración Artesanal de Alta Relojería Suiza (Rolex) — E-Commerce de alta gama, micro-ingeniería y acabados de lujo.",
+        "gradient": "from-[#eab308] to-[#a16207]",
+        "icon": "⌚"
+      },
+      {
+        "name": "Innovatech Bio",
+        "url": "https://www.innovatechbio.com",
+        "description": "Soluciones Biológicas y Biotecnología Agrícola — Portal corporativo internacional de alto rendimiento científico y agronómico.",
+        "gradient": "from-[#3b82f6] to-[#1d4ed8]",
+        "icon": "🌱"
+      }
+    ]
   },
   "cafe-makaro": {
     "client": "Café Makaro",
@@ -2820,6 +2843,29 @@
         ]
       }
     ],
-    "hideRelated": true
+    "hideRelated": false,
+    "references": [
+      {
+        "name": "SOUVA",
+        "url": "https://www.souvagrooming.com",
+        "description": "Luxury Solar Mobile Pet Grooming (San Francisco & Peninsula) — Plataforma D2C de lujo con agendamiento y experiencia de marca inmersiva.",
+        "gradient": "from-[#10b981] to-[#047857]",
+        "icon": "✨"
+      },
+      {
+        "name": "Timepieces & Co",
+        "url": "https://www.timepiecesco.com",
+        "description": "Restauración Artesanal de Alta Relojería Suiza (Rolex) — E-Commerce de alta gama, micro-ingeniería y acabados de lujo.",
+        "gradient": "from-[#eab308] to-[#a16207]",
+        "icon": "⌚"
+      },
+      {
+        "name": "Innovatech Bio",
+        "url": "https://www.innovatechbio.com",
+        "description": "Soluciones Biológicas y Biotecnología Agrícola — Portal corporativo internacional de alto rendimiento científico y agronómico.",
+        "gradient": "from-[#3b82f6] to-[#1d4ed8]",
+        "icon": "🌱"
+      }
+    ]
   }
 }

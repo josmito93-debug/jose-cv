@@ -4,7 +4,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, ArrowUpRight, Globe, Zap, DollarSign } from 'lucide-react';
 
-const projects = [
+export interface ProjectItem {
+  name: string;
+  url: string;
+  description: string;
+  gradient?: string;
+  icon?: string;
+}
+
+const defaultProjects: ProjectItem[] = [
   {
     name: "Uncle Coyo",
     url: "https://unclecoyo.vercel.app/#menu",
@@ -30,21 +38,37 @@ const projects = [
 
 interface RelatedProjectsProps {
   lang?: 'en' | 'es';
+  projects?: ProjectItem[];
+  title?: string;
+  subtitle?: string;
+  badge?: string;
+  footerText?: string;
+  hideFooter?: boolean;
 }
 
-export default function RelatedProjects({ lang = 'es' }: RelatedProjectsProps) {
+export default function RelatedProjects({ 
+  lang = 'es', 
+  projects: customProjects, 
+  title: customTitle, 
+  subtitle: customSubtitle, 
+  badge: customBadge,
+  footerText: customFooterText,
+  hideFooter = false
+}: RelatedProjectsProps) {
+  const activeProjects = customProjects && customProjects.length > 0 ? customProjects : defaultProjects;
+
   const content = {
     en: {
-      title: "YOU MAY BE INTERESTED",
-      subtitle: "We build custom platforms with private domains designed to bypass 3rd-party commissions and maximize your delivery profits.",
+      title: customTitle || "YOU MAY BE INTERESTED",
+      subtitle: customSubtitle || "We build custom platforms with private domains designed to bypass 3rd-party commissions and maximize your delivery profits.",
       cta: "See Example",
-      badge: "PROFIT MAXIMIZER"
+      badge: customBadge || "PROFIT MAXIMIZER"
     },
     es: {
-      title: "TAMBIÉN TE PUEDE INTERESAR",
-      subtitle: "Construimos plataformas personalizadas con dominios propios diseñadas para evitar comisiones de terceros y maximizar tus ganancias por delivery.",
+      title: customTitle || "TAMBIÉN TE PUEDE INTERESAR",
+      subtitle: customSubtitle || "Construimos plataformas personalizadas con dominios propios diseñadas para evitar comisiones de terceros y maximizar tus ganancias por delivery.",
       cta: "Ver Ejemplo",
-      badge: "MÁXIMO RENDIMIENTO"
+      badge: customBadge || "MÁXIMO RENDIMIENTO"
     }
   }[lang];
 
@@ -89,7 +113,7 @@ export default function RelatedProjects({ lang = 'es' }: RelatedProjectsProps) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {activeProjects.map((project, index) => (
             <motion.a
               key={index}
               href={project.url}
@@ -132,18 +156,22 @@ export default function RelatedProjects({ lang = 'es' }: RelatedProjectsProps) {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mt-20 flex justify-center"
-        >
-          <div className="flex items-center gap-8 opacity-20 hover:opacity-50 transition-opacity grayscale hover:grayscale-0">
-             <DollarSign className="w-8 h-8 text-white" />
-             <div className="h-8 w-[1px] bg-white/20" />
-             <span className="text-xs font-black uppercase tracking-[0.4em] text-white">Direct Profit Model</span>
-          </div>
-        </motion.div>
+        {!hideFooter && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-20 flex justify-center"
+          >
+            <div className="flex items-center gap-8 opacity-20 hover:opacity-50 transition-opacity grayscale hover:grayscale-0">
+               <DollarSign className="w-8 h-8 text-white" />
+               <div className="h-8 w-[1px] bg-white/20" />
+               <span className="text-xs font-black uppercase tracking-[0.4em] text-white">
+                 {customFooterText || "Direct Profit Model"}
+               </span>
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

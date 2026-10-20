@@ -31,6 +31,13 @@ interface ProposalData {
   hideRelated?: boolean;
   hideStripe?: boolean;
   paymentSplit?: string;
+  references?: Array<{
+    name: string;
+    url: string;
+    description: string;
+    gradient?: string;
+    icon?: string;
+  }>;
   contractTerms?: {
     payments: Array<{ name: string; amount: number }>;
     clauses: string[];
@@ -103,7 +110,21 @@ export default function ProposalClient({ clientSlug: initialSlug }: { clientSlug
           ))}
         </div>
 
-        {!proposal.hideRelated && <RelatedProjects lang={proposal.lang} />}
+        {proposal.references && proposal.references.length > 0 ? (
+          <RelatedProjects 
+            lang={proposal.lang}
+            projects={proposal.references}
+            title={proposal.lang === 'en' ? "PROVEN BENCHMARKS & WORK" : "REFERENCIAS & PROYECTOS DESTACADOS"}
+            subtitle={proposal.lang === 'en' 
+              ? "Real digital platforms and luxury ecosystems developed by Universa with high-end aesthetics, hardware-accelerated speed, and conversion engineering."
+              : "Plataformas reales y ecosistemas digitales desarrollados por Universa con altos estándares de lujo, velocidad acelerada por hardware y arquitectura de conversión."
+            }
+            badge={proposal.lang === 'en' ? "PORTFOLIO" : "REFERENCIAS REALES"}
+            footerText="Universa Engineering & Luxury Standard"
+          />
+        ) : (
+          !proposal.hideRelated && <RelatedProjects lang={proposal.lang} />
+        )}
 
         <PricingSummary 
           phases={proposal.phases} 
