@@ -2466,5 +2466,358 @@
         "INTELLECTUAL PROPERTY & CODE OWNERSHIP: Upon settlement of the final  balance, 100% of the custom code, designs, branding assets, database schemas, and administrative credentials will belong exclusively to Pink or Brown."
       ]
     }
+  },
+  "xgearup": {
+    "client": "XgearUp by Nina",
+    "status": "Propuesta & Contrato Digital",
+    "title": "GESTIÓN INTEGRAL DE REDES, CONTENIDO Y CRECIMIENTO ORGÁNICO",
+    "lang": "es",
+    "ctaText": "Aceptar Propuesta",
+    "isContract": true,
+    "phases": [
+      {
+        "id": 1,
+        "name": "PRODUCCIÓN DE CONTENIDO Y DISEÑO ILIMITADO",
+        "investment": 150,
+        "items": [
+          {
+            "title": "Ecosistema de Contenido Dinámico",
+            "description": "Parrilla de contenido estructurada para máxima retención y engagement en todas las plataformas (Instagram y Facebook).",
+            "icon": "instagram",
+            "bullets": [
+              "4 Reels semanales con alta capacidad de viralización",
+              "2 Carruseles semanales educativos o promocionales",
+              "10 Stories diarios para mantener a la audiencia activa",
+              "Publicación sincronizada y gestión en Facebook"
+            ],
+            "tag": "contenido",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Edición Audiovisual y Guionaje",
+            "description": "Producción ilimitada de recursos gráficos y de video para respaldar todas las publicaciones y campañas orgánicas.",
+            "icon": "video",
+            "bullets": [
+              "Edición de video ilimitada con cortes dinámicos",
+              "Diseño gráfico y animaciones sin límite para los posts",
+              "Redacción de guiones de video persuasivos",
+              "Identidad visual coherente en cada pieza gráfica"
+            ],
+            "tag": "media",
+            "tagImage": "/tags/WEb desiing and UI.png"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "COMMUNITY MANAGEMENT & CONVERSIÓN A VENTAS",
+        "investment": 140,
+        "items": [
+          {
+            "title": "Crecimiento Orgánico e Interacción",
+            "description": "Gestión activa de la comunidad para aumentar la visibilidad, alcance y confianza en la marca XgearUp.",
+            "icon": "users",
+            "bullets": [
+              "Interacción estratégica: Likes, Follows y Comentarios orgánicos",
+              "Community Management todo incluido (atención y monitoreo)",
+              "Aumento sostenido de seguidores de calidad (nicho objetivo)"
+            ],
+            "tag": "comunidad",
+            "tagImage": "/tags/Graphic desing.png"
+          },
+          {
+            "title": "Estrategia de Tráfico y Cierre (Objetivo Principal)",
+            "description": "Toda la maquinaria de contenido e interacción está diseñada con un único objetivo: generar conversiones.",
+            "icon": "trending-up",
+            "bullets": [
+              "Llamados a la acción (CTAs) orientados a visitar la web",
+              "Direccionamiento del tráfico orgánico hacia el embudo de ventas",
+              "Optimización del perfil para máxima conversión",
+              "Incremento en el volumen de cierres desde plataformas sociales"
+            ],
+            "tag": "marketing",
+            "tagImage": "/tags/SEO and google.png"
+          }
+        ]
+      }
+    ],
+    "summary": "Plan integral de Social Media Management y Creación de Contenido para XgearUp by Nina. Incluye producción semanal intensiva (Reels, Carruseles, Stories), diseño gráfico y edición de video ilimitada, junto con Community Management activo (interacción orgánica) enfocado estratégicamente en derivar tráfico cualificado hacia la página web para el cierre de ventas por una inversión única mensual de $290.",
+    "cta": "https://wa.me/17863024923?text=Hola%20Universa,%20deseo%20aprobar%20la%20propuesta%20de%20XgearUp%20by%20Nina",
+    "hideRelated": true,
+    "paymentSplit": "100%",
+    "contractTerms": {
+      "payments": [
+        {
+          "name": "Pago Único (Mes de Servicio Integral)",
+          "amount": 290
+        }
+      ]
+    }
+  },
+  "makaro": {
+    "client": "Café Makaro",
+    "status": "Propuesta de Ecosistema Digital & Crecimiento",
+    "title": "ECOSISTEMA E-COMMERCE D2C, TRACKING ADS (GOOGLE/META) & CREATIVIDAD SOCIAL",
+    "lang": "es",
+    "ctaText": "Aceptar y Firmar Propuesta",
+    "isContract": true,
+    "paymentSplit": "625/625",
+    "summary": "Transformación integral de Café Makaro: desarrollo de tienda web de alta conversión para café de especialidad de origen latinoamericano (Honduras SHG), infraestructura de tracking profesional (Google Tag Manager, GA4, Meta Pixel CAPI, Google Ads, SEO técnico) y motor de contenido visual con 20 posts mensuales, 5-10 stories diarias e interacciones orgánicas para escalar ventas.",
+    "cta": "Firmar Propuesta y Activar Proyecto",
+    "contractTerms": {
+      "payments": [
+        {
+          "name": "Primer Pago (Anticipo de Inicio - 50%)",
+          "amount": 625
+        },
+        {
+          "name": "Segundo Pago (Entrega y Lanzamiento Final - 50%)",
+          "amount": 625
+        }
+      ],
+      "clauses": [
+        "DESARROLLO E-COMMERCE D2C DE ALTO NIVEL: Diseño y desarrollo de la plataforma web de Café Makaro orientada a proyectar el verdadero valor de su café de especialidad (100% Arábica Parainema, 1,700m Siguatepeque, Honduras), eliminando las fricciones de la plantilla actual de Squarespace con una experiencia ultra-rápida, selectores fluidos de tostado/molienda y optimización de conversión.",
+        "INFRAESTRUCTURA DE TRACKING PROFESIONAL (GTM, GA4, META CAPI): Configuración e implementación de Google Tag Manager (GTM), Google Analytics 4 con medición de eventos de comercio electrónico (view_item, add_to_cart, begin_checkout, purchase), Meta Pixel con Conversions API (CAPI) y etiquetas de conversión para Google Ads y Facebook Ads.",
+        "OPTIMIZACIÓN EN MOTORES DE BÚSQUEDA (SEO TÉCNICO): Configuración de robots.txt, sitemap XML dinámico, marcado de datos estructurados Schema.org (Product, Offer, Brand, Review) y slugs limpios para indexación orgánica superior.",
+        "DISEÑO, ANIMACIÓN Y GESTIÓN DE FEED SOCIAL: Producción de 20 posts mensuales de alto impacto estético con diseño y animación cinematográfica de producto, 5 a 10 stories diarias interactivas, y rutina de interacciones orgánicas activas (likes, comentarios y follows cualificados) para asentar la comunidad dentro del nicho del café de especialidad.",
+        "CONDICIONES ECONÓMICAS Y FORMA DE PAGO: La inversión total acordada es de ,250 USD, distribuida en dos pagos iguales de  USD (50% anticipo al iniciar labores y 50% al entregar y activar el ecosistema digital completo)."
+      ]
+    },
+    "phases": [
+      {
+        "id": 1,
+        "name": "TIENDA WEB D2C DE ESPECIALIDAD & E-COMMERCE DE ALTO IMPACTO",
+        "investment": 500,
+        "items": [
+          {
+            "title": "Plataforma Web E-Commerce & Storytelling de Origen",
+            "description": "Diseño y desarrollo de una tienda digital premium que transmita el valor real de un café de especialidad latinoamericano de grano selecto.",
+            "icon": "globe",
+            "bullets": [
+              "Experiencia de marca inmersiva que reemplaza la rigidez y lentitud de Squarespace",
+              "Presentación interactiva de la variedad Parainema, altura volcánica (1,700m) y comercio directo",
+              "Selector unificado e intuitivo: Grano Entero vs. Molido en la misma ficha de producto",
+              "Flujo de compra optimizado para móviles (One-Click checkout con Apple Pay y Google Pay)",
+              "Diseño responsive ultra-rápido acelerado por hardware para una navegación sin fricción"
+            ],
+            "tag": "panenka-web",
+            "tagLabel": "E-Commerce D2C"
+          },
+          {
+            "title": "Optimización de Conversión (CRO) & Arquitectura de Bundles",
+            "description": "Estructura comercial diseñada para elevar el valor promedio de pedido (AOV) y retención.",
+            "icon": "shield",
+            "bullets": [
+              "Módulo de bundles: \"Pide 2 o más bolsas y el envío es gratis\" con cálculo dinámico",
+              "Tratamiento correcto de regalos: integración automática de la cuchara dorada Iconika en checkout",
+              "Sección de notas de cata interactivas (chocolate oscuro, frutos rojos, cítricos)",
+              "Módulo de reseñas y testimonios para construir prueba social y confianza inmediata"
+            ],
+            "tag": "panenka-advantage",
+            "tagLabel": "Conversión & AOV"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "INFRAESTRUCTURA DE TRACKING, SEO & MOTORES DE ADS (GOOGLE & META)",
+        "investment": 400,
+        "items": [
+          {
+            "title": "Google Tag Manager, GA4 & SEO Técnico Completo",
+            "description": "Estructuración profesional para dominar los motores de búsqueda y registrar cada interacción.",
+            "icon": "activity",
+            "bullets": [
+              "Google Tag Manager (GTM): contenedor centralizado para desplegar tags sin tocar código",
+              "Google Analytics 4 (GA4): medición avanzada de eventos e-commerce de embudo completo",
+              "SEO Técnico: robots.txt optimizado, sitemap.xml dinámico y metadatos limpios",
+              "Schema.org (JSON-LD): datos estructurados de producto, precio y disponibilidad para snippets enriquecidos en Google",
+              "Google Ads Setup: conexión de tags de conversión y preparación de campañas de búsqueda/Shopping"
+            ],
+            "tag": "panenka-tracking",
+            "tagLabel": "GTM + GA4 + SEO"
+          },
+          {
+            "title": "Herramienta de Ventas para Meta Ads (Pixel + Conversions API)",
+            "description": "Preparación técnica para convertir el sitio en una máquina de adquisición de clientes con pauta digital.",
+            "icon": "users",
+            "bullets": [
+              "Meta Pixel instalado en navegador + Conversions API (CAPI) en servidor para saltar bloqueos de iOS/Safari",
+              "Mapeo de eventos estándar: ViewContent, AddToCart, InitiateCheckout y Purchase con deduplicación",
+              "Catálogo dinámico de productos sincronizado para anuncios de retargeting de catálogo (DPA)",
+              "Configuración de audiencias personalizadas y públicos similares (Lookalike) listos para escalar inversión"
+            ],
+            "tag": "panenka-ads",
+            "tagLabel": "Meta Ads Engine"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "DISEÑO, ANIMACIÓN & MOTOR SOCIAL (20 POSTS + STORIES + CRECIMIENTO)",
+        "investment": 350,
+        "items": [
+          {
+            "title": "Feed de Alto Impacto Visual & Animación de Café",
+            "description": "Creación de contenido visual refinado que transmita la exclusividad del producto y seduzca al consumidor.",
+            "icon": "video",
+            "bullets": [
+              "20 Posts mensuales con dirección de arte premium (fotografía curada, tipografía y estilo editorial)",
+              "Piezas animadas y motion graphics de producto (empaque, granos, vapor, preparación y notas de cata)",
+              "5 a 10 Stories diarias: contenido dinámico de estilo de vida, detrás de escena y llamadas a la acción directas",
+              "Guías de estilo visual para consolidar a Café Makaro como un referente de café de especialidad"
+            ],
+            "tag": "roxe-instagram",
+            "tagLabel": "Contenido & Animación"
+          },
+          {
+            "title": "Estrategia de Interacción y Crecimiento Orgánico en Nicho",
+            "description": "Acciones manuales estratégicas para asentar y hacer crecer la marca en su ecosistema de clientes ideales.",
+            "icon": "users",
+            "bullets": [
+              "Rutina diaria de interacción activa: likes, comentarios de valor y follows estratégicos",
+              "Prospección dentro del nicho de coffee lovers, baristas, entusiastas gastronómicos y lifestyle",
+              "Incremento del engagement orgánico para mejorar el alcance algorítmico del perfil",
+              "Conexión directa con consumidores de café de especialidad en el mercado de EE.UU."
+            ],
+            "tag": "panenka-journey",
+            "tagLabel": "Crecimiento Orgánico"
+          }
+        ]
+      }
+    ]
+  },
+  "cafe-makaro": {
+    "client": "Café Makaro",
+    "status": "Propuesta de Ecosistema Digital & Crecimiento",
+    "title": "ECOSISTEMA E-COMMERCE D2C, TRACKING ADS (GOOGLE/META) & CREATIVIDAD SOCIAL",
+    "lang": "es",
+    "ctaText": "Aceptar y Firmar Propuesta",
+    "isContract": true,
+    "paymentSplit": "625/625",
+    "summary": "Transformación integral de Café Makaro: desarrollo de tienda web de alta conversión para café de especialidad de origen latinoamericano (Honduras SHG), infraestructura de tracking profesional (Google Tag Manager, GA4, Meta Pixel CAPI, Google Ads, SEO técnico) y motor de contenido visual con 20 posts mensuales, 5-10 stories diarias e interacciones orgánicas para escalar ventas.",
+    "cta": "Firmar Propuesta y Activar Proyecto",
+    "contractTerms": {
+      "payments": [
+        {
+          "name": "Primer Pago (Anticipo de Inicio - 50%)",
+          "amount": 625
+        },
+        {
+          "name": "Segundo Pago (Entrega y Lanzamiento Final - 50%)",
+          "amount": 625
+        }
+      ],
+      "clauses": [
+        "DESARROLLO E-COMMERCE D2C DE ALTO NIVEL: Diseño y desarrollo de la plataforma web de Café Makaro orientada a proyectar el verdadero valor de su café de especialidad (100% Arábica Parainema, 1,700m Siguatepeque, Honduras), eliminando las fricciones de la plantilla actual de Squarespace con una experiencia ultra-rápida, selectores fluidos de tostado/molienda y optimización de conversión.",
+        "INFRAESTRUCTURA DE TRACKING PROFESIONAL (GTM, GA4, META CAPI): Configuración e implementación de Google Tag Manager (GTM), Google Analytics 4 con medición de eventos de comercio electrónico (view_item, add_to_cart, begin_checkout, purchase), Meta Pixel con Conversions API (CAPI) y etiquetas de conversión para Google Ads y Facebook Ads.",
+        "OPTIMIZACIÓN EN MOTORES DE BÚSQUEDA (SEO TÉCNICO): Configuración de robots.txt, sitemap XML dinámico, marcado de datos estructurados Schema.org (Product, Offer, Brand, Review) y slugs limpios para indexación orgánica superior.",
+        "DISEÑO, ANIMACIÓN Y GESTIÓN DE FEED SOCIAL: Producción de 20 posts mensuales de alto impacto estético con diseño y animación cinematográfica de producto, 5 a 10 stories diarias interactivas, y rutina de interacciones orgánicas activas (likes, comentarios y follows cualificados) para asentar la comunidad dentro del nicho del café de especialidad.",
+        "CONDICIONES ECONÓMICAS Y FORMA DE PAGO: La inversión total acordada es de ,250 USD, distribuida en dos pagos iguales de  USD (50% anticipo al iniciar labores y 50% al entregar y activar el ecosistema digital completo)."
+      ]
+    },
+    "phases": [
+      {
+        "id": 1,
+        "name": "TIENDA WEB D2C DE ESPECIALIDAD & E-COMMERCE DE ALTO IMPACTO",
+        "investment": 500,
+        "items": [
+          {
+            "title": "Plataforma Web E-Commerce & Storytelling de Origen",
+            "description": "Diseño y desarrollo de una tienda digital premium que transmita el valor real de un café de especialidad latinoamericano de grano selecto.",
+            "icon": "globe",
+            "bullets": [
+              "Experiencia de marca inmersiva que reemplaza la rigidez y lentitud de Squarespace",
+              "Presentación interactiva de la variedad Parainema, altura volcánica (1,700m) y comercio directo",
+              "Selector unificado e intuitivo: Grano Entero vs. Molido en la misma ficha de producto",
+              "Flujo de compra optimizado para móviles (One-Click checkout con Apple Pay y Google Pay)",
+              "Diseño responsive ultra-rápido acelerado por hardware para una navegación sin fricción"
+            ],
+            "tag": "panenka-web",
+            "tagLabel": "E-Commerce D2C"
+          },
+          {
+            "title": "Optimización de Conversión (CRO) & Arquitectura de Bundles",
+            "description": "Estructura comercial diseñada para elevar el valor promedio de pedido (AOV) y retención.",
+            "icon": "shield",
+            "bullets": [
+              "Módulo de bundles: \"Pide 2 o más bolsas y el envío es gratis\" con cálculo dinámico",
+              "Tratamiento correcto de regalos: integración automática de la cuchara dorada Iconika en checkout",
+              "Sección de notas de cata interactivas (chocolate oscuro, frutos rojos, cítricos)",
+              "Módulo de reseñas y testimonios para construir prueba social y confianza inmediata"
+            ],
+            "tag": "panenka-advantage",
+            "tagLabel": "Conversión & AOV"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "INFRAESTRUCTURA DE TRACKING, SEO & MOTORES DE ADS (GOOGLE & META)",
+        "investment": 400,
+        "items": [
+          {
+            "title": "Google Tag Manager, GA4 & SEO Técnico Completo",
+            "description": "Estructuración profesional para dominar los motores de búsqueda y registrar cada interacción.",
+            "icon": "activity",
+            "bullets": [
+              "Google Tag Manager (GTM): contenedor centralizado para desplegar tags sin tocar código",
+              "Google Analytics 4 (GA4): medición avanzada de eventos e-commerce de embudo completo",
+              "SEO Técnico: robots.txt optimizado, sitemap.xml dinámico y metadatos limpios",
+              "Schema.org (JSON-LD): datos estructurados de producto, precio y disponibilidad para snippets enriquecidos en Google",
+              "Google Ads Setup: conexión de tags de conversión y preparación de campañas de búsqueda/Shopping"
+            ],
+            "tag": "panenka-tracking",
+            "tagLabel": "GTM + GA4 + SEO"
+          },
+          {
+            "title": "Herramienta de Ventas para Meta Ads (Pixel + Conversions API)",
+            "description": "Preparación técnica para convertir el sitio en una máquina de adquisición de clientes con pauta digital.",
+            "icon": "users",
+            "bullets": [
+              "Meta Pixel instalado en navegador + Conversions API (CAPI) en servidor para saltar bloqueos de iOS/Safari",
+              "Mapeo de eventos estándar: ViewContent, AddToCart, InitiateCheckout y Purchase con deduplicación",
+              "Catálogo dinámico de productos sincronizado para anuncios de retargeting de catálogo (DPA)",
+              "Configuración de audiencias personalizadas y públicos similares (Lookalike) listos para escalar inversión"
+            ],
+            "tag": "panenka-ads",
+            "tagLabel": "Meta Ads Engine"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "DISEÑO, ANIMACIÓN & MOTOR SOCIAL (20 POSTS + STORIES + CRECIMIENTO)",
+        "investment": 350,
+        "items": [
+          {
+            "title": "Feed de Alto Impacto Visual & Animación de Café",
+            "description": "Creación de contenido visual refinado que transmita la exclusividad del producto y seduzca al consumidor.",
+            "icon": "video",
+            "bullets": [
+              "20 Posts mensuales con dirección de arte premium (fotografía curada, tipografía y estilo editorial)",
+              "Piezas animadas y motion graphics de producto (empaque, granos, vapor, preparación y notas de cata)",
+              "5 a 10 Stories diarias: contenido dinámico de estilo de vida, detrás de escena y llamadas a la acción directas",
+              "Guías de estilo visual para consolidar a Café Makaro como un referente de café de especialidad"
+            ],
+            "tag": "roxe-instagram",
+            "tagLabel": "Contenido & Animación"
+          },
+          {
+            "title": "Estrategia de Interacción y Crecimiento Orgánico en Nicho",
+            "description": "Acciones manuales estratégicas para asentar y hacer crecer la marca en su ecosistema de clientes ideales.",
+            "icon": "users",
+            "bullets": [
+              "Rutina diaria de interacción activa: likes, comentarios de valor y follows estratégicos",
+              "Prospección dentro del nicho de coffee lovers, baristas, entusiastas gastronómicos y lifestyle",
+              "Incremento del engagement orgánico para mejorar el alcance algorítmico del perfil",
+              "Conexión directa con consumidores de café de especialidad en el mercado de EE.UU."
+            ],
+            "tag": "panenka-journey",
+            "tagLabel": "Crecimiento Orgánico"
+          }
+        ]
+      }
+    ]
   }
 }
