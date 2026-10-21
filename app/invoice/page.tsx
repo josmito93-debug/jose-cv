@@ -387,72 +387,131 @@ export default function InvoicePage() {
         }
       };
 
-      const sanitizeElement = (origEl: HTMLElement, cloneEl: HTMLElement) => {
-        const computed = window.getComputedStyle(origEl);
-        const colorProps = [
-          'color',
-          'backgroundColor',
-          'borderColor',
-          'borderTopColor',
-          'borderRightColor',
-          'borderBottomColor',
-          'borderLeftColor',
-        ];
-
-        colorProps.forEach((prop) => {
-          const val = computed[prop as any];
-          if (val) {
-            cloneEl.style[prop as any] = resolveColorToRgba(val);
-          }
-        });
-
-        const shadow = computed.boxShadow;
-        if (shadow && (shadow.includes('oklab') || shadow.includes('oklch'))) {
-          cloneEl.style.boxShadow = shadow.includes('none') ? 'none' : '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
-        }
-      };
-
-      const sanitizeAll = (orig: HTMLElement, clone: HTMLElement) => {
-        sanitizeElement(orig, clone);
-        const origChildren = orig.children;
-        const cloneChildren = clone.children;
-        for (let i = 0; i < origChildren.length; i++) {
-          if (origChildren[i] && cloneChildren[i]) {
-            sanitizeAll(origChildren[i] as HTMLElement, cloneChildren[i] as HTMLElement);
-          }
-        }
-      };
-
       const canvas = await html2canvas(element, {
-        scale: 2,
+        scale: 2.5,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
         onclone: (clonedDoc) => {
           const clonedRoot = clonedDoc.getElementById('printable-invoice');
           if (clonedRoot) {
+            // 1. Eliminar bordes redondeados y sombras exteriores que generan artefactos
+            clonedRoot.style.borderRadius = '0px';
+            clonedRoot.style.border = 'none';
+            clonedRoot.style.boxShadow = 'none';
+            clonedRoot.style.backgroundColor = '#ffffff';
+            clonedRoot.style.color = '#0f172a';
+            clonedRoot.style.padding = '36px 44px';
+            clonedRoot.style.width = '820px';
+            clonedRoot.style.maxWidth = '820px';
+
+            // 2. Eliminar tags digitales o elementos de vista en pantalla
+            const printHidden = clonedRoot.querySelectorAll('.print\\:hidden, [class*="print:hidden"]');
+            printHidden.forEach((el) => el.remove());
+
+            // 3. Procesar logo para nitidez impecable en blanco y negro
             const clonedLogo = clonedRoot.querySelector('.print-logo-img') as HTMLImageElement;
             if (clonedLogo) {
               try {
-                const canvas = document.createElement('canvas');
-                canvas.width = clonedLogo.naturalWidth || clonedLogo.width || 72;
-                canvas.height = clonedLogo.naturalHeight || clonedLogo.height || 72;
-                const ctx = canvas.getContext('2d');
-                if (ctx) {
-                  ctx.drawImage(clonedLogo, 0, 0, canvas.width, canvas.height);
-                  ctx.globalCompositeOperation = 'source-in';
-                  ctx.fillStyle = '#000000';
-                  ctx.fillRect(0, 0, canvas.width, canvas.height);
-                  clonedLogo.src = canvas.toDataURL();
+                const logoCanvas = document.createElement('canvas');
+                logoCanvas.width = clonedLogo.naturalWidth || clonedLogo.width || 72;
+                logoCanvas.height = clonedLogo.naturalHeight || clonedLogo.height || 72;
+                const logoCtx = logoCanvas.getContext('2d');
+                if (logoCtx) {
+                  logoCtx.drawImage(clonedLogo, 0, 0, logoCanvas.width, logoCanvas.height);
+                  logoCtx.globalCompositeOperation = 'source-in';
+                  logoCtx.fillStyle = '#0f172a';
+                  logoCtx.fillRect(0, 0, logoCanvas.width, logoCanvas.height);
+                  clonedLogo.src = logoCanvas.toDataURL();
                   clonedLogo.style.filter = 'none';
-                  clonedLogo.className = clonedLogo.className.replace('brightness-0', '');
                 }
               } catch (e) {
-                console.error('Error al convertir logo a negro:', e);
+                console.error('Error al procesar logo para PDF:', e);
               }
             }
 
-            sanitizeAll(element, clonedRoot);
+            // 4. Limpiar todas las sombras y degradados difusos que generan bordes raros
+            const allElements = clonedRoot.querySelectorAll('*');
+            allElements.forEach((el: any) => {
+              el.style.boxShadow = 'none';
+              el.style.textShadow = 'none';
+
+              // Sanitize colors if computed with oklab
+              const comp = clonedDoc.defaultView?.getComputedStyle(el);
+              if (comp) {
+                ['color', 'backgroundColor', 'borderColor'].forEach((p) => {
+                  const val = comp[p as any];
+                  if (val && (val.includes('oklab') || val.includes('oklch') || val.includes('color-mix'))) {
+                    el.style[p] = resolveColorToRgba(val);
+                  }
+                });
+              }
+            });
+
+            // 5. Línea de acento superior limpia y nítida
+            const topLines = clonedRoot.querySelectorAll('[style*="linear-gradient"]');
+            topLines.forEach((line: any) => {
+              if (line.classList.contains('top-0') || line.style.height === '4px') {
+                line.style.background = '#10b981';
+                line.style.height = '4px';
+              } else {
+                line.style.background = '#e2e8f0';
+                line.style.height = '1px';
+              }
+            });
+
+            // 6. Tarjeta de cliente (Facturado A) con formato formal
+            const clientCards = clonedRoot.querySelectorAll('[class*="border-l-4"]');
+            clientCards.forEach((card: any) => {
+              card.style.borderRadius = '10px';
+              card.style.border = '1px solid #e2e8f0';
+              card.style.borderLeft = '4px solid #10b981';
+              card.style.backgroundColor = '#f8fafc';
+              card.style.boxShadow = 'none';
+            });
+
+            // 7. Tabla estructurada profesional de cotización
+            const table = clonedRoot.querySelector('table');
+            if (table) {
+              table.style.width = '100%';
+              table.style.borderCollapse = 'collapse';
+              table.style.marginTop = '8px';
+
+              const ths = table.querySelectorAll('th');
+              ths.forEach((th: any) => {
+                th.style.borderBottom = '2px solid #cbd5e1';
+                th.style.padding = '12px 10px';
+                th.style.color = '#334155';
+                th.style.backgroundColor = '#f1f5f9';
+                th.style.fontSize = '10px';
+                th.style.fontWeight = '800';
+                th.style.textTransform = 'uppercase';
+                th.style.letterSpacing = '0.05em';
+              });
+
+              const trs = table.querySelectorAll('tbody tr');
+              trs.forEach((tr: any) => {
+                tr.style.borderBottom = '1px solid #f1f5f9';
+                tr.style.backgroundColor = 'transparent';
+                const tds = tr.querySelectorAll('td');
+                tds.forEach((td: any) => {
+                  td.style.padding = '12px 10px';
+                  td.style.fontSize = '12px';
+                  td.style.color = '#1e293b';
+                });
+              });
+            }
+
+            // 8. Resumen de totales con caja destacada
+            const totalHighlight = clonedRoot.querySelectorAll('[class*="bg-[#2ddc80]"], [class*="bg-emerald-50"]');
+            totalHighlight.forEach((box: any) => {
+              box.style.backgroundColor = '#ecfdf5';
+              box.style.border = '1px solid #a7f3d0';
+              box.style.borderLeft = '4px solid #059669';
+              box.style.borderRadius = '10px';
+              box.style.boxShadow = 'none';
+              box.style.padding = '12px 16px';
+            });
           }
         }
       });
@@ -461,7 +520,7 @@ export default function InvoicePage() {
         setPreviewTheme(originalTheme);
       }
 
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/png', 1.0);
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -471,7 +530,7 @@ export default function InvoicePage() {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
-      const margin = 12;
+      const margin = 10;
       const maxPdfWidth = pdfWidth - 2 * margin;
       const maxPdfHeight = pdfHeight - 2 * margin;
 
@@ -486,7 +545,7 @@ export default function InvoicePage() {
       const xOffset = margin + (maxPdfWidth - imgWidth) / 2;
       const yOffset = margin;
 
-      pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
+      pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight, undefined, 'FAST');
 
       const fileName = `${invoiceNumber || 'cotizacion'}.pdf`.toLowerCase().replace(/\s+/g, '-');
       pdf.save(fileName);
