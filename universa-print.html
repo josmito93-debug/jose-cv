@@ -5716,9 +5716,10 @@ body.home-v2 .proj-viewport {
 }
 .pcover__grid {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: minmax(0, 680px);
   gap: clamp(28px, 5vw, 64px);
   align-items: center;
+  max-width: 680px;
 }
 .pcover__kicker {
   font-size: 0.74rem; letter-spacing: 0.28em; text-transform: uppercase;
@@ -6015,16 +6016,6 @@ body.home-v2 .proj-viewport {
         <div class="pcover__cta">
           <a class="btn btn--light" href="#cotizar">Solicitar cotización</a>
           <a class="btn btn--ghost" href="#catalogo">Ver el catálogo</a>
-        </div>
-      </div>
-      <div class="pcover__vis">
-        <div class="pcover__card">
-          <span class="pcard__badge">Premium collection</span>
-          <svg class="pcover__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M58 30 L38 42 l-6 26 14 5 3-10 v62 q0 6 6 6h50 q6 0 6-6 V63 l3 10 14-5 -6-26 -20-12 q-11 12 -21 12 t-21-12z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M58 30 L80 56 l22-26" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M80 56 v75" stroke="#2ee58f" stroke-width="2.4"/><path d="M76 60 h8 M76 68 h8 M76 76 h8 M76 84 h8" stroke="var(--art-soft)" stroke-width="1.3"/></svg>
-          <div class="pcover__cardfoot">
-            <strong>Universa Print</strong>
-            <em>Tailored for identity.</em>
-          </div>
         </div>
       </div>
     </div>
@@ -8050,7 +8041,7 @@ body.home-v2 .proj-viewport {
         gsap.set(sub, { opacity: 0, y: 30 });
         gsap.set(tecs, { opacity: 0, y: 22, scale: 0.85 });
         gsap.set(ctas, { opacity: 0, y: 24, scale: 0.94 });
-        gsap.set(vis, { opacity: 0, x: 55, scale: 0.92 });
+        if (vis) gsap.set(vis, { opacity: 0, x: 55, scale: 0.92 });
         if (gtex) gsap.set(gtex, { opacity: 0 });
 
         var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
