@@ -5683,7 +5683,27 @@ body.home-v2 .proj-viewport {
   pointer-events: none;
   background: transparent;
 }
-@media (max-width: 768px) {
+.pcover__video--desktop {
+  display: block;
+}
+.pcover__video--mobile {
+  display: none;
+}
+@media (max-width: 767px) {
+  .pcover__video--desktop {
+    display: none !important;
+  }
+  .pcover__video--mobile {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    pointer-events: none;
+    background: transparent;
+  }
   .pcover {
     min-height: 100dvh;
     min-height: -webkit-fill-available;
@@ -6081,9 +6101,15 @@ body.home-v2 .proj-viewport {
   <!-- ===== 01 · Portada ===== -->
   <section class="pcover" id="hero-cover">
     <div class="pcover__video-wrap" id="pcoverVideoWrap" aria-hidden="true">
-      <video id="heroPrintVideo" class="pcover__video" autoplay muted playsinline webkit-playsinline x5-playsinline preload="auto">
+      <!-- Desktop & iPad Video (Landscape 16:9) -->
+      <video id="heroPrintVideo" class="pcover__video pcover__video--desktop" autoplay muted playsinline webkit-playsinline x5-playsinline preload="auto">
         <source src="/print/hero-animation.mp4" type='video/mp4; codecs="hvc1"'>
         <source src="/print/hero-animation.webm" type="video/webm">
+      </video>
+      <!-- Mobile Phone Video (Portrait 9:16) -->
+      <video id="heroPrintVideoMobile" class="pcover__video pcover__video--mobile" autoplay muted playsinline webkit-playsinline x5-playsinline preload="auto">
+        <source src="/print/hero-animation-mobile.mp4" type='video/mp4; codecs="hvc1"'>
+        <source src="/print/hero-animation-mobile.webm" type="video/webm">
       </video>
     </div>
     <div class="gtex" aria-hidden="true"><i class="gtex__run"></i></div>
@@ -8103,7 +8129,19 @@ body.home-v2 .proj-viewport {
   (function () {
     'use strict';
 
-    var video = document.getElementById('heroPrintVideo');
+    var isMobilePhone = window.matchMedia && window.matchMedia('(max-width: 767px)').matches;
+    var desktopVideo = document.getElementById('heroPrintVideo');
+    var mobileVideo = document.getElementById('heroPrintVideoMobile');
+    var activeVideo = isMobilePhone ? mobileVideo : desktopVideo;
+    var inactiveVideo = isMobilePhone ? desktopVideo : mobileVideo;
+
+    if (inactiveVideo) {
+      try {
+        inactiveVideo.pause();
+        inactiveVideo.removeAttribute('autoplay');
+      } catch (e) {}
+    }
+
     var header = document.getElementById('header');
     var kicker = document.querySelector('.pcover__kicker');
     var title = document.querySelector('.pcover__title');
@@ -8114,16 +8152,15 @@ body.home-v2 .proj-viewport {
     var gtex = document.querySelector('.pcover .gtex');
 
     var revealed = false;
-    var isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
 
     function triggerHeroGsap() {
       if (revealed) return;
       revealed = true;
 
       if (window.gsap) {
-        gsap.set(header, { opacity: 0, y: isMobile ? -20 : -32 });
-        gsap.set(kicker, { opacity: 0, y: 18, letterSpacing: isMobile ? '0.3em' : '0.45em' });
-        gsap.set(title, { opacity: 0, y: isMobile ? 24 : 48, filter: isMobile ? 'none' : 'blur(14px)' });
+        gsap.set(header, { opacity: 0, y: isMobilePhone ? -20 : -32 });
+        gsap.set(kicker, { opacity: 0, y: 18, letterSpacing: isMobilePhone ? '0.3em' : '0.45em' });
+        gsap.set(title, { opacity: 0, y: isMobilePhone ? 24 : 48, filter: isMobilePhone ? 'none' : 'blur(14px)' });
         gsap.set(sub, { opacity: 0, y: 20 });
         gsap.set(tecs, { opacity: 0, y: 16, scale: 0.88 });
         gsap.set(ctas, { opacity: 0, y: 18, scale: 0.95 });
@@ -8135,7 +8172,7 @@ body.home-v2 .proj-viewport {
         tl.to(header, {
           opacity: 1,
           y: 0,
-          duration: isMobile ? 0.7 : 0.95,
+          duration: isMobilePhone ? 0.7 : 0.95,
           ease: 'power2.out'
         })
         .to(gtex, {
@@ -8145,23 +8182,23 @@ body.home-v2 .proj-viewport {
         .to(kicker, {
           opacity: 1,
           y: 0,
-          letterSpacing: isMobile ? '0.22em' : '0.28em',
+          letterSpacing: isMobilePhone ? '0.22em' : '0.28em',
           duration: 0.75,
           ease: 'power3.out'
-        }, isMobile ? '-=0.5' : '-=0.65')
+        }, isMobilePhone ? '-=0.5' : '-=0.65')
         .to(title, {
           opacity: 1,
           y: 0,
           filter: 'none',
-          duration: isMobile ? 0.9 : 1.15,
+          duration: isMobilePhone ? 0.9 : 1.15,
           ease: 'power4.out'
-        }, isMobile ? '-=0.55' : '-=0.65')
+        }, isMobilePhone ? '-=0.55' : '-=0.65')
         .to(sub, {
           opacity: 1,
           y: 0,
           duration: 0.8,
           ease: 'power3.out'
-        }, isMobile ? '-=0.6' : '-=0.75')
+        }, isMobilePhone ? '-=0.6' : '-=0.75')
         .to(tecs, {
           opacity: 1,
           y: 0,
@@ -8169,7 +8206,7 @@ body.home-v2 .proj-viewport {
           stagger: 0.06,
           duration: 0.55,
           ease: 'back.out(1.6)'
-        }, isMobile ? '-=0.5' : '-=0.65')
+        }, isMobilePhone ? '-=0.5' : '-=0.65')
         .to(ctas, {
           opacity: 1,
           y: 0,
@@ -8177,7 +8214,7 @@ body.home-v2 .proj-viewport {
           stagger: 0.1,
           duration: 0.65,
           ease: 'power3.out'
-        }, isMobile ? '-=0.45' : '-=0.55');
+        }, isMobilePhone ? '-=0.45' : '-=0.55');
 
         if (vis) {
           tl.to(vis, {
@@ -8203,21 +8240,21 @@ body.home-v2 .proj-viewport {
       return;
     }
 
-    if (video) {
-      video.muted = true;
-      video.defaultMuted = true;
-      video.playsInline = true;
-      video.setAttribute('playsinline', '');
-      video.setAttribute('webkit-playsinline', '');
-      video.setAttribute('muted', '');
+    if (activeVideo) {
+      activeVideo.muted = true;
+      activeVideo.defaultMuted = true;
+      activeVideo.playsInline = true;
+      activeVideo.setAttribute('playsinline', '');
+      activeVideo.setAttribute('webkit-playsinline', '');
+      activeVideo.setAttribute('muted', '');
 
-      video.addEventListener('timeupdate', function () {
-        if (video.duration && (video.currentTime / video.duration >= 0.70)) {
+      activeVideo.addEventListener('timeupdate', function () {
+        if (activeVideo.duration && (activeVideo.currentTime / activeVideo.duration >= 0.70)) {
           triggerHeroGsap();
         }
       });
 
-      video.addEventListener('ended', triggerHeroGsap);
+      activeVideo.addEventListener('ended', triggerHeroGsap);
       setTimeout(triggerHeroGsap, 7200);
 
       window.addEventListener('scroll', function () {
@@ -8232,7 +8269,7 @@ body.home-v2 .proj-viewport {
         triggerHeroGsap();
       }, { once: true });
 
-      var p = video.play();
+      var p = activeVideo.play();
       if (p && p.catch) {
         p.catch(function () {
           setTimeout(triggerHeroGsap, 1200);
