@@ -5675,11 +5675,6 @@ body.home-v2 .proj-viewport {
   align-items: center;
   justify-content: center;
 }
-@media (max-width: 768px) {
-  .pcover__video-wrap {
-    padding: 24px 16px;
-  }
-}
 .pcover__video {
   width: 100%;
   height: 100%;
@@ -5687,6 +5682,90 @@ body.home-v2 .proj-viewport {
   object-position: center center;
   pointer-events: none;
   background: transparent;
+}
+@media (max-width: 768px) {
+  .pcover {
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: calc(var(--header-h, 72px) + 12px) 0 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .pcover__video-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .pcover__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 36%;
+    transform: scale(1.18);
+    pointer-events: none;
+  }
+  .pcover__grid {
+    position: relative;
+    z-index: 3;
+    max-width: 100%;
+    width: 100%;
+    margin-top: auto;
+  }
+  .pcover__col-content {
+    background: linear-gradient(180deg, rgba(8, 13, 10, 0) 0%, rgba(8, 13, 10, 0.72) 18%, rgba(8, 13, 10, 0.94) 55%, #080d0a 100%);
+    padding: 38px 18px 8px;
+    border-radius: 28px 28px 0 0;
+  }
+  .pcover__kicker {
+    font-size: 0.68rem;
+    margin-bottom: 10px;
+    letter-spacing: 0.22em;
+  }
+  .pcover__title {
+    font-size: clamp(2.1rem, 9vw, 2.85rem);
+    line-height: 1.04;
+  }
+  .pcover__sub {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin-top: 14px;
+    max-width: 100%;
+  }
+  .pcover__tecs {
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .pcover__tecs span {
+    font-size: 0.66rem;
+    padding: 7px 13px;
+  }
+  .pcover__cta {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    margin-top: 24px;
+  }
+  .pcover__cta .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 14px 20px;
+    font-size: 0.92rem;
+  }
 }
 .print-body .header {
   opacity: 0;
@@ -5996,7 +6075,7 @@ body.home-v2 .proj-viewport {
   <!-- ===== 01 · Portada ===== -->
   <section class="pcover" id="hero-cover">
     <div class="pcover__video-wrap" id="pcoverVideoWrap" aria-hidden="true">
-      <video id="heroPrintVideo" class="pcover__video" autoplay muted playsinline preload="auto">
+      <video id="heroPrintVideo" class="pcover__video" autoplay muted playsinline webkit-playsinline x5-playsinline preload="auto">
         <source src="/print/hero-animation.mp4" type='video/mp4; codecs="hvc1"'>
         <source src="/print/hero-animation.webm" type="video/webm">
       </video>
@@ -8029,18 +8108,19 @@ body.home-v2 .proj-viewport {
     var gtex = document.querySelector('.pcover .gtex');
 
     var revealed = false;
+    var isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
 
     function triggerHeroGsap() {
       if (revealed) return;
       revealed = true;
 
       if (window.gsap) {
-        gsap.set(header, { opacity: 0, y: -32 });
-        gsap.set(kicker, { opacity: 0, y: 24, letterSpacing: '0.45em' });
-        gsap.set(title, { opacity: 0, y: 48, filter: 'blur(14px)' });
-        gsap.set(sub, { opacity: 0, y: 30 });
-        gsap.set(tecs, { opacity: 0, y: 22, scale: 0.85 });
-        gsap.set(ctas, { opacity: 0, y: 24, scale: 0.94 });
+        gsap.set(header, { opacity: 0, y: isMobile ? -20 : -32 });
+        gsap.set(kicker, { opacity: 0, y: 18, letterSpacing: isMobile ? '0.3em' : '0.45em' });
+        gsap.set(title, { opacity: 0, y: isMobile ? 24 : 48, filter: isMobile ? 'none' : 'blur(14px)' });
+        gsap.set(sub, { opacity: 0, y: 20 });
+        gsap.set(tecs, { opacity: 0, y: 16, scale: 0.88 });
+        gsap.set(ctas, { opacity: 0, y: 18, scale: 0.95 });
         if (vis) gsap.set(vis, { opacity: 0, x: 55, scale: 0.92 });
         if (gtex) gsap.set(gtex, { opacity: 0 });
 
@@ -8049,56 +8129,59 @@ body.home-v2 .proj-viewport {
         tl.to(header, {
           opacity: 1,
           y: 0,
-          duration: 0.95,
+          duration: isMobile ? 0.7 : 0.95,
           ease: 'power2.out'
         })
         .to(gtex, {
           opacity: 1,
-          duration: 1.4
+          duration: 1.2
         }, '<')
         .to(kicker, {
           opacity: 1,
           y: 0,
-          letterSpacing: '0.28em',
-          duration: 0.85,
+          letterSpacing: isMobile ? '0.22em' : '0.28em',
+          duration: 0.75,
           ease: 'power3.out'
-        }, '-=0.65')
+        }, isMobile ? '-=0.5' : '-=0.65')
         .to(title, {
           opacity: 1,
           y: 0,
-          filter: 'blur(0px)',
-          duration: 1.15,
+          filter: 'none',
+          duration: isMobile ? 0.9 : 1.15,
           ease: 'power4.out'
-        }, '-=0.65')
+        }, isMobile ? '-=0.55' : '-=0.65')
         .to(sub, {
           opacity: 1,
           y: 0,
-          duration: 0.9,
+          duration: 0.8,
           ease: 'power3.out'
-        }, '-=0.75')
+        }, isMobile ? '-=0.6' : '-=0.75')
         .to(tecs, {
           opacity: 1,
           y: 0,
           scale: 1,
-          stagger: 0.08,
-          duration: 0.65,
-          ease: 'back.out(1.8)'
-        }, '-=0.65')
+          stagger: 0.06,
+          duration: 0.55,
+          ease: 'back.out(1.6)'
+        }, isMobile ? '-=0.5' : '-=0.65')
         .to(ctas, {
           opacity: 1,
           y: 0,
           scale: 1,
-          stagger: 0.12,
-          duration: 0.75,
+          stagger: 0.1,
+          duration: 0.65,
           ease: 'power3.out'
-        }, '-=0.55')
-        .to(vis, {
-          opacity: 1,
-          x: 0,
-          scale: 1,
-          duration: 1.25,
-          ease: 'power3.out'
-        }, '-=0.95');
+        }, isMobile ? '-=0.45' : '-=0.55');
+
+        if (vis) {
+          tl.to(vis, {
+            opacity: 1,
+            x: 0,
+            scale: 1,
+            duration: 1.25,
+            ease: 'power3.out'
+          }, '-=0.95');
+        }
       } else {
         var els = [header, kicker, title, sub, vis, gtex];
         els.forEach(function (el) {
@@ -8115,6 +8198,13 @@ body.home-v2 .proj-viewport {
     }
 
     if (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.setAttribute('muted', '');
+
       video.addEventListener('timeupdate', function () {
         if (video.duration && (video.currentTime / video.duration >= 0.70)) {
           triggerHeroGsap();
@@ -8125,7 +8215,11 @@ body.home-v2 .proj-viewport {
       setTimeout(triggerHeroGsap, 7200);
 
       window.addEventListener('scroll', function () {
-        if (window.scrollY > 40) triggerHeroGsap();
+        if (window.scrollY > 30) triggerHeroGsap();
+      }, { passive: true, once: true });
+
+      window.addEventListener('touchstart', function () {
+        triggerHeroGsap();
       }, { passive: true, once: true });
 
       document.addEventListener('click', function () {
@@ -8135,7 +8229,7 @@ body.home-v2 .proj-viewport {
       var p = video.play();
       if (p && p.catch) {
         p.catch(function () {
-          setTimeout(triggerHeroGsap, 1500);
+          setTimeout(triggerHeroGsap, 1200);
         });
       }
     } else {
@@ -8143,5 +8237,5 @@ body.home-v2 .proj-viewport {
     }
   })();
   </script>
-</body>
+  </body>
 </html>
