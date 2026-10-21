@@ -40,6 +40,24 @@
   font-display: swap;
 }
 
+
+.pcard__photo {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+.pcard:hover .pcard__photo {
+  transform: scale(1.06);
+}
+.pcard__vis {
+  padding: 12px !important;
+  overflow: hidden;
+}
+
 /* ---------- Tokens ---------- */
 :root {
   /* Color */
@@ -6012,7 +6030,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M62 30 L40 40 l-8 26 16 6 4-10 v66 q0 6 6 6h44 q6 0 6-6 V62 l4 10 16-6 -8-26 -22-10 q-10 12 -18 12 t-18-12z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M62 30 l18 16 18-16" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M80 46 v66" stroke="var(--art-soft)" stroke-width="1.6"/><rect x="60" y="70" width="14" height="11" rx="2" fill="none" stroke="var(--art-soft)" stroke-width="1.6"/><rect x="88" y="70" width="14" height="11" rx="2" fill="none" stroke="var(--art-soft)" stroke-width="1.6"/></svg>
+            <img class="pcard__photo" src="/print/camisa-columbia.jpg" alt="Tipo Columbia" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6028,7 +6046,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M62 30 L40 40 l-8 26 16 6 4-10 v66 q0 6 6 6h44 q6 0 6-6 V62 l4 10 16-6 -8-26 -22-10 q-10 12 -18 12 t-18-12z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M62 30 l18 16 18-16" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M80 46 v66" stroke="var(--art-soft)" stroke-width="1.6"/><rect x="60" y="70" width="14" height="11" rx="2" fill="none" stroke="var(--art-soft)" stroke-width="1.6"/><rect x="88" y="70" width="14" height="11" rx="2" fill="none" stroke="var(--art-soft)" stroke-width="1.6"/></svg>
+            <img class="pcard__photo" src="/print/camisa-oxford.jpg" alt="Tipo Oxford" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6054,7 +6072,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M60 32 L38 42 l-6 24 15 5 3-9 v62 q0 6 6 6h48 q6 0 6-6 V62 l3 9 15-5 -6-24 -22-10 q-10 11 -20 11 t-20-11z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M68 34 l12 14 12-14" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M74 46 v20 h12 V46" fill="none" stroke="var(--art-soft)" stroke-width="1.8"/><circle cx="80" cy="53" r="1.8" fill="#2ee58f"/><circle cx="80" cy="62" r="1.8" fill="#2ee58f"/></svg>
+            <img class="pcard__photo" src="/print/chemise-pique.jpg" alt="Piqué Algodón" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6070,7 +6088,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M60 32 L38 42 l-6 24 15 5 3-9 v62 q0 6 6 6h48 q6 0 6-6 V62 l3 9 15-5 -6-24 -22-10 q-10 11 -20 11 t-20-11z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M68 34 l12 14 12-14" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M74 46 v20 h12 V46" fill="none" stroke="var(--art-soft)" stroke-width="1.8"/><circle cx="80" cy="53" r="1.8" fill="#2ee58f"/><circle cx="80" cy="62" r="1.8" fill="#2ee58f"/></svg>
+            <img class="pcard__photo" src="/print/chemise-drifit.jpg" alt="Dri-Fit" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6096,7 +6114,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M60 32 L36 44 l-8 24 16 6 4-10 v58 q0 6 6 6h52 q6 0 6-6 V64 l4 10 16-6 -8-24 -24-12 q-10 10 -20 10 t-20-10z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M66 33 q14 12 28 0" fill="none" stroke="var(--art-ink)" stroke-width="2.2"/><circle cx="80" cy="76" r="12" fill="none" stroke="#2ee58f" stroke-width="2"/><ellipse cx="80" cy="76" rx="19" ry="6.5" fill="none" stroke="#2ee58f" stroke-width="1.4" opacity=".55" transform="rotate(-18 80 76)"/></svg>
+            <img class="pcard__photo" src="/print/franela-cuello-redondo.jpg" alt="Cuello Redondo" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6112,7 +6130,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M60 32 L36 44 l-8 24 16 6 4-10 v58 q0 6 6 6h52 q6 0 6-6 V64 l4 10 16-6 -8-24 -24-12 q-10 10 -20 10 t-20-10z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M66 33 q14 12 28 0" fill="none" stroke="var(--art-ink)" stroke-width="2.2"/><circle cx="80" cy="76" r="12" fill="none" stroke="#2ee58f" stroke-width="2"/><ellipse cx="80" cy="76" rx="19" ry="6.5" fill="none" stroke="#2ee58f" stroke-width="1.4" opacity=".55" transform="rotate(-18 80 76)"/></svg>
+            <img class="pcard__photo" src="/print/franela-oversize.jpg" alt="Oversize" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6128,7 +6146,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M60 32 L36 44 l-8 24 16 6 4-10 v58 q0 6 6 6h52 q6 0 6-6 V64 l4 10 16-6 -8-24 -24-12 q-10 10 -20 10 t-20-10z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M66 33 q14 12 28 0" fill="none" stroke="var(--art-ink)" stroke-width="2.2"/><circle cx="80" cy="76" r="12" fill="none" stroke="#2ee58f" stroke-width="2"/><ellipse cx="80" cy="76" rx="19" ry="6.5" fill="none" stroke="#2ee58f" stroke-width="1.4" opacity=".55" transform="rotate(-18 80 76)"/></svg>
+            <img class="pcard__photo" src="/print/franela-drifit.jpg" alt="Dri-Fit" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -6154,7 +6172,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M58 30 L38 42 l-6 26 14 5 3-10 v62 q0 6 6 6h50 q6 0 6-6 V63 l3 10 14-5 -6-26 -20-12 q-11 12 -21 12 t-21-12z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M58 30 L80 56 l22-26" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M80 56 v75" stroke="#2ee58f" stroke-width="2.4"/><path d="M76 60 h8 M76 68 h8 M76 76 h8 M76 84 h8" stroke="var(--art-soft)" stroke-width="1.3"/></svg>
+            <img class="pcard__photo" src="/print/chaleco-softshell.jpg" alt="Softshell Premium" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6170,7 +6188,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M58 30 L38 42 l-6 26 14 5 3-10 v62 q0 6 6 6h50 q6 0 6-6 V63 l3 10 14-5 -6-26 -20-12 q-11 12 -21 12 t-21-12z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M58 30 L80 56 l22-26" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M80 56 v75" stroke="#2ee58f" stroke-width="2.4"/><path d="M76 60 h8 M76 68 h8 M76 76 h8 M76 84 h8" stroke="var(--art-soft)" stroke-width="1.3"/></svg>
+            <img class="pcard__photo" src="/print/chaleco-puffy.jpg" alt="Puffy" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6196,7 +6214,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M58 30 L34 42 l-8 28 16 6 4-11 v62 q0 6 6 6h56 q6 0 6-6 V65 l4 11 16-6 -8-28 -24-12 q-11 12 -21 12 t-21-12z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M64 32 q16 14 32 0" fill="none" stroke="var(--art-ink)" stroke-width="2.2"/><path d="M80 46 v87" stroke="#2ee58f" stroke-width="2.2"/><rect x="76.5" y="44" width="7" height="9" rx="2" fill="none" stroke="#2ee58f" stroke-width="1.6"/><path d="M56 96 h14 M90 96 h14" stroke="var(--art-soft)" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/chaqueta-cortaviento.jpg" alt="Cortaviento" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6212,7 +6230,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M58 30 L34 42 l-8 28 16 6 4-11 v62 q0 6 6 6h56 q6 0 6-6 V65 l4 11 16-6 -8-28 -24-12 q-11 12 -21 12 t-21-12z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M64 32 q16 14 32 0" fill="none" stroke="var(--art-ink)" stroke-width="2.2"/><path d="M80 46 v87" stroke="#2ee58f" stroke-width="2.2"/><rect x="76.5" y="44" width="7" height="9" rx="2" fill="none" stroke="#2ee58f" stroke-width="1.6"/><path d="M56 96 h14 M90 96 h14" stroke="var(--art-soft)" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/chaqueta-softshell.jpg" alt="Softshell Premium" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6238,7 +6256,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M58 34 L34 46 l-8 28 16 6 4-11 v58 q0 6 6 6h56 q6 0 6-6 V69 l4 11 16-6 -8-28 -24-12z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M58 34 q22 22 44 0 q-8 20 -22 20 t-22 -20z" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M72 52 v14 M88 52 v14" stroke="#2ee58f" stroke-width="2" stroke-linecap="round"/><path d="M60 96 h40 v20 h-40z" fill="none" stroke="var(--art-soft)" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            <img class="pcard__photo" src="/print/hoodie-premium.jpg" alt="Hoodie Premium" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6264,7 +6282,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M52 30 h56 l6 30 -6 78 h-20 l-6 -60 -6 60 h-20 l-6 -78z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M50 30 h60" stroke="var(--art-ink)" stroke-width="3.2" stroke-linecap="round"/><path d="M80 40 v20" stroke="#2ee58f" stroke-width="2"/><path d="M56 44 l10 6 M104 44 l-10 6" stroke="var(--art-soft)" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/pantalon-drill.jpg" alt="Drill Stretch" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6280,7 +6298,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M52 30 h56 l6 30 -6 78 h-20 l-6 -60 -6 60 h-20 l-6 -78z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M50 30 h60" stroke="var(--art-ink)" stroke-width="3.2" stroke-linecap="round"/><path d="M80 40 v20" stroke="#2ee58f" stroke-width="2"/><path d="M56 44 l10 6 M104 44 l-10 6" stroke="var(--art-soft)" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/pantalon-blue-jean.jpg" alt="Blue Jean" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6317,7 +6335,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M34 92 q0 -48 46 -48 q46 0 46 48 v6 H34z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M126 98 q34 2 38 20 q-22 8 -38 2" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M80 44 v54" stroke="var(--art-soft)" stroke-width="1.6"/><path d="M62 72 l18 -10 18 10" fill="none" stroke="#2ee58f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="46" r="3" fill="var(--art-soft)"/></svg>
+            <img class="pcard__photo" src="/print/gorra-micropunteada.jpg" alt="Micropunteada" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6333,7 +6351,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M34 92 q0 -48 46 -48 q46 0 46 48 v6 H34z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M126 98 q34 2 38 20 q-22 8 -38 2" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M80 44 v54" stroke="var(--art-soft)" stroke-width="1.6"/><path d="M62 72 l18 -10 18 10" fill="none" stroke="#2ee58f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="46" r="3" fill="var(--art-soft)"/></svg>
+            <img class="pcard__photo" src="/print/gorra-drill.jpg" alt="Drill" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6349,7 +6367,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M34 92 q0 -48 46 -48 q46 0 46 48 v6 H34z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M126 98 q34 2 38 20 q-22 8 -38 2" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M80 44 v54" stroke="var(--art-soft)" stroke-width="1.6"/><path d="M62 72 l18 -10 18 10" fill="none" stroke="#2ee58f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="80" cy="46" r="3" fill="var(--art-soft)"/></svg>
+            <img class="pcard__photo" src="/print/gorra-trucker.jpg" alt="Malla" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -6365,7 +6383,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.15s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M40 96 q0 -46 40 -46 q40 0 40 46z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M26 96 h108 q-6 22 -54 22 q-48 0 -54 -22z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M56 84 h48" stroke="#2ee58f" stroke-width="2.4"/></svg>
+            <img class="pcard__photo" src="/print/gorra-bucket-hat.jpg" alt="Bucket Hat" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">04</span>
           </div>
           <div class="pcard__body">
@@ -6391,7 +6409,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M56 26 q24 40 24 62 M104 26 q-24 40 -24 62" fill="none" stroke="var(--art-ink)" stroke-width="3" stroke-linecap="round"/><path d="M60 40 h6 M62 56 h6 M94 40 h6 M92 56 h6" stroke="#2ee58f" stroke-width="2" stroke-linecap="round"/><rect x="72" y="88" width="16" height="10" rx="3" fill="none" stroke="var(--art-ink)" stroke-width="2.2"/><rect x="58" y="100" width="44" height="34" rx="5" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><circle cx="80" cy="114" r="7" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M68 126 h24" stroke="var(--art-soft)" stroke-width="2" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/lanyard.jpg" alt="Lanyard" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6407,7 +6425,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="44" y="44" width="72" height="90" rx="7" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><rect x="70" y="36" width="20" height="8" rx="4" fill="var(--art-soft)"/><circle cx="80" cy="76" r="13" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M60 104 h40 M68 116 h24" stroke="var(--art-soft)" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/portadistintivo.jpg" alt="Portadistintivo" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6423,7 +6441,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M80 130 L26 66 q54 -46 108 0z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M80 130 L58 50 M80 130 V44 M80 130 l22 -80" stroke="var(--art-soft)" stroke-width="1.6"/><circle cx="80" cy="130" r="5" fill="none" stroke="var(--art-ink)" stroke-width="2.2"/><circle cx="80" cy="78" r="10" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/abanico.jpg" alt="Abanico" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -6449,7 +6467,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M56 46 h48 l-5 84 q-1 8 -9 8 H70 q-8 0 -9 -8z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><rect x="52" y="36" width="56" height="12" rx="6" fill="none" stroke="var(--art-ink)" stroke-width="2.4"/><ellipse cx="80" cy="88" rx="14" ry="14" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M62 62 h36" stroke="var(--art-soft)" stroke-width="1.6"/></svg>
+            <img class="pcard__photo" src="/print/vaso-termico.jpg" alt="Vaso Térmico (vinero)" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6465,7 +6483,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M40 132 L112 40 l12 9 -72 92 -16 6z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M112 40 l10 -13 12 9 -10 13z" fill="#2ee58f" opacity=".9" stroke="var(--art-ink)" stroke-width="2" stroke-linejoin="round"/><path d="M36 138 l6 -8" stroke="var(--art-ink)" stroke-width="2.2" stroke-linecap="round"/><path d="M92 66 l12 9" stroke="var(--art-soft)" stroke-width="1.8"/></svg>
+            <img class="pcard__photo" src="/print/boligrafo-classic.jpg" alt="Bolígrafo Classic" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6481,7 +6499,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M40 132 L112 40 l12 9 -72 92 -16 6z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M112 40 l10 -13 12 9 -10 13z" fill="#2ee58f" opacity=".9" stroke="var(--art-ink)" stroke-width="2" stroke-linejoin="round"/><path d="M36 138 l6 -8" stroke="var(--art-ink)" stroke-width="2.2" stroke-linecap="round"/><path d="M92 66 l12 9" stroke="var(--art-soft)" stroke-width="1.8"/></svg>
+            <img class="pcard__photo" src="/print/boligrafo-executive.jpg" alt="Bolígrafo Executive" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -6497,7 +6515,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.15s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="50" y="34" width="66" height="98" rx="5" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M50 34 v98" stroke="var(--art-ink)" stroke-width="3"/><path d="M44 44 h14 M44 58 h14 M44 72 h14 M44 86 h14 M44 100 h14 M44 114 h14" stroke="var(--art-soft)" stroke-width="2" stroke-linecap="round"/><circle cx="86" cy="76" r="12" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M70 104 h32" stroke="var(--art-soft)" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/libreta-ecologica.jpg" alt="Libreta Ecológica" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">04</span>
           </div>
           <div class="pcard__body">
@@ -6523,7 +6541,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M50 56 q30 -10 60 0 l10 68 q-40 12 -80 0z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M50 56 q30 12 60 0" fill="none" stroke="var(--art-ink)" stroke-width="2"/><path d="M56 52 q24 -34 48 0" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linecap="round"/><circle cx="80" cy="96" r="12" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/tula-promocional.jpg" alt="Tula Promocional" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6539,7 +6557,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="46" y="56" width="68" height="76" rx="4" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M62 56 V42 q0 -14 18 -14 q18 0 18 14 v14" fill="none" stroke="var(--art-ink)" stroke-width="2.4" stroke-linecap="round"/><circle cx="80" cy="94" r="13" fill="none" stroke="#2ee58f" stroke-width="2"/><ellipse cx="80" cy="94" rx="20" ry="7" fill="none" stroke="#2ee58f" stroke-width="1.4" opacity=".55" transform="rotate(-18 80 94)"/></svg>
+            <img class="pcard__photo" src="/print/tote-bag.jpg" alt="Tote Bag Clásica" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6566,7 +6584,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="44" y="30" width="72" height="100" rx="7" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M44 30 v100" stroke="var(--art-ink)" stroke-width="4"/><path d="M60 24 v14 M76 24 v14 M92 24 v14" stroke="var(--art-soft)" stroke-width="2.4" stroke-linecap="round"/><circle cx="82" cy="72" r="12" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M64 100 h36 M64 112 h24" stroke="var(--art-soft)" stroke-width="2" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/agendas.jpg" alt="Agendas" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6582,7 +6600,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M30 44 h40 l10 12 h50 q6 0 6 6 v62 q0 6 -6 6 H30 q-6 0 -6 -6 V50 q0 -6 6 -6z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M24 74 h112" stroke="var(--art-soft)" stroke-width="1.8"/><circle cx="80" cy="100" r="12" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/carpetas.jpg" alt="Carpetas" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6598,7 +6616,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="24" y="46" width="112" height="72" rx="6" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M26 50 L80 90 l54 -40" fill="none" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M26 114 l40 -32 M134 114 l-40 -32" stroke="var(--art-soft)" stroke-width="1.8"/><circle cx="80" cy="106" r="9" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/sobres.jpg" alt="Sobres" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -6614,7 +6632,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.15s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="36" y="40" width="88" height="84" rx="6" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M36 62 h88" stroke="var(--art-ink)" stroke-width="2.2"/><path d="M44 128 h72 M50 134 h60" stroke="var(--art-soft)" stroke-width="2" stroke-linecap="round"/><circle cx="80" cy="92" r="12" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M60 34 v12 M100 34 v12" stroke="var(--art-soft)" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/tacos-notas.jpg" alt="Tacos de notas" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">04</span>
           </div>
           <div class="pcard__body">
@@ -6640,7 +6658,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="26" y="54" width="108" height="66" rx="8" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><rect x="40" y="70" width="22" height="17" rx="3" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M76 74 h44 M76 86 h30 M40 102 h60" stroke="var(--art-soft)" stroke-width="2" stroke-linecap="round"/><path d="M26 62 l108 50" stroke="rgba(255,255,255,.09)" stroke-width="10"/></svg>
+            <img class="pcard__photo" src="/print/tarjetas-metalicas.jpg" alt="Tarjetas metálicas" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6656,7 +6674,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="34" y="46" width="92" height="70" rx="9" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><rect x="46" y="60" width="20" height="16" rx="3" fill="none" stroke="var(--art-soft)" stroke-width="1.8"/><path d="M86 66 q10 15 0 30 M96 58 q16 23 0 46 M106 50 q22 31 0 62" fill="none" stroke="#2ee58f" stroke-width="2.2" stroke-linecap="round"/><path d="M46 96 h30" stroke="var(--art-soft)" stroke-width="2" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/tarjetas-nfc.jpg" alt="Tarjetas NFC" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6672,7 +6690,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="44" y="44" width="72" height="90" rx="7" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><rect x="70" y="36" width="20" height="8" rx="4" fill="var(--art-soft)"/><circle cx="80" cy="76" r="13" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M60 104 h40 M68 116 h24" stroke="var(--art-soft)" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/carnets.jpg" alt="Carnets" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -6688,7 +6706,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.15s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="44" y="44" width="72" height="90" rx="7" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><rect x="70" y="36" width="20" height="8" rx="4" fill="var(--art-soft)"/><circle cx="80" cy="76" r="13" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M60 104 h40 M68 116 h24" stroke="var(--art-soft)" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/credenciales.jpg" alt="Credenciales" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">04</span>
           </div>
           <div class="pcard__body">
@@ -6704,7 +6722,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.20s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="46" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><circle cx="80" cy="80" r="36" fill="none" stroke="var(--art-soft)" stroke-width="1.6"/><circle cx="80" cy="80" r="15" fill="none" stroke="#2ee58f" stroke-width="2.2"/><ellipse cx="80" cy="80" rx="24" ry="8" fill="none" stroke="#2ee58f" stroke-width="1.4" opacity=".5" transform="rotate(-20 80 80)"/></svg>
+            <img class="pcard__photo" src="/print/portanombres.jpg" alt="Portanombres" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">05</span>
           </div>
           <div class="pcard__body">
@@ -6730,7 +6748,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M80 26 a26 26 0 0 1 26 26 q0 24 -26 56 q-26 -32 -26 -56 a26 26 0 0 1 26 -26z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><circle cx="80" cy="52" r="11" fill="none" stroke="#2ee58f" stroke-width="2.2"/><path d="M80 108 v24" stroke="var(--art-soft)" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="80" cy="136" rx="12" ry="4" fill="none" stroke="var(--art-soft)" stroke-width="1.8"/></svg>
+            <img class="pcard__photo" src="/print/pines.jpg" alt="Pines" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6746,7 +6764,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="46" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><circle cx="80" cy="80" r="36" fill="none" stroke="var(--art-soft)" stroke-width="1.6"/><circle cx="80" cy="80" r="15" fill="none" stroke="#2ee58f" stroke-width="2.2"/><ellipse cx="80" cy="80" rx="24" ry="8" fill="none" stroke="#2ee58f" stroke-width="1.4" opacity=".5" transform="rotate(-20 80 80)"/></svg>
+            <img class="pcard__photo" src="/print/chapas.jpg" alt="Chapas" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6762,7 +6780,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><ellipse cx="80" cy="80" rx="44" ry="34" fill="none" stroke="var(--art-ink)" stroke-width="6"/><ellipse cx="80" cy="80" rx="44" ry="34" fill="none" stroke="var(--art-soft)" stroke-width="1.4"/><rect x="62" y="62" width="36" height="20" rx="5" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.2"/><circle cx="80" cy="72" r="6" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/pulseras.jpg" alt="Pulseras" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -6778,7 +6796,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.15s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M54 30 h52 v28 q0 26 -26 26 q-26 0 -26 -26z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M54 38 H38 q0 24 16 26 M106 38 h16 q0 24 -16 26" fill="none" stroke="var(--art-ink)" stroke-width="2.2"/><path d="M80 84 v22" stroke="var(--art-ink)" stroke-width="3"/><path d="M58 130 h44 q0 -14 -14 -18 H72 q-14 4 -14 18z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><circle cx="80" cy="52" r="10" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/trofeos.jpg" alt="Trofeos" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">04</span>
           </div>
           <div class="pcard__body">
@@ -6804,7 +6822,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M40 48 h60 v58 q0 14 -14 14 H54 q-14 0 -14 -14z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M100 62 h12 a16 16 0 0 1 0 32 h-12" fill="none" stroke="var(--art-ink)" stroke-width="2.4"/><circle cx="70" cy="80" r="13" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M56 34 q5 -8 0 -16 M84 34 q5 -8 0 -16" fill="none" stroke="var(--art-soft)" stroke-width="2" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/tazas.jpg" alt="Tazas" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6820,7 +6838,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="86" r="42" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><circle cx="80" cy="86" r="30" fill="none" stroke="var(--art-soft)" stroke-width="1.6"/><circle cx="80" cy="86" r="13" fill="none" stroke="#2ee58f" stroke-width="2.2"/><path d="M38 74 q42 -16 84 0" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/portavasos.jpg" alt="Portavasos" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6836,7 +6854,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M34 60 h92 l-8 66 q-1 8 -9 8 H51 q-8 0 -9 -8z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><rect x="28" y="48" width="104" height="14" rx="5" fill="none" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M62 48 V36 q0 -8 18 -8 q18 0 18 8 v12" fill="none" stroke="var(--art-ink)" stroke-width="2.2"/><circle cx="80" cy="98" r="13" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/hieleras.jpg" alt="Hieleras" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -6862,7 +6880,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M60 34 q20 12 40 0 l14 12 q-8 12 -12 24 v56 q0 6 -6 6 H64 q-6 0 -6 -6 V70 q-4 -12 -12 -24z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M60 34 q-14 -10 -22 -2 M100 34 q14 -10 22 -2" fill="none" stroke="var(--art-soft)" stroke-width="2.2" stroke-linecap="round"/><path d="M46 70 H30 M114 70 h16" stroke="var(--art-soft)" stroke-width="2.2" stroke-linecap="round"/><rect x="66" y="92" width="28" height="20" rx="3" fill="none" stroke="var(--art-soft)" stroke-width="1.8"/><circle cx="80" cy="66" r="10" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/delantales.jpg" alt="Delantales" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6878,7 +6896,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M24 46 h112 L80 132z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M40 60 h80 M52 76 h56" stroke="var(--art-soft)" stroke-width="1.6"/><circle cx="80" cy="86" r="13" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/bandanas.jpg" alt="Bandanas" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6894,7 +6912,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="34" y="34" width="92" height="94" rx="8" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M34 52 h92 M34 110 h92" stroke="var(--art-soft)" stroke-width="1.8"/><path d="M42 118 v10 M56 118 v10 M70 118 v10 M84 118 v10 M98 118 v10 M112 118 v10" stroke="var(--art-soft)" stroke-width="1.6" stroke-linecap="round"/><circle cx="80" cy="80" r="14" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/toallas.jpg" alt="Toallas" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -6910,7 +6928,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.15s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M62 30 L40 40 l-8 26 16 6 4-10 v66 q0 6 6 6h44 q6 0 6-6 V62 l4 10 16-6 -8-26 -22-10 q-10 12 -18 12 t-18-12z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M62 30 l18 16 18-16" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M80 46 v66" stroke="var(--art-soft)" stroke-width="1.6"/><rect x="60" y="70" width="14" height="11" rx="2" fill="none" stroke="var(--art-soft)" stroke-width="1.6"/><rect x="88" y="70" width="14" height="11" rx="2" fill="none" stroke="var(--art-soft)" stroke-width="1.6"/></svg>
+            <img class="pcard__photo" src="/print/uniformes.jpg" alt="Uniformes" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">04</span>
           </div>
           <div class="pcard__body">
@@ -6936,7 +6954,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="30" y="62" width="76" height="38" rx="7" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><rect x="106" y="70" width="26" height="22" rx="3" fill="none" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M112 76 h6 M112 86 h6" stroke="var(--art-soft)" stroke-width="2"/><circle cx="62" cy="81" r="11" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M36 70 v22" stroke="var(--art-soft)" stroke-width="1.8"/></svg>
+            <img class="pcard__photo" src="/print/pendrives.jpg" alt="Pendrives" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -6952,7 +6970,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="72" r="30" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><circle cx="80" cy="72" r="17" fill="none" stroke="#2ee58f" stroke-width="2.2"/><path d="M62 100 q6 18 0 30 M98 100 q-6 18 0 30" fill="none" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M62 130 h36" stroke="var(--art-ink)" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/popsockets.jpg" alt="PopSockets" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -6968,7 +6986,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="30" y="56" width="100" height="58" rx="9" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M30 78 q50 22 100 0" fill="none" stroke="var(--art-ink)" stroke-width="2.4"/><rect x="44" y="40" width="72" height="30" rx="5" fill="none" stroke="var(--art-soft)" stroke-width="2"/><circle cx="80" cy="96" r="11" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/cardholders.jpg" alt="Cardholders" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -6984,7 +7002,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.15s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><rect x="54" y="28" width="52" height="90" rx="9" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><rect x="70" y="34" width="20" height="4" rx="2" fill="var(--art-soft)"/><circle cx="80" cy="74" r="13" fill="none" stroke="#2ee58f" stroke-width="2"/><path d="M40 118 h80 q-6 16 -40 16 q-34 0 -40 -16z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/></svg>
+            <img class="pcard__photo" src="/print/porta-celulares.jpg" alt="Porta celulares" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">04</span>
           </div>
           <div class="pcard__body">
@@ -7000,7 +7018,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.20s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M36 92 V76 a44 44 0 0 1 88 0 v16" fill="none" stroke="var(--art-ink)" stroke-width="2.6" stroke-linecap="round"/><rect x="26" y="88" width="22" height="38" rx="9" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><rect x="112" y="88" width="22" height="38" rx="9" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><circle cx="80" cy="60" r="10" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/audifonos.jpg" alt="Audífonos" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">05</span>
           </div>
           <div class="pcard__body">
@@ -7026,7 +7044,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.00s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><circle cx="56" cy="54" r="20" fill="none" stroke="var(--art-ink)" stroke-width="3.4"/><path d="M66 70 l14 14" stroke="var(--art-ink)" stroke-width="2.6" stroke-linecap="round"/><rect x="72" y="80" width="46" height="46" rx="9" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><circle cx="95" cy="103" r="12" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/llaveros.jpg" alt="Llaveros" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">01</span>
           </div>
           <div class="pcard__body">
@@ -7042,7 +7060,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.05s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M50 56 q30 -10 60 0 l10 68 q-40 12 -80 0z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M50 56 q30 12 60 0" fill="none" stroke="var(--art-ink)" stroke-width="2"/><path d="M56 52 q24 -34 48 0" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linecap="round"/><circle cx="80" cy="96" r="12" fill="none" stroke="#2ee58f" stroke-width="2"/></svg>
+            <img class="pcard__photo" src="/print/morrales.jpg" alt="Morrales" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">02</span>
           </div>
           <div class="pcard__body">
@@ -7058,7 +7076,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.10s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M18 84 q0 -50 62 -50 q62 0 62 50 q-18 -14 -31 0 q-13 -14 -31 0 q-18 -14 -31 0 q-13 -14 -31 0z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M80 84 v40 q0 12 -14 12 q-10 0 -12 -8" fill="none" stroke="var(--art-ink)" stroke-width="2.6" stroke-linecap="round"/><path d="M80 34 v-10" stroke="var(--art-soft)" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <img class="pcard__photo" src="/print/paraguas.jpg" alt="Paraguas" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">03</span>
           </div>
           <div class="pcard__body">
@@ -7074,7 +7092,7 @@ body.home-v2 .proj-viewport {
         <article class="pcard reveal" style="--d:.15s">
           <div class="pcard__vis">
             <span class="pcard__badge">Premium line</span>
-            <svg class="pcard__art" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="82" r="46" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4"/><path d="M80 36 v92 M34 82 h92" stroke="var(--art-soft)" stroke-width="1.6"/><path d="M48 50 q32 32 0 64 M112 50 q-32 32 0 64" fill="none" stroke="var(--art-soft)" stroke-width="1.6"/><circle cx="80" cy="82" r="14" fill="none" stroke="#2ee58f" stroke-width="2.2"/></svg>
+            <img class="pcard__photo" src="/print/pelotas.jpg" alt="Pelotas" loading="lazy" />
             <span class="pcard__idx" aria-hidden="true">04</span>
           </div>
           <div class="pcard__body">
