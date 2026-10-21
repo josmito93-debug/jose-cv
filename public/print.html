@@ -5673,8 +5673,52 @@ body.home-v2 .proj-viewport {
 /* ---- portada ---- */
 .pcover {
   position: relative;
-  padding: calc(var(--header-h, 72px) + clamp(48px, 8vw, 96px)) 0 clamp(56px, 8vw, 104px);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--header-h, 72px) + clamp(24px, 4vw, 48px)) 0 clamp(48px, 6vw, 80px);
   overflow: hidden;
+}
+.pcover__video-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  background: transparent;
+}
+.pcover__video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+  background: transparent;
+}
+.print-body .header {
+  opacity: 0;
+  transform: translateY(-28px);
+}
+.pcover .gtex,
+.pcover__kicker,
+.pcover__title,
+.pcover__sub,
+.pcover__tecs span,
+.pcover__cta .btn,
+.pcover__vis {
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+.pcover__grid {
+  position: relative;
+  z-index: 3;
+  width: 100%;
 }
 .pcover::after {
   content: '';
@@ -5936,6 +5980,7 @@ body.home-v2 .proj-viewport {
 }
 
 </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body class="home-v2 print-body">
 
@@ -5961,10 +6006,16 @@ body.home-v2 .proj-viewport {
   </header>
 
   <!-- ===== 01 · Portada ===== -->
-  <section class="pcover">
+  <section class="pcover" id="hero-cover">
+    <div class="pcover__video-wrap" id="pcoverVideoWrap" aria-hidden="true">
+      <video id="heroPrintVideo" class="pcover__video" autoplay muted playsinline preload="auto">
+        <source src="/print/hero-animation.mp4" type='video/mp4; codecs="hvc1"'>
+        <source src="/print/hero-animation.webm" type="video/webm">
+      </video>
+    </div>
     <div class="gtex" aria-hidden="true"><i class="gtex__run"></i></div>
     <div class="container pcover__grid">
-      <div class="reveal">
+      <div class="pcover__col-content">
         <p class="pcover__kicker">Universa Print · Catálogo 2026</p>
         <h1 class="pcover__title">Uniformes<br />con <span>identidad</span>.</h1>
         <p class="pcover__sub">
@@ -5979,7 +6030,7 @@ body.home-v2 .proj-viewport {
           <a class="btn btn--ghost" href="#catalogo">Ver el catálogo</a>
         </div>
       </div>
-      <div class="pcover__vis reveal" style="--d:.12s">
+      <div class="pcover__vis">
         <div class="pcover__card">
           <span class="pcard__badge">Premium collection</span>
           <svg class="pcover__art" viewBox="0 0 160 160" aria-hidden="true"><path d="M58 30 L38 42 l-6 26 14 5 3-10 v62 q0 6 6 6h50 q6 0 6-6 V63 l3 10 14-5 -6-26 -20-12 q-11 12 -21 12 t-21-12z" fill="var(--art-panel)" stroke="var(--art-ink)" stroke-width="2.4" stroke-linejoin="round"/><path d="M58 30 L80 56 l22-26" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M80 56 v75" stroke="#2ee58f" stroke-width="2.4"/><path d="M76 60 h8 M76 68 h8 M76 76 h8 M76 84 h8" stroke="var(--art-soft)" stroke-width="1.3"/></svg>
@@ -7983,6 +8034,136 @@ body.home-v2 .proj-viewport {
         window.location.href = 'mailto:info@universaagency.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
       });
     });
+  </script>
+  <!-- ===== GSAP 70% Video Animation Script ===== -->
+  <script>
+  (function () {
+    'use strict';
+
+    var video = document.getElementById('heroPrintVideo');
+    var header = document.getElementById('header');
+    var kicker = document.querySelector('.pcover__kicker');
+    var title = document.querySelector('.pcover__title');
+    var sub = document.querySelector('.pcover__sub');
+    var tecs = document.querySelectorAll('.pcover__tecs span');
+    var ctas = document.querySelectorAll('.pcover__cta .btn');
+    var vis = document.querySelector('.pcover__vis');
+    var gtex = document.querySelector('.pcover .gtex');
+
+    var revealed = false;
+
+    function triggerHeroGsap() {
+      if (revealed) return;
+      revealed = true;
+
+      if (window.gsap) {
+        gsap.set(header, { opacity: 0, y: -32 });
+        gsap.set(kicker, { opacity: 0, y: 24, letterSpacing: '0.45em' });
+        gsap.set(title, { opacity: 0, y: 48, filter: 'blur(14px)' });
+        gsap.set(sub, { opacity: 0, y: 30 });
+        gsap.set(tecs, { opacity: 0, y: 22, scale: 0.85 });
+        gsap.set(ctas, { opacity: 0, y: 24, scale: 0.94 });
+        gsap.set(vis, { opacity: 0, x: 55, scale: 0.92 });
+        if (gtex) gsap.set(gtex, { opacity: 0 });
+
+        var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+        tl.to(header, {
+          opacity: 1,
+          y: 0,
+          duration: 0.95,
+          ease: 'power2.out'
+        })
+        .to(gtex, {
+          opacity: 1,
+          duration: 1.4
+        }, '<')
+        .to(kicker, {
+          opacity: 1,
+          y: 0,
+          letterSpacing: '0.28em',
+          duration: 0.85,
+          ease: 'power3.out'
+        }, '-=0.65')
+        .to(title, {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 1.15,
+          ease: 'power4.out'
+        }, '-=0.65')
+        .to(sub, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out'
+        }, '-=0.75')
+        .to(tecs, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.08,
+          duration: 0.65,
+          ease: 'back.out(1.8)'
+        }, '-=0.65')
+        .to(ctas, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.12,
+          duration: 0.75,
+          ease: 'power3.out'
+        }, '-=0.55')
+        .to(vis, {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+          duration: 1.25,
+          ease: 'power3.out'
+        }, '-=0.95');
+      } else {
+        var els = [header, kicker, title, sub, vis, gtex];
+        els.forEach(function (el) {
+          if (el) { el.style.opacity = '1'; el.style.transform = 'none'; if (el.style.filter) el.style.filter = 'none'; }
+        });
+        if (tecs) tecs.forEach(function (el) { el.style.opacity = '1'; el.style.transform = 'none'; });
+        if (ctas) ctas.forEach(function (el) { el.style.opacity = '1'; el.style.transform = 'none'; });
+      }
+    }
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      triggerHeroGsap();
+      return;
+    }
+
+    if (video) {
+      video.addEventListener('timeupdate', function () {
+        if (video.duration && (video.currentTime / video.duration >= 0.70)) {
+          triggerHeroGsap();
+        }
+      });
+
+      video.addEventListener('ended', triggerHeroGsap);
+      setTimeout(triggerHeroGsap, 7200);
+
+      window.addEventListener('scroll', function () {
+        if (window.scrollY > 40) triggerHeroGsap();
+      }, { passive: true, once: true });
+
+      document.addEventListener('click', function () {
+        triggerHeroGsap();
+      }, { once: true });
+
+      var p = video.play();
+      if (p && p.catch) {
+        p.catch(function () {
+          setTimeout(triggerHeroGsap, 1500);
+        });
+      }
+    } else {
+      triggerHeroGsap();
+    }
+  })();
   </script>
 </body>
 </html>
