@@ -583,7 +583,7 @@ export default function InvoicePage() {
             <button 
               onClick={handleDownloadPDF}
               disabled={isGeneratingPDF}
-              className="flex items-center gap-2 px-6 py-3.5 bg-[#2ddc80] hover:bg-[#20b867] text-[#0e131f] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-[#2ddc80]/10 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="hidden md:flex items-center gap-2 px-6 py-3.5 bg-[#2ddc80] hover:bg-[#20b867] text-[#0e131f] font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-[#2ddc80]/10 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isGeneratingPDF ? (
                 <>
@@ -1273,6 +1273,31 @@ export default function InvoicePage() {
 
           </div>
 
+        </div>
+
+        {/* Mobile Action Bar (At the end of the page for optimal mobile UX) */}
+        <div className="mt-8 mb-20 md:hidden flex flex-col gap-3 print:hidden">
+          <button 
+            onClick={handleDownloadPDF}
+            disabled={isGeneratingPDF}
+            className="w-full py-4 px-6 bg-[#2ddc80] hover:bg-[#20b867] active:scale-[0.98] text-[#0e131f] font-black text-sm uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-[#2ddc80]/20 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isGeneratingPDF ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" /> Descargando PDF...
+              </>
+            ) : (
+              <>
+                <Download className="w-5 h-5" /> Descargar PDF
+              </>
+            )}
+          </button>
+          <button 
+            onClick={handleReset}
+            className="w-full py-3.5 px-5 bg-white/5 border border-white/10 rounded-xl text-zinc-400 hover:text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-white/10 transition-all"
+          >
+            <RotateCcw className="w-4 h-4" /> Limpiar Datos
+          </button>
         </div>
 
       </div>
