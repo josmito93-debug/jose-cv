@@ -119,10 +119,10 @@ function cleanProjectName(name: string): string {
   if (!name) return '';
   
   let cleaned = name
-    .replace(/-main$/, '')
+    .replace(/-main(-\d+)?$/, '')
     .replace(/-app$/, '')
     .replace(/-website$/, '')
-    .replace(/-web$/, '')
+    .replace(/-web(-premium)?$/, '')
     .replace(/-site$/, '')
     .replace(/-code$/, '')
     .replace(/-design$/, '')
@@ -143,6 +143,110 @@ function cleanProjectName(name: string): string {
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
     .join(' ');
+}
+
+function getClientDedupKey(client: any): string {
+  if (client.atData?.info?.clientId) {
+    return `at:${normalizeStr(client.atData.info.clientId).trim()}`;
+  }
+  if (client.atData?.id) {
+    return `at:${normalizeStr(client.atData.id).trim()}`;
+  }
+
+  const biz = normalizeStr(client.business || '').replace(/[^a-z0-9]/g, '');
+  const genericNames = new Set(['sinnegocio', 'unknownowner', 'nuevonegocio', 'sinnombre', 'comingsoon']);
+  if (biz && !genericNames.has(biz)) {
+    return `biz:${biz}`;
+  }
+
+  const raw = normalizeStr(client.rawProjectName || client.id || '');
+  const cleanedSlug = raw
+    .replace(/-(main(-\d+)?|app|website|web|web-premium|site|code|design|presentation|brand-dna|digital)$/g, '')
+    .replace(/-[a-z0-9]{4}$/g, '')
+    .replace(/[^a-z0-9]/g, '');
+
+  return `slug:${cleanedSlug || raw}`;
+}
+
+function deduplicateClients(clients: any[]): any[] {
+  const map = new Map<string, any>();
+
+  for (const client of clients) {
+    const key = getClientDedupKey(client);
+    const existing = map.get(key);
+
+    if (!existing) {
+      map.set(key, {
+        ...client,
+        linkedProjects: [client.rawProjectName].filter(Boolean),
+        aliases: Array.isArray(client.aliases) ? [...client.aliases] : []
+      });
+      continue;
+    }
+
+    const existingTime = existing.lastDeploy ? new Date(existing.lastDeploy).getTime() : 0;
+    const clientTime = client.lastDeploy ? new Date(client.lastDeploy).getTime() : 0;
+
+    const existingAliases = Array.isArray(existing.aliases) ? existing.aliases : [];
+    const clientAliases = Array.isArray(client.aliases) ? client.aliases : [];
+    const mergedAliases = Array.from(new Set([...existingAliases, ...clientAliases]));
+
+    const existingHasCustomDomain = existingAliases.some((a: string) => !a.includes('vercel.app'));
+    const clientHasCustomDomain = clientAliases.some((a: string) => !a.includes('vercel.app'));
+
+    let isClientBetter = false;
+    if (client.status === 'DEPLOYED' && existing.status !== 'DEPLOYED') {
+      isClientBetter = true;
+    } else if (existing.status === 'DEPLOYED' && client.status !== 'DEPLOYED') {
+      isClientBetter = false;
+    } else if (clientHasCustomDomain && !existingHasCustomDomain) {
+      isClientBetter = true;
+    } else if (!clientHasCustomDomain && existingHasCustomDomain) {
+      isClientBetter = false;
+    } else if (clientTime > existingTime) {
+      isClientBetter = true;
+    }
+
+    const primary = isClientBetter ? client : existing;
+    const secondary = isClientBetter ? existing : client;
+
+    let bestUrl = primary.vercelUrl;
+    if (!bestUrl || bestUrl.includes('vercel.app')) {
+      const customAlias = mergedAliases.find((a: string) => !a.includes('vercel.app'));
+      if (customAlias) {
+        bestUrl = `https://${customAlias}`;
+      } else if (!bestUrl && secondary.vercelUrl) {
+        bestUrl = secondary.vercelUrl;
+      }
+    }
+
+    const isPaid = primary.paymentStatus === 'PAID' || secondary.paymentStatus === 'PAID';
+    const paymentStatus = isPaid ? 'PAID' : (primary.paymentStatus !== 'UNPAID' ? primary.paymentStatus : secondary.paymentStatus);
+    const atData = primary.atData || secondary.atData || null;
+    const ownerName = (primary.name && primary.name !== 'Unknown Owner' && primary.name !== 'Sin Nombre')
+      ? primary.name 
+      : ((secondary.name && secondary.name !== 'Unknown Owner' && secondary.name !== 'Sin Nombre') ? secondary.name : primary.name);
+    const monthlyPrice = primary.monthlyPrice && primary.monthlyPrice !== 30 ? primary.monthlyPrice : (secondary.monthlyPrice || primary.monthlyPrice || 30);
+
+    const mergedLinkedProjects = Array.from(new Set([
+      ...(existing.linkedProjects || [existing.rawProjectName]),
+      ...(client.linkedProjects || [client.rawProjectName])
+    ])).filter(Boolean);
+
+    map.set(key, {
+      ...primary,
+      name: ownerName,
+      vercelUrl: bestUrl,
+      aliases: mergedAliases,
+      paymentStatus,
+      monthlyPrice,
+      atData,
+      linkedProjects: mergedLinkedProjects,
+      lastDeploy: (clientTime > existingTime ? client.lastDeploy : existing.lastDeploy) || primary.lastDeploy
+    });
+  }
+
+  return Array.from(map.values());
 }
 
 const getFaviconUrl = (url: string) => {
@@ -258,33 +362,26 @@ export default function UnifiedAdminVercel() {
           };
         })];
 
-        setClients(unifiedClients);
+        // Deduplicate unified clients so each business/client appears only once
+        const finalClients = deduplicateClients(unifiedClients);
+
+        setClients(finalClients);
         setVercelProjects(vercelData.projects);
         
-        const paidClients = unifiedClients.filter((c: any) => c.paymentStatus === 'PAID');
-        const pendingCount = unifiedClients.filter((c: any) => c.paymentStatus !== 'PAID').length;
+        const paidClients = finalClients.filter((c: any) => c.paymentStatus === 'PAID');
+        const pendingCount = finalClients.filter((c: any) => c.paymentStatus !== 'PAID').length;
         
         let totalRevenue = 0;
-        let uniquePaidCount = 0;
-        const seenPaidProjectKeys = new Set<string>();
-
         paidClients.forEach((c: any) => {
-          const key = (c.rawProjectName || c.id || '').toLowerCase().trim();
-          const price = Number(c.monthlyPrice || 30);
-
-          if (key && !seenPaidProjectKeys.has(key)) {
-            seenPaidProjectKeys.add(key);
-            uniquePaidCount++;
-            totalRevenue += price;
-          }
+          totalRevenue += Number(c.monthlyPrice || 30);
         });
 
         setStats({
-          totalClients: unifiedClients.length,
-          activeProjects: vercelData.projects.length,
+          totalClients: finalClients.length,
+          activeProjects: finalClients.filter((c: any) => c.status === 'DEPLOYED').length,
           monthlyRevenue: totalRevenue,
           pendingPayments: pendingCount,
-          paidPayments: uniquePaidCount
+          paidPayments: paidClients.length
         });
       }
     } catch (error) {
@@ -742,6 +839,14 @@ export default function UnifiedAdminVercel() {
                                   <span className="text-[10px] font-mono text-zinc-500 bg-white/5 px-1.5 py-0.5 rounded border border-white/5">
                                     /{client.rawProjectName || client.id}
                                   </span>
+                                  {client.linkedProjects && client.linkedProjects.length > 1 && (
+                                    <span 
+                                      className="text-[9px] font-mono text-emerald-400/90 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20" 
+                                      title={`Versiones consolidadas: ${client.linkedProjects.join(', ')}`}
+                                    >
+                                      {client.linkedProjects.length} vers.
+                                    </span>
+                                  )}
                                   {client.name && client.name !== 'Unknown Owner' && client.name !== 'Sin Nombre' && (
                                     <span className="text-[11px] text-zinc-400 truncate">
                                       · {client.name}
@@ -886,9 +991,19 @@ export default function UnifiedAdminVercel() {
                             <h4 className="text-sm font-bold text-white group-hover:text-[#2ee58f] transition-colors line-clamp-1">
                               {client.business}
                             </h4>
-                            <span className="text-[10px] font-mono text-zinc-500">
-                              /{client.rawProjectName || client.id}
-                            </span>
+                            <div className="flex items-center gap-1.5 mt-0.5">
+                              <span className="text-[10px] font-mono text-zinc-500">
+                                /{client.rawProjectName || client.id}
+                              </span>
+                              {client.linkedProjects && client.linkedProjects.length > 1 && (
+                                <span 
+                                  className="text-[9px] font-mono text-emerald-400/90 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20"
+                                  title={`Versiones consolidadas: ${client.linkedProjects.join(', ')}`}
+                                >
+                                  {client.linkedProjects.length} vers.
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
 
@@ -1185,6 +1300,32 @@ export default function UnifiedAdminVercel() {
                         <span>{selectedClient.vercelUrl}</span>
                         <ExternalLink className="w-3 h-3" />
                       </a>
+                    </div>
+                  )}
+
+                  {/* Consolidated Projects (if any duplicates were merged) */}
+                  {selectedClient.linkedProjects && selectedClient.linkedProjects.length > 1 && (
+                    <div className="p-4 rounded-2xl bg-[#0e1612] border border-white/5 space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-zinc-400 uppercase font-bold">
+                          Despliegues Consolidados ({selectedClient.linkedProjects.length}):
+                        </span>
+                        <span className="text-[9px] text-emerald-400 font-mono">Deduplicado activo</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {selectedClient.linkedProjects.map((pName: string) => (
+                          <span 
+                            key={pName}
+                            className={`text-[10px] font-mono px-2 py-1 rounded-lg border ${
+                              pName === selectedClient.rawProjectName 
+                                ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30 font-bold' 
+                                : 'bg-white/5 text-zinc-400 border-white/5'
+                            }`}
+                          >
+                            {pName} {pName === selectedClient.rawProjectName ? '★ (activo)' : ''}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
 
